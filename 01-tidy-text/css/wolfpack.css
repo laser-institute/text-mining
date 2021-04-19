@@ -109,7 +109,7 @@ a:hover { border-bottom: none; }
 .remark-slide-content {
   background-color: var(--wolfpack-white);
   border-top: 80px solid var(--reynolds-red);
-  font-size: 20px;
+  font-size: 32px; /* change default text size here */
   font-weight: 300;
   line-height: 1.5;
   padding: 1em 2em 1em 2em

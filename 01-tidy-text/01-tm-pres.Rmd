@@ -64,6 +64,31 @@ background-size: 30%, 20%, 22%
 ### University of Florida\**
 ### `r format(Sys.time(), "%B %d, %Y")`
 
+
 ---
+# Test Slide
+
+
+
+
+---
+# Words, Words, Words
+
+These are just words
+
+
+
+
+---
+# Tidy Text
+
+## - Test Slide
+- test test
+
+
+---
+
+
+
 
 
