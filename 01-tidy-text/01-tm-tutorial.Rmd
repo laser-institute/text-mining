@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## 1. PREPARE
 
-To help us better understand the packages, Twitter API tools, and data we'll be using during this Learning Lab, in this section we'll learn to:
+To help us better understand the packages, Twitter API tools, and data we'll use during this lab, in this section we'll learn to:
 
 a.  **Load Packages** for tidy text mining and using Twitter APIs
 b.  **Create a Twitter App** for
@@ -51,24 +51,22 @@ Let's begin by loading some familiar packages from previous Learning Labs:
 library(dplyr)
 library(readr)
 library(tidyr)
-library(writexl)
-library(readxl)
 library(ggplot2)
-library(scales)
-library(knitr)
 ```
 
 #### New Packages
 
 ![](img/tidytext.png){width="100"}
 
-Package intro...
+The `tidytext` package provide functions and supporting data sets to allow conversion of text to and from tidy formats, and to switch seamlessly between tidy tools and existing text mining packages.
+
+Let's go ahead and load it:
 
 ```{r load-tidytext, message=FALSE}
 library(tidytext)
 ```
 
-More about `tidytext()`...
+As we'll Learn first hand later in this lab, using tidy data principles can make many text mining tasks easier, more effective, and consistent with tools already in wide use. Much of the infrastructure needed for text mining with tidy data frames already exists in `tidyverse` packages with which we've already been introduced.
 
 ![](img/rtweet.jpeg){width="100"}
 
@@ -98,11 +96,9 @@ vignette("rtweet")
 
 Before you can begin pulling tweets into R, you'll first need to create a Twitter App in your developer account. This section and the section that follows, are borrowed largely from the `rtweet` package by Michael Kearney, and requires that you have set up a Twitter developer account.
 
-If you are interested in viewing an alternate browser-based authentication method, you can view his vignette by running the following code:
+You are not required to set up developer account for this institute, but if you are still interested in creating one, [these instructions](https://dev.to/sumedhpatkar/beginners-guide-how-to-apply-for-a-twitter-developer-account-1kh7) succinctly outline the process and you can set one up in about 10 minutes. We have provided the data we'll be using for the Wrangling and Explore parts of the lab on our [GitHub repository](https://github.com/sbkellogg/eci-588/tree/main/unit-2/data) and you can skip to section [2b. Tidy Text] if you are not interested in or unable to set up a Twitter developer account.
 
-```{r rtweet-vignette, eval=FALSE}
-vignette("auth")
-```
+#### Steps for Creating your Twitter App
 
 1.  Navigate to [developer.twitter.com/en/apps](https://developer.twitter.com/en/apps/), click the blue button that says, `Create a New App`, and then complete the form with the following fields:
 
