@@ -60,9 +60,7 @@ library(knitr)
 
 #### New Packages
 
-##### tidytext
-
-![](img/tidytext.png){width="200"}
+![](img/tidytext.png){width="100"}
 
 Package intro...
 
@@ -72,19 +70,29 @@ library(tidytext)
 
 More about `tidytext()`...
 
-##### rtweet
+![](img/rtweet.jpeg){width="100"}
 
-![](img/BA3B99C7-3D7D-44E2-BEC1-D829F2BB30D3.jpeg){width="200"}
+The `rtweet` package provides users a range of functions designed to extract data from Twitter's REST and streaming APIs and has three main goals:
+
+1.  Formulate and send requests to Twitter's REST and stream APIs.
+
+2.  Retrieve and iterate over returned data.
+
+3.  Wrangling data into tidy structures.
+
+Let's load the `rtweet` package which we'll be using later in this lab to accomplish all three of the goals listed above:
 
 ```{r load-rtweet, message=FALSE}
 library(rtweet)
 ```
 
-The `rtweet` package provides users a range of functions designed to extract data from Twitter's REST and streaming APIs and has three main goals:
+To learn more about the `rtweet` package, you can find full documentation on CRAN at: <https://cran.r-project.org/web/packages/rtweet/rtweet.pdf>
 
-1.  Formulate and send requests to Twitter's REST and stream APIs.
-2.  Retrieve and iterate over returned data.
-3.  Wrangling data into tidy structures.
+And for a quick demo of the functions, check out the package vignette by running the following code in your console:
+
+```{r vignette-rtweet, eval=FALSE}
+vignette("rtweet")
+```
 
 ### 1b. Create a Twitter App
 
@@ -183,6 +191,12 @@ token <- create_token(
   consumer_secret = api_secret_key,
   access_token = access_token,
   access_secret = access_token_secret)
+```
+
+If you are interested in viewing an alternate browser-based authentication method, you can view `rtweet` Twitter authorization vignette by running the following code:
+
+```{r rtweet-vignette, eval=FALSE}
+vignette("auth")
 ```
 
 #### Authorization in future R sessions
