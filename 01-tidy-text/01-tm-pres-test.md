@@ -1,16 +1,16 @@
 Lab 3.1 - Tidy Text & Word Counts
 ========================================================
 author: The LASER Team
-date: April 24, 2021
-autosize: false
+date: "April 24, 2021"
+autosize: true
 
 
 Agenda
 ========================================================
-- The Context
+- The Context 
 - The Terminology
 - The Literature
-- The Lab
+- The Lab 
 
 
 THE CONTEXT
