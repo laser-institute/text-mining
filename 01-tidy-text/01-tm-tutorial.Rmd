@@ -20,7 +20,7 @@ knitr::opts_chunk$set(echo = TRUE)
 To help us better understand the packages, Twitter API tools, and data we'll be using during this Learning Lab, in this section we'll learn to:
 
 a.  **Load Packages** for tidy text mining and using Twitter APIs
-b.  **Create Twitter App** to...
+b.  **Create a Twitter App** for
 c.  **Authorization RStudio** and create a token for
 
 Exercise RMarkdown file
