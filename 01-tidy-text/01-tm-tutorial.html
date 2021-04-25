@@ -263,20 +263,6 @@ div.tocify {
 <h3>1a. Load Packages</h3>
 <div id="familiar-packages" class="section level4">
 <h4>Familiar Packages</h4>
-<p>To help us better understand the packages, Twitter API tools, and data we’ll be using during this Learning Lab, this section will focus on:</p>
-<ol style="list-style-type: lower-alpha">
-<li><strong>R Packages</strong> for tidy text mining and Twitter APIs</li>
-<li>Setting up your first <strong>Twitter App</strong></li>
-<li><strong>Authorization methods</strong> for linking R with your developer account</li>
-</ol>
-<p>Exercise RMarkdown file</p>
-<p>Although I highly recommend that that you manually type the code shared throughout this Learning Lab, for large blocks of text it may be easier to copy and paste.</p>
-</div>
-</div>
-<div id="a.-load-packages-1" class="section level3">
-<h3>1a. Load Packages</h3>
-<div id="familiar-packages-1" class="section level4">
-<h4>Familiar Packages</h4>
 <p>Let’s begin by loading some familiar packages from previous Learning Labs:</p>
 <pre class="r"><code>library(dplyr)
 library(readr)
@@ -520,16 +506,16 @@ fi_tweets &lt;- fi %&gt;%
 <pre><code>## # A tibble: 10 x 2
 ##    screen_name     text                                                         
 ##    &lt;chr&gt;           &lt;chr&gt;                                                        
-##  1 drcallie_tweets So proud to know and be mentored by THE Dr. @JoyGayles ! 👏🏾👏…
-##  2 drcallie_tweets Day 3 of #WPS2021! Time flies - it’s the final day. Currentl…
-##  3 mjsamberg       https://t.co/1Ko7vDgSpZ https://t.co/oub5Kqflag              
-##  4 haspires        @NationHahn Sleeping through the night is a gift!            
-##  5 AlexDreier      But I think that it&#39;s important for all of us to celebrate t…
-##  6 mjsamberg       #Edufriends, please take note ❤️ https://t.co/EKdMySvhyB     
-##  7 sbkellogg       @DrCKMarshall @FridayInstitute @robmoore3 So glad you’ll be …
-##  8 sbkellogg       @yanecnu adding this to my list of new packages to try whene…
-##  9 haspires        @CTruittNCDPI @ncpublicschools Thank you for your leadership!
-## 10 haspires        @DrJackson06 @DrTawannahAllen Congratulations @DrTawannahAll…</code></pre>
+##  1 haspires        &quot;@WakeSTEMECHS shines with their PBI Global project during a…
+##  2 drcallie_tweets &quot;@DrTaliaCarroll Aww thanks sis!! Same to you!! 💜✨ https://t…
+##  3 AlexDreier      &quot;@HilliardPhd Awesome! Thanks for keeping everything moving …
+##  4 tarheel93       &quot;Join @FridayInstitute TODAY! Last chance to attend Principa…
+##  5 haspires        &quot;Join us for this free online course: Teaching k-8 English L…
+##  6 haspires        &quot;\&quot;The new dawn blooms as we free it\nFor there is always li…
+##  7 mjsamberg       &quot;Endorse. https://t.co/QGt4DWkDto&quot;                           
+##  8 drcallie_tweets &quot;Eye-opening to see how education is funded at the federal l…
+##  9 sbkellogg       &quot;🧵👇 https://t.co/ynWaJvVK8z&quot;                               
+## 10 mjsamberg       &quot;I&#39;ve always wanted to learn to speak Yiddish - my mom&#39;s par…</code></pre>
 <p>We’ve only scratched the surface of the number of functions available in the <code>rtweets</code> package for searching Twitter. Use the following function to</p>
 <pre class="r"><code>vignette(&quot;intro&quot;, package=&quot;rtweet&quot;)</code></pre>
 <div id="comprehension-check-3" class="section level5">

@@ -31,20 +31,6 @@ Although I highly recommend that that you manually type the code shared througho
 
 #### Familiar Packages
 
-To help us better understand the packages, Twitter API tools, and data we'll be using during this Learning Lab, this section will focus on:
-
-a.  **R Packages** for tidy text mining and Twitter APIs
-b.  Setting up your first **Twitter App**
-c.  **Authorization methods** for linking R with your developer account
-
-Exercise RMarkdown file
-
-Although I highly recommend that that you manually type the code shared throughout this Learning Lab, for large blocks of text it may be easier to copy and paste.
-
-### 1a. Load Packages
-
-#### Familiar Packages
-
 Let's begin by loading some familiar packages from previous Learning Labs:
 
 ```{r load-libraries, message=FALSE}
