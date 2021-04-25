@@ -21,9 +21,15 @@ To help us better understand the packages, Twitter API tools, and data we'll use
 
 a.  **Load Packages** for tidy text mining and using Twitter APIs
 b.  **Create a Twitter App** to obtain [authentication](https://developer.twitter.com/en/docs/authentication) credentials, also known as keys and tokens
-c.  **Authorization RStudio** to use your app for retrieving data from Twitter
+c.  **Authorize RStudio** to use your app for retrieving data from Twitter
 
-Exercise RMarkdown file...
+#### Research Questions
+
+Recall from our presentation that
+
+1.  The
+
+#### Exercise RMarkdown File
 
 Although I highly recommend that that you manually type the code shared throughout this Learning Lab, for large blocks of text it may be easier to copy and paste.
 
@@ -361,7 +367,7 @@ To conclude Section 2a, try one of the following search functions from the `rtwe
 
 ### 2b. Tidy Text
 
-Now that we have the data needed to answer our questions, we still have a little bit of work to do to get it ready for analysis. This section will revisit some familiar functions from Unit 1 and introduce a couple new functions:
+Now that we have the data needed to address our questions, we still have a little bit of work to do to get it ready for analysis. This section will revisit some familiar functions from Unit 1 and introduce a couple new functions:
 
 #### Functions Used
 
