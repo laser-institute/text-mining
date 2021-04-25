@@ -13,7 +13,6 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-\
 [INSERT PRESENTATION VIDEO HERE]
 
 ## 1. PREPARE
@@ -23,6 +22,20 @@ To help us better understand the packages, Twitter API tools, and data we'll be 
 a.  **Load Packages** for tidy text mining and using Twitter APIs
 b.  **Create Twitter App** to...
 c.  **Authorization RStudio** and create a token for
+
+Exercise RMarkdown file
+
+Although I highly recommend that that you manually type the code shared throughout this Learning Lab, for large blocks of text it may be easier to copy and paste.
+
+### 1a. Load Packages
+
+#### Familiar Packages
+
+To help us better understand the packages, Twitter API tools, and data we'll be using during this Learning Lab, this section will focus on:
+
+a.  **R Packages** for tidy text mining and Twitter APIs
+b.  Setting up your first **Twitter App**
+c.  **Authorization methods** for linking R with your developer account
 
 Exercise RMarkdown file
 
@@ -62,8 +75,6 @@ More about `tidytext()`...
 ##### rtweet
 
 ![](img/BA3B99C7-3D7D-44E2-BEC1-D829F2BB30D3.jpeg){width="200"}
-
-Package intro...
 
 ```{r load-rtweet, message=FALSE}
 library(rtweet)
@@ -201,7 +212,7 @@ c.  **Remove Stop Words.** We conclude our data wrangling by using the now famil
 This section introduces the following functions from the `rtweet` package for reading Twitter data into R:
 
 -   [`search_tweets()`](https://www.rdocumentation.org/packages/rtweet/versions/0.7.0/topics/search_tweets) Pulls up to 18,000 tweets from the last 6-9 days matching provided search terms. 
--   [`search_tweets2()`](https://www.rdocumentation.org/packages/rtweet/versions/0.7.0/topics/search_tweets) Returns data from **multiple** search queries. 
+-   [`search_tweets2()`](https://www.rdocumentation.org/packages/rtweet/versions/0.7.0/topics/search_tweets) Returns data from **multiple** search queries.
 -   [`get_timelines()`](https://www.rdocumentation.org/packages/rtweet/versions/0.7.0/topics/search_tweets) Returns up to 3,200 tweets of one or more specified Twitter users.
 
 #### Search Tweets
@@ -209,6 +220,8 @@ This section introduces the following functions from the `rtweet` package for re
 Since one of our goals for this Learning Lab and the next is a very crude replication of the studies by Wang and Fikis (2019) and by Rosenberg et al. (2021), let's begin by introducing the `search_tweets()` function to try reading into R 5,000 tweets containing the commoncore hashtag and store as a new data frame `ccss_tweets`.
 
 Type or copy the following code into your R script or console and run:
+
+\<\<\<\<\<\<\< HEAD
 
 ```{r, eval=FALSE}
 ccss_tweets <- search_tweets(q = "#commoncore", n=5000)
