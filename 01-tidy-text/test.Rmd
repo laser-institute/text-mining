@@ -1,0 +1,14 @@
+---
+title: Breaking pages
+output:
+  html_document: default
+  word_document: default
+  pdf_document: default
+  odt_document: default
+---
+
+# The first section
+
+\newpage
+
+# The second section

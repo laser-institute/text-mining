@@ -1,8 +1,8 @@
 ---
-title: "TM Lab 1: Tidy Text, n-grams & the NGSS"
+title: "TM Lab 1: Tidy Text, Tokens & Twitter"
 author: "LASER TEAM"
-date: "`r Sys.Date()`"
-output: 
+date: "`r format(Sys.Date(),'%B %e, %Y')`"
+output:
   html_document:
     toc: true
     toc_depth: 3
@@ -13,45 +13,77 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+\
+[INSERT PRESENTATION VIDEO HERE]
+
 ## 1. PREPARE
 
-To help us better understand the context, questions, and data sources we'll be using in Unit 2, this section will focus on the process of setting up R to pull data from our Twitter developer account created during the first week of the course.
+To help us better understand the packages, Twitter API tools, and data we'll be using during this Learning Lab, in this section we'll learn to:
 
-For this learning lab, we'll use a similar approach used by the authors to import social media data . understand frequent terms used when discussing NGSS and CSSS, and guage public sentiment around the NGSS by compare how much more positive or negative NGSS tweets are relative to CSSS tweets.
+a.  **Load Packages** for tidy text mining and using Twitter APIs
+b.  **Create Twitter App** to...
+c.  **Authorization RStudio** and create a token for
 
-Our (very) specific questions of interest for this walkthrough are:
+Exercise RMarkdown file
 
-1.  
+Although I highly recommend that that you manually type the code shared throughout this Learning Lab, for large blocks of text it may be easier to copy and paste.
 
-And just to reiterate from Unit 1, one overarching question we'll explore throughout this course, and that Silge and Robinson (2018) identify as a central question to text mining and natural language processing, is:
+### 1a. Load Packages
 
-> How do we to **quantify** what a document or collection of documents is about?
+#### Familiar Packages
 
-### 1a. Project Set Up
+Let's begin by loading some familiar packages from previous Learning Labs:
 
-As highlighted in [Chapter 6 of Data Science in Education Using R](https://datascienceineducation.com/c06.html) (DSIEUR), one of the first steps of every workflow should be to set up a "Project" within RStudio. This will be your "home" for any files and code used or created in Unit 2. You are welcome to continue using the same project created for Unit 1, or create an entirely new project for Unit 2. However, after you've created your project open up a new R script, and load the following packages that we'll be needing for this walkthrough:
-
-```{r, message=FALSE}
+```{r load-libraries, message=FALSE}
 library(dplyr)
 library(readr)
 library(tidyr)
-library(rtweet)
 library(writexl)
 library(readxl)
-library(tidytext)
-library(textdata)
 library(ggplot2)
-library(textdata)
 library(scales)
+library(knitr)
 ```
 
-At the end of this lab, we'll ask that you share with me your r script as evidence that you have complete the walkthrough. Although I highly recommend that that you manually type the code shared throughout this walkthrough, for large blocks of text it may be easier to copy and paste.
+#### New Packages
+
+##### tidytext
+
+![](img/tidytext.png){width="200"}
+
+Package intro...
+
+```{r load-tidytext, message=FALSE}
+library(tidytext)
+```
+
+More about `tidytext()`...
+
+##### rtweet
+
+![](img/BA3B99C7-3D7D-44E2-BEC1-D829F2BB30D3.jpeg){width="200"}
+
+Package intro...
+
+```{r load-rtweet, message=FALSE}
+library(rtweet)
+```
+
+The `rtweet` package provides users a range of functions designed to extract data from Twitter's REST and streaming APIs and has three main goals:
+
+1.  Formulate and send requests to Twitter's REST and stream APIs.
+2.  Retrieve and iterate over returned data.
+3.  Wrangling data into tidy structures.
 
 ### 1b. Create a Twitter App
 
-Before you can begin pulling tweets into R, you'll first need to create a Twitter App in your developer account. You are not required to set up developer account for this course, but if you are still interested in creating one, [these instructions](https://dev.to/sumedhpatkar/beginners-guide-how-to-apply-for-a-twitter-developer-account-1kh7) succinctly outline the process and you can set one up in about 10 minutes. If you are not interested in setting one up and pulling tweets on your own, I have provided the data we'll be using for this tutorial on my [GitHub course repository](https://github.com/sbkellogg/eci-588/tree/main/unit-2/data) and in our ECI 588 course site. You can skip to section [2b. Tidy Text].
+Before you can begin pulling tweets into R, you'll first need to create a Twitter App in your developer account. This section and the section that follows, are borrowed largely from the `rtweet` package by Michael Kearney, and requires that you have set up a Twitter developer account.
 
-This section and the section that follows, are borrowed largely from `rtweet` package by Michael Kearney, and is for those of you have a set up a Twitter developer account and are interested in pulling your own data for Twitter.
+If you are interested in viewing an alternate browser-based authentication method, you can view his vignette by running the following code:
+
+```{r rtweet-vignette, eval=FALSE}
+vignette("auth")
+```
 
 1.  Navigate to [developer.twitter.com/en/apps](https://developer.twitter.com/en/apps/), click the blue button that says, `Create a New App`, and then complete the form with the following fields:
 
@@ -101,9 +133,9 @@ This section and the section that follows, are borrowed largely from `rtweet` pa
 
     </p>
 
-#### 1c. Authorization methods
+### 1c. Authorizing RStudio
 
-Users can create their personal Twitter token in two different ways. Each method is outlined below.
+In order to authorize R to use your Twitter App to retrieve data, you'll need to create a personal Twitter token by completing the following steps:
 
 -   Navigate to [developer.twitter.com/en/apps](https://developer.twitter.com/en/apps) and select your Twitter app
 -   Click the tab labeled `Keys and tokens` to retrieve your keys.
@@ -160,13 +192,13 @@ That's it!
 
 In general, data wrangling involves some combination of cleaning, reshaping, transforming, and merging data (Wickham & Grolemund, 2017). The importance of data wrangling is difficult to overstate, as it involves the initial steps of going from raw data to a dataset that can be explored and modeled (Krumm et al, 2018).
 
-a.  **Import Data**. In this section, we introduce the `rtweet` package and some key functions to search for tweets or users of interest.
-b.  **Tidy Tweets**. We revisit the `tidytext` package to both "tidy" and tokenize our tweets in order to create our data frame for analysis.
-c.  **Get Sentiments**. We conclude our data wrangling by introducing sentiment lexicons and the `inner_join()` function for appending sentiment values to our data frame.
+a.  **Import Data**. In this section, we introduce new functions from the `rtweet` package to search for tweets and users of interest.
+b.  **Tidy Tweets**. We also introduce the `tidytext` package to both "tidy" and tokenize our tweets in order to create our data frame for analysis.
+c.  **Remove Stop Words.** We conclude our data wrangling by using the now familiar `dplyr` package to remove words that don't add much value to our analysis.
 
 ### 2a. Import Tweets
 
-The Import Tweets section introduces the following functions from the `rtweet` package for reading Twitter data into R:
+This section introduces the following functions from the `rtweet` package for reading Twitter data into R:
 
 -   [`search_tweets()`](https://www.rdocumentation.org/packages/rtweet/versions/0.7.0/topics/search_tweets) Pulls up to 18,000 tweets from the last 6-9 days matching provided search terms. 
 -   [`search_tweets2()`](https://www.rdocumentation.org/packages/rtweet/versions/0.7.0/topics/search_tweets) Returns data from **multiple** search queries. 
@@ -174,19 +206,19 @@ The Import Tweets section introduces the following functions from the `rtweet` p
 
 #### Search Tweets
 
-Since one of our goals for this walkthrough is a very crude replication of the study by Rosenberg et al. (2021), let's begin by introducing the `search_tweets()` function to try reading into R 5,000 tweets containing the NGSS hashtag and store as a new data frame `ngss_all_tweets`.
+Since one of our goals for this Learning Lab and the next is a very crude replication of the studies by Wang and Fikis (2019) and by Rosenberg et al. (2021), let's begin by introducing the `search_tweets()` function to try reading into R 5,000 tweets containing the commoncore hashtag and store as a new data frame `ccss_tweets`.
 
 Type or copy the following code into your R script or console and run:
 
-```{r}
-ngss_all_tweets <- search_tweets(q = "#NGSSchat", n=5000)
+```{r, eval=FALSE}
+ccss_tweets <- search_tweets(q = "#commoncore", n=5000)
 ```
 
 Note that the first argument `q =` that the `search_tweets()` function expects is the search term included in quotation marks and that `n =` specifies the maximum number of tweets
 
 ##### ✅ Comprehension Check
 
-View your new `ngss_all_tweets`data frame using one of the previous view methods from Unit 1 Section 2a to help answer the following questions:
+View your new `ccss_tweets` data frame using one of the previous view methods from Unit 1 Section 2a to help answer the following questions:
 
 1.  How many tweets did our query using the Twitter API actually return? How many variables?
 2.  Why do you think our query pulled in far less than 5,000 tweets requested?
@@ -198,8 +230,8 @@ While not explicitly mentioned in the paper, it's likely the authors removed ret
 
 Let's use the `include_rts =` argument to remove any retweets by setting it to `FALSE`:
 
-```{r}
-ngss_non_retweets <- search_tweets("#NGSSchat", 
+```{r retweet-argument, eval=FALSE}
+ccss_tweets <- search_tweets("commoncore", 
                                    n=5000, 
                                    include_rts = FALSE)
 
@@ -355,7 +387,7 @@ ngss_tweets <- read_xlsx("data/ngss_tweets.xlsx")
 ccss_tweets <- read_xlsx("data/csss_tweets.xlsx")
 ```
 
-**Note:** If you have already created these data frames from 2a. Import Tweets, you do not need to read these file into R unless you want to reproduce the exact same outputs shown in the rest of this walkthrough.
+**Note:** If you have already created these data frames from 2a. Import Tweets, you do not need to read these file into R unless you want to reproduce the exact same outputs shown in the rest of this Learning Lab.
 
 #### Subset Rows & Columns
 
@@ -458,7 +490,7 @@ tweet_tokens <-
 
 Notice that we've included an additional argument in the call to `unnest_tokens()`. Specifically, we used the specialized `“tweets”` tokenizer in the `tokens =` argument that is very useful for dealing with Twitter text or other text from online forums in that it retains hashtags and mentions of usernames with the \@ symbol.
 
-#### Remove Stop Words
+### 2c. Remove Stop Words
 
 Now let's remove stop words like "the" and "a" that don't help us learn much about what people are tweeting about the state standards.
 
@@ -532,5 +564,3 @@ tweets %>%
   group_by(standards) %>%
   ts_plot(by = "days")
 ```
-
-

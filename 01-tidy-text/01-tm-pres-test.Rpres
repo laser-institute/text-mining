@@ -1,16 +1,16 @@
 Lab 3.1 - Tidy Text & Word Counts
 ========================================================
 author: The LASER Team
-date: `r format(Sys.time(), "%B %d, %Y")`
-autosize: false
+date: "`r format(Sys.time(), "%B %d, %Y")`"
+autosize: true
 
 
 Agenda
 ========================================================
-- The Context
+- The Context 
 - The Terminology
 - The Literature
-- The Lab
+- The Lab 
 
 
 THE CONTEXT
