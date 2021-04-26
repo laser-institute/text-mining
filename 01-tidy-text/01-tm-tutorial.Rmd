@@ -7,6 +7,7 @@ output:
     toc: true
     toc_depth: 3
     toc_float: yes
+bibliography: references.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -17,17 +18,19 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## 1. PREPARE
 
-To help us better understand the packages, Twitter API tools, and data we'll use during this lab, in this section we'll learn to:
+Recall from our presentation that one central question to text mining and natural language processing, is:
+
+> How do we to **quantify** what a document or collection of documents is about?
+
+For our first lab on text mining in STEM education research, we'll explore this question by examining a corpus or collection of tweets
+
+To help us better understand the packages, Twitter API tools, and data we'll use during this lab to address these questions, in this section we'll learn to:
 
 a.  **Load Packages** for tidy text mining and using Twitter APIs
+
 b.  **Create a Twitter App** to obtain [authentication](https://developer.twitter.com/en/docs/authentication) credentials, also known as keys and tokens
+
 c.  **Authorize RStudio** to use your app for retrieving data from Twitter
-
-#### Research Questions
-
-Recall from our presentation that
-
-1.  The
 
 #### Exercise RMarkdown File
 

@@ -1,7 +1,7 @@
 Lab 3.1 - Tidy Text & Word Counts
 ========================================================
 author: The LASER Team
-date: "April 24, 2021"
+date: "April 26, 2021"
 autosize: true
 
 
@@ -73,6 +73,7 @@ type: section
 ## - Tidy Text
 ## - Tokenization
 ## - n-grams
+## - corpus 
 
 
 

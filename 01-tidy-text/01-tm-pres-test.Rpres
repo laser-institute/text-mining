@@ -73,6 +73,7 @@ type: section
 ## - Tidy Text
 ## - Tokenization
 ## - n-grams
+## - corpus 
 
 
 
