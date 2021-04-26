@@ -18,11 +18,15 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## 1. PREPARE
 
-Recall from our presentation that one central question to text mining and natural language processing, is:
+Recall from our presentation that one central question to text mining and natural language processing is:
 
 > How do we to **quantify** what a document or collection of documents is about?
 
-For our first lab on text mining in STEM education research, we'll explore this question by examining a corpus or collection of tweets
+For our first lab on text mining in STEM education research, we'll explore this question by examining a corpus, or collection, of public posts on Twitter about the Common Core State Standards (CCSS) to better understand public discourse surrounding these standards, particularly as they relate to math education. Specifically, in this lab we'll be applying some basic text mining techniques to address the following questions:
+
+1.  Nn
+
+2.  gg
 
 To help us better understand the packages, Twitter API tools, and data we'll use during this lab to address these questions, in this section we'll learn to:
 
