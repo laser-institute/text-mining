@@ -18,15 +18,23 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## 1. PREPARE
 
+#### Research Questions
+
 Recall from our presentation that one central question to text mining and natural language processing is:
 
 > How do we to **quantify** what a document or collection of documents is about?
 
 For our first lab on text mining in STEM education research, we'll explore this question by examining a corpus, or collection, of public posts on Twitter about the Common Core State Standards (CCSS) to better understand public discourse surrounding these standards, particularly as they relate to math education. Specifically, in this lab we'll be applying some basic text mining techniques to address the following questions:
 
-1.  Nn
+1.  What are the most frequent terms or words used in reference to tweets about the CCSS?
 
-2.  gg
+2.  What are the most common phrases used in reference to the CCSS?
+
+3.  How does usage of these top terms and phrases change over time?
+
+4.  What words and hashtags commonly co-occur together, particularly with the word "math"?
+
+#### Section 1 Objectives
 
 To help us better understand the packages, Twitter API tools, and data we'll use during this lab to address these questions, in this section we'll learn to:
 
@@ -38,7 +46,7 @@ c.  **Authorize RStudio** to use your app for retrieving data from Twitter
 
 #### Exercise RMarkdown File
 
-Although I highly recommend that that you manually type the code shared throughout this Learning Lab, for large blocks of text it may be easier to copy and paste.
+Instructions for accessing practice file and completing lab...
 
 ### 1a. Load Packages
 
