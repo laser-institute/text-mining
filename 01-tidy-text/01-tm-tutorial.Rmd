@@ -34,7 +34,7 @@ For our first lab on text mining in STEM education research, we'll explore this 
 
 4.  What words and hashtags commonly co-occur together, particularly with the word "math"?
 
-#### Section 1 Objectives
+#### Section Objectives
 
 To help us better understand the packages, Twitter API tools, and data we'll use during this lab to address these questions, in this section we'll learn to:
 
@@ -279,7 +279,7 @@ If you recall from [Section 1a], the authors accessed tweets and user informatio
 Let's modify our query using the `OR` operator to also include "ngss" so it will return tweets containing either \#NGSSchat or "ngss" and assign to `ngss_or_tweets`:
 
 ```{r or-operator}
-ccss_or_tweets <- search_tweets(q = "#commoncore OR commoncore", 
+ccss_or_tweets <- search_tweets(q = "#commoncore OR #ccss", 
                                 n=5000,
                                 include_rts = FALSE)
 
@@ -290,7 +290,8 @@ ccss_or_tweets <- search_tweets(q = "#commoncore OR commoncore",
 Try including both search terms but excluding the `OR` operator to answer the following question:
 
 1.  Does excluding the `OR` operator return more tweets, the same number of tweets, or fewer tweets? Why?
-2.  What other useful arguments does the `search_tweet()` function contain? Try adding one and see what happens.
+2.  What happens if you remove the hashtag? Does it still return tweets with \#commoncore?
+3.  What other useful arguments does the `search_tweet()` function contain? Try adding one and see what happens.
 
 Hint: Use the `?search_tweets` help function to learn more about the `q` argument and other arguments for composing search queries.
 
