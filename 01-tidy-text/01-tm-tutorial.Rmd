@@ -52,7 +52,7 @@ Instructions for accessing practice file and completing lab...
 
 #### Prior Packages
 
-Let's begin by loading some familiar packages from previous Learning Labs:
+Let's begin by loading some familiar packages from previous Learning Labs that we'll be using for data wrangling and exploration :
 
 ```{r load-libraries, message=FALSE}
 library(dplyr)
@@ -64,18 +64,6 @@ library(writexl)
 ```
 
 #### New Packages
-
-![](img/tidytext.png){width="100"}
-
-The `tidytext` package provide functions and supporting data sets to allow conversion of text to and from tidy formats, and to switch seamlessly between tidy tools and existing text mining packages.
-
-Let's go ahead and load it:
-
-```{r load-tidytext, message=FALSE}
-library(tidytext)
-```
-
-As we'll Learn first hand later in this lab, using tidy data principles can make many text mining tasks easier, more effective, and consistent with tools already in wide use. Much of the infrastructure needed for text mining with tidy data frames already exists in `tidyverse` packages with which we've already been introduced.
 
 ![](img/rtweet.jpeg){width="100"}
 
@@ -226,6 +214,22 @@ a.  **Import Data**. In this section, we introduce new functions from the `rtwee
 b.  **Tidy Tweets**. We also introduce the `tidytext` package to both "tidy" and tokenize our tweets in order to create our data frame for analysis.
 c.  **Remove Stop Words.** We conclude our data wrangling by using the now familiar `dplyr` package to remove words that don't add much value to our analysis.
 
+#### The tidytext Package
+
+![](img/tidytext.png){width="100"}
+
+The `tidytext` package provide functions and supporting data sets to allow conversion of text to and from tidy formats, and to switch seamlessly between tidy tools and existing text mining packages.
+
+Let's go ahead and load it:
+
+```{r load-tidytext, message=FALSE}
+library(tidytext)
+```
+
+As we'll Learn first hand later in this lab, using tidy data principles can make many text mining tasks easier, more effective, and consistent with tools already in wide use. Much of the infrastructure needed for text mining with tidy data frames already exists in `tidyverse` packages with which we've already been introduced.
+
+For a more comprehensive introduction to the `tidytext` package, I cannot recommend enough the free online book, [Text Mining with R: A Tidy Approach](https://www.tidytextmining.com) by Silge and Robinson (2018).
+
 ### 2a. Import Tweets
 
 This section introduces the following functions from the `rtweet` package for reading Twitter data into R:
@@ -236,7 +240,7 @@ This section introduces the following functions from the `rtweet` package for re
 
 #### Search Tweets
 
-Since one of our goals for this Learning Lab and the next is a very crude replication of the studies by Wang and Fikis (2019) and by Rosenberg et al. (2021), let's begin by introducing the `search_tweets()` function to try reading into R 5,000 tweets containing the commoncore hashtag and store as a new data frame `ccss_tweets`.
+Since one of our goals for this Learning Lab and the next is a very crude replication of the studies by Wang and Fikis (2019), let's begin by introducing the `search_tweets()` function to try reading into R 5,000 tweets containing the commoncore hashtag and store as a new data frame called `ccss_tweets`.
 
 Type or copy the following code into your R script or console and run:
 
@@ -244,7 +248,7 @@ Type or copy the following code into your R script or console and run:
 ccss_tweets <- search_tweets(q = "#commoncore", n=5000)
 ```
 
-Note that the first argument `q =` that the `search_tweets()` function expects is the search term included in quotation marks and that `n =` specifies the maximum number of tweets
+Note that the first argument `q =` that the `search_tweets()` function expects is the search term included in quotation marks and that `n =` specifies the maximum number of tweets to return.
 
 ##### ✅ Comprehension Check
 
@@ -254,13 +258,9 @@ View your new `ccss_tweets` data frame using the `glimpse()` function introduced
 2.  Why do you think our query pulled in far less than 5,000 tweets requested?
 3.  Does our query also include retweets? How do you know?
 
-```{r glimpse-tweets}
-glimpse(ccss_tweets)
-```
-
 #### Remove Retweets
 
-While not explicitly mentioned in the paper, it's likely the authors removed retweets in their query since a retweet is simply someone else reposting someone else's tweet and would duplicate the exact same content of the original.
+While not explicitly mentioned in the paper, it's likely the authors removed retweets in their query since a retweet is simply a user reposting someone else's tweet and would duplicate the exact same content of the original.
 
 Let's use the `include_rts =` argument to remove any retweets by setting it to `FALSE`:
 
@@ -271,6 +271,8 @@ ccss_tweets <- search_tweets("commoncore",
 
 head(ccss_tweets)
 ```
+
+Notice that the `search_tweets()` function returns a nice "tibble" since it follows tidy data principles common to all tidyverse packages. As we'll see later, this allows us to use syntax conventions like the `%>%` pipe operator as well.
 
 #### Using the OR Operator
 
@@ -297,19 +299,16 @@ Hint: Use the `?search_tweets` help function to learn more about the `q` argumen
 
 #### Use Multiple Queries
 
-Unfortunately, the `OR` operator will only get us so far. In order to include the additional search terms, we will need to use the `c()` function to combine our search terms into a single list.
+Although Wang and Fikis (2019) limited their query to the two hashtags used above, and some point you may be interested in a more complex query that includes additional search terms. Unfortunately, the `OR` operator only gets us so far. In order to pass multiple queries , we will need to use the `c()` function to combine our search terms into a single list.
 
 The `rtweets` package has an additional `search_tweets2()` function for using multiple queries in a search. To do this, either wrap single quotes around a search query using double quotes, e.g., `q = '"next gen science standard"'` or escape each internal double quote with a single backslash, e.g., `q = "\"next gen science standard\""`.
 
 Copy and past the following code to store the results of our query in `ngss_tweets`:
 
 ```{r}
-ngss_tweets <- search_tweets2(c("#NGSSchat OR ngss",
-                                '"next generation science standard"',
-                                '"next generation science standards"',
-                                '"next gen science standard"',
-                                '"next gen science standards"'
-                                   ), 
+ngss_tweets <- search_tweets2(c("#commoncore OR ccss",
+                                '"common core standards"',
+                                '"common core state standards"'), 
                              n=5000,
                              include_rts = FALSE)
 ```

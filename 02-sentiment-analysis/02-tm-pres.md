@@ -1,7 +1,7 @@
-Lab 3.1 - Tidy Text & Word Counts
+Lab 3.2 - Public Sentiment and the NGSS
 ========================================================
 author: The LASER Team
-date: `r format(Sys.time(), "%B %d, %Y")`
+date: April 27, 2021
 autosize: false
 
 

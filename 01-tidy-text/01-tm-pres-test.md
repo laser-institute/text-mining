@@ -1,8 +1,8 @@
 Lab 3.1 - Tidy Text & Word Counts
 ========================================================
 author: The LASER Team
-date: "April 26, 2021"
-autosize: true
+date: April 27, 2021
+autosize: false
 
 
 Agenda
@@ -36,7 +36,7 @@ image of growth in data
 
 Promise and Pitfalls of Social Media Data
 ========================================================
-### Strengths
+### Promise
 - Abundant
 - Absent of Researcher Influence
 - Relationships 
