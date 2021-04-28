@@ -1,7 +1,7 @@
 Lab 3.1 - Tidy Text & Word Counts
 ========================================================
 author: The LASER Team
-date: April 27, 2021
+date: April 28, 2021
 autosize: false
 
 
