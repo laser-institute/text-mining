@@ -207,7 +207,7 @@ a.  **Search & Subset**. In this section, we introduce new functions from the `r
 b.  **Tidy Text**. We also introduce the `tidytext` package to both "tidy" and tokenize our tweets in order to create our data frame for analysis.
 c.  **Stop Words.** We conclude our data wrangling by using the now familiar `dplyr` package to remove words that don't add much value to our analysis.
 
-### 2a.  Search & Subset
+### 2a. Search & Subset
 
 This section introduces the following functions from the `rtweet` package for reading Twitter data into R:
 
@@ -464,11 +464,9 @@ There is A LOT to unpack with this function. First notice that `unnest_tokens` 
 
 -   Tokens have been changed to lowercase, which makes them easier to compare or combine with other datasets. However, we can use the `to_lower = FALSE` argument to turn off this behavior).
 
-#### 
+Finally, we used the specialized `“tweets”` tokenizer in the `tokens =` argument that is very useful for dealing with Twitter text or other text from online forums in that it retains hashtags and mentions of usernames with the \@ symbol.
 
-First, Notice that we've included an additional argument in the call to `unnest_tokens()`. Specifically, we used the specialized `“tweets”` tokenizer in the `tokens =` argument that is very useful for dealing with Twitter text or other text from online forums in that it retains hashtags and mentions of usernames with the \@ symbol.
-
-Before we move any further...
+Before we move any further let's take a quick look at the most common word in our common core dataset:
 
 ```{r}
 tweet_tokens %>%
@@ -479,15 +477,21 @@ Well, first of many of these tweets are clearly about the common core, but beyon
 
 ### 2c. Stop Words
 
-Often in text analysis, we will want to remove these stop words if are not useful for an analysis. The `stop_words` dataset in the tidytext package contains stop words from three lexicons. We can use them all together, as we have here, or [`filter()`](https://dplyr.tidyverse.org/reference/filter.html) to only use one set of stop words if that is more appropriate for a certain analysis.
+Often in text analysis, we will want to remove these stop words if they are not useful for an analysis. The `stop_words` dataset in the tidytext package contains stop words from three lexicons. We can use them all together, as we have here, or [`filter()`](https://dplyr.tidyverse.org/reference/filter.html) to only use one set of stop words if that is more appropriate for a certain analysis.
 
-Let's take a closer like
+Let's take a closer the lexicons and stop words included in each:
 
 ```{r}
 DT::datatable(stop_words)
 ```
 
-\
+#### The `anti_join` Function
+
+In order to remove these stop words, we will use function called `anti_join()` that looks for matching values in a specific column from two datasets and returns rows from the original dataset that have no matches like so:
+
+![](img/anti-join.png)
+
+For a good overview of the different `dplyr` joins see here: <https://medium.com/the-codehub/beginners-guide-to-using-joins-in-r-682fc9b1f119>
 
 Now let's remove stop words like "the" and "a" that don't help us learn much about what people are tweeting about the state standards.
 
