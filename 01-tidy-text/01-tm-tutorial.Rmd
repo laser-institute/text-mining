@@ -203,11 +203,11 @@ That's it!
 
 In general, data wrangling involves some combination of cleaning, reshaping, transforming, and merging data (Wickham & Grolemund, 2017). The importance of data wrangling is difficult to overstate, as it involves the initial steps of going from raw data to a dataset that can be explored and modeled (Krumm et al, 2018).
 
-a.  **Import & Subset Tweets**. In this section, we introduce new functions from the `rtweet` package to search for and filter tweets and users of interest.
+a.  **Search & Subset**. In this section, we introduce new functions from the `rtweet` package to search for and filter tweets and users of interest.
 b.  **Tidy Text**. We also introduce the `tidytext` package to both "tidy" and tokenize our tweets in order to create our data frame for analysis.
-c.  **Remove Stop Words.** We conclude our data wrangling by using the now familiar `dplyr` package to remove words that don't add much value to our analysis.
+c.  **Stop Words.** We conclude our data wrangling by using the now familiar `dplyr` package to remove words that don't add much value to our analysis.
 
-### 2a. Import & Subset Tweets
+### 2a.  Search & Subset
 
 This section introduces the following functions from the `rtweet` package for reading Twitter data into R:
 
@@ -222,7 +222,7 @@ Since one of our goals for this Learning Lab and the next is a very simplistic r
 Type or copy the following code into your R Markdown file or console and run:
 
 ```{r search-tweets, eval=TRUE}
-ccss_tweets <- search_tweets(q = "#commoncore", n=5000)
+ccss_tweets <- search_tweets(q = "#CommonCore", n=5000)
 ```
 
 Note that the first argument `q =` that the `search_tweets()` function expects is the search term included in quotation marks and that `n =` specifies the maximum number of tweets to return.
@@ -236,18 +236,6 @@ View your new `ccss_tweets` data frame using the `glimpse()` function introduced
 3.  Does our query also include retweets? How do you know?
 4.  Does capitalization in your query matter?
 
-#### Remove Retweets
-
-While not explicitly mentioned in the paper, it's likely the authors removed retweets in their query since a retweet is simply a user reposting someone else's tweet and would duplicate the exact same content of the original.
-
-Let's use the `include_rts =` argument to remove any retweets by setting it to `FALSE`:
-
-```{r retweet-argument, eval=TRUE}
-ccss_tweets <- search_tweets("commoncore", 
-                                   n=5000, 
-                                   include_rts = FALSE)
-```
-
 #### Using the OR Operator
 
 Wang and Fikis (2019) collected the tweets containing the hashtags \#CommonCore and \#CCSS for 12 months from 2014 to 2015. Unfortunately, a basic Twitter developer account only lets us go back about a week but retrieving tweets the two hashtags identified by the authors is not an issue.
@@ -255,9 +243,7 @@ Wang and Fikis (2019) collected the tweets containing the hashtags \#CommonCore 
 Let's modify our query using the `OR` operator to also include "CCSS" so it will return tweets containing either \#NGSSchat or "ngss" and assign to `ngss_or_tweets`:
 
 ```{r or-operator}
-ccss_or_tweets <- search_tweets(q = "#commoncore OR #ccss", 
-                                n=5000,
-                                include_rts = FALSE)
+ccss_or_tweets <- search_tweets(q = "#commoncore OR #ccss", n=5000)
 
 ```
 
@@ -293,14 +279,14 @@ To learn more about constructing search terms using the query argument, enter `?
 
 1.  Use the `search_tweets` function to create you own custom query for a twitter hashtag or topic(s) of interest.
 
-#### Subset Rows & Columns
+#### Subset Tweets
 
-As you are probably already aware, we have way more data than we need for our analysis and need to pare it down quite a bit.
+As you may have noticed, we have way more data than we need for our analysis and should probably pare it down to just what we'll use.
 
-First, let's use the `filter` function introduced in previous labs to subset rows containing only tweets in the English language:
+First let's use the `filter` function introduced in previous labs to subset rows containing only tweets in the English language:
 
 ```{r}
-ccss_text <- filter(ccss_tweets, lang == "en")
+ccss_tweets <- filter(ccss_tweets, lang == "en")
 ```
 
 Now let's select the following columns from our new `ccss_text` data frame:
@@ -310,10 +296,31 @@ Now let's select the following columns from our new `ccss_text` data frame:
 3.  `text` containing the tweet which is our primary data source of interest
 
 ```{r select-variables}
-ccss_tweets <- select(ccss_text,
+ccss_tweets <- select(ccss_tweets,
                  screen_name, 
                  created_at, 
                  text)
+```
+
+While not explicitly mentioned in the paper, it's likely the authors removed retweets in their query since a retweet is simply a user reposting someone else's tweet and would duplicate the exact same content of the original.
+
+##### ✅ Comprehension Check
+
+Rewrite our query from the [Using the OR Operator] section and use the `include_rts =` argument to remove any retweets by setting it to `FALSE`. You'll also need to
+
+Extra credit for using the `%>%` pipe operator for keeping your code succinct.
+
+You're output should look something like this:
+
+```{r retweet-argument, eval=TRUE, echo=FALSE}
+ccss_tweets <- search_tweets(q = "#commoncore OR #ccss", 
+                             n=5000, 
+                             include_rts = FALSE,
+                             lang = "en") %>%
+  select(screen_name, created_at, text)
+  
+
+datatable(ccss_tweets)
 ```
 
 #### Write to Excel File
@@ -374,7 +381,7 @@ To conclude Section 2a, try one of the following search functions from the `rtwe
 6.  `get_trends()` Discover what's currently trending in a city.
 7.  `search_users()` Search for 1,000 users with the specific hashtag in their profile bios.
 
-We've only scratched the surface of the number of functions available in the `rtweets` package for searching Twitter. To learn more about the `rtweet` package, you can find full documentation on CRAN at: [<https://cran.r-project.org/web/packages/rtweet/rtweet.pdf>](https://cran.r-project.org/web/packages/rtweet/rtweet.pdf){.uri}
+We've only scratched the surface of the number of functions available in the `rtweets` package for searching Twitter. To learn more about the `rtweet` package, you can find full documentation on CRAN at: [\<https://cran.r-project.org/web/packages/rtweet/rtweet.pdf\>](https://cran.r-project.org/web/packages/rtweet/rtweet.pdf){.uri}
 
 Or use the following function to access the package vignette:
 
@@ -470,7 +477,7 @@ tweet_tokens %>%
 
 Well, first of many of these tweets are clearly about the common core, but beyond that it's a bit hard to tell because there are so many "stop words" like "the", "to", "and", "in" that don't carry much meaning by themselves.
 
-### 2c. Remove Stop Words
+### 2c. Stop Words
 
 Often in text analysis, we will want to remove these stop words if are not useful for an analysis. The `stop_words` dataset in the tidytext package contains stop words from three lexicons. We can use them all together, as we have here, or [`filter()`](https://dplyr.tidyverse.org/reference/filter.html) to only use one set of stop words if that is more appropriate for a certain analysis.
 
