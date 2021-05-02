@@ -311,9 +311,9 @@ For the remainder of the lab, you'll be asked to using your own Twitter data. Co
 
 2.  Subset your data to remove any unnecessary tweets from analysis.
 
-3.  Assign your search to a new object with an appropriate name.
+3.  Assign your search to a new object called `my_tweets`.
 
-4.  Output your new dataset using the `datatable()` function from the `DT` package.
+4.  Output your new dataset using the `datatable()` function from the `DT` package and take a quick look.
 
 Extra credit for using the `%>%` pipe operator and efficient use of arguments to keep your code succinct and using the `<-` assignment operator only once.
 
@@ -495,7 +495,7 @@ ccss_unigrams <- unnest_tokens(ccss_tweets,
 ccss_unigrams
 ```
 
-#####  Bigrams
+##### Bigrams
 
 \
 Before we move any further let's take a quick look at the most common word in our common core dataset:
@@ -558,7 +558,9 @@ Note that we could extend this filter to weed out any additional words that don'
 
 ##### ✅ Comprehension Check
 
-We've created some unnecessarily lengthy code to demonstrate some of the steps in the tidying process. Rewrite the tokenization and removal of stop words processes into a more compact series of functions and save your data frame as `tidy_tweets`.
+Tidy your `my_tweets` dataset from the [✅ Comprehension Check] in Section 2a by tokenizing your text into unigrams and removing stop words.
+
+Also, since we created some unnecessarily lengthy code to demonstrate some of the steps in the tidying process, try to use a more compact series of functions and assign your data frame to `my_tidy_tweets`.
 
 ## 3. EXPLORE
 
@@ -568,11 +570,9 @@ a.  **c**
 
 b.  **Time Series**. We take a quick look at the date range of our tweets and compare number of postings by standards.
 
-c.  
+### 3a. Word Counts
 
-d.  
-
-e.  
+### 3b. Word Pairs
 
 ### 3c. Time Series
 
@@ -587,3 +587,5 @@ Your line graph should look something like this:
 ccss_tweets %>%
   ts_plot(by = "hours")
 ```
+
+## 4. MODEL  
