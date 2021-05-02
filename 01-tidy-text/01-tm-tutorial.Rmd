@@ -455,7 +455,7 @@ The `tidytext` package provides the incredibly powerful `unnest_tokens()` functi
 
 Let's tokenize our tweets by using this function to split each tweet into a single row to make it easier to analyze:
 
-```{r}
+```{r unnest-tokens}
 ccss_unigrams <- unnest_tokens(ccss_tweets, 
                                output = word, 
                                input = text)
@@ -486,7 +486,7 @@ ccss_unigrams <- unnest_tokens(ccss_tweets,
 
 Your output should look something like this:
 
-```{r tweet-tokens, echo=FALSE}
+```{r ccss-unigram, echo=FALSE}
 ccss_unigrams <- unnest_tokens(ccss_tweets, 
                               output = word, 
                               input = text, 
@@ -497,15 +497,34 @@ ccss_unigrams
 
 ##### Bigrams
 
+In the function above we specified tokens as individual words, but many interesting text analyses are based on the relationships between words, which words tend to follow others immediately, or words that tend to co-occur within the same documents.
+
+We can also use the `unnest_tokens()` function to tokenize our tweets into consecutive sequences of words, called **n-grams**. By seeing how often word X is followed by word Y, we can then build a model of the relationships between them as well see in Section [4. MODEL].
+
+We do this by adding the `token = "ngrams"` option to [`unnest_tokens()`](https://rdrr.io/pkg/tidytext/man/unnest_tokens.html), and setting `n` to the number of words in each n-gram. Let's set `n` to 2, so we can examine pairs of two consecutive words, often called "bigrams":
+
+```{r ccss-bigrams}
+ccss_bigrams <- ccss_tweets %>% 
+  unnest_tokens(bigram, 
+                text, 
+                token = "ngrams", 
+                n = 2)
+
+ccss_bigrams
+```
+
 \
-Before we move any further let's take a quick look at the most common word in our common core dataset:
+Before we move any further let's take a quick look at the most common unigrams and bigrams in our two datasets:
 
 ```{r}
 ccss_unigrams %>%
-  count(word, sort = TRUE) 
+  count(word, sort = TRUE)
+
+ccss_bigrams %>% 
+  count(bigram, sort = TRUE)
 ```
 
-Well, first of many of these tweets are clearly about the common core, but beyond that it's a bit hard to tell because there are so many "stop words" like "the", "to", "and", "in" that don't carry much meaning by themselves.
+Well, many of these tweets are clearly about the common core, but beyond that it's a bit hard to tell because there are so many "stop words" like "the", "to", "and", "in" that don't carry much meaning by themselves.
 
 ### 2c. Stop Words
 
@@ -527,25 +546,47 @@ For a good overview of the different `dplyr` joins see here: <https://medium.
 
 Now let's remove stop words that don't help us learn much about what people are saying about the state standards.
 
-```{r}
-tidy_tweets <- anti_join(ccss_unigrams,
+```{r stop-unigrams}
+tidy_unigrams <- anti_join(ccss_unigrams,
                          stop_words,
                          by = "word")
 
-tidy_tweets
+tidy_unigrams
 ```
 
 Notice that we've specified the `by =` argument to look for matching words in the `word` column for both data sets and remove any rows from the `tweet_tokens` dataset that match the `stop_words` dataset. Remember when we first tokenized our dataset I conveniently chose `output = word` as the column name because it matches the column name `word` in the `stop_words` dataset contained in the `tidytext` package. This makes our call to `anti_join()`simpler because `anti_join()` knows to look for the column named `word` in each dataset. However this wasn't really necessary since `word` is the only matching column name in both datasets and it would have matched those columns by default.
 
-#### Custom Stop Words
+As we saw above, a lot of the most common bigrams are pairs of common (uninteresting) words as well. Dealing with these is a little less straightforward and we'll need to use the `separate()` function from the `tidyr` package, which splits a column into multiple based on a delimiter. This lets us separate it into two columns, "word1" and "word2", at which point we can remove cases where either is a stop-word.
 
-Before wrapping up, let's take a quick count of the most common words in `tidy_tweets` data frame:
+```{r stop-bigrams}
+library(tidyr)
 
-```{r}
-count(tidy_tweets, word, sort = T)
+bigrams_separated <- ccss_bigrams %>%
+  separate(bigram, c("word1", "word2"), sep = " ")
+
+bigrams_filtered <- bigrams_separated %>%
+  filter(!word1 %in% stop_words$word) %>%
+  filter(!word2 %in% stop_words$word)
+
+tidy_bigrams <- bigrams_filtered %>%
+  unite(bigram, word1, word2, sep = " ")
 ```
 
-Notice that the nonsense word "amp" is in our top tens words. Let's rewrite our stop word code to add a custom stop word to filter out rows with "amp" in them:
+\
+
+#### Custom Stop Words
+
+Before wrapping up, let's take a quick count of the most common unigrams and bigrams to see if the results are a little more meaningful:
+
+```{r}
+tidy_unigrams %>%
+  count(word, sort = TRUE)
+
+tidy_bigrams %>% 
+  count(bigram, sort = TRUE)
+```
+
+Notice that the nonsense word "amp" is among our high frequency words. Let's add a filter to our previous code similar to what we did with our bigrams to remove rows with "amp" in them:
 
 ```{r}
 tidy_tweets <-
@@ -556,21 +597,26 @@ tidy_tweets <-
 
 Note that we could extend this filter to weed out any additional words that don't carry much meaning but skew our data by being so prominent.
 
-##### ✅ Comprehension Check
+##### ✅ Comprehension Check {#comprehension-check-7}
 
-Tidy your `my_tweets` dataset from the [✅ Comprehension Check] in Section 2a by tokenizing your text into unigrams and removing stop words.
+Tidy your `my_tweets` dataset from the [✅ Comprehension Check](#comprehension-check-7) in Section 2a by tokenizing your text into unigrams and removing stop words.
 
 Also, since we created some unnecessarily lengthy code to demonstrate some of the steps in the tidying process, try to use a more compact series of functions and assign your data frame to `my_tidy_tweets`.
 
 ## 3. EXPLORE
 
-Now that we have our tweets tidied and sentiments joined, we're ready for a little data exploration. As highlighted in Unit 1, calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. One goal in this phase is explore questions that drove the original analysis and develop new questions and hypotheses to test in later stages. Topics addressed in Section 3 include:
+As highlighted in DSEIUR and Learning Analytics Goes to School, calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. One goal in this phase is explore questions that drove the original analysis and develop new questions and hypotheses to test in later stages.\
+In Section 3, we will calculate some very basic summary statistics from our tidied text, explore key words of interest to gather additional context, and use data visualization to identify patterns and trends that may not be obvious from our tables and numerical summaries. Topics addressed in Section 3 include::
 
 a.  **c**
 
 b.  **Time Series**. We take a quick look at the date range of our tweets and compare number of postings by standards.
 
 ### 3a. Word Counts
+
+Prior to making any data visualization, we revisit our or overarching question guiding most of our efforts in this course, "How do we **quantify** what a text is about?"
+
+In this section, we introduce the following functions:
 
 ### 3b. Word Pairs
 
@@ -588,4 +634,4 @@ ccss_tweets %>%
   ts_plot(by = "hours")
 ```
 
-## 4. MODEL  
+## 4. MODEL
