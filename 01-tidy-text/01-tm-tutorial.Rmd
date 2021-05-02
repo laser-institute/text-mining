@@ -26,13 +26,11 @@ Recall from our presentation that one central question to text mining and natura
 
 For our first lab on text mining in STEM education, we'll explore this question by examining a corpus, or collection, of public posts on Twitter about the Common Core State Standards (CCSS) to better understand public discourse surrounding these standards, particularly as they relate to math education. Specifically, in this lab we'll be applying some basic text mining techniques to address the following questions:
 
-1.  What are the most frequent terms or words used in reference to tweets about the CCSS?
+1.  What are the most frequent words or phrases used in reference to tweets about the CCSS?
 
-2.  What are the most common phrases used in reference to the CCSS?
+2.  How does usage of these words and phrases change over time?
 
-3.  How does usage of these top terms and phrases change over time?
-
-4.  What words and hashtags commonly co-occur together, particularly with the word "math"?
+3.  What words and hashtags commonly co-occur together, particularly with the word "math"?
 
 #### Section Objectives
 
@@ -283,13 +281,16 @@ To learn more about constructing search terms using the query argument, enter `?
 
 As you may have noticed, we have way more data than we need for our analysis and should probably pare it down to just what we'll use.
 
-First let's use the `filter` function introduced in previous labs to subset rows containing only tweets in the English language:
+First, it's likely the authors removed retweets from their analysis since a retweet is simply a user reposting someone else's tweet and would duplicate the exact same content of the original. It's also likely that they limited their analysis to just English language Tweets so let's go ahead and
+
+Let's use the `filter()` function introduced in previous labs to subset rows containing only original tweets in the English language:
 
 ```{r}
-ccss_tweets <- filter(ccss_tweets, lang == "en")
+ccss_tweets <- ccss_tweets %>% filter(is_retweet == "False", 
+                                      lang == "en")
 ```
 
-Now let's select the following columns from our new `ccss_text` data frame:
+Now let's use the `select()` function select the following columns from our new `ccss_text` data frame:
 
 1.  `screen_name` of the user who created the tweet
 2.  `created_at` timestamp for examining changes in sentiment over time
@@ -302,13 +303,19 @@ ccss_tweets <- select(ccss_tweets,
                  text)
 ```
 
-While not explicitly mentioned in the paper, it's likely the authors removed retweets in their query since a retweet is simply a user reposting someone else's tweet and would duplicate the exact same content of the original.
-
 ##### ✅ Comprehension Check
 
-Rewrite our query from the [Using the OR Operator] section and use the `include_rts =` argument to remove any retweets by setting it to `FALSE`. You'll also need to
+For the remainder of the lab, you'll be asked to using your own Twitter data. Complete the following steps before proceeding to the [2b. Tidy Text] section:
 
-Extra credit for using the `%>%` pipe operator for keeping your code succinct.
+1.  Creates new code chunk and write a query based on a STEM area of interest.
+
+2.  Subset your data to remove any unnecessary tweets from analysis.
+
+3.  Assign your search to a new object with an appropriate name.
+
+4.  Output your new dataset using the `datatable()` function from the `DT` package.
+
+Extra credit for using the `%>%` pipe operator and efficient use of arguments to keep your code succinct and using the `<-` assignment operator only once.
 
 You're output should look something like this:
 
@@ -395,47 +402,17 @@ vignette("intro", package="rtweet")
 
 Text data, by it's very nature is ESPECIALLY untidy and sometimes referred to as "unstructured." The `tidytext` package provide functions and supporting data sets to allow conversion of text to and from tidy formats, and to switch seamlessly between tidy tools and existing text mining packages.
 
-In [Chapter 1 of Text Mining with R](https://www.tidytextmining.com/tidytext.html), Silge and Robinson (2018) define the tidy text format as a table with one-token-per-row. A **token** is a meaningful unit of text, such as a word, two-word phrase (bigram), or sentence that we are interested in using for analysis. And **tokenization** is the process of splitting text into tokens.
+As we'll Learn first hand later in this lab, using tidy data principles can make many text mining tasks easier, more effective, and consistent with tools already in wide use. Much of the infrastructure needed for text mining with tidy data frames already exists in `tidyverse` packages with which we've already been introduced.
 
-This one-token-per-row structure is in contrast to the ways text is often stored for text analysis, perhaps as strings in a corpus object or in a document-term matrix. For tidy text mining, the token that is stored in each row is most often a single word, but can also be an n-gram, sentence, or paragraph.
+For a more comprehensive introduction to the `tidytext` package, we cannot recommend enough the free online book, [Text Mining with R: A Tidy Approach](https://www.tidytextmining.com) by Silge and Robinson (2018).
 
-For this part of our workflow, our goal is to transform our `ccss_tweets` data from this:
-
-    ## # A tibble: 6 x 3
-    ##   Role   Resource                             text                              
-    ##   <chr>  <chr>                                <chr>                             
-    ## 1 Teach… Live Webinar                         "levels ofquestioning and revised…
-    ## 2 Teach… Online Learning Module (e.g. Call f… "None, really."                   
-    ## 3 Teach… Online Learning Module (e.g. Call f… "In any of the modules when a tea…
-    ## 4 Teach… Online Learning Module (e.g. Call f… "Understanding the change"        
-    ## 5 Teach… Online Learning Module (e.g. Call f… "overview of reasons for change"  
-    ## 6 Teach… Online Learning Module (e.g. Call f… "online--allowed me to do it on m…
-
-Into a "tidy text" format that looks more like the familiar tibble:
-
-    ## # A tibble: 6 x 3
-    ##   Role    Resource                                                    word      
-    ##   <chr>   <chr>                                                       <chr>     
-    ## 1 Teacher Live Webinar                                                levels    
-    ## 2 Teacher Live Webinar                                                ofquestio…
-    ## 3 Teacher Live Webinar                                                and       
-    ## 4 Teacher Live Webinar                                                revised   
-    ## 5 Teacher Live Webinar                                                blooms    
-    ## 6 Teacher Online Learning Module (e.g. Call for Change, Understandin… none
-
-Later we'll learn about other data structures for text analysis like the document-term matrix and corpus objects. For now, however, working with the familiar tidy data frame allows us to take advantage of popular packages that use the shared tidyverse syntax and principles for wrangling, exploring, and modeling data.
-
-Let's go ahead and load it:
+Let's go ahead and load `tidytext`:
 
 ```{r load-tidytext, message=FALSE}
 library(tidytext)
 ```
 
-As we'll Learn first hand later in this lab, using tidy data principles can make many text mining tasks easier, more effective, and consistent with tools already in wide use. Much of the infrastructure needed for text mining with tidy data frames already exists in `tidyverse` packages with which we've already been introduced.
-
-For a more comprehensive introduction to the `tidytext` package, I cannot recommend enough the free online book, [Text Mining with R: A Tidy Approach](https://www.tidytextmining.com) by Silge and Robinson (2018).
-
-**Attention:** From this point forward, we'll also use a shared dataset constructed with the [Twitter Academic Research product track](https://developer.twitter.com/en/solutions/academic-research/products-for-researchers) that allows for a much greater number of tweets to be accessed over a far greater period of time.
+**Attention:** From this point forward, we'll also use a shared dataset constructed with the [Twitter Academic Research product track](https://developer.twitter.com/en/solutions/academic-research/products-for-researchers) that allows for a much greater number of tweets to be accessed over a far greater period of time. This will also ensure that we're producing similar results so we can check to see if our code is behaving as expected.
 
 Let's use the `readxl` package highlighted in Section 1 and the `read_xlsx()` function to read in the data stored in the data folder of our R project:
 
@@ -445,31 +422,86 @@ ccss_tweets <- read_xlsx("data/csss_tweets.xlsx")
 
 #### Tokenize Text {data-link="2b. Tidy Text"}
 
-The `tidytext` package provides the incredibly powerful `unnest_tokens()` function to tokenize by commonly used units of text (including tweets!) and convert them to a one-token-per-row format.
+In [Chapter 1 of Text Mining with R](https://www.tidytextmining.com/tidytext.html), Silge and Robinson (2018) define the tidy text format as a table with one-token-per-row. A **token** is a meaningful unit of text, such as a word, two-word phrase (bigram), or sentence that we are interested in using for analysis. And **tokenization** is the process of splitting text into tokens.
+
+This one-token-per-row structure is in contrast to the ways text is often stored for text analysis, perhaps as strings in a corpus object or in a document-term matrix. For tidy text mining, the token that is stored in each row is most often a single word, but can also be an n-gram, sentence, or paragraph.
+
+For this part of our workflow, our goal is to transform our `ccss_tweets` data from this:
+
+```{r ccss-table, echo=FALSE}
+ccss_tweets
+```
+
+Into a "tidy text" format that looks more like this familiar tibble data structure:
+
+```{r tweet-tidy, echo=FALSE}
+tidy_tweets <- ccss_tweets %>% 
+  unnest_tokens(output = word, 
+                input = text, 
+                token = "tweets") %>% 
+  anti_join(stop_words,
+            by = "word")
+```
+
+```{r ccss-tibble, echo=FALSE}
+tidy_tweets
+```
+
+Later we'll learn about other data structures for text analysis like the document-term matrix and corpus objects. For now, however, working with the familiar tidy data frame allows us to take advantage of popular packages that use the shared tidyverse syntax and principles for wrangling, exploring, and modeling data.
+
+##### Unigrams
+
+The `tidytext` package provides the incredibly powerful `unnest_tokens()` function to tokenize text (including tweets!) and convert them to a one-token-per-row format.
 
 Let's tokenize our tweets by using this function to split each tweet into a single row to make it easier to analyze:
 
 ```{r}
-tweet_tokens <- unnest_tokens(ccss_tweets, 
-                              output = word, 
-                              input = text, 
-                              token = "tweets")
+ccss_unigrams <- unnest_tokens(ccss_tweets, 
+                               output = word, 
+                               input = text)
 ```
 
-There is A LOT to unpack with this function. First notice that `unnest_tokens` expects a data frame as the first argument, followed by two column names. The first is an output column name that doesn't currently exist but will be created as the text is unnested into it (`word`, in this case). This if followed by the input column that the text comes from which we uncreatively named `text`. Also notice:
+There is A LOT to unpack with this function. First notice that `unnest_tokens()` expects a data frame as the first argument, followed by two column names. The second argument is an output column name that doesn't currently exist but will be created as the text is "unnested" into it (`word`, in this case). This is followed by the input column that the text comes from, which we uncreatively named `text`. Also notice:
 
--   Other columns, such as `Role` and `Resource`, are retained.
+-   By default, a token is an individual word or unigram.
+
+-   Other columns, such as `screen_name` and `created_at`, are retained.
 
 -   All punctuation has been removed.
 
--   Tokens have been changed to lowercase, which makes them easier to compare or combine with other datasets. However, we can use the `to_lower = FALSE` argument to turn off this behavior).
+-   Tokens have been changed to lowercase, which makes them easier to compare or combine with other datasets (use the `to_lower = FALSE` argument to turn off if desired).
 
-Finally, we used the specialized `“tweets”` tokenizer in the `tokens =` argument that is very useful for dealing with Twitter text or other text from online forums in that it retains hashtags and mentions of usernames with the \@ symbol.
+The `unnest_tokens()` function also has specialized `“tweets”` tokenizer in the `tokens =` argument that is very useful for dealing with Twitter text in that it retains hashtags and mentions of usernames with the \@ symbol.
 
+##### ✅ Comprehension Check
+
+Rewrite the code below to include the token argument set to:
+
+```{r token-tweet, eval=FALSE}
+ccss_unigrams <- unnest_tokens(ccss_tweets, 
+                              output = word, 
+                              input = text, 
+                              _____ = _____)
+```
+
+Your output should look something like this:
+
+```{r tweet-tokens, echo=FALSE}
+ccss_unigrams <- unnest_tokens(ccss_tweets, 
+                              output = word, 
+                              input = text, 
+                              token = "tweets")
+
+ccss_unigrams
+```
+
+#####  Bigrams
+
+\
 Before we move any further let's take a quick look at the most common word in our common core dataset:
 
 ```{r}
-tweet_tokens %>%
+ccss_unigrams %>%
   count(word, sort = TRUE) 
 ```
 
@@ -482,21 +514,21 @@ Often in text analysis, we will want to remove these stop words if they are not 
 Let's take a closer the lexicons and stop words included in each:
 
 ```{r}
-DT::datatable(stop_words)
+datatable(stop_words)
 ```
 
 #### The `anti_join` Function
 
-In order to remove these stop words, we will use function called `anti_join()` that looks for matching values in a specific column from two datasets and returns rows from the original dataset that have no matches like so:
+In order to remove these stop words, we will use a function called `anti_join()` that looks for matching values in a specific column from two datasets and returns rows from the original dataset that have no matches like so:
 
 ![](img/anti-join.png)
 
 For a good overview of the different `dplyr` joins see here: <https://medium.com/the-codehub/beginners-guide-to-using-joins-in-r-682fc9b1f119>
 
-Now let's remove stop words like "the" and "a" that don't help us learn much about what people are tweeting about the state standards.
+Now let's remove stop words that don't help us learn much about what people are saying about the state standards.
 
 ```{r}
-tidy_tweets <- anti_join(tweet_tokens,
+tidy_tweets <- anti_join(ccss_unigrams,
                          stop_words,
                          by = "word")
 
@@ -517,7 +549,7 @@ Notice that the nonsense word "amp" is in our top tens words. Let's rewrite our 
 
 ```{r}
 tidy_tweets <-
-  tweet_tokens %>%
+  ccss_unigrams %>%
   anti_join(stop_words, by = "word") %>%
   filter(!word == "amp")
 ```
