@@ -28,9 +28,7 @@ For our first lab on text mining in STEM education, we'll explore this question 
 
 1.  What are the most frequent words or phrases used in reference to tweets about the CCSS?
 
-2.  How does usage of these words and phrases change over time?
-
-3.  What words and hashtags commonly co-occur together, particularly with the word "math"?
+2.  What words and hashtags commonly co-occur together, particularly with the word "math"?
 
 #### Section Objectives
 
@@ -372,7 +370,7 @@ The `rtweet` package also has handy `ts_plot` function built into `rtweet` to ta
 ts_plot(ccss_tweets, by = "days")
 ```
 
-Notice that this effectively creates a `ggplot` time series plot for us. I've included the `by =` argument which by default is set to "days". It looks like tweets go back 9 days which the rate limit set by Twitter.
+Notice that this effectively creates a `ggplot` time series plot for us. I've included the `by =` argument which by default is set to "days". It looks like tweets go back 9 days which is the rate limit set by Twitter.
 
 Try changing it to "hours" and see what happens.
 
@@ -397,6 +395,8 @@ vignette("intro", package="rtweet")
 ```
 
 ### 2b. Tidy Text
+
+#### 📦 The tidytext Package
 
 ![](img/tidytext.png){width="100"}
 
@@ -718,31 +718,6 @@ ggraph(bigram_graph, layout = "fr") +
 
 \
 
-### 3c. Plot Time
-
-1.  Use `ts_plot` with the `group_by` function to compare the number of tweets over time by Next Gen and Common Core `standards`
-2.  Which set of standards is Twitter users talking about the most?
-
-Hint: use the `?ts_plot` help function to check the examples to see how this can be done.
-
-Your line graph should look something like this:
-
-```{r, echo=F}
-ts_plot(ccss_tweets,
-        by = "month")
-```
-
-\
-
-```{r}
-
-tidy_unigrams %>%
-  filter(word == "math") %>%
-  ts_plot("month")
-
-```
-
-\
 \
 
 ```{r}
