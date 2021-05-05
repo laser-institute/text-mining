@@ -6,6 +6,7 @@ output:
   html_document:
     toc: true
     toc_depth: 3
+    toc_float: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -87,6 +88,20 @@ Our (very) specific questions of interest for this walkthrough are:
 And just to reiterate from Unit 1, one overarching question we'll explore throughout this course, and that Silge and Robinson (2018) identify as a central question to text mining and natural language processing, is:
 
 > How do we to **quantify** what a document or collection of documents is about?
+
+```{r}
+library(dplyr)
+library(readr)
+library(tidyr)
+library(rtweet)
+library(writexl)
+library(readxl)
+library(tidytext)
+library(textdata)
+library(ggplot2)
+library(textdata)
+library(scales)
+```
 
 ------------------------------------------------------------------------
 
