@@ -217,7 +217,7 @@ Since one of our goals for this Learning Lab and the next is a very simplistic r
 
 Type or copy the following code into your R Markdown file or console and run:
 
-```{r search-tweets, eval=TRUE}
+```{r search-tweets, eval=FALSE}
 ccss_tweets <- search_tweets(q = "#CommonCore", n=5000)
 ```
 
@@ -238,7 +238,7 @@ Wang and Fikis (2019) collected the tweets containing the hashtags \#CommonCore 
 
 Let's modify our query using the `OR` operator to also include "CCSS" so it will return tweets containing either \#NGSSchat or "ngss" and assign to `ngss_or_tweets`:
 
-```{r or-operator}
+```{r or-operator, eval=FALSE}
 ccss_or_tweets <- search_tweets(q = "#commoncore OR #ccss", n=5000)
 
 ```
@@ -259,7 +259,7 @@ Although Wang and Fikis (2019) limited their query to the two hashtags used abov
 
 Copy and past the following code to store the results of our query in `ngss_tweets`:
 
-```{r}
+```{r, eval=FALSE}
 ccss_tweets <- search_tweets2(c("#commoncore OR #ccss",
                                 '"common core standards"',
                                 '"common core state standards"'), 
@@ -283,7 +283,7 @@ First, it's likely the authors removed retweets from their analysis since a retw
 
 Let's use the `filter()` function introduced in previous labs to subset rows containing only original tweets in the English language:
 
-```{r}
+```{r, eval=FALSE}
 ccss_tweets <- ccss_tweets %>% filter(is_retweet == "False", 
                                       lang == "en")
 ```
@@ -294,7 +294,7 @@ Now let's use the `select()` function select the following columns from our new 
 2.  `created_at` timestamp for examining changes in sentiment over time
 3.  `text` containing the tweet which is our primary data source of interest
 
-```{r select-variables}
+```{r select-variables, eval=FALSE}
 ccss_tweets <- select(ccss_tweets,
                  screen_name, 
                  created_at, 
@@ -317,7 +317,7 @@ Extra credit for using the `%>%` pipe operator and efficient use of arguments to
 
 You're output should look something like this:
 
-```{r retweet-argument, eval=TRUE, echo=FALSE}
+```{r retweet-argument, eval=FALSE, echo=FALSE}
 ccss_tweets <- search_tweets(q = "#commoncore OR #ccss", 
                              n=5000, 
                              include_rts = FALSE,
@@ -348,7 +348,7 @@ For your own research, you may be interest in exploring posts by specific users 
 
 For example, let's create another list containing the usernames of the LASER Institute leads using the `c()` function again and use the `get_timelines()` function to get the most recent tweets from each of those users:
 
-```{r}
+```{r, eval=FALSE}
 fi <- c("sbkellogg", "haspires", "tarheel93", "drcallie_tweets", "AlexDreier")
 
 fi_tweets <- fi %>%
@@ -359,14 +359,14 @@ Notice that you can use the pipe operator with the `rtweet` functions just like 
 
 And let's use the `sample_n()` function from the `dplyr` package to pick 10 random tweets and use `select()` to select and view just the `screenname` and `text` columns that contains the user and the content of their post:
 
-```{r}
+```{r, eval=FALSE}
 sample_n(fi_tweets, 10) %>%
   select(screen_name, text)
 ```
 
 The `rtweet` package also has handy `ts_plot` function built into `rtweet` to take a very quick look at how far back our data set goes:
 
-```{r ts_plot}
+```{r ts_plot, eval=FALSE}
 ts_plot(ccss_tweets, by = "days")
 ```
 
