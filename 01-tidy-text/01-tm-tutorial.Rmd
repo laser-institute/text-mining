@@ -62,7 +62,7 @@ library(writexl)
 library (DT)
 ```
 
-#### The rtweet Package
+#### 📦 The rtweet Package
 
 ![](img/rtweet.jpeg){width="100"}
 
@@ -136,7 +136,7 @@ You are not required to set up developer account for this institute, but if you 
 
     </p>
 
-### 1c. Authorizing RStudio
+### 1c. Authorize RStudio
 
 In order to authorize R to use your Twitter App to retrieve data, you'll need to create a personal Twitter token by completing the following steps:
 
@@ -417,7 +417,11 @@ library(tidytext)
 Let's use the `readxl` package highlighted in Section 1 and the `read_xlsx()` function to read in the data stored in the data folder of our R project:
 
 ```{r}
-ccss_tweets <- read_xlsx("data/csss_tweets.xlsx")
+ccss_tweets <- read_csv("data/ccss-tweets.csv",
+                        col_types = cols(id = col_character(), 
+                                         author_id = col_character()
+                                         )
+                        )
 ```
 
 #### Tokenize Text {data-link="2b. Tidy Text"}
@@ -556,6 +560,8 @@ tidy_unigrams
 
 Notice that we've specified the `by =` argument to look for matching words in the `word` column for both data sets and remove any rows from the `tweet_tokens` dataset that match the `stop_words` dataset. Remember when we first tokenized our dataset I conveniently chose `output = word` as the column name because it matches the column name `word` in the `stop_words` dataset contained in the `tidytext` package. This makes our call to `anti_join()`simpler because `anti_join()` knows to look for the column named `word` in each dataset. However this wasn't really necessary since `word` is the only matching column name in both datasets and it would have matched those columns by default.
 
+#### Filtering Bigrams
+
 As we saw above, a lot of the most common bigrams are pairs of common (uninteresting) words as well. Dealing with these is a little less straightforward and we'll need to use the `separate()` function from the `tidyr` package, which splits a column into multiple based on a delimiter. This lets us separate it into two columns, "word1" and "word2", at which point we can remove cases where either is a stop-word.
 
 ```{r stop-bigrams}
@@ -589,7 +595,7 @@ tidy_bigrams %>%
 Notice that the nonsense word "amp" is among our high frequency words. Let's add a filter to our previous code similar to what we did with our bigrams to remove rows with "amp" in them:
 
 ```{r}
-tidy_tweets <-
+tidy_unigrams <-
   ccss_unigrams %>%
   anti_join(stop_words, by = "word") %>%
   filter(!word == "amp")
@@ -605,22 +611,114 @@ Also, since we created some unnecessarily lengthy code to demonstrate some of th
 
 ## 3. EXPLORE
 
-As highlighted in DSEIUR and Learning Analytics Goes to School, calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. One goal in this phase is explore questions that drove the original analysis and develop new questions and hypotheses to test in later stages.\
-In Section 3, we will calculate some very basic summary statistics from our tidied text, explore key words of interest to gather additional context, and use data visualization to identify patterns and trends that may not be obvious from our tables and numerical summaries. Topics addressed in Section 3 include::
+As highlighted in DSEIUR and Learning Analytics Goes to School, calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. In Section 3, we will calculate some very basic summary statistics from our tidied text, explore key words of interest to gather additional context, and use data visualization to identify patterns and trends that may not be obvious from our tables and numerical summaries. Topics addressed in Section 3 include::
 
 a.  **c**
 
 b.  **Time Series**. We take a quick look at the date range of our tweets and compare number of postings by standards.
 
-### 3a. Word Counts
+### 3a. Count Words
 
-Prior to making any data visualization, we revisit our or overarching question guiding most of our efforts in this course, "How do we **quantify** what a text is about?"
+> People new to text mining are often disillusioned when they figure out how it's actually done --- which is still, in large part, by counting words. They're willing to believe that computers have developed some clever strategy for finding patterns in language --- but think "surely it's something better than *that?*"
 
-In this section, we introduce the following functions:
+The quote above from [Word Counts are Amazing](https://tedunderwood.com/2013/02/20/wordcounts-are-amazing/) by Ted Underwood...
 
-### 3b. Word Pairs
+Recall from the previous section that one overarching question guiding most of our efforts in these text mining labs is: "How do we **quantify** what a text is about?"
 
-### 3c. Time Series
+\
+
+```{r}
+ library(wordcloud2)
+
+tidy_unigrams %>%
+  count(word) %>%
+  filter(n > 200) %>%
+  wordcloud2()
+```
+
+```{r}
+
+tidy_unigrams %>%
+  count(word) %>%
+  filter(n > 500) %>%
+  mutate(word = reorder(word, n)) %>%
+  ggplot(aes(n, word)) +
+  geom_col()
+
+```
+
+\
+
+```{r}
+ccss_tweets %>%
+  select(text) %>% 
+  filter(grepl('math', text)) %>%
+  sample_n(20)
+```
+
+\
+
+```{r}
+
+unigram_counts <- tidy_unigrams %>%
+  count(word) %>%
+  filter(n > 200)
+
+wordcloud2(unigram_counts,
+           color = ifelse(unigram_counts[, 2] > 800, 'black', 'gray'))
+```
+
+\
+
+\
+
+### 3b. Graph Pairs
+
+```{r}
+tidy_bigrams %>%
+  count(bigram, sort = TRUE)
+
+```
+
+\
+
+```{r}
+
+library(igraph)
+library(ggraph)
+library(stringr)
+
+math_bigrams <- ccss_tweets %>%
+  filter(str_detect(text, 'math')) %>%
+  unnest_tokens(bigram, 
+                text, 
+                token = "ngrams", 
+                n = 2)
+
+bigrams_separated <- math_bigrams %>%
+  separate(bigram, c("word1", "word2"), sep = " ")
+
+bigrams_filtered <- bigrams_separated %>%
+  filter(!word1 %in% stop_words$word) %>%
+  filter(!word2 %in% stop_words$word)
+
+bigram_graph <- bigrams_filtered %>% 
+  count(word1, word2, sort = TRUE) %>%
+  filter(n > 10) %>%
+  graph_from_data_frame()
+
+
+set.seed(2017)
+
+ggraph(bigram_graph, layout = "fr") +
+  geom_edge_link(aes(edge_alpha = n)) +
+  geom_node_point() +
+  geom_node_text(aes(label = name), vjust = 1, hjust = 1)
+```
+
+\
+
+### 3c. Plot Time
 
 1.  Use `ts_plot` with the `group_by` function to compare the number of tweets over time by Next Gen and Common Core `standards`
 2.  Which set of standards is Twitter users talking about the most?
@@ -630,8 +728,90 @@ Hint: use the `?ts_plot` help function to check the examples to see how this can
 Your line graph should look something like this:
 
 ```{r, echo=F}
-ccss_tweets %>%
-  ts_plot(by = "hours")
+ts_plot(ccss_tweets,
+        by = "month")
+```
+
+\
+
+```{r}
+
+tidy_unigrams %>%
+  filter(word == "math") %>%
+  ts_plot("month")
+
+```
+
+\
+\
+
+```{r}
+
 ```
 
 ## 4. MODEL
+
+```{r}
+
+library(widyr)
+
+math_unigrams <- ccss_tweets %>%
+  filter(str_detect(text, 'math')) %>%
+  unnest_tokens(word, 
+                text, 
+                token = "tweets")
+
+word_pairs <- math_unigrams %>%
+  pairwise_count(word, id, sort = TRUE)
+```
+
+\
+
+```{r}
+
+word_cors <- math_unigrams %>%
+  group_by(word) %>%
+  filter(n() >= 20) %>%
+  pairwise_cor(word, id, sort = TRUE)
+
+word_cors %>%
+  filter(item1 == "math")
+
+```
+
+\
+
+```{r}
+word_cors <- tidy_unigrams %>%
+  group_by(word) %>%
+  filter(n() >= 50) %>%
+  pairwise_cor(word, id, sort = TRUE)
+```
+
+\
+
+```{r}
+word_cors %>%
+  filter(item1 %in% c("math", "#math")) %>%
+  group_by(item1) %>%
+  slice_max(correlation, n = 6) %>%
+  ungroup() %>%
+  mutate(item2 = reorder(item2, correlation)) %>%
+  ggplot(aes(item2, correlation)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~ item1, scales = "free") +
+  coord_flip()
+```
+
+\
+
+```{r}
+word_cors %>%
+  filter(correlation > .15) %>%
+  graph_from_data_frame() %>%
+  ggraph(layout = "fr") +
+  geom_edge_link(aes(edge_alpha = correlation), show.legend = FALSE) +
+  geom_node_point(color = "lightblue", size = 5) +
+  geom_node_text(aes(label = name), repel = TRUE) +
+  theme_void()
+```
