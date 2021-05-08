@@ -303,9 +303,9 @@ ccss_tweets <- select(ccss_tweets,
 
 ##### ✅ Comprehension Check
 
-For the remainder of the lab, you'll be asked to using your own Twitter data. Complete the following steps before proceeding to the [2b. Tidy Text] section:
+For the remainder of the lab, you'll be asked to use your own Twitter data. Complete the following steps before proceeding to the [2b. Tidy Text] section:
 
-1.  Creates new code chunk and write a query based on a STEM area of interest.
+1.  Create a new code chunk and write a query based on a STEM area of interest.
 
 2.  Subset your data to remove any unnecessary tweets from analysis.
 
@@ -416,7 +416,7 @@ library(tidytext)
 
 Let's use the `readxl` package highlighted in Section 1 and the `read_xlsx()` function to read in the data stored in the data folder of our R project:
 
-```{r}
+```{r import-tweets}
 ccss_tweets <- read_csv("data/ccss-tweets.csv",
                         col_types = cols(id = col_character(), 
                                          author_id = col_character()
