@@ -1,5 +1,5 @@
 ---
-title: "lab-template"
+title: "LASER Lab Template"
 author: "LASER TEAM"
 date: "`r format(Sys.Date(),'%B %e, %Y')`"
 output:
@@ -13,30 +13,68 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## 0. INTRODUCTION
+## 1. PREPARE
 
-Start Lab 1 with by providing a quick but interesting overview of the topic (e.g., text mining) you'll be covering over the next two days along with quick bulleted to the topic that you'll covering the For example:
+Start each lab by providing a brief but engaging overview of the topic (e.g., text mining) that you'll be covering over the next two days.
+
+Follow the overview with a quick bulleted list introducing each lab and what they will cover. For example:
+
+-   **Lab 1: Tidy Text, Tokens, & Twitter**. We take a closer look at the literature and research questions that will be guiding our analysis; importing data through Twitter's developer API; and wrangling our data into a one-token-per-row tidy text format.
+-   **Lab 2: Word Counts, Clouds & Frequencies.** For our second lab, we use simple summary statistics and data visualization to explore our data and see what insight it provides in response to our questions.
+-   **Lab 3: Sentiment Analysis & School Reform**: We focus on the use of lexicons to compare the sentiment of tweets about the [NGSS](https://www.nextgenscience.org/) and [CCSS](http://www.corestandards.org/) state standards in order to better understand public reaction to these two curriculum reform efforts. 
+-   **Lab 4: Topic Models &  -** In our final lab we introduce an approach to identify "topics" by examining how words cohere into different latent themes based on patterns of co-occurrence of words within documents.
+
+For subsequent labs, provide just a brief overview of the primary topics covered specifically by the lab, along with a with a bulleted list introducing primary topics. Lab 4 for text mining for example, would be something like:
+
+1.  **Prepare**: We extend our look at the tidy text workflow and are introduced to the `topicmodels` and `stm` packages for topic modeling.
+2.  **Wrangle**: We revisit tidying and tokenizing text using the `tidytext` package but are also introduced to the the `stm` package. This package makes use of `tm`text mining package to preprocess text and will also be our first introduction to word stemming.
+3.  **Model**: We take a look at two different approaches to topic modeling: Latent Dirichlet Allocation (LDA) and Structural Topic Modeling (STM), which is very similar to LDA but can use metadata about documents to improve the assignment of words to "topics" and examine relationships between topics and covariates. 
+4.  **Explore**: To further explore the results of our topic model, we use several handy functions from including the `findThoughts` function for viewing documents assigned to a given topic and the `toLDAvis` function for exploring topic and word distributions.
+
+### Context
+
+In Lab 1 you may want to introduce LASER scholars to the study or studies that will be guiding your first lab and subsequent labs
 
 \
-For Unit 2, our walkthrough will cover the following topics:
 
--   **Lab 1**: Prior to analysis, it's critical to understand the context and data sources you're working with so you can formulate useful and answerable questions. We'll take a quick look at Dr. Rosenberg's study as well as data available through Twitter's API.
--   **Lab 2**: In section 2 we revisit tidying and tokenizing text from Unit 1, and and learn some new functions for appending sentiment scores to our tweets using the AFFIN, bing, and nrc sentiment lexicons.
--   **Explore**: In section 3, we use simple summary statistics and basic data visualization to compare sentiment between NGSS and CCSS tweets.
--   **Model**: While we won't leverage modeling approaches until Unit 3, we will examine the mixed effects model used by Rosenberg et al. to analyze the sentiment of tweets
--   **Communicate:** Finally, in Week 7 we'll create a basic presentation, report, or other data product for sharing findings and insights from our analysis.
--   
-
-### Guiding Literature
-
-This section introduces LASER scholars to the study or studies that will be guiding your first lab and subsequent labs
-
-\
-
-### Research Questions
+### Questions
 
 This section instructed
 
 \
 
 Text Mining Overview
+
+## 2. WRANGLE
+
+Provide a 1-paragraph or longer overview to your wrangle section along with bullted intro of key topics covered like so:
+
+1.  **Import Data**. In this section, we introduce the `rtweet` package and some key functions to search for tweets or users of interest.
+2.  **Tidy Tweets**. We revisit the `tidytext` package to both "tidy" and tokenize our tweets in order to create our data frame for analysis.
+3.  **Get Sentiments**. We conclude our data wrangling by introducing sentiment lexicons and the `inner_join()` function for appending sentiment values to our data frame.
+
+### 2a. Import Data
+
+#### Subtopic 1
+
+### 2b. Tidy Data
+
+#### Subtopic 1
+
+### 2c. Transform Data
+
+#### Subtopic 1
+
+## 3. EXPLORE
+
+Provide a 1-paragraph or longer overview to your explore section along with bulleted intro of key topics covered like so:
+
+-   **Sentiment Summaries**. We focus primarily on the use of word counts and calculating proportions to to help us identify common words used to describe the most valuable aspects of online professional development offerings.
+
+-   **Word Search**. We learn about the global regular expression parser, or `grep` package in R, to search for key words among our data set.
+
+-   **Data Visualization**. Finally, we wrap up this walkthrough and preview our work for next week by creating wordclouds, bar plots, and small multiple charts to explore patterns and trends that would be difficult to distinguish otherwise.
+
+### 3a. Transform Data
+
+#### Subtopic 1
