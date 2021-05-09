@@ -1,37 +1,21 @@
-## Welcome to GitHub Pages
+## Module 4: Text Mining in Education
 
-You can use the [editor on GitHub](https://github.com/laser-institute/text-mining/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
+The transition to digital learning has made available new sources of data, providing researchers new opportunities for understanding and improving STEM learning. Data sources such as digital learning environments and administrative data systems, as well as data produced by social media websites and the mass digitization of academic and practitioner publications, are enabling researchers to examine detailed information on learning processes, combine data from multiple contexts, and conduct rapid cycles of testing and improvement. While these new data sources hold enormous potential to address a range of pressing problems in STEM Education, collecting and analyzing text-based data presents unique challenges. Fortunately, the widespread availability of text-based data coincides with major advances in the fields of computer science and natural language processing.   
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+The following learning labs in this module provides LASER Scholars with an overview of popular techniques for collecting, processing, and analyzing text-based data—including mining data from application programming interfaces or APIs, topic modeling, text networks, and advanced text classifiers.
 
-### Markdown
+For Lab 1, follow the overview with a quick bulleted list introducing each lab and what they will cover. For example:
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Summer Institute Labs
 
-```markdown
-Syntax highlighted code block
+**Learning Lab 1: Tidy Text, Tokens, & Twitter.** We take a closer look at the literature and research questions that will be guiding our analysis; importing data through Twitter's developer API; and wrangling our data into a one-token-per-row tidy text format.
 
-# Header 1
-## Header 2
-### Header 3
+**Learning Lab 2: Word Counts, Clouds & Correlations.** For our second lab, we use simple summary statistics, data visualization, and word correlations to explore our data and see what insight they provides in response to our questions.
 
-- Bulleted
-- List
+**Learning Lab 3: Sentiment Analysis & School Reform.** We focus on the use of lexicons to compare the sentiment of tweets about the NGSS and CCSS state standards in order to better understand public reaction to these two curriculum reform efforts. 
 
-1. Numbered
-2. List
+### Community of Practice Labs
 
-**Bold** and _Italic_ and `Code` text
+**Learning Lab 5: Screen Scraping & Tea Leaves.** In our final lab we introduce an approach to identify "topics" by examining how words cohere into different latent themes based on patterns of co-occurrence of words within documents.
 
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/laser-institute/text-mining/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+**Learning Lab 6: Topic Models & Tea Leaves.** In our final lab we introduce an approach to identify "topics" by examining how words cohere into different latent themes based on patterns of co-occurrence of words within documents.
