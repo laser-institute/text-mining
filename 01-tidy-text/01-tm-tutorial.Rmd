@@ -413,9 +413,9 @@ For your own research, you may be interest in exploring posts by specific users 
 For example, let's create another list containing the usernames of the LASER Institute leads using the `c()` function again and use the `get_timelines()` function to get the most recent tweets from each of those users:
 
 ```{r, eval=TRUE}
-fi <- c("sbkellogg", "jrosenberg6432", "yanecnu", "robmoore3", "hollylynnester")
+laser <- c("sbkellogg", "jrosenberg6432", "yanecnu", "robmoore3", "hollylynnester")
 
-fi_tweets <- fi %>%
+laser_tweets <- laser %>%
   get_timelines(include_rts=FALSE)
 ```
 
@@ -424,7 +424,7 @@ Notice that you can use the pipe operator with the `rtweet` functions just like 
 And let's use the `sample_n()` function from the `dplyr` package to pick 10 random tweets and use `select()` to select and view just the `screenname` and `text` columns that contains the user and the content of their post:
 
 ```{r, eval=TRUE}
-sample_n(fi_tweets, 10) %>%
+sample_n(laser_tweets, 10) %>%
   select(screen_name, text)
 ```
 
