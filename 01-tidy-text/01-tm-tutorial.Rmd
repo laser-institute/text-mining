@@ -98,7 +98,7 @@ library(writexl)
 library (DT)
 ```
 
-#### 📦 The rtweet Package
+#### rtweet 📦  
 
 ![](img/rtweet.jpeg){width="100"}
 
@@ -262,7 +262,7 @@ ccss_tweets <- search_tweets(q = "#CommonCore", n=5000)
 
 Note that the first argument `q =` that the `search_tweets()` function expects is the search term included in quotation marks and that `n =` specifies the maximum number of tweets to return.
 
-#### ⤵ [Your Turn]{style="color: green;"}  {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
+#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
 
 View your new `ccss_tweets` data frame using the `glimpse()` function introduced previously to help answer the following questions:
 
