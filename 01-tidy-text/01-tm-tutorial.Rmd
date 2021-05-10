@@ -5,7 +5,7 @@ date: "`r format(Sys.Date(),'%B %e, %Y')`"
 output:
   html_document:
     toc: true
-    toc_depth: 3
+    toc_depth: 4
     toc_float: yes
 bibliography: references.bib
 ---
@@ -34,7 +34,7 @@ The Text Mining (TM) Learning Labs will provide LASER Institute scholars hands-o
 
 Text Mining Learning Lab 1 is guided by a recent publication by LASER Institute instructor Josh Rosenberg's recent article, *Advancing new methods for understanding public sentiment about educational reforms: The case of Twitter and the Next Generation Science Standards* (Rosenberg et al., 2021), which in turn is guided by the work of Wang and Fikis (2019) examining public opinion on the Common Core State Standards (CCSS) on Twitter. For Lab 1, we will focus on comparing the sentiment of tweets about the [Next Generation Science Standards](https://www.nextgenscience.org) (NGSS) and [Common Core State Standards](http://www.corestandards.org) (CCSS) in order to better understand key words and phrases that emerge, as well as public sentiment towards these two curriculum reform efforts.
 
-#### **Twitter and the Next Generation Science Standards**
+#### Twitter and the Next Generation Science Standards
 
 ![](img/rosenberg.png){width="30%"}
 
@@ -42,7 +42,7 @@ Text Mining Learning Lab 1 is guided by a recent publication by LASER Institute 
 
 **Abstract**
 
-While the Next Generation Science Standards (NGSS) are a long-standing and widespread standards-based educational reform effort, they have received less public attention, and no studies have explored the sentiment of the views of multiple stakeholders toward them. To establish how public sentiment about this reform might be similar to or different from past efforts, we applied a suite of data science techniques to posts about the standards on Twitter from 2010-2020 (N = 571,378) from 87,719 users. Applying data science techniques to identify teachers and to estimate tweet sentiment, we found that the public sentiment towards the NGSS is overwhelmingly positive---33 times more so than for the CCSS. Mixed effects models indicated that sentiment became more positive over time and that teachers, in particular, showed a more positive sentiment towards the NGSS. We discuss implications for educational reform efforts and the use of data science methods for understanding their implementation.
+While the Next Generation Science Standards (NGSS) are a long-standing and widespread standards-based educational reform effort, they have received less public attention, and no studies have explored the sentiment of the views of multiple stakeholders toward them. To establish how public sentiment about this reform might be similar to or different from past efforts, we applied a suite of data science techniques to posts about the standards on Twitter from 2010-2020 (N = 571,378) from 87,719 users. Applying data science techniques to identify teachers and to estimate tweet sentiment, we found that the public sentiment towards the NGSS is overwhelmingly positive -- 33 times more so than for the CCSS. Mixed effects models indicated that sentiment became more positive over time and that teachers, in particular, showed a more positive sentiment towards the NGSS. We discuss implications for educational reform efforts and the use of data science methods for understanding their implementation.
 
 **Data Source & Analysis**
 
@@ -50,7 +50,7 @@ Similar to what we'll be learning in this lab, Rosenberg et al. used publicly ac
 
 Unlike this learning lab, however, the authors determined Tweet sentiment using the Java version of SentiStrength to assign tweets to two 5-point scales of sentiment, one for positivity and one for negativity, because SentiStrength is a validated measure for sentiment in short informal texts (Thelwall et al., 2011). In addition, they used this tool because Wang and Fikis (2019) used it to explore the sentiment of CCSS-related posts. We'll be using the AFINN sentiment lexicon which also assigns words in a tweet to two 5-point scales, in addition to exploring some other sentiment lexicons to see if they produce similar results.
 
-Note that the authors also used the `lme4` package in R to run a mixed effects model to determine if sentiment changes over time and differs between teachers and non-teacher. We will not attempt replicated that aspect of the analysis, but if you are interested in a guided walkthrough of how modeling can be used to understand changes in Twitter word use, see [Chapter 7 of Text Mining with R](https://www.tidytextmining.com/twitter.html#changes-in-word-use).
+The authors also used the `lme4` package in R to run a mixed effects model to determine if sentiment changes over time and differs between teachers and non-teacher.
 
 **Summary of Key Findings**
 
@@ -59,7 +59,7 @@ Note that the authors also used the `lme4` package in R to run a mixed effects m
 3.  Differences between the context of the tweets were small, but those that did not include the \#NGSSchat hashtag became more positive over time than those posts that did not include the hashtag.
 4.  Individuals posted more tweets during \#NGSSchat chats, the sentiment of their posts was more positive, suggesting that while the context of individual tweets has a small effect (with posts not including the hashtag becoming more positive over time), the effect upon individuals of being involved in the \#NGSSchat was positive.
 
-Finally, you can watch Dr. Rosenberg provide a quick 3-minute overview of this work at [<https://stanford.app.box.com/s/i5ixkj2b8dyy8q5j9o5ww4nafznb497x>](https://stanford.app.box.com/s/i5ixkj2b8dyy8q5j9o5ww4nafznb497x){.uri}
+Finally, you can watch Dr. Rosenberg provide a quick 3-minute overview of this work at [\<https://stanford.app.box.com/s/i5ixkj2b8dyy8q5j9o5ww4nafznb497x\>](https://stanford.app.box.com/s/i5ixkj2b8dyy8q5j9o5ww4nafznb497x){.uri}
 
 ### 1b. Define Questions
 
@@ -82,7 +82,7 @@ For our first lab on text mining in STEM education, we'll use some approaches si
 3.  What is the public sentiment expressed toward the CCSS and NGSS?
 4.  How does sentiment for NGSS compare to sentiment for CCSS?
 
-### 1c. Prepare the Environment
+### 1c. Prepare Environment
 
 #### Load Packages
 
@@ -219,7 +219,7 @@ If you are interested in viewing an alternate authentication method, you can vie
 vignette("auth")
 ```
 
-#### Authorization in future R sessions
+#### Check Authorization
 
 The `create_token()` function should automatically save your token as an environment variable for you. So next time you start an R session [on the same machine], rtweet should automatically find your token.
 
@@ -437,7 +437,7 @@ vignette("intro", package="rtweet")
 
 Text data, by it's very nature is ESPECIALLY untidy and sometimes referred to as "unstructured." In this section we're introduced to the `tidytext` package and will learn some new functions to convert text to and from tidy formats, which will allow us to switch seamlessly between tidy tools and existing text mining packages.
 
-####  📦 tidytext 
+#### 📦 tidytext
 
 ![](img/tidytext.png){width="100"}
 
@@ -647,185 +647,3 @@ Note that we could extend this filter to weed out any additional words that don'
 Tidy your `my_tweets` dataset from the [✅ Comprehension Check](#comprehension-check-7) in Section 2a by tokenizing your text into unigrams and removing stop words.
 
 Also, since we created some unnecessarily lengthy code to demonstrate some of the steps in the tidying process, try to use a more compact series of functions and assign your data frame to `my_tidy_tweets`.
-
-## 3. EXPLORE
-
-As highlighted in DSEIUR and Learning Analytics Goes to School, calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. In Section 3, we will calculate some very basic summary statistics from our tidied text, explore key words of interest to gather additional context, and use data visualization to identify patterns and trends that may not be obvious from our tables and numerical summaries. Topics addressed in Section 3 include::
-
-a.  **c**
-
-b.  **Time Series**. We take a quick look at the date range of our tweets and compare number of postings by standards.
-
-### 3a. Count Words
-
-> People new to text mining are often disillusioned when they figure out how it's actually done --- which is still, in large part, by counting words. They're willing to believe that computers have developed some clever strategy for finding patterns in language --- but think "surely it's something better than *that?*"
-
-The quote above from [Word Counts are Amazing](https://tedunderwood.com/2013/02/20/wordcounts-are-amazing/) by Ted Underwood...
-
-Recall from the previous section that one overarching question guiding most of our efforts in these text mining labs is: "How do we **quantify** what a text is about?"
-
-\
-
-```{r}
- library(wordcloud2)
-
-tidy_unigrams %>%
-  count(word) %>%
-  filter(n > 200) %>%
-  wordcloud2()
-```
-
-```{r}
-
-tidy_unigrams %>%
-  count(word) %>%
-  filter(n > 500) %>%
-  mutate(word = reorder(word, n)) %>%
-  ggplot(aes(n, word)) +
-  geom_col()
-
-```
-
-\
-
-```{r}
-ccss_tweets %>%
-  select(text) %>% 
-  filter(grepl('math', text)) %>%
-  sample_n(20)
-```
-
-\
-
-```{r}
-
-unigram_counts <- tidy_unigrams %>%
-  count(word) %>%
-  filter(n > 200)
-
-wordcloud2(unigram_counts,
-           color = ifelse(unigram_counts[, 2] > 800, 'black', 'gray'))
-```
-
-\
-
-\
-
-### 3b. Graph Pairs
-
-```{r}
-tidy_bigrams %>%
-  count(bigram, sort = TRUE)
-
-```
-
-\
-
-```{r}
-
-library(igraph)
-library(ggraph)
-library(stringr)
-
-math_bigrams <- ccss_tweets %>%
-  filter(str_detect(text, 'math')) %>%
-  unnest_tokens(bigram, 
-                text, 
-                token = "ngrams", 
-                n = 2)
-
-bigrams_separated <- math_bigrams %>%
-  separate(bigram, c("word1", "word2"), sep = " ")
-
-bigrams_filtered <- bigrams_separated %>%
-  filter(!word1 %in% stop_words$word) %>%
-  filter(!word2 %in% stop_words$word)
-
-bigram_graph <- bigrams_filtered %>% 
-  count(word1, word2, sort = TRUE) %>%
-  filter(n > 10) %>%
-  graph_from_data_frame()
-
-
-set.seed(2017)
-
-ggraph(bigram_graph, layout = "fr") +
-  geom_edge_link(aes(edge_alpha = n)) +
-  geom_node_point() +
-  geom_node_text(aes(label = name), vjust = 1, hjust = 1)
-```
-
-\
-
-\
-
-```{r}
-
-```
-
-## 4. MODEL
-
-```{r}
-
-library(widyr)
-
-math_unigrams <- ccss_tweets %>%
-  filter(str_detect(text, 'math')) %>%
-  unnest_tokens(word, 
-                text, 
-                token = "tweets")
-
-word_pairs <- math_unigrams %>%
-  pairwise_count(word, id, sort = TRUE)
-```
-
-\
-
-```{r}
-
-word_cors <- math_unigrams %>%
-  group_by(word) %>%
-  filter(n() >= 20) %>%
-  pairwise_cor(word, id, sort = TRUE)
-
-word_cors %>%
-  filter(item1 == "math")
-
-```
-
-\
-
-```{r}
-word_cors <- tidy_unigrams %>%
-  group_by(word) %>%
-  filter(n() >= 50) %>%
-  pairwise_cor(word, id, sort = TRUE)
-```
-
-\
-
-```{r}
-word_cors %>%
-  filter(item1 %in% c("math", "#math")) %>%
-  group_by(item1) %>%
-  slice_max(correlation, n = 6) %>%
-  ungroup() %>%
-  mutate(item2 = reorder(item2, correlation)) %>%
-  ggplot(aes(item2, correlation)) +
-  geom_bar(stat = "identity") +
-  facet_wrap(~ item1, scales = "free") +
-  coord_flip()
-```
-
-\
-
-```{r}
-word_cors %>%
-  filter(correlation > .15) %>%
-  graph_from_data_frame() %>%
-  ggraph(layout = "fr") +
-  geom_edge_link(aes(edge_alpha = correlation), show.legend = FALSE) +
-  geom_node_point(color = "lightblue", size = 5) +
-  geom_node_text(aes(label = name), repel = TRUE) +
-  theme_void()
-```
