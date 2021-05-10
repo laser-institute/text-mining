@@ -20,9 +20,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The transition to digital learning has made available new sources of data, providing researchers new opportunities for understanding and improving STEM learning. Data sources such as digital learning environments and administrative data systems, as well as data produced by social media websites and the mass digitization of academic and practitioner publications, hold enormous potential to address a range of pressing problems in STEM Education, but collecting and analyzing text-based data also presents unique challenges.
 
-The Text Mining (TM) Learning Labs will provide LASER Institute scholars hands-on experience with popular techniques for collecting, processing, and analyzing text-based data---including mining data from application programming interfaces or APIs, screen-scraping, sentiment analysis, topic modeling, text classification and more.
-
-Our first lab is guided by a recent publication by LASER Institute presenter Josh Rosenberg's recent article, *Advancing new methods for understanding public sentiment about educational reforms* (Rosenberg et al., 2021), and is divided into the following four parts:
+The Text Mining (TM) Learning Labs will provide LASER Institute scholars hands-on experience with popular techniques for collecting, processing, and analyzing text-based data---including mining data from application programming interfaces or APIs, screen-scraping, sentiment analysis, topic modeling, text classification and more. Our first lab is divided into the following four parts:
 
 **Part 1: Tidy Text, Tokens, & Twitter.** We take a closer look at the literature and research questions that will be guiding our analysis; importing data through Twitter's developer API; and wrangling our data into a one-token-per-row tidy text format.
 
@@ -32,9 +30,9 @@ Our first lab is guided by a recent publication by LASER Institute presenter Jos
 
 **Part 4: Select, Polish, & Narrate.** We wrap our look at public sentiment around STEM state curriculum standards by selecting an analysis that provides some unique insight; refining or polishing a data product, such as a graph or table in static or interactive form; and writing a brief narrative explaining the ways in which the data product helps answer the research question.
 
-### 1a. Some Context
+### 1a. Understand the Context
 
-This week, our walkthrough is guided by my colleague Josh Rosenberg's recent article, **Advancing new methods for understanding public sentiment about educational reforms: The case of Twitter and the Next Generation Science Standards.** We will focus on conducting a very simplistic "replication study" by comparing the sentiment of tweets about the [Next Generation Science Standards](https://www.nextgenscience.org) (NGSS) and [Common Core State Standards](http://www.corestandards.org) (CCSS) in order to better understand public reaction to these two curriculum reform efforts. I highly recommend you watch the quick 3-minute overview of this work at <https://stanford.app.box.com/s/i5ixkj2b8dyy8q5j9o5ww4nafznb497x>
+Text Mining Learning Lab 1 is guided by a recent publication by LASER Institute instructor Josh Rosenberg's recent article, *Advancing new methods for understanding public sentiment about educational reforms: The case of Twitter and the Next Generation Science Standards* (Rosenberg et al., 2021), which in turn is guided by the work of Wang and Fikis (2019) examining public opinion on the Common Core State Standards (CCSS) on Twitter. For Lab 1, we will focus on comparing the sentiment of tweets about the [Next Generation Science Standards](https://www.nextgenscience.org) (NGSS) and [Common Core State Standards](http://www.corestandards.org) (CCSS) in order to better understand key words and phrases that emerge, as well as public sentiment towards these two curriculum reform efforts.
 
 #### **Twitter and the Next Generation Science Standards**
 
@@ -48,9 +46,9 @@ While the Next Generation Science Standards (NGSS) are a long-standing and wides
 
 **Data Source & Analysis**
 
-Similar to what we'll be learning in this walkthrough, Rosenberg et al. used publicly accessible data from Twitter collected using the Full-Archive Twitter API and the `rtweet` package in R. Specifically, the authors accessed tweets and user information from the hashtag-based \#NGSSchat online community, all tweets that included any of the following phrases, with "/" indicating an additional phrase featuring the respective plural form: "ngss", "next generation science standard/s", "next gen science standard/s".
+Similar to what we'll be learning in this lab, Rosenberg et al. used publicly accessible data from Twitter collected using the Full-Archive Twitter API and the `rtweet` package in R. Specifically, the authors accessed tweets and user information from the hashtag-based \#NGSSchat online community, all tweets that included any of the following phrases, with "/" indicating an additional phrase featuring the respective plural form: "ngss", "next generation science standard/s", "next gen science standard/s".
 
-Unlike this walkthrough, however, the authors determined Tweet sentiment using the Java version of SentiStrength to assign tweets to two 5-point scales of sentiment, one for positivity and one for negativity, because SentiStrength is a validated measure for sentiment in short informal texts (Thelwall et al., 2011). In addition, we used this tool because Wang and Fikis (2019) used it to explore the sentiment of CCSS-related posts. We'll be using the AFINN sentiment lexicon which also assigns words in a tweet to two 5-point scales, in addition to explore some other sentiment lexicons.
+Unlike this learning lab, however, the authors determined Tweet sentiment using the Java version of SentiStrength to assign tweets to two 5-point scales of sentiment, one for positivity and one for negativity, because SentiStrength is a validated measure for sentiment in short informal texts (Thelwall et al., 2011). In addition, they used this tool because Wang and Fikis (2019) used it to explore the sentiment of CCSS-related posts. We'll be using the AFINN sentiment lexicon which also assigns words in a tweet to two 5-point scales, in addition to exploring some other sentiment lexicons to see if they produce similar results.
 
 Note that the authors also used the `lme4` package in R to run a mixed effects model to determine if sentiment changes over time and differs between teachers and non-teacher. We will not attempt replicated that aspect of the analysis, but if you are interested in a guided walkthrough of how modeling can be used to understand changes in Twitter word use, see [Chapter 7 of Text Mining with R](https://www.tidytextmining.com/twitter.html#changes-in-word-use).
 
@@ -61,9 +59,15 @@ Note that the authors also used the `lme4` package in R to run a mixed effects m
 3.  Differences between the context of the tweets were small, but those that did not include the \#NGSSchat hashtag became more positive over time than those posts that did not include the hashtag.
 4.  Individuals posted more tweets during \#NGSSchat chats, the sentiment of their posts was more positive, suggesting that while the context of individual tweets has a small effect (with posts not including the hashtag becoming more positive over time), the effect upon individuals of being involved in the \#NGSSchat was positive.
 
+Finally, you can watch Dr. Rosenberg provide a quick 3-minute overview of this work at [<https://stanford.app.box.com/s/i5ixkj2b8dyy8q5j9o5ww4nafznb497x>](https://stanford.app.box.com/s/i5ixkj2b8dyy8q5j9o5ww4nafznb497x){.uri}
+
 ### 1b. Define Questions
 
-The Rosenberg et al. study was guided by the following five research questions:
+One overarching question that Silge and Robinson (2018) identify as a central question to text mining and natural language processing, and that we'll explore throughout the text mining labs this year, is the question:
+
+> How do we to **quantify** what a document or collection of documents is about?
+
+The questions guiding the Rosenberg et al. study attempt to quantify public sentiment around the NGSS and how that sentiment changes over time. Specifically, they asked:
 
 1.  What is the public sentiment expressed toward the NGSS?
 2.  How does sentiment for teachers differ from non-teachers?
@@ -71,46 +75,16 @@ The Rosenberg et al. study was guided by the following five research questions:
 4.  How does participation in \#NGSSchat relate to the public sentiment individuals express?
 5.  How does public sentiment vary over time?
 
-For this walkthrough, we'll use a similar approach used by the authors to guage public sentiment around the NGSS, by compare how much more positive or negative NGSS tweets are relative to CSSS tweets.
+For our first lab on text mining in STEM education, we'll use some approaches similar to those used by the authors cited above to better understand public discourse surrounding these standards, particularly as they relate to math education. We will also try to guage public sentiment around the NGSS, by comparing how much more positive or negative NGSS tweets are relative to CSSS tweets. Specifically, in this lab we'll be attempting to answer the following questions:
 
-Our (very) specific questions of interest for this walkthrough are:
+1.  What are the most frequent words or phrases used in reference to tweets about the CCSS and NGSS?
+2.  What words and hashtags commonly co-occur together?
+3.  What is the public sentiment expressed toward the CCSS and NGSS?
+4.  How does sentiment for NGSS compare to sentiment for CCSS?
 
-1.  What is the public sentiment expressed toward the NGSS?
-2.  How does sentiment for NGSS compare to sentiment for CCSS?
+### 1c. Prepare the Environment
 
-And just to reiterate from Unit 1, one overarching question we'll explore throughout this course, and that Silge and Robinson (2018) identify as a central question to text mining and natural language processing, is:
-
-> How do we to **quantify** what a document or collection of documents is about?
-
-#### Research Questions
-
-Recall from our presentation that one central question to text mining and natural language processing is:
-
-> How do we to **quantify** what a document or collection of documents is about?
-
-For our first lab on text mining in STEM education, we'll explore this question by examining a corpus, or collection, of public posts on Twitter about the Common Core State Standards (CCSS) to better understand public discourse surrounding these standards, particularly as they relate to math education. Specifically, in this lab we'll be applying some basic text mining techniques to address the following questions:
-
-1.  What are the most frequent words or phrases used in reference to tweets about the CCSS?
-
-2.  What words and hashtags commonly co-occur together, particularly with the word "math"?
-
-#### Section Objectives
-
-To help us better understand the packages, Twitter API tools, and data we'll use during this lab to address these questions, in this section we'll learn to:
-
-a.  **Load Packages** for tidy text mining and using Twitter APIs
-
-b.  **Create a Twitter App** to obtain [authentication](https://developer.twitter.com/en/docs/authentication) credentials, also known as keys and tokens
-
-c.  **Authorize RStudio** to use your app for retrieving data from Twitter
-
-#### Exercise RMarkdown File
-
-Instructions for accessing practice file and completing lab...
-
-### 1c. Load Packages
-
-#### Prior Packages
+#### Load Packages
 
 Let's begin by loading some familiar packages from previous Learning Labs that we'll be using for data wrangling and exploration :
 
@@ -142,13 +116,13 @@ Let's load the `rtweet` package which we'll be using later in this lab to accomp
 library(rtweet)
 ```
 
-### 1b. Create a Twitter App
+#### Create a Twitter App
 
-Before you can begin pulling tweets into R, you'll first need to create a Twitter App in your developer account. This section and the section that follows, are borrowed largely from the `rtweet` package by Michael Kearney, and requires that you have set up a Twitter developer account.
+Before you can begin pulling tweets into R, you'll first need to create a Twitter App in your developer account. This section is borrowed largely from the `rtweet` package by Michael Kearney, and requires that you have set up a Twitter developer account.
 
 You are not required to set up developer account for this institute, but if you are still interested in creating one, [these instructions](https://dev.to/sumedhpatkar/beginners-guide-how-to-apply-for-a-twitter-developer-account-1kh7) succinctly outline the process and you can set one up in about 10 minutes. We have provided the data we'll be using for the Wrangling and Explore parts of the lab on our [GitHub repository](https://github.com/sbkellogg/eci-588/tree/main/unit-2/data) and you can skip to section [2b. Tidy Text] if you are not interested in or unable to set up a Twitter developer account.
 
-#### Steps for Creating your Twitter App
+Follow the steps below to set up your app:
 
 1.  Navigate to [developer.twitter.com/en/apps](https://developer.twitter.com/en/apps/), click the blue button that says, `Create a New App`, and then complete the form with the following fields:
 
@@ -198,13 +172,13 @@ You are not required to set up developer account for this institute, but if you 
 
     </p>
 
-### 1c. Authorize RStudio
+#### Authorize RStudio
 
 In order to authorize R to use your Twitter App to retrieve data, you'll need to create a personal Twitter token by completing the following steps:
 
--   Navigate to [developer.twitter.com/en/apps](https://developer.twitter.com/en/apps) and select your Twitter app
--   Click the tab labeled `Keys and tokens` to retrieve your keys.
--   Locate the `Consumer API keys` (aka "API Secret").
+5.  Navigate to [developer.twitter.com/en/apps](https://developer.twitter.com/en/apps) and select your Twitter app
+6.  Click the tab labeled `Keys and tokens` to retrieve your keys.
+7.  Locate the `Consumer API keys` (aka "API Secret").
 
 <p align="center">
 
@@ -212,7 +186,7 @@ In order to authorize R to use your Twitter App to retrieve data, you'll need to
 
 </p>
 
--   Scroll down to `Access token & access token secret` and click `Create`
+8.  Scroll down to `Access token & access token secret` and click `Create`
 
 <p align="center">
 
@@ -220,7 +194,7 @@ In order to authorize R to use your Twitter App to retrieve data, you'll need to
 
 </p>
 
--   Copy and paste the four keys (along with the name of your app) into an R Markdown file file and pass them along to `create_token()`. Note, these keys are named secret for a reason. I recommend setting up your token in a separate R Markdown file than the one that you will eventually share.
+9.  Copy and paste the four keys (along with the name of your app) into an R Markdown file file and pass them along to `create_token()`. Note, these keys are named secret for a reason. I recommend setting up your token in a separate R Markdown file than the one that you will eventually share.
 
 ```{r api-keys, eval=FALSE}
 ## store api keys (these are fake example values; replace with your own keys)
@@ -247,8 +221,9 @@ vignette("auth")
 
 #### Authorization in future R sessions
 
--   The `create_token()` function should automatically save your token as an environment variable for you. So next time you start an R session [on the same machine], rtweet should automatically find your token.
--   To make sure it works, restart your R session, run the following code, and again check to make sure the app name and `api_key` match.
+The `create_token()` function should automatically save your token as an environment variable for you. So next time you start an R session [on the same machine], rtweet should automatically find your token.
+
+10. To make sure it works, restart your R session, run the following code, and again check to make sure the app name and `api_key` match.
 
 ```{r get-token}
 ## check to see if the token is loaded
@@ -277,7 +252,7 @@ This section introduces the following functions from the `rtweet` package for re
 
 #### Search Tweets
 
-Since one of our goals for this Learning Lab and the next is a very simplistic replication of the studies by Wang and Fikis (2019), let's begin by introducing the `search_tweets()` function to try reading into R 5,000 tweets containing the CommonCore hashtag and store as a new data frame called `ccss_tweets`.
+Since one of our goals for this Learning Lab and the next is a very simplistic replication of the studies by Wang and Fikis (2019) , let's begin by introducing the `search_tweets()` function to try reading into R 5,000 tweets containing the CommonCore hashtag and store as a new data frame called `ccss_tweets`.
 
 Type or copy the following code into your R Markdown file or console and run:
 
@@ -287,7 +262,7 @@ ccss_tweets <- search_tweets(q = "#CommonCore", n=5000)
 
 Note that the first argument `q =` that the `search_tweets()` function expects is the search term included in quotation marks and that `n =` specifies the maximum number of tweets to return.
 
-##### ✅ Comprehension Check
+#### ⤵ [Your Turn]{style="color: green;"}  {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
 
 View your new `ccss_tweets` data frame using the `glimpse()` function introduced previously to help answer the following questions:
 
@@ -460,11 +435,11 @@ vignette("intro", package="rtweet")
 
 ### 2b. Tidy Text
 
-#### 📦 The tidytext Package
+Text data, by it's very nature is ESPECIALLY untidy and sometimes referred to as "unstructured." In this section we're introduced to the `tidytext` package and will learn some new functions to convert text to and from tidy formats, which will allow us to switch seamlessly between tidy tools and existing text mining packages.
+
+####  📦 tidytext 
 
 ![](img/tidytext.png){width="100"}
-
-Text data, by it's very nature is ESPECIALLY untidy and sometimes referred to as "unstructured." The `tidytext` package provide functions and supporting data sets to allow conversion of text to and from tidy formats, and to switch seamlessly between tidy tools and existing text mining packages.
 
 As we'll Learn first hand later in this lab, using tidy data principles can make many text mining tasks easier, more effective, and consistent with tools already in wide use. Much of the infrastructure needed for text mining with tidy data frames already exists in `tidyverse` packages with which we've already been introduced.
 
