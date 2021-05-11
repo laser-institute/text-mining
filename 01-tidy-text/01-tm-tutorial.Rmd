@@ -251,7 +251,7 @@ Since one of our goals for this Learning Lab is a simplistic replication of the 
 Type or copy the following code into your R script or console and run:
 
 ```{r}
-ngss_all_tweets <- search_tweets(q = "#NGSSchat", n=5000)
+ngss_tweets_q1 <- search_tweets(q = "#NGSSchat", n=5000)
 ```
 
 Note that the first argument `q =` that the `search_tweets()` function expects is the search term included in quotation marks and that `n =` specifies the maximum number of tweets
@@ -272,8 +272,7 @@ If you recall from the previous section, the authors accessed tweets and user in
 Let's modify our query using the `OR` operator to also include "ngss" so it will return tweets containing either \#NGSSchat or "ngss" and assign to `ngss_or_tweets`:
 
 ```{r}
-ngss_or_tweets <- search_tweets(q = "#NGSSchat OR ngss", 
-                                n=5000)
+ngss_tweets_q2 <- search_tweets(q = "#NGSSchat OR ngss")
 ```
 
 ##### [Your Turn]{style="color: green;"} ⤵
@@ -295,23 +294,38 @@ The `rtweets` package has an additional `search_tweets2()` function for using mu
 Copy and past the following code to store the results of our query in `ngss_tweets`:
 
 ```{r}
-ngss_tweets <- search_tweets2(c("#NGSSchat OR ngss",
-                                '"next generation science standard"',
-                                '"next generation science standards"',
-                                '"next gen science standard"',
-                                '"next gen science standards"'
-                                   ), 
-                             n=5000,
-                             include_rts = FALSE)
+ngss_tweets_q3 <- search_tweets2(c("#NGSSchat OR ngss",
+                                   '"next generation science standard"'))
 ```
 
-Notice the unique syntax required for the query argument. For example, when "OR" is entered between search terms, `query = "#NGSSchat OR ngss"`, Twitter's REST API should return any tweet that contains either "\#NGSSchat" or "ngss." It is also possible to search for exact phrases using double quotes. To do this, either wrap single quotes around a search query using double quotes, e.g., `q = '"next generation science standards"'` as we did above, or escape each internal double quote with a single backslash, e.g., `q = "\"next generation science standards\""`.
+Notice the unique syntax required for the query argument. For example, when "OR" is entered between search terms, `query = "#NGSSchat OR ngss"`, Twitter's REST API should return any tweet that contains either "\#NGSSchat" or "ngss." It is also possible to search for exact phrases using double quotes. To do this, either wrap single quotes around a search query using double quotes, e.g., `q = '"next generation science standard"'` as we did above, or escape each internal double quote with a single backslash, e.g., `q = "\"next generation science standard\""`.
+
+#### Our First Dictionary
+
+We still have a few queries to add in order to replicate the approach by Rosenberg et al, but dealing with that many queries inside a single function is a bit tedious. Let's go ahead and create our very first "dictionary" --- we'll learn more about dictionary-based approaches in Part 3 --- for identifying tweets related to the NGSS standards, and then pass that dictionary to the `q =` query argument to pull related tweets:
+
+To do so, we'll need to add some additional search terms to our list. Run the following code in your console
+
+```{r}
+ngss_dictionary <- c("#NGSSchat OR ngss",
+                     '"next generation science standard"',
+                     '"next generation science standards"',
+                     '"next gen science standard"',
+                     '"next gen science standards"')
+
+ngss_tweets_q4 <- search_tweets2(ngss_dictionary,
+                              n=5000)
+```
 
 To learn more about constructing search terms using the query argument, enter `?search_tweets` in your console and review the documentation for the `q=` argument.
 
-#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
+##### [Your Turn]{style="color: green;"} ⤵
 
-1.  Use the `search_tweets` function to create you own custom query for a twitter hashtag or topic(s) of interest.
+1.  Create a new code chunk and write a query based on a STEM area of interest.
+
+2.  Assign your search to a new object called `my_tweets` or something appropriate.
+
+3.  Output your new dataset using the `datatable()` function from the `DT` package and take a quick look.
 
 #### Subset Tweets
 
@@ -322,8 +336,8 @@ First, it's likely the authors removed retweets from their analysis since a retw
 Let's use the `filter()` function introduced in previous labs to subset rows containing only original tweets in the English language:
 
 ```{r, eval=TRUE}
-ccss_tweets <- ccss_tweets %>% filter(is_retweet == "False", 
-                                      lang == "en")
+ngss_tweets <- ngss_tweets_q4 %>% filter(is_retweet == "False", 
+                                         lang == "en")
 ```
 
 Now let's use the `select()` function select the following columns from our new `ccss_text` data frame:
@@ -339,18 +353,6 @@ ccss_tweets <- select(ccss_tweets,
                  text)
 ```
 
-#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
-
-For the remainder of the lab, you'll be asked to use your own Twitter data. Complete the following steps before proceeding to the [2b. Tidy Text] section:
-
-1.  Create a new code chunk and write a query based on a STEM area of interest.
-
-2.  Subset your data to remove any unnecessary tweets from analysis.
-
-3.  Assign your search to a new object called `my_tweets`.
-
-4.  Output your new dataset using the `datatable()` function from the `DT` package and take a quick look.
-
 Extra credit for using the `%>%` pipe operator and efficient use of arguments to keep your code succinct and using the `<-` assignment operator only once.
 
 You're output should look something like this:
@@ -365,6 +367,31 @@ ccss_tweets <- search_tweets(q = "#commoncore OR #ccss",
 
 datatable(ccss_tweets)
 ```
+
+To do so, we'll need to add some additional search terms to our list:
+
+```{r}
+ngss_dictionary <- c("#NGSSchat OR ngss",
+                     '"next generation science standard"',
+                     '"next generation science standards"',
+                     '"next gen science standard"',
+                     '"next gen science standards"')
+
+ngss_tweets <- search_tweets2(ngss_dictionary,
+                              n=5000,
+                              include_rts = FALSE)
+```
+
+Now let's create a dictionary for the Common Core State Standards and pass that to our `search_tweets()` function to get the most recent tweets:
+
+```{r}
+ccss_dictionary <- c("#commoncore", '"common core"')
+
+ccss_tweets <- ccss_dictionary %>% 
+  search_tweets2(n=5000, include_rts = FALSE)
+```
+
+Notice that you can use the pipe operator with the `search_tweets()` function just like you would other functions from the tidyverse.
 
 #### Write to Excel File
 
@@ -436,7 +463,7 @@ vignette("intro", package="rtweet")
 
 Text data, by it's very nature is ESPECIALLY untidy and sometimes referred to as "unstructured." In this section we're introduced to the `tidytext` package and will learn some new functions to convert text to and from tidy formats, which will allow us to switch seamlessly between tidy tools and existing text mining packages.
 
-#### tidytext 📦 
+#### tidytext 📦
 
 ![](img/tidytext.png){width="100"}
 
