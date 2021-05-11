@@ -13,13 +13,9 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## 0. INTRODUCTION
+## 1. PREPARE
 
-This week, our walkthrough is guided by my colleague Josh Rosenberg's recent article, **Advancing new methods for understanding public sentiment about educational reforms: The case of Twitter and the Next Generation Science Standards.** We will focus on conducting a very simplistic "replication study" by comparing the sentiment of tweets about the [Next Generation Science Standards](https://www.nextgenscience.org) (NGSS) and [Common Core State Standards](http://www.corestandards.org) (CCSS) in order to better understand public reaction to these two curriculum reform efforts. I highly recommend you watch the quick 3-minute overview of this work at <https://stanford.app.box.com/s/i5ixkj2b8dyy8q5j9o5ww4nafznb497x>
-
-### Walkthrough Focus
-
-For Unit 2, our focus will be on using the Twitter API to import data on topics or tweets of interest and using sentiment lexicons to help gauge public opinion about those topics or tweets. Silge & Robinson nicely illustrate the tools of text mining to approach the emotional content of text programmatically, in the following diagram:
+For Part 2, our focus will be on using the Twitter API to import data on topics or tweets of interest and using sentiment lexicons to help gauge public opinion about those topics or tweets. Silge & Robinson nicely illustrate the tools of text mining to approach the emotional content of text programmatically, in the following diagram:
 
 [![Figure 2.1: A flowchart of a typical text analysis that uses tidytext for sentiment analysis.](img/sentiment-flow.png "Figure 2.1: A flowchart of a typical text analysis that uses tidytext for sentiment analysis. This chapter shows how to implement sentiment analysis using tidy data principles."){width="90%"}](https://www.tidytextmining.com/sentiment.html#sentiment)
 
@@ -31,42 +27,9 @@ For Unit 2, our walkthrough will cover the following topics:
 4.  **Model**: While we won't leverage modeling approaches until Unit 3, we will examine the mixed effects model used by Rosenberg et al. to analyze the sentiment of tweets
 5.  **Communicate:** Finally, in Week 7 we'll create a basic presentation, report, or other data product for sharing findings and insights from our analysis.
 
-------------------------------------------------------------------------
-
-## 1. PREPARE
-
-To help us better understand the context, questions, and data sources we'll be using in Unit 2, this section will focus on the following topics:
-
-a.  **Context**. We take a quick look at the Rosenberg et al. (2021) article, *Advancing new methods for understanding public sentiment about educational reforms*, including the purpose of the study, questions explored, and findings.
-b.  **Questions.** We'll formulate some basic questions that we'll use to guide our analysis, attempting to replicate some of the findings by Rosenberg et al.
-c.  **Twitter Setup** We walkthrough the process of setting up R to pull data from our Twitter developer account created during the first week of the course.
-
 ### 1a. Some Context
 
-#### **Twitter and the Next Generation Science Standards**
-
-![](img/rosenberg.png){width="30%"}
-
-[Full Paper (Preprint)](https://osf.io/xymsd/.)
-
-**Abstract**
-
-While the Next Generation Science Standards (NGSS) are a long-standing and widespread standards-based educational reform effort, they have received less public attention, and no studies have explored the sentiment of the views of multiple stakeholders toward them. To establish how public sentiment about this reform might be similar to or different from past efforts, we applied a suite of data science techniques to posts about the standards on Twitter from 2010-2020 (N = 571,378) from 87,719 users. Applying data science techniques to identify teachers and to estimate tweet sentiment, we found that the public sentiment towards the NGSS is overwhelmingly positive---33 times more so than for the CCSS. Mixed effects models indicated that sentiment became more positive over time and that teachers, in particular, showed a more positive sentiment towards the NGSS. We discuss implications for educational reform efforts and the use of data science methods for understanding their implementation.
-
-**Data Source & Analysis**
-
-Similar to what we'll be learning in this walkthrough, Rosenberg et al. used publicly accessible data from Twitter collected using the Full-Archive Twitter API and the `rtweet` package in R. Specifically, the authors accessed tweets and user information from the hashtag-based \#NGSSchat online community, all tweets that included any of the following phrases, with "/" indicating an additional phrase featuring the respective plural form: "ngss", "next generation science standard/s", "next gen science standard/s".
-
-Unlike this walkthrough, however, the authors determined Tweet sentiment using the Java version of SentiStrength to assign tweets to two 5-point scales of sentiment, one for positivity and one for negativity, because SentiStrength is a validated measure for sentiment in short informal texts (Thelwall et al., 2011). In addition, we used this tool because Wang and Fikis (2019) used it to explore the sentiment of CCSS-related posts. We'll be using the AFINN sentiment lexicon which also assigns words in a tweet to two 5-point scales, in addition to explore some other sentiment lexicons.
-
-Note that the authors also used the `lme4` package in R to run a mixed effects model to determine if sentiment changes over time and differs between teachers and non-teacher. We will not attempt replicated that aspect of the analysis, but if you are interested in a guided walkthrough of how modeling can be used to understand changes in Twitter word use, see [Chapter 7 of Text Mining with R](https://www.tidytextmining.com/twitter.html#changes-in-word-use).
-
-**Summary of Key Findings**
-
-1.  Contrasting with sentiment about CSSS, sentiment about the NGSS science education reform effort is overwhelmingly positive, with approximately 9 positive tweets for every negative tweet.
-2.  Teachers were more positive than non-teachers, and sentiment became substantially more positive over the ten years of NGSS-related posts.
-3.  Differences between the context of the tweets were small, but those that did not include the \#NGSSchat hashtag became more positive over time than those posts that did not include the hashtag.
-4.  Individuals posted more tweets during \#NGSSchat chats, the sentiment of their posts was more positive, suggesting that while the context of individual tweets has a small effect (with posts not including the hashtag becoming more positive over time), the effect upon individuals of being involved in the \#NGSSchat was positive.
+#### 
 
 ### 1b. Guiding Questions
 
