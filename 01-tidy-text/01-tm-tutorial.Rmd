@@ -437,7 +437,7 @@ vignette("intro", package="rtweet")
 
 Text data, by it's very nature is ESPECIALLY untidy and sometimes referred to as "unstructured." In this section we're introduced to the `tidytext` package and will learn some new functions to convert text to and from tidy formats, which will allow us to switch seamlessly between tidy tools and existing text mining packages.
 
-#### 📦 tidytext
+#### tidytext 📦 
 
 ![](img/tidytext.png){width="100"}
 
