@@ -50,7 +50,7 @@ Similar to what we'll be learning in this lab, Rosenberg et al. used publicly ac
 
 Unlike this learning lab, however, the authors determined Tweet sentiment using the Java version of SentiStrength to assign tweets to two 5-point scales of sentiment, one for positivity and one for negativity, because SentiStrength is a validated measure for sentiment in short informal texts (Thelwall et al., 2011). In addition, they used this tool because Wang and Fikis (2019) used it to explore the sentiment of CCSS-related posts. We'll be using the AFINN sentiment lexicon which also assigns words in a tweet to two 5-point scales, in addition to exploring some other sentiment lexicons to see if they produce similar results.
 
-The authors also used the `lme4` package in R to run a mixed effects model to determine if sentiment changes over time and differs between teachers and non-teacher.
+The authors also used the `lme4` package in R to run a mixed effects model to determine if sentiment changes over time and differs between teachers and non-teacher. In addition to looking at the relationships between tweet sentiment, time and teachers, we'll also take a look at the correlation between words within tweets.
 
 **Summary of Key Findings**
 
@@ -242,9 +242,9 @@ a.  **Search & Subset**. In this section, we introduce new functions from the `r
 b.  **Tidy Text**. We also introduce the `tidytext` package to both "tidy" and tokenize our tweets in order to create our data frame for analysis.
 c.  **Stop Words.** We conclude our data wrangling by using the now familiar `dplyr` package to remove words that don't add much value to our analysis.
 
-### 2a. Search & Subset
+### 2a. Search Tweets
 
-#### Search Tweets
+#### Constructing a Query
 
 Since one of our goals for this Learning Lab is a simplistic replication of the study by Rosenberg et al. (2021), let's begin by introducing the `search_tweets()` function to try reading into R 5,000 tweets containing the NGSS hashtag and store as a new data frame `ngss_all_tweets`.
 
@@ -285,7 +285,7 @@ Try including both search terms but excluding the `OR` operator to answer the fo
 
 Hint: Use the `?search_tweets` help function to learn more about the `q` argument and other arguments for composing search queries.
 
-#### Use Multiple Queries
+#### Using Multiple Queries
 
 Unfortunately, the `OR` operator will only get us so far. In order to include the additional search terms, we will need to use the `c()` function to combine our search terms into a single list.
 
@@ -294,7 +294,7 @@ The `rtweets` package has an additional `search_tweets2()` function for using mu
 Copy and past the following code to store the results of our query in `ngss_tweets`:
 
 ```{r}
-ngss_tweets_q3 <- search_tweets2(c("#NGSSchat OR ngss",
+ngss_tweets_q3 <- search_tweets2(q = c("#NGSSchat OR ngss",
                                    '"next generation science standard"'))
 ```
 
@@ -304,7 +304,7 @@ Notice the unique syntax required for the query argument. For example, when "OR"
 
 We still have a few queries to add in order to replicate the approach by Rosenberg et al, but dealing with that many queries inside a single function is a bit tedious. Let's go ahead and create our very first "dictionary" --- we'll learn more about dictionary-based approaches in Part 3 --- for identifying tweets related to the NGSS standards, and then pass that dictionary to the `q =` query argument to pull related tweets:
 
-To do so, we'll need to add some additional search terms to our list. Run the following code in your console:
+To do so, we'll need to add some additional search terms to our list. Run the following code in your console to store your dictionary and tweets in your environment:
 
 ```{r}
 ngss_dictionary <- c("#NGSSchat OR ngss",
@@ -313,11 +313,9 @@ ngss_dictionary <- c("#NGSSchat OR ngss",
                      '"next gen science standard"',
                      '"next gen science standards"')
 
-ngss_tweets_q4 <- search_tweets2(ngss_dictionary,
+ngss_query_4 <- search_tweets2(ngss_dictionary,
                               n=5000)
 ```
-
-To learn more about constructing search terms using the query argument, enter `?search_tweets` in your console and review the documentation for the `q=` argument.
 
 ##### [Your Turn]{style="color: green;"} ⤵
 
@@ -327,89 +325,11 @@ To learn more about constructing search terms using the query argument, enter `?
 
 3.  Output your new dataset using the `datatable()` function from the `DT` package and take a quick look.
 
-#### Subset Tweets
-
-As you may have noticed, we have way more data than we need for our analysis and should probably pare it down to just what we'll use.
-
-First, it's likely the authors removed retweets from their analysis since a retweet is simply a user reposting someone else's tweet and would duplicate the exact same content of the original. It's also likely that they limited their analysis to just English language tweets.
-
-Let's use the `filter()` function introduced in previous labs to subset rows containing only original tweets in the English language:
-
-```{r, eval=TRUE}
-ngss_tweets_en <- ngss_tweets_q4 %>% filter(is_retweet == "False", 
-                                         lang == "en")
-```
-
-Now let's use the `select()` function select the following columns from our new `ngss_teeets_en` data frame:
-
-1.  `screen_name` of the user who created the tweet
-2.  `created_at` timestamp for examining changes in sentiment over time
-3.  `text` containing the tweet which is our primary data source of interest
-
-```{r select-variables, eval=TRUE}
-ngss_tweets <- select(ngss_tweets_en,
-                 screen_name, 
-                 created_at, 
-                 text)
-```
-
-Extra credit for using the `%>%` pipe operator and efficient use of arguments to keep your code succinct and using the `<-` assignment operator only once.
-
-You're output should look something like this:
-
-```{r retweet-argument, eval=TRUE, echo=FALSE}
-ccss_tweets <- search_tweets(q = "#commoncore OR #ccss", 
-                             n=5000, 
-                             include_rts = FALSE,
-                             lang = "en") %>%
-  select(screen_name, created_at, text)
-  
-
-datatable(ccss_tweets)
-```
-
-To do so, we'll need to add some additional search terms to our list:
-
-```{r}
-ngss_dictionary <- c("#NGSSchat OR ngss",
-                     '"next generation science standard"',
-                     '"next generation science standards"',
-                     '"next gen science standard"',
-                     '"next gen science standards"')
-
-ngss_tweets <- search_tweets2(ngss_dictionary,
-                              n=5000,
-                              include_rts = FALSE)
-```
-
-Now let's create a dictionary for the Common Core State Standards and pass that to our `search_tweets()` function to get the most recent tweets:
-
-```{r}
-ccss_dictionary <- c("#commoncore", '"common core"')
-
-ccss_tweets <- ccss_dictionary %>% 
-  search_tweets2(n=5000, include_rts = FALSE)
-```
-
-Notice that you can use the pipe operator with the `search_tweets()` function just like you would other functions from the tidyverse.
-
-#### Write to Excel File
-
-Finally, let's save our tweet files to use in later exercises since tweets have a tendency to change every minute. We'll save as a Microsoft Excel file since one of our columns can not be stored in a flat file like .csv.
-
-Let's use the `write_xlxs()` function from the `writexl` package just like we would the `write_csv()` function from `dplyr` in Unit 1:
-
-```{r, eval=F}
-write_xlsx(ccss_tweets, "data/csss_tweets.xlsx")
-```
-
-#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
-
-1.  What happens if you try to write to a flat file like .csv?
+To learn more about constructing search terms using the query argument, enter `?search_tweets` in your console and review the documentation for the `q=` argument.
 
 #### Other Useful Functions (Optional)
 
-For your own research, you may be interest in exploring posts by specific users rather than topics, key words, or hashtags. Yes, there is a function for that too!
+For your own research, you may be interested in exploring posts by specific users rather than topics, key words, or hashtags. Yes, there is a function for that too!
 
 For example, let's create another list containing the usernames of the LASER Institute leads using the `c()` function again and use the `get_timelines()` function to get the most recent tweets from each of those users:
 
@@ -432,7 +352,7 @@ sample_n(laser_tweets, 10) %>%
 The `rtweet` package also has handy `ts_plot` function built into `rtweet` to take a very quick look at how far back our data set goes:
 
 ```{r ts_plot, eval=TRUE}
-ts_plot(ccss_tweets, by = "days")
+ts_plot(ngss_query_4, by = "days")
 ```
 
 Notice that this effectively creates a `ggplot` time series plot for us. I've included the `by =` argument which by default is set to "days". It looks like tweets go back 9 days which is the rate limit set by Twitter.
@@ -459,7 +379,126 @@ Or use the following function to access the package vignette:
 vignette("intro", package="rtweet")
 ```
 
-### 2b. Tidy Text
+------------------------------------------------------------------------
+
+### 2b. Restructure Data
+
+#### Subset Tweets
+
+As you may have noticed, we have way more data than we need for our analysis and should probably pare it down to just what we'll use.
+
+First, it's likely the authors removed retweets from their analysis since a retweet is simply a user reposting someone else's tweet and would duplicate the exact same content of the original.
+
+It's also likely that they limited their analysis to just English language tweets so let's filter for those as well.
+
+Use the `filter()` function introduced in previous labs to subset rows containing only original tweets in the English language:
+
+```{r, eval=TRUE}
+ngss_tweets_en <- ngss_tweets_q4 %>% filter(is_retweet == "False", 
+                                            lang == "en")
+```
+
+Now let's use the `select()` function to select the following columns from our new `ngss_teeets_en` data frame:
+
+1.  `screen_name` of the user who created the tweet
+2.  `created_at` timestamp for examining changes in sentiment over time
+3.  `text` containing the tweet which is our primary data source of interest
+
+```{r select-variables, eval=TRUE}
+ngss_tweets <- select(ngss_tweets_en,
+                 screen_name, 
+                 created_at, 
+                 text)
+```
+
+#### Add & Reorder Columns
+
+Finally, since we are interested in comparing the sentiment of NGSS tweets with CSSS tweets, it would be helpful if we had a column to quickly identify the set of state standards, with which each tweet is associated.
+
+We'll use the `mutate()` function to create a new variable called `standards` to label each tweets as "ngss":
+
+```{r}
+ngss_text <- mutate(ngss_text, standards = "ngss")
+```
+
+And just because it bothers me, I'm going to use the `relocate()` function to move the `standards` column to the first position so I can quickly see which standards the tweet is from:
+
+```{r}
+ngss_text <- relocate(ngss_text, standards)
+```
+
+Note that you could also have used the `select()` function to reorder columns like so:
+
+```{r}
+ngss_text <- select(ngss_text, standards, screen_name, created_at, text)
+```
+
+Finally, let's rewrite the code from our wrangling so there is less redundancy and it is easier to read:
+
+```{r}
+# Search Tweets
+ngss_dictionary <- c("#NGSSchat OR ngss",
+                     '"next generation science standard"',
+                     '"next generation science standards"',
+                     '"next gen science standard"',
+                     '"next gen science standards"')
+
+ngss_query <- search_tweets2(ngss_dictionary,
+                                 n = 1000,
+                                 include_rts = FALSE,
+                                 lang = "en") 
+
+# Restructure Data
+ngss_tweets <- 
+  ngss_query %>%
+  select(screen_name, created_at, text) %>%
+  mutate(standards = "ngss") %>%
+  relocate(standards)
+```
+
+##### 
+
+##### [Your Turn]{style="color: green;"} ⤵
+
+Create an new `ccss_text` data frame for our `ccss_tweets` Common Core tweets by modifying code above.
+
+[**WARNING:**]{style="color: red;"} You will not be able to progress to the next section until you have completed the following task:
+
+1.  
+
+Extra credit for using the `%>%` pipe operator and efficient use of arguments to keep your code succinct and using the `<-` assignment operator only once.
+
+You're output should look something like this:
+
+```{r retweet-argument, eval=TRUE, echo=FALSE}
+ccss_tweets <- search_tweets(q = "#commoncore OR #ccss", 
+                             n=5000, 
+                             include_rts = FALSE,
+                             lang = "en") %>%
+  select(screen_name, created_at, text)
+  
+
+datatable(ccss_tweets)
+```
+
+#### Merge Data Frames
+
+Finally, let's combine our `ccss_text` and `ngss_text` into a single data frame by using the `bind_rows()` function from `dplyr` to simply supplying the data frames that you want to combine as arguments:
+
+```{r}
+tweets <- bind_rows(ngss_text, ccss_text)
+```
+
+And let's take a quick look at both the `head()` and the `tail()` of this new `tweets` data frame to make sure it contains both "ngss" and "ccss" standards:
+
+```{r}
+head(tweets)
+tail(tweets)
+```
+
+------------------------------------------------------------------------
+
+### 2c. Tidy Text
 
 Text data, by it's very nature is ESPECIALLY untidy and sometimes referred to as "unstructured." In this section we're introduced to the `tidytext` package and will learn some new functions to convert text to and from tidy formats, which will allow us to switch seamlessly between tidy tools and existing text mining packages.
 
@@ -595,9 +634,9 @@ ccss_bigrams %>%
 
 Well, many of these tweets are clearly about the common core, but beyond that it's a bit hard to tell because there are so many "stop words" like "the", "to", "and", "in" that don't carry much meaning by themselves.
 
-### 2c. Stop Words
+#### Remove Stop Words
 
-Often in text analysis, we will want to remove these stop words if they are not useful for an analysis. The `stop_words` dataset in the tidytext package contains stop words from three lexicons. We can use them all together, as we have here, or [`filter()`](https://dplyr.tidyverse.org/reference/filter.html) to only use one set of stop words if that is more appropriate for a certain analysis.
+Often in text analysis, we will want to remove these stop words if they are not useful for an analysis. The `stop_words` dataset in the tidytext package contains stop words from three lexicons. We can use them all together, as we have here, or `filter()` to only use one set of stop words if that is more appropriate for a certain analysis.
 
 Let's take a closer the lexicons and stop words included in each:
 
