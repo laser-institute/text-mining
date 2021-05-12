@@ -304,7 +304,7 @@ Notice the unique syntax required for the query argument. For example, when "OR"
 
 We still have a few queries to add in order to replicate the approach by Rosenberg et al, but dealing with that many queries inside a single function is a bit tedious. Let's go ahead and create our very first "dictionary" --- we'll learn more about dictionary-based approaches in Part 3 --- for identifying tweets related to the NGSS standards, and then pass that dictionary to the `q =` query argument to pull related tweets:
 
-To do so, we'll need to add some additional search terms to our list. Run the following code in your console
+To do so, we'll need to add some additional search terms to our list. Run the following code in your console:
 
 ```{r}
 ngss_dictionary <- c("#NGSSchat OR ngss",
@@ -331,23 +331,23 @@ To learn more about constructing search terms using the query argument, enter `?
 
 As you may have noticed, we have way more data than we need for our analysis and should probably pare it down to just what we'll use.
 
-First, it's likely the authors removed retweets from their analysis since a retweet is simply a user reposting someone else's tweet and would duplicate the exact same content of the original. It's also likely that they limited their analysis to just English language Tweets so let's go ahead and
+First, it's likely the authors removed retweets from their analysis since a retweet is simply a user reposting someone else's tweet and would duplicate the exact same content of the original. It's also likely that they limited their analysis to just English language tweets.
 
 Let's use the `filter()` function introduced in previous labs to subset rows containing only original tweets in the English language:
 
 ```{r, eval=TRUE}
-ngss_tweets <- ngss_tweets_q4 %>% filter(is_retweet == "False", 
+ngss_tweets_en <- ngss_tweets_q4 %>% filter(is_retweet == "False", 
                                          lang == "en")
 ```
 
-Now let's use the `select()` function select the following columns from our new `ccss_text` data frame:
+Now let's use the `select()` function select the following columns from our new `ngss_teeets_en` data frame:
 
 1.  `screen_name` of the user who created the tweet
 2.  `created_at` timestamp for examining changes in sentiment over time
 3.  `text` containing the tweet which is our primary data source of interest
 
 ```{r select-variables, eval=TRUE}
-ccss_tweets <- select(ccss_tweets,
+ngss_tweets <- select(ngss_tweets_en,
                  screen_name, 
                  created_at, 
                  text)
