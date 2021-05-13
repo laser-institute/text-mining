@@ -630,7 +630,7 @@ ss_bigrams %>%
   count(bigram, sort = TRUE)
 ```
 
-Well, many of these tweets are clearly about the common core, but beyond that it's a bit hard to tell because there are so many "stop words" like "the", "to", "and", "in" that don't carry much meaning by themselves.
+Well, many of these tweets are clearly about the common core and , but beyond that it's a bit hard to tell because there are so many "stop words" like "the", "to", "and", "in" that don't carry much meaning by themselves.
 
 #### Remove Stop Words
 
