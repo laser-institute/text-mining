@@ -1,5 +1,6 @@
 ---
 title: "TM Lab 1.1: Tidy Text, Tokens & Twitter"
+subtitle: "Guided Practice"
 author: "LASER TEAM"
 date: "`r format(Sys.Date(),'%B %e, %Y')`"
 output:
@@ -17,70 +18,6 @@ knitr::opts_chunk$set(echo = TRUE)
 [INSERT PRESENTATION VIDEO HERE]
 
 ## 1. PREPARE
-
-The transition to digital learning has made available new sources of data, providing researchers new opportunities for understanding and improving STEM learning. Data sources such as digital learning environments and administrative data systems, as well as data produced by social media websites and the mass digitization of academic and practitioner publications, hold enormous potential to address a range of pressing problems in STEM Education, but collecting and analyzing text-based data also presents unique challenges.
-
-The Text Mining (TM) Learning Labs will provide LASER Institute scholars hands-on experience with popular techniques for collecting, processing, and analyzing text-based data---including mining data from application programming interfaces or APIs, screen-scraping, sentiment analysis, topic modeling, text classification and more. Our first lab is divided into the following four parts:
-
-**Part 1: Tidy Text, Tokens, & Twitter.** We take a closer look at the literature and research questions that will be guiding our analysis; importing data through Twitter's developer API; and wrangling our data into a one-token-per-row tidy text format.
-
-**Part 2: Word Counts, Clouds & Correlations.** For our second lab, we use simple summary statistics, data visualization, and word correlations to explore our data and see what insight they provides in response to our questions.
-
-**Part 3: Sentiment Analysis & School Reform.** We focus on the use of lexicons to compare the sentiment of tweets about the NGSS and CCSS state standards in order to better understand public reaction to these two curriculum reform efforts. 
-
-**Part 4: Select, Polish, & Narrate.** We wrap our look at public sentiment around STEM state curriculum standards by selecting an analysis that provides some unique insight; refining or polishing a data product, such as a graph or table in static or interactive form; and writing a brief narrative explaining the ways in which the data product helps answer the research question.
-
-### 1a. Understand the Context
-
-Text Mining Learning Lab 1 is guided by a recent publication by LASER Institute instructor Josh Rosenberg's recent article, *Advancing new methods for understanding public sentiment about educational reforms: The case of Twitter and the Next Generation Science Standards* (Rosenberg et al., 2021), which in turn is guided by the work of Wang and Fikis (2019) examining public opinion on the Common Core State Standards (CCSS) on Twitter. For Lab 1, we will focus on comparing the sentiment of tweets about the [Next Generation Science Standards](https://www.nextgenscience.org) (NGSS) and [Common Core State Standards](http://www.corestandards.org) (CCSS) in order to better understand key words and phrases that emerge, as well as public sentiment towards these two curriculum reform efforts.
-
-#### Twitter and the Next Generation Science Standards
-
-![](img/rosenberg.png){width="30%"}
-
-[Full Paper (Preprint)](https://osf.io/xymsd/.)
-
-**Abstract**
-
-While the Next Generation Science Standards (NGSS) are a long-standing and widespread standards-based educational reform effort, they have received less public attention, and no studies have explored the sentiment of the views of multiple stakeholders toward them. To establish how public sentiment about this reform might be similar to or different from past efforts, we applied a suite of data science techniques to posts about the standards on Twitter from 2010-2020 (N = 571,378) from 87,719 users. Applying data science techniques to identify teachers and to estimate tweet sentiment, we found that the public sentiment towards the NGSS is overwhelmingly positive -- 33 times more so than for the CCSS. Mixed effects models indicated that sentiment became more positive over time and that teachers, in particular, showed a more positive sentiment towards the NGSS. We discuss implications for educational reform efforts and the use of data science methods for understanding their implementation.
-
-**Data Source & Analysis**
-
-Similar to what we'll be learning in this lab, Rosenberg et al. used publicly accessible data from Twitter collected using the Full-Archive Twitter API and the `rtweet` package in R. Specifically, the authors accessed tweets and user information from the hashtag-based \#NGSSchat online community, all tweets that included any of the following phrases, with "/" indicating an additional phrase featuring the respective plural form: "ngss", "next generation science standard/s", "next gen science standard/s".
-
-Unlike this learning lab, however, the authors determined Tweet sentiment using the Java version of SentiStrength to assign tweets to two 5-point scales of sentiment, one for positivity and one for negativity, because SentiStrength is a validated measure for sentiment in short informal texts (Thelwall et al., 2011). In addition, they used this tool because Wang and Fikis (2019) used it to explore the sentiment of CCSS-related posts. We'll be using the AFINN sentiment lexicon which also assigns words in a tweet to two 5-point scales, in addition to exploring some other sentiment lexicons to see if they produce similar results.
-
-The authors also used the `lme4` package in R to run a mixed effects model to determine if sentiment changes over time and differs between teachers and non-teacher. In addition to looking at the relationships between tweet sentiment, time and teachers, we'll also take a look at the correlation between words within tweets.
-
-**Summary of Key Findings**
-
-1.  Contrasting with sentiment about CSSS, sentiment about the NGSS science education reform effort is overwhelmingly positive, with approximately 9 positive tweets for every negative tweet.
-2.  Teachers were more positive than non-teachers, and sentiment became substantially more positive over the ten years of NGSS-related posts.
-3.  Differences between the context of the tweets were small, but those that did not include the \#NGSSchat hashtag became more positive over time than those posts that did not include the hashtag.
-4.  Individuals posted more tweets during \#NGSSchat chats, the sentiment of their posts was more positive, suggesting that while the context of individual tweets has a small effect (with posts not including the hashtag becoming more positive over time), the effect upon individuals of being involved in the \#NGSSchat was positive.
-
-Finally, you can watch Dr. Rosenberg provide a quick 3-minute overview of this work at [\<https://stanford.app.box.com/s/i5ixkj2b8dyy8q5j9o5ww4nafznb497x\>](https://stanford.app.box.com/s/i5ixkj2b8dyy8q5j9o5ww4nafznb497x){.uri}
-
-### 1b. Define Questions
-
-One overarching question that Silge and Robinson (2018) identify as a central question to text mining and natural language processing, and that we'll explore throughout the text mining labs this year, is the question:
-
-> How do we to **quantify** what a document or collection of documents is about?
-
-The questions guiding the Rosenberg et al. study attempt to quantify public sentiment around the NGSS and how that sentiment changes over time. Specifically, they asked:
-
-1.  What is the public sentiment expressed toward the NGSS?
-2.  How does sentiment for teachers differ from non-teachers?
-3.  How do tweets posted to \#NGSSchat differ from those without the hashtag?
-4.  How does participation in \#NGSSchat relate to the public sentiment individuals express?
-5.  How does public sentiment vary over time?
-
-For our first lab on text mining in STEM education, we'll use some approaches similar to those used by the authors cited above to better understand public discourse surrounding these standards, particularly as they relate to math education. We will also try to guage public sentiment around the NGSS, by comparing how much more positive or negative NGSS tweets are relative to CSSS tweets. Specifically, in this lab we'll be attempting to answer the following questions:
-
-1.  What are the most frequent words or phrases used in reference to tweets about the CCSS and NGSS?
-2.  What words and hashtags commonly co-occur together?
-3.  What is the public sentiment expressed toward the CCSS and NGSS?
-4.  How does sentiment for NGSS compare to sentiment for CCSS?
 
 ### 1c. Prepare Environment
 
@@ -115,62 +52,6 @@ Let's load the `rtweet` package which we'll be using later in this lab to accomp
 ```{r load-rtweet, message=FALSE}
 library(rtweet)
 ```
-
-#### Create a Twitter App
-
-Before you can begin pulling tweets into R, you'll first need to create a Twitter App in your developer account. This section is borrowed largely from the `rtweet` package by Michael Kearney, and requires that you have set up a Twitter developer account.
-
-You are not required to set up developer account for this institute, but if you are still interested in creating one, [these instructions](https://dev.to/sumedhpatkar/beginners-guide-how-to-apply-for-a-twitter-developer-account-1kh7) succinctly outline the process and you can set one up in about 10 minutes. We have provided the data we'll be using for the Wrangling and Explore parts of the lab on our [GitHub repository](https://github.com/sbkellogg/eci-588/tree/main/unit-2/data) and you can skip to section [2b. Tidy Text] if you are not interested in or unable to set up a Twitter developer account.
-
-Follow the steps below to set up your app:
-
-1.  Navigate to [developer.twitter.com/en/apps](https://developer.twitter.com/en/apps/), click the blue button that says, `Create a New App`, and then complete the form with the following fields:
-
-    -   `App Name`: What your app will be called
-
-    -   `Application Description`: How your app will be described to its users
-
-        <p align="center">
-
-        <img src="files/create-app-1.png" alt="create-app-1"/>
-
-        </p>
-
-    -   `Website URLs`: Website associated with app--I recommend using the URL to your Twitter profile
-
-    -   `Callback URLs`: ***IMPORTANT*** enter exactly the following: `http://127.0.0.1:1410`
-
-        <p align="center">
-
-        <img src="files/create-app-2.png" alt="create-app-2"/>
-
-        </p>
-
-    -   `Tell us how this app will be used`: Be clear and honest
-
-        <p align="center">
-
-        <img src="files/create-app-3.png" alt="create-app-3"/>
-
-        </p>
-
-2.  When you've completed the required form fields, click the blue `Create` button at the bottom
-
-3.  Read through and indicate whether you accept the developer terms
-
-    <p align="center">
-
-    <img src="files/create-app-4.png" alt="create-app-4"/>
-
-    </p>
-
-4.  And you're done!
-
-    <p align="center">
-
-    <img src="files/create-app-5.png" alt="create-app-5"/>
-
-    </p>
 
 #### Authorize RStudio
 
