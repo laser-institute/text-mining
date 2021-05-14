@@ -317,7 +317,7 @@ ngss_dictionary <- c("#NGSSchat OR ngss",
                      '"next gen science standard"',
                      '"next gen science standards"')
 
-ngss_query_4 <- search_tweets2(ngss_dictionary,
+ngss_tweets_q4 <- search_tweets2(ngss_dictionary,
                               n=5000)
 ```
 
@@ -356,7 +356,7 @@ sample_n(laser_tweets, 10) %>%
 The `rtweet` package also has handy `ts_plot` function built into `rtweet` to take a very quick look at how far back our data set goes:
 
 ```{r ts_plot, eval=TRUE}
-ts_plot(ngss_query_4, by = "days")
+ts_plot(ngss_tweets_q4, by = "days")
 ```
 
 Notice that this effectively creates a `ggplot` time series plot for us. I've included the `by =` argument which by default is set to "days". It looks like tweets go back 9 days which is the rate limit set by Twitter.
@@ -398,7 +398,7 @@ It's also likely that they limited their analysis to just English language tweet
 Use the `filter()` function introduced in previous labs to subset rows containing only original tweets in the English language:
 
 ```{r, eval=TRUE}
-ngss_tweets_en <- ngss_tweets_q4 %>% filter(is_retweet == "False", 
+ngss_tweets_en <- ngss_tweets_q4 %>% filter(is_retweet == "FALSE", 
                                             lang == "en")
 ```
 
@@ -410,19 +410,19 @@ Now let's use the `select()` function to select the following columns from our n
 
 ```{r select-variables, eval=TRUE}
 ngss_tweets <- select(ngss_tweets_en,
-                 screen_name, 
-                 created_at, 
-                 text)
+                      screen_name, 
+                      created_at, 
+                      text)
 ```
 
 #### Add & Reorder Columns
 
-Finally, since we are interested in comparing the sentiment of NGSS tweets with CSSS tweets, it would be helpful if we had a column to quickly identify the set of state standards, with which each tweet is associated.
+Finally, since we are interested in comparing the sentiment of NGSS tweets with CSSS tweets, it would be helpful if we had a column to quickly identify the set of state standards with which each tweet is associated.
 
 We'll use the `mutate()` function to create a new variable called `standards` to label each tweets as "ngss":
 
 ```{r}
-ngss_text <- mutate(ngss_text, standards = "ngss")
+ngss_text <- mutate(ngss_tweets, standards = "ngss")
 ```
 
 And just because it bothers me, I'm going to use the `relocate()` function to move the `standards` column to the first position so I can quickly see which standards the tweet is from:
@@ -437,7 +437,7 @@ Note that you could also have used the `select()` function to reorder columns li
 ngss_text <- select(ngss_text, standards, screen_name, created_at, text)
 ```
 
-Before moving on to , let's rewrite the code from our wrangling so there is less redundancy and it is easier to read:
+Before moving on to the CCSS standards, let's rewrite the code from our wrangling so there is less redundancy and it is easier to read:
 
 ```{r}
 # Search Tweets
@@ -493,7 +493,7 @@ Finally, let's combine our `ccss_text` and `ngss_text` into a single data frame 
 ss_tweets <- bind_rows(ngss_tweets, ccss_tweets)
 ```
 
-Note that when creating a "union" like this, you should have the same number of columns in each data frame and they should be in the same order.
+Note that when creating a "union" like this (i.e. stacking one data frame on top of another), you should have the same number of columns in each data frame and they should be in the exact same order.
 
 And let's take a quick look at both the `head()` and the `tail()` of this new `tweets` data frame to make sure it contains both "ngss" and "ccss" standards:
 
@@ -506,32 +506,20 @@ tail(ss_tweets)
 
 ### 2c. Tidy Text
 
-Text data, by it's very nature is ESPECIALLY untidy and sometimes referred to as "unstructured." In this section we're introduced to the `tidytext` package and will learn some new functions to convert text to and from tidy formats, which will allow us to switch seamlessly between tidy tools and existing text mining packages.
+Text data, by it's very nature is ESPECIALLY untidy and sometimes referred to as "unstructured." In this section we are introduced to the `tidytext` package and will learn some new functions to convert text to and from tidy formats. Having our text in a tidy format will allow us to switch seamlessly between tidy tools and existing text mining packages, while also making it easier to visualize text summaries in other data analysis tools like Tableau.
+
+For a more comprehensive introduction to the `tidytext` package, we cannot recommend enough the free online book, [Text Mining with R: A Tidy Approach](https://www.tidytextmining.com) by Silge and Robinson (2018).
 
 #### tidytext 📦
 
 ![](img/tidytext.png){width="100"}
 
-As we'll Learn first hand later in this lab, using tidy data principles can make many text mining tasks easier, more effective, and consistent with tools already in wide use. Much of the infrastructure needed for text mining with tidy data frames already exists in `tidyverse` packages with which we've already been introduced.
-
-For a more comprehensive introduction to the `tidytext` package, we cannot recommend enough the free online book, [Text Mining with R: A Tidy Approach](https://www.tidytextmining.com) by Silge and Robinson (2018).
+As we'll learn first hand in this lab, using tidy data principles can make many text mining tasks easier, more effective, and consistent with tools already in wide use. Much of the infrastructure needed for text mining with tidy data frames already exists in `tidyverse` packages with which we've already been introduced.
 
 Let's go ahead and load `tidytext`:
 
 ```{r load-tidytext, message=FALSE}
 library(tidytext)
-```
-
-**Attention:** From this point forward, we'll also use a shared dataset constructed with the [Twitter Academic Research product track](https://developer.twitter.com/en/solutions/academic-research/products-for-researchers) that allows for a much greater number of tweets to be accessed over a far greater period of time. This will also ensure that we're producing similar results so we can check to see if our code is behaving as expected.
-
-Let's use the `readxl` package highlighted in Section 1 and the `read_xlsx()` function to read in the data stored in the data folder of our R project:
-
-```{r import-tweets, eval=FALSE}
-ss_tweets <- read_csv("data/ccss-tweets.csv",
-                        col_types = cols(id = col_character(), 
-                                         author_id = col_character()
-                                         )
-                        )
 ```
 
 #### Tokenize Text {data-link="2b. Tidy Text"}
@@ -642,7 +630,7 @@ ss_bigrams %>%
   count(bigram, sort = TRUE)
 ```
 
-Well, many of these tweets are clearly about the common core, but beyond that it's a bit hard to tell because there are so many "stop words" like "the", "to", "and", "in" that don't carry much meaning by themselves.
+Well, many of these tweets are clearly about the common core and , but beyond that it's a bit hard to tell because there are so many "stop words" like "the", "to", "and", "in" that don't carry much meaning by themselves.
 
 #### Remove Stop Words
 
