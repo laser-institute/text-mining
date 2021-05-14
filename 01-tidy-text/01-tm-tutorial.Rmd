@@ -1,5 +1,6 @@
 ---
-title: "TM Lab 1.1: Tidy Text, Tokens & Twitter"
+title: "Tidy Text, Tokens & Twitter"
+subtitle: "TM Learning Lab 1 Tutorial"
 author: "LASER TEAM"
 date: "`r format(Sys.Date(),'%B %e, %Y')`"
 output:
@@ -13,8 +14,6 @@ bibliography: references.bib
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
-[INSERT PRESENTATION VIDEO HERE]
 
 ## 1. PREPARE
 
