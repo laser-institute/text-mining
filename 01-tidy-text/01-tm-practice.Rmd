@@ -1,14 +1,13 @@
 ---
 title: "TM Lab 1.1: Tidy Text, Tokens & Twitter"
 subtitle: "Guided Practice"
-author: "LASER TEAM"
+author: "LASER Institute"
 date: "`r format(Sys.Date(),'%B %e, %Y')`"
 output:
   html_document:
     toc: true
     toc_depth: 5
     toc_float: yes
-bibliography: references.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -37,53 +36,22 @@ library (DT)
 
 #### rtweet 📦
 
-![](img/rtweet.jpeg){width="100"}
-
 Let's load the `rtweet` package which provides users a range of functions designed to extract data from Twitter's REST and streaming APIs:
 
 ```{r load-rtweet, message=FALSE}
 library(rtweet)
 ```
 
-#### Authorize RStudio
-
-Copy and paste the four keys (along with the name of your app) into an R Markdown file file and pass them along to `create_token()`. Note, these keys are named secret for a reason. I recommend setting up your token in a separate R Markdown file than the one that you will eventually share.
-
-```{r api-keys, eval=FALSE}
-## store api keys (these are fake example values; replace with your own keys)
-app_name <- "Text Mining in Education"
-api_key <- "afYS4vbIlPAj096E60c4W1fiK"
-api_secret_key <- "bI91kqnqFoNCrZFbsjAWHD4gJ91LQAhdCJXCj3yscfuULtNkuu"
-access_token <- "9551451262-wK2EmA942kxZYIwa5LMKZoQA4Xc2uyIiEwu2YXL"
-access_token_secret <- "9vpiSGKg1fIPQtxc5d5ESiFlZQpfbknEN1f1m2xe5byw7"
-
-## authenticate via web browser
-token <- create_token(
-  app = app_name,
-  consumer_key = api_key,
-  consumer_secret = api_secret_key,
-  access_token = access_token,
-  access_secret = access_token_secret)
-```
-
-If you are interested in viewing an alternate authentication method, you can view `rtweet` Twitter authorization vignette by running the following code:
-
-```{r auth-vignette, eval=FALSE}
-vignette("auth")
-```
-
 #### Check Authorization
 
-The `create_token()` function should automatically save your token as an environment variable for you. So next time you start an R session [on the same machine], rtweet should automatically find your token.
-
-To make sure it works, restart your R session, run the following code, and again check to make sure the app name and `api_key` match.
+Check to make sure the app name and `api_key` match.
 
 ```{r get-token}
 ## check to see if the token is loaded
 get_token()
 ```
 
-That's it!
+That's it! We're ready to start wrangling some tweets!!!
 
 ------------------------------------------------------------------------
 
@@ -105,6 +73,7 @@ ngss_tweets_q1 <- search_tweets(q = "#NGSSchat",
 View your new `ngss_all_tweets` data frame using one of the methods previously introduced to help answer the following questions:
 
 ```{r}
+
 
 ```
 
@@ -130,7 +99,7 @@ View your new `ngss_all_tweets` data frame using one of the methods previously i
 
 #### Using the OR Operator
 
-Let's modify our query using the `OR` operator to also include "ngss" so it will return tweets containing either \#NGSSchat or "ngss" and assign to `ngss_or_tweets`:
+Run the following code to modify our query using the `OR` operator to include "ngss" so it will return tweets containing either \#NGSSchat or "ngss" and assign to `ngss_or_tweets`:
 
 ```{r}
 ngss_tweets_q2 <- search_tweets(q = "#NGSSchat OR ngss", 
@@ -139,35 +108,40 @@ ngss_tweets_q2 <- search_tweets(q = "#NGSSchat OR ngss",
 
 ##### [Your Turn]{style="color: green;"} ⤵
 
-Try including both search terms but excluding the `OR` operator to answer the following question:
+Try including both search terms but excluding the `OR` operator to answer the following questions:
+
+```{r}
+
+
+```
 
 1.  Does excluding the `OR` operator return more tweets, the same number of tweets, or fewer tweets? Why?
+
+    -   
+
 2.  Does our query also include tweets containing the \#ngss hashtag?
+
+    -   
+
 3.  What other useful arguments does the `search_tweet()` function contain? Try adding one and see what happens.
+
+    -   
 
 Hint: Use the `?search_tweets` help function to learn more about the `q` argument and other arguments for composing search queries.
 
 #### Using Multiple Queries
 
-Unfortunately, the `OR` operator will only get us so far. In order to include the additional search terms, we will need to use the `c()` function to combine our search terms into a single list.
-
-The `rtweets` package has an additional `search_tweets2()` function for using multiple queries in a search. To do this, either wrap single quotes around a search query using double quotes, e.g., `q = '"next gen science standard"'` or escape each internal double quote with a single backslash, e.g., `q = "\"next gen science standard\""`.
-
-Copy and past the following code to store the results of our query in `ngss_tweets`:
+Use the `search_tweets2()` function to include the `'"next gen science standard"'` in our query:
 
 ```{r}
 ngss_tweets_q3 <- search_tweets2(q = c("#NGSSchat OR ngss",
-                                   '"next generation science standard"'),
+                                       '"next generation science standard"'),
                                  n = 5000)
 ```
 
-Notice the unique syntax required for the query argument. For example, when "OR" is entered between search terms, `query = "#NGSSchat OR ngss"`, Twitter's REST API should return any tweet that contains either "\#NGSSchat" or "ngss." It is also possible to search for exact phrases using double quotes. To do this, either wrap single quotes around a search query using double quotes, e.g., `q = '"next generation science standard"'` as we did above, or escape each internal double quote with a single backslash, e.g., `q = "\"next generation science standard\""`.
-
 #### Our First Dictionary
 
-We still have a few queries to add in order to replicate the approach by Rosenberg et al, but dealing with that many queries inside a single function is a bit tedious. Let's go ahead and create our very first "dictionary" --- we'll learn more about dictionary-based approaches in Part 3 --- for identifying tweets related to the NGSS standards, and then pass that dictionary to the `q =` query argument to pull related tweets:
-
-To do so, we'll need to add some additional search terms to our list. Run the following code in your console to store your dictionary and tweets in your environment:
+Run the following code in your console to store your dictionary and tweets in your environment:
 
 ```{r}
 ngss_dictionary <- c("#NGSSchat OR ngss",
@@ -176,36 +150,37 @@ ngss_dictionary <- c("#NGSSchat OR ngss",
                      '"next gen science standard"',
                      '"next gen science standards"')
 
-ngss_query_4 <- search_tweets2(ngss_dictionary,
-                              n=5000)
+ngss_tweets_q4 <- search_tweets2(ngss_dictionary,
+                                 n=5000)
+
+datatable(ngss_tweets_q4)
 ```
 
 ##### [Your Turn]{style="color: green;"} ⤵
 
-1.  Create a new code chunk and write a query based on a STEM area of interest.
+1.  In the following code chunk, write a new query based on a STEM area of interest.
 
 2.  Assign your search to a new object called `my_tweets` or something appropriate.
 
 3.  Output your new dataset using the `datatable()` function from the `DT` package and take a quick look.
 
-To learn more about constructing search terms using the query argument, enter `?search_tweets` in your console and review the documentation for the `q=` argument.
+```{r}
+
+
+```
 
 #### Other Useful Functions (Optional)
 
-For your own research, you may be interested in exploring posts by specific users rather than topics, key words, or hashtags. Yes, there is a function for that too!
-
-For example, let's create another list containing the usernames of the LASER Institute leads using the `c()` function again and use the `get_timelines()` function to get the most recent tweets from each of those users:
+Run the following code to create another list containing the usernames of the LASER Institute and use the `get_timelines()` function to get the most recent tweets from each of those users:
 
 ```{r, eval=TRUE}
-laser <- c("sbkellogg", "jrosenberg6432", "yanecnu", "robmoore3", "hollylynnester")
+laser_peeps <- c("sbkellogg", "jrosenberg6432", "yanecnu", "robmoore3", "hollylynnester")
 
-laser_tweets <- laser %>%
+laser_tweets <- laser_peeps %>%
   get_timelines(include_rts=FALSE)
 ```
 
-Notice that you can use the pipe operator with the `rtweet` functions just like you would other functions from the tidyverse.
-
-And let's use the `sample_n()` function from the `dplyr` package to pick 10 random tweets and use `select()` to select and view just the `screenname` and `text` columns that contains the user and the content of their post:
+Run the following code to sample 10 random tweets and view just the `screenname` and `text` of their posts:
 
 ```{r, eval=TRUE}
 sample_n(laser_tweets, 10) %>%
@@ -215,16 +190,14 @@ sample_n(laser_tweets, 10) %>%
 The `rtweet` package also has handy `ts_plot` function built into `rtweet` to take a very quick look at how far back our data set goes:
 
 ```{r ts_plot, eval=TRUE}
-ts_plot(ngss_query_4, by = "days")
+ts_plot(ngss_tweets_q4, by = "days")
 ```
-
-Notice that this effectively creates a `ggplot` time series plot for us. I've included the `by =` argument which by default is set to "days". It looks like tweets go back 9 days which is the rate limit set by Twitter.
 
 Try changing it to "hours" and see what happens.
 
 #### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
 
-To conclude Section 2a, try one of the following search functions from the `rtweet` vignette:
+Use the code chunk below to try one of the following search functions from the `rtweet` vignette:
 
 1.  `get_timelines()` Get the most recent 3,200 tweets from users.
 2.  `stream_tweets()` Randomly sample (approximately 1%) from the live stream of all tweets.
@@ -234,38 +207,23 @@ To conclude Section 2a, try one of the following search functions from the `rtwe
 6.  `get_trends()` Discover what's currently trending in a city.
 7.  `search_users()` Search for 1,000 users with the specific hashtag in their profile bios.
 
-We've only scratched the surface of the number of functions available in the `rtweets` package for searching Twitter. To learn more about the `rtweet` package, you can find full documentation on CRAN at: [\<https://cran.r-project.org/web/packages/rtweet/rtweet.pdf\>](https://cran.r-project.org/web/packages/rtweet/rtweet.pdf){.uri}
+```{r}
 
-Or use the following function to access the package vignette:
 
-```{r rtweet-vignette, eval=F}
-vignette("intro", package="rtweet")
 ```
-
-------------------------------------------------------------------------
 
 ### 2b. Restructure Data
 
 #### Subset Tweets
 
-As you may have noticed, we have way more data than we need for our analysis and should probably pare it down to just what we'll use.
-
-First, it's likely the authors removed retweets from their analysis since a retweet is simply a user reposting someone else's tweet and would duplicate the exact same content of the original.
-
-It's also likely that they limited their analysis to just English language tweets so let's filter for those as well.
-
 Use the `filter()` function introduced in previous labs to subset rows containing only original tweets in the English language:
 
-```{r, eval=TRUE}
+```{r filter-en, eval=TRUE}
 ngss_tweets_en <- ngss_tweets_q4 %>% filter(is_retweet == "False", 
                                             lang == "en")
 ```
 
-Now let's use the `select()` function to select the following columns from our new `ngss_teeets_en` data frame:
-
-1.  `screen_name` of the user who created the tweet
-2.  `created_at` timestamp for examining changes in sentiment over time
-3.  `text` containing the tweet which is our primary data source of interest
+Now let's use the `select()` function to select the just the columns needed:
 
 ```{r select-variables, eval=TRUE}
 ngss_tweets <- select(ngss_tweets_en,
@@ -276,27 +234,19 @@ ngss_tweets <- select(ngss_tweets_en,
 
 #### Add & Reorder Columns
 
-Finally, since we are interested in comparing the sentiment of NGSS tweets with CSSS tweets, it would be helpful if we had a column to quickly identify the set of state standards, with which each tweet is associated.
-
-We'll use the `mutate()` function to create a new variable called `standards` to label each tweets as "ngss":
+Use the `mutate()` function to create a new variable called `standards` to label each tweets as "ngss":
 
 ```{r}
 ngss_text <- mutate(ngss_text, standards = "ngss")
 ```
 
-And just because it bothers me, I'm going to use the `relocate()` function to move the `standards` column to the first position so I can quickly see which standards the tweet is from:
+Move the `standards` column to the first position so we can quickly see which standards the tweet is from:
 
 ```{r}
 ngss_text <- relocate(ngss_text, standards)
 ```
 
-Note that you could also have used the `select()` function to reorder columns like so:
-
-```{r}
-ngss_text <- select(ngss_text, standards, screen_name, created_at, text)
-```
-
-Before moving on to , let's rewrite the code from our wrangling so there is less redundancy and it is easier to read:
+Before moving on to Tidying Text, let's rewrite the code from our all our wrangling so there is less redundancy and it is easier to read:
 
 ```{r}
 # Search Tweets
@@ -321,40 +271,27 @@ ngss_tweets <-
 
 ##### [Your Turn]{style="color: green;"} ⤵
 
-Recall from section [1b. Define Questions] that we are interested in comparing word usage and public sentiment around both the Common Core and Next Gen Science Standards.
+Recall from section 1b. Define Questions that we are interested in comparing word usage and public sentiment around both the Common Core and Next Gen Science Standards.
 
-1.  Create an new `ccss_text` data frame for our `ccss_tweets` Common Core tweets by modifying code above.
+Use the code chunk below to create a new `ccss_tweets` data frame by modifying the code above.
 
-2.  Similar to Wang and Fikis (2019), use the \#CommonCore and \#CCSS hashtags as your search terms.
+Similar to Wang and Fikis (2019), use the \#CommonCore and \#CCSS hashtags as your search terms.
 
-You're output should look something like this:
+```{r}
 
-```{r retweet-argument, eval=TRUE, echo=FALSE}
-ccss_tweets <- search_tweets(q = "#commoncore OR #ccss", 
-                             n=5000, 
-                             include_rts = FALSE,
-                             lang = "en") %>%
-  select(text, screen_name, created_at) %>%
-  mutate(standards = "ccss") %>%
-  relocate(standards)
-  
-
-datatable(ccss_tweets)
 ```
 
 [**WARNING:**]{style="color: red;"} You will not be able to progress to the next section until you have completed the following task:
 
 #### Merge Data Frames
 
-Finally, let's combine our `ccss_text` and `ngss_text` into a single data frame by using the `bind_rows()` function from `dplyr` by simply supplying the data frames that you want to combine as arguments:
+Run the code below to combine our `ccss_text` and `ngss_text` into a single data frame:
 
 ```{r}
 ss_tweets <- bind_rows(ngss_tweets, ccss_tweets)
 ```
 
-Note that when creating a "union" like this, you should have the same number of columns in each data frame and they should be in the same order.
-
-And let's take a quick look at both the `head()` and the `tail()` of this new `tweets` data frame to make sure it contains both "ngss" and "ccss" standards:
+Take a quick look at both the `head()` and the `tail()` of this new `tweets` data frame to make sure it contains both "ngss" and "ccss" standards:
 
 ```{r}
 head(ss_tweets)
@@ -365,92 +302,27 @@ tail(ss_tweets)
 
 ### 2c. Tidy Text
 
-Text data, by it's very nature is ESPECIALLY untidy and sometimes referred to as "unstructured." In this section we're introduced to the `tidytext` package and will learn some new functions to convert text to and from tidy formats, which will allow us to switch seamlessly between tidy tools and existing text mining packages.
-
-#### tidytext 📦
-
-![](img/tidytext.png){width="100"}
-
-As we'll Learn first hand later in this lab, using tidy data principles can make many text mining tasks easier, more effective, and consistent with tools already in wide use. Much of the infrastructure needed for text mining with tidy data frames already exists in `tidyverse` packages with which we've already been introduced.
-
-For a more comprehensive introduction to the `tidytext` package, we cannot recommend enough the free online book, [Text Mining with R: A Tidy Approach](https://www.tidytextmining.com) by Silge and Robinson (2018).
-
-Let's go ahead and load `tidytext`:
+Load the `tidytext` package:
 
 ```{r load-tidytext, message=FALSE}
 library(tidytext)
 ```
 
-**Attention:** From this point forward, we'll also use a shared dataset constructed with the [Twitter Academic Research product track](https://developer.twitter.com/en/solutions/academic-research/products-for-researchers) that allows for a much greater number of tweets to be accessed over a far greater period of time. This will also ensure that we're producing similar results so we can check to see if our code is behaving as expected.
-
-Let's use the `readxl` package highlighted in Section 1 and the `read_xlsx()` function to read in the data stored in the data folder of our R project:
-
-```{r import-tweets, eval=FALSE}
-ss_tweets <- read_csv("data/ccss-tweets.csv",
-                        col_types = cols(id = col_character(), 
-                                         author_id = col_character()
-                                         )
-                        )
-```
-
 #### Tokenize Text {data-link="2b. Tidy Text"}
 
-In [Chapter 1 of Text Mining with R](https://www.tidytextmining.com/tidytext.html), Silge and Robinson (2018) define the tidy text format as a table with one-token-per-row, and explain that:
-
-> A **token** is a meaningful unit of text, such as a word, two-word phrase (bigram), or sentence that we are interested in using for analysis. And tokenization is the process of splitting text into tokens.
-
-This one-token-per-row structure is in contrast to the ways text is often stored for text analysis, perhaps as strings in a corpus object or in a document-term matrix. For tidy text mining, the token that is stored in each row is most often a single word, but can also be an n-gram, sentence, or paragraph.
-
-For this part of our workflow, our goal is to transform our `ss_tweets` data from this:
-
-```{r ccss-table, echo=FALSE}
-ss_tweets
-```
-
-Into a "tidy text" one-token-per-row format that looks like this:
-
-```{r tweet-tidy, echo=FALSE}
-tidy_tweets <- ss_tweets %>% 
-  unnest_tokens(output = word, 
-                input = text, 
-                token = "tweets") %>% 
-  relocate(standards, word)
-
-```
-
-```{r ccss-tibble, echo=FALSE}
-tidy_tweets
-```
-
-In later labs we'll learn about other data structures for text analysis like the document-term matrix and corpus objects. For now, however, working with the familiar tidy data frame allows us to take advantage of popular packages that use the shared tidyverse syntax and principles for wrangling, exploring, and modeling data.
-
 ##### Unigrams
-
-The `tidytext` package provides the incredibly powerful `unnest_tokens()` function to tokenize text (including tweets!) and convert them to a one-token-per-row format.
 
 Let's tokenize our tweets by using this function to split each tweet into a single row to make it easier to analyze:
 
 ```{r unnest-tokens}
 ss_unigrams <- unnest_tokens(ss_tweets, 
-                               output = word, 
-                               input = text)
+                             output = word, 
+                             input = text)
 
 head(ss_unigrams)
 ```
 
-There is A LOT to unpack with this function:
-
--   First notice that `unnest_tokens()` expects a data frame as the first argument, followed by two column names.
--   The second argument is an output column name that doesn't currently exist but will be created as the text is "unnested" into it (`word`, in this case).
--   This is followed by the input column that the text comes from, which we uncreatively named `text`.
--   By default, a token is an individual word or unigram.
--   Other columns, such as `screen_name` and `created_at`, are retained.
--   All punctuation has been removed.
--   Tokens have been changed to lowercase, which makes them easier to compare or combine with other datasets (use the `to_lower = FALSE` argument to turn off if desired).
-
 ##### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
-
-The `unnest_tokens()` function also has specialized `“tweets”` tokenizer in the `tokens =` argument that is very useful for dealing with Twitter text in that it retains hashtags and mentions of usernames with the \@ symbol.
 
 Rewrite the code below to include the token argument set to "tweets":
 
@@ -461,24 +333,9 @@ ss_unigrams <- unnest_tokens(ccss_tweets,
                              _____ = _____)
 ```
 
-Your output should look something like this:
-
-```{r ccss-unigram, echo=FALSE}
-ss_unigrams <- unnest_tokens(ccss_tweets, 
-                             output = word, 
-                             input = text, 
-                             token = "tweets")
-
-head(ss_unigrams)
-```
-
 ##### Bigrams
 
-In the function above we specified tokens as individual words, but many interesting text analyses are based on the relationships between words, which words tend to follow others immediately, or words that tend to co-occur within the same documents.
-
-We can also use the `unnest_tokens()` function to tokenize our tweets into consecutive sequences of words, called **n-grams**. By seeing how often word X is followed by word Y, we can then build a model of the relationships between them as well see in Part 2.
-
-We do this by adding the `token = "ngrams"` option to [`unnest_tokens()`](https://rdrr.io/pkg/tidytext/man/unnest_tokens.html), and setting `n` to the number of words in each n-gram. Let's set `n` to 2, so we can examine pairs of two consecutive words, often called "bigrams":
+Use the `unnest_tokens()` function to tokenize our tweets into bigrams by setting `n` to 2:
 
 ```{r ccss-bigrams}
 ss_bigrams <- ccss_tweets %>% 
@@ -490,8 +347,7 @@ ss_bigrams <- ccss_tweets %>%
 head(ss_bigrams)
 ```
 
-\
-Before we move any further let's take a quick look at the most common unigrams and bigrams in our two datasets:
+Before we move any further take a quick look at the most common unigrams and bigrams in our two datasets:
 
 ```{r}
 ss_unigrams %>%
@@ -501,13 +357,9 @@ ss_bigrams %>%
   count(bigram, sort = TRUE)
 ```
 
-Well, many of these tweets are clearly about the common core, but beyond that it's a bit hard to tell because there are so many "stop words" like "the", "to", "and", "in" that don't carry much meaning by themselves.
-
 #### Remove Stop Words
 
-Often in text analysis, we will want to remove these stop words if they are not useful for an analysis. The `stop_words` dataset in the tidytext package contains stop words from three lexicons. We can use them all together, as we have here, or `filter()` to only use one set of stop words if that is more appropriate for a certain analysis.
-
-Let's take a closer the lexicons and stop words included in each:
+Take a closer the lexicons and stop words included in each:
 
 ```{r}
 datatable(stop_words)
@@ -515,13 +367,7 @@ datatable(stop_words)
 
 #### The `anti_join` Function
 
-In order to remove these stop words, we will use a function called `anti_join()` that looks for matching values in a specific column from two datasets and returns rows from the original dataset that have no matches like so:
-
-![](img/anti-join.png)
-
-For a good overview of the different `dplyr` joins see here: <https://medium.com/the-codehub/beginners-guide-to-using-joins-in-r-682fc9b1f119>
-
-Now let's remove stop words that don't help us learn much about what people are saying about the state standards.
+Remove stop words that don't help us learn much about what people are saying about the state standards.
 
 ```{r stop-unigrams}
 tidy_unigrams <- anti_join(ss_unigrams,
@@ -531,11 +377,9 @@ tidy_unigrams <- anti_join(ss_unigrams,
 head(tidy_unigrams)
 ```
 
-Notice that we've specified the `by =` argument to look for matching words in the `word` column for both data sets and remove any rows from the `tweet_tokens` dataset that match the `stop_words` dataset. Remember when we first tokenized our dataset I conveniently chose `output = word` as the column name because it matches the column name `word` in the `stop_words` dataset contained in the `tidytext` package. This makes our call to `anti_join()`simpler because `anti_join()` knows to look for the column named `word` in each dataset. However this wasn't really necessary since `word` is the only matching column name in both datasets and it would have matched those columns by default.
-
 #### Filtering Bigrams
 
-As we saw above, a lot of the most common bigrams are pairs of common (uninteresting) words as well. Dealing with these is a little less straightforward and we'll need to use the `separate()` function from the `tidyr` package, which splits a column into multiple based on a delimiter. This lets us separate it into two columns, "word1" and "word2", at which point we can remove cases where either is a stop-word.
+Use the `separate()` function from the `tidyr` package, which splits a column into multiple based on a delimiter:
 
 ```{r stop-bigrams}
 library(tidyr)
@@ -550,8 +394,6 @@ bigrams_filtered <- bigrams_separated %>%
 tidy_bigrams <- bigrams_filtered %>%
   unite(bigram, word1, word2, sep = " ")
 ```
-
-\
 
 #### Custom Stop Words
 
@@ -576,8 +418,13 @@ tidy_unigrams <-
 
 Note that we could extend this filter to weed out any additional words that don't carry much meaning but skew our data by being so prominent.
 
-#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
+##### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
 
-Tidy your `my_tweets` dataset from the [✅ Comprehension Check](#comprehension-check-7) in Section 2a by tokenizing your text into unigrams and removing stop words.
+Use the code chunk below to tidy your `my_tweets` dataset from the [✅ Comprehension Check](#comprehension-check-7) in Section 2a by tokenizing your tweets into unigrams and removing stop words.
 
 Also, since we created some unnecessarily lengthy code to demonstrate some of the steps in the tidying process, try to use a more compact series of functions and assign your data frame to `my_tidy_tweets`.
+
+```{r}
+
+
+```
