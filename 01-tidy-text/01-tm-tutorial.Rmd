@@ -1,7 +1,7 @@
 ---
 title: "Tidy Text, Tokens & Twitter"
 subtitle: "TM Learning Lab 1 Tutorial"
-author: "LASER TEAM"
+author: "LASER Institute"
 date: "`r format(Sys.Date(),'%B %e, %Y')`"
 output:
   html_document:
@@ -123,11 +123,11 @@ In order to authorize R to use your Twitter App to retrieve data, you'll need to
 2.  Click the tab labeled `Keys and tokens` to retrieve your keys.
 3.  Locate the `Consumer API keys` (aka "API Secret").
 
-<img src="files/create-app-6.png" alt="create-app-6" width="80%"/>
+![](files/create-app-6.png){width="80%"}
 
 3.  Scroll down to `Access token & access token secret` and click `Create`
 
-<img src="files/create-app-7.png" alt="create-app-7" width="80%"/>
+![](files/create-app-7.png){width="80%"}
 
 4.  Copy and paste the four keys (along with the name of your app) into an `twitter-auth.R` file located in your directory and pass them along to `create_token()`. Note, these keys are named secret for a reason. We store these up in a separate R script file rather than in a file you will eventually share.
 
@@ -237,7 +237,7 @@ Notice the unique syntax required for the query argument. For example, when "OR"
 
 We still have a few queries to add in order to replicate the approach by Rosenberg et al, but dealing with that many queries inside a single function is a bit tedious. Let's go ahead and create our very first "dictionary" --- we'll learn more about dictionary-based approaches in Part 3 --- for identifying tweets related to the NGSS standards, and then pass that dictionary to the `q =` query argument to pull related tweets:
 
-To do so, we'll need to add some additional search terms to our list. Run the following code in your console to store your dictionary and tweets in your environment:
+To do so, we'll need to add some additional search terms to our list. Run the following code to store your dictionary and queried tweets in your environment:
 
 ```{r}
 ngss_dictionary <- c("#NGSSchat OR ngss",
@@ -252,7 +252,7 @@ ngss_tweets_q4 <- search_tweets2(ngss_dictionary,
 
 ##### [Your Turn]{style="color: green;"} ⤵
 
-1.  Create a new code chunk and write a query based on a STEM area of interest.
+1.  In your practice Rmd file, write a new query based on a STEM area of interest.
 
 2.  Assign your search to a new object called `my_tweets` or something appropriate.
 
@@ -267,9 +267,9 @@ For your own research, you may be interested in exploring posts by specific user
 For example, let's create another list containing the usernames of the LASER Institute leads using the `c()` function again and use the `get_timelines()` function to get the most recent tweets from each of those users:
 
 ```{r, eval=TRUE}
-laser <- c("sbkellogg", "jrosenberg6432", "yanecnu", "robmoore3", "hollylynnester")
+laser_peeps <- c("sbkellogg", "jrosenberg6432", "yanecnu", "robmoore3", "hollylynnester")
 
-laser_tweets <- laser %>%
+laser_tweets <- laser_peeps %>%
   get_timelines(include_rts=FALSE)
 ```
 
@@ -393,9 +393,11 @@ head(ngss_tweets)
 
 Recall from section [1b. Define Questions] that we are interested in comparing word usage and public sentiment around both the Common Core and Next Gen Science Standards.
 
-1.  Create an new `ccss_text` data frame for our `ccss_tweets` Common Core tweets by modifying code above.
+1.  Create an new `ccss_tweets` data frame consisting of Common Core tweets by modifying code above.
 
 2.  Similar to Wang and Fikis (2019), use the \#CommonCore and \#CCSS hashtags as your search terms.
+
+3.  Try using the handy `include_rts = FALSE` and `lang = "en"` arguments included in the `search_tweets2()` function to remove retweets and non-English language tweets.
 
 You're output should look something like this:
 
@@ -489,11 +491,11 @@ The `tidytext` package provides the incredibly powerful `unnest_tokens()` functi
 Let's tokenize our tweets by using this function to split each tweet into a single row to make it easier to analyze:
 
 ```{r unnest-tokens}
-ss_unigrams <- unnest_tokens(ss_tweets, 
+ss_tweets_u1 <- unnest_tokens(ss_tweets, 
                                output = word, 
                                input = text)
 
-head(ss_unigrams)
+head(ss_tweets_u1)
 ```
 
 There is A LOT to unpack with this function:
@@ -513,21 +515,21 @@ The `unnest_tokens()` function also has specialized `“tweets”` tokenizer i
 Rewrite the code below to include the token argument set to "tweets":
 
 ```{r token-tweet, eval=FALSE}
-ss_unigrams <- unnest_tokens(ccss_tweets, 
-                             output = word, 
-                             input = text, 
-                             _____ = _____)
+ss_tweets_u2 <- unnest_tokens(ss_tweets, 
+                              output = word, 
+                              input = text, 
+                              _____ = _____)
 ```
 
 Your output should look something like this:
 
 ```{r ccss-unigram, echo=FALSE}
-ss_unigrams <- unnest_tokens(ccss_tweets, 
+ss_tweets_u2 <- unnest_tokens(ss_tweets, 
                              output = word, 
                              input = text, 
                              token = "tweets")
 
-head(ss_unigrams)
+head(ss_tweets_u2)
 ```
 
 ##### Bigrams
@@ -539,27 +541,26 @@ We can also use the `unnest_tokens()` function to tokenize our tweets into conse
 We do this by adding the `token = "ngrams"` option to [`unnest_tokens()`](https://rdrr.io/pkg/tidytext/man/unnest_tokens.html), and setting `n` to the number of words in each n-gram. Let's set `n` to 2, so we can examine pairs of two consecutive words, often called "bigrams":
 
 ```{r ccss-bigrams}
-ss_bigrams <- ccss_tweets %>% 
+ss_tweets_b1 <- ss_tweets %>% 
   unnest_tokens(bigram, 
                 text, 
                 token = "ngrams", 
                 n = 2)
 
-head(ss_bigrams)
+head(ss_tweets_b1)
 ```
 
-\
 Before we move any further let's take a quick look at the most common unigrams and bigrams in our two datasets:
 
 ```{r}
-ss_unigrams %>%
+ss_tweets_u2 %>%
   count(word, sort = TRUE)
 
-ss_bigrams %>% 
+ss_tweets_b1 %>% 
   count(bigram, sort = TRUE)
 ```
 
-Well, many of these tweets are clearly about the common core and , but beyond that it's a bit hard to tell because there are so many "stop words" like "the", "to", "and", "in" that don't carry much meaning by themselves.
+Well, many of these tweets are clearly about the ccss and ngss, but beyond that it's a bit hard to tell because there are so many "stop words" like "the", "to", "and", "in" that don't carry much meaning by themselves.
 
 #### Remove Stop Words
 
@@ -582,11 +583,11 @@ For a good overview of the different `dplyr` joins see here: <https://medium.
 Now let's remove stop words that don't help us learn much about what people are saying about the state standards.
 
 ```{r stop-unigrams}
-tidy_unigrams <- anti_join(ss_unigrams,
+ss_tweets_u3 <- anti_join(ss_tweets_u2,
                            stop_words,
                            by = "word")
 
-head(tidy_unigrams)
+head(ss_tweets_u3)
 ```
 
 Notice that we've specified the `by =` argument to look for matching words in the `word` column for both data sets and remove any rows from the `tweet_tokens` dataset that match the `stop_words` dataset. Remember when we first tokenized our dataset I conveniently chose `output = word` as the column name because it matches the column name `word` in the `stop_words` dataset contained in the `tidytext` package. This makes our call to `anti_join()`simpler because `anti_join()` knows to look for the column named `word` in each dataset. However this wasn't really necessary since `word` is the only matching column name in both datasets and it would have matched those columns by default.
@@ -598,14 +599,14 @@ As we saw above, a lot of the most common bigrams are pairs of common (uninteres
 ```{r stop-bigrams}
 library(tidyr)
 
-bigrams_separated <- ss_bigrams %>%
+ss_tweets_b2 <- ss_tweets_b1 %>%
   separate(bigram, c("word1", "word2"), sep = " ")
 
-bigrams_filtered <- bigrams_separated %>%
+ss_tweets_b3 <- ss_tweets_b2 %>%
   filter(!word1 %in% stop_words$word) %>%
   filter(!word2 %in% stop_words$word)
 
-tidy_bigrams <- bigrams_filtered %>%
+ss_tweets_b4 <- ss_tweets_b3 %>%
   unite(bigram, word1, word2, sep = " ")
 ```
 
@@ -616,18 +617,18 @@ tidy_bigrams <- bigrams_filtered %>%
 Before wrapping up, let's take a quick count of the most common unigrams and bigrams to see if the results are a little more meaningful:
 
 ```{r}
-tidy_unigrams %>%
+ss_tweets_u3 %>%
   count(word, sort = TRUE)
 
-tidy_bigrams %>% 
+ss_tweets_b4 %>% 
   count(bigram, sort = TRUE)
 ```
 
 Notice that the nonsense word "amp" is among our high frequency words. Let's add a filter to our previous code similar to what we did with our bigrams to remove rows with "amp" in them:
 
 ```{r}
-tidy_unigrams <-
-  ss_unigrams %>%
+ss_tweets_u4 <-
+  ss_tweets_u3 %>%
   anti_join(stop_words, by = "word") %>%
   filter(!word == "amp")
 ```
@@ -636,10 +637,10 @@ Note that we could extend this filter to weed out any additional words that don'
 
 ##### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
 
-Tidy your `my_tweets` dataset from the [Your Turn ⤵] in Section 2a by tokenizing your text into unigrams and removing stop words.
+Tidy your `my_tweets` dataset from Section 2a by tokenizing your text into unigrams and removing stop words.
 
-Also, since we created some unnecessarily lengthy code to demonstrate some of the steps in the tidying process, try to use a more compact series of functions and assign your data frame to `my_tidy_tweets`.
+Also, since we created some unnecessarily lengthy code to demonstrate many of the steps in the tidying process, try to use a more compact series of functions and assign your data frame to `my_tidy_tweets`.
 
-##### 🧶 ✅ ⬆ Knit, Commit, Push 
+##### [Knit, Commit, Push]{style="color: red;"} 🧶 ✅ ⬆
 
 Knit, commit and push all changed files so that your Git pane is cleared up afterwards. You should confirm that what you committed and pushed are indeed in your repo that we will see by visiting your repo on GitHub.
