@@ -8,7 +8,7 @@ The transition to digital learning has made available new sources of data, provi
 
 **Learning Lab 1: Tidy Text, Tokens, & Twitter.** We take a closer look at the literature and research questions that will be guiding our analysis; importing data through Twitter's developer API; and wrangling our data into a one-token-per-row tidy text format.
 
-Presentation \| [Tutorial](https://laser-institute.github.io/text-mining/01-tidy-text/01-tm-tutorial.html) \| Practice
+Presentation \| [Tutorial](https://laser-institute.github.io/text-mining/01-tidy-text/01-tm-tutorial.html) \| [Practice](https://github.com/laser-institute/text-mining-labs/blob/main/01-tm-practice.Rmd)
 
 **Learning Lab 2: Word Counts, Clouds & Correlations.** For our second lab, we use simple summary statistics, data visualization, and word correlations to explore our data and see what insight they provides in response to our questions.
 
