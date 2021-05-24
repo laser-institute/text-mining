@@ -6,7 +6,7 @@ The transition to digital learning has made available new sources of data, provi
 
 ### TM Module 1: An Introduction to Text Mining in STEM Ed
 
-**Learning Lab 1: Tidy Text, Tokens, & Twitter.** We take a closer look at the literature and research questions that will be guiding our analysis; importing data through Twitter's developer API; and wrangling our data into a one-token-per-row tidy text format.
+**Learning Lab 1: Tidy Text, Tokens, & Twitter.** We take a closer look at the literature and research questions that will be guiding our analysis; importing data through Twitter's developer API; and wrangling our data into a one-token-per-row tidy text format.
 
 Presentation | [Tutorial](https://laser-institute.github.io/text-mining/01-tidy-text/01-tm-tutorial.html) | [Practice](https://github.com/laser-institute/text-mining-labs/blob/main/01-tm-practice.Rmd)
 
