@@ -66,6 +66,7 @@ library(scales)
 ## 2. WRANGLE
 
 a.  
+
 b.  **Get Sentiments**. We conclude our data wrangling by introducing sentiment lexicons and the `inner_join()` function for appending sentiment values to our data frame.
 
 ### 2a. Add Sentiment Values
