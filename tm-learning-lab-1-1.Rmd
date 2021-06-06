@@ -20,7 +20,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The transition to digital learning has made available new sources of data, providing researchers new opportunities for understanding and improving STEM learning. Data sources such as digital learning environments and administrative data systems, as well as data produced by social media websites and the mass digitization of academic and practitioner publications, hold enormous potential to address a range of pressing problems in STEM Education, but collecting and analyzing text-based data also presents unique challenges.
 
-**Text Mining (TM) Module 1: Public Sentiment and the State Standards** will introduce LASER Institute scholars to a specific application of text mining in STEM education research and provide hands-on experience with popular techniques for collecting, processing, and analyzing text-based data. Specifically, the four learning labs that make up this module address the following topics:
+**Text Mining (TM) Module 1: Public Sentiment and the State Standards** will help demonstrate how text mining can be applied in STEM education research and provide LASER Institute scholars hands-on experience with popular techniques for collecting, processing, and analyzing text-based data. Specifically, the four learning labs that make up this module address the following topics:
 
 -   **Learning Lab 1: Tidy Text, Tokens, & Twitter.** We take a closer look at the literature and research questions that will be guiding our analysis; importing data through Twitter's developer API; and wrangling our data into a one-token-per-row tidy text format.
 
