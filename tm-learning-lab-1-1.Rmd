@@ -1,9 +1,10 @@
 ---
-title: "Tidy Text, Tokens & Twitter"
-subtitle: "TM Learning Lab 1 Tutorial"
+title: "Text Mining Learning Lab 1.1"
+subtitle: " Tidy Text, Tokens, and Twitter"
 author: "LASER Institute"
 date: "`r format(Sys.Date(),'%B %e, %Y')`"
 output:
+  html_notebook:
   html_document:
     toc: true
     toc_depth: 5
@@ -19,19 +20,19 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The transition to digital learning has made available new sources of data, providing researchers new opportunities for understanding and improving STEM learning. Data sources such as digital learning environments and administrative data systems, as well as data produced by social media websites and the mass digitization of academic and practitioner publications, hold enormous potential to address a range of pressing problems in STEM Education, but collecting and analyzing text-based data also presents unique challenges.
 
-The Text Mining (TM) Learning Labs will provide LASER Institute scholars hands-on experience with popular techniques for collecting, processing, and analyzing text-based data---including mining data from application programming interfaces or APIs, screen-scraping, sentiment analysis, topic modeling, text classification and more. Our first lab is divided into the following four parts:
+**Text Mining (TM) Module 1: Public Sentiment and the State Standards** will introduce LASER Institute scholars to a specific application of text mining in STEM education research and provide hands-on experience with popular techniques for collecting, processing, and analyzing text-based data. Specifically, the four learning labs that make up this module address the following topics:
 
-**Part 1: Tidy Text, Tokens, & Twitter.** We take a closer look at the literature and research questions that will be guiding our analysis; importing data through Twitter's developer API; and wrangling our data into a one-token-per-row tidy text format.
+-   **Learning Lab 1: Tidy Text, Tokens, & Twitter.** We take a closer look at the literature and research questions that will be guiding our analysis; importing data through Twitter's developer API; and wrangling our data into a one-token-per-row tidy text format.
 
-**Part 2: Word Counts, Clouds & Correlations.** For our second lab, we use simple summary statistics, data visualization, and word correlations to explore our data and see what insight they provides in response to our questions.
+-   **Learning Lab 2: Word Counts, Clouds & Correlations.** For our second lab, we use simple summary statistics, data visualization, and word correlations to explore our data and see what insight they provides in response to our questions.
 
-**Part 3: Sentiment Analysis & School Reform.** We focus on the use of lexicons to compare the sentiment of tweets about the NGSS and CCSS state standards in order to better understand public reaction to these two curriculum reform efforts. 
+-   **Learning Lab 3: Sentiment Analysis & School Reform.** We focus on the use of lexicons to compare the sentiment of tweets about the NGSS and CCSS state standards in order to better understand public reaction to these two curriculum reform efforts. 
 
-**Part 4: Select, Polish, & Narrate.** We wrap our look at public sentiment around STEM state curriculum standards by selecting an analysis that provides some unique insight; refining or polishing a data product, such as a graph or table in static or interactive form; and writing a brief narrative explaining the ways in which the data product helps answer the research question.
+-   **Learning Lab 4: A Tale of Two Standards.** We wrap our look at public sentiment around STEM state curriculum standards by selecting an analysis that provides some unique insight; refining or polishing a data product, such as a graph or table in static or interactive form; and writing a brief narrative explaining the ways in which the data product helps answer the research question.
 
-### 1a. Understand the Context
+### 1a. Review the Literature
 
-Text Mining Learning Lab 1 is guided by a recent publication by LASER Institute instructor Josh Rosenberg's recent article, *Advancing new methods for understanding public sentiment about educational reforms: The case of Twitter and the Next Generation Science Standards* (Rosenberg et al., 2021), which in turn is guided by the work of Wang and Fikis (2019) examining public opinion on the Common Core State Standards (CCSS) on Twitter. For Lab 1, we will focus on comparing the sentiment of tweets about the [Next Generation Science Standards](https://www.nextgenscience.org) (NGSS) and [Common Core State Standards](http://www.corestandards.org) (CCSS) in order to better understand key words and phrases that emerge, as well as public sentiment towards these two curriculum reform efforts.
+Text Mining Module 1 is guided by a recent publication by @rosenberg2020, *Advancing new methods for understanding public sentiment about educational reforms: The case of Twitter and the Next Generation Science Standards*. This study in turn builds on upon previous work by @wang2017 examining public opinion on the Common Core State Standards (CCSS) on Twitter. For Module 1, we will focus on analyzing tweets about the [Next Generation Science Standards](https://www.nextgenscience.org) (NGSS) and [Common Core State Standards](http://www.corestandards.org) (CCSS) in order to better understand key words and phrases that emerge, as well as public sentiment towards these two curriculum reform efforts.
 
 #### Twitter and the Next Generation Science Standards
 
@@ -650,3 +651,5 @@ Also, since we created some unnecessarily lengthy code to demonstrate many of th
 ##### [Knit, Commit, Push]{style="color: red;"} 🧶 ✅ ⬆
 
 Knit, commit and push all changed files so that your Git pane is cleared up afterwards. You should confirm that what you committed and pushed are indeed in your repo that we will see by visiting your repo on GitHub.
+
+## References
