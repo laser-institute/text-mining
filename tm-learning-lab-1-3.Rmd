@@ -18,58 +18,39 @@ knitr::opts_chunk$set(echo = TRUE)
 
 This week, our walkthrough is guided by my colleague Josh Rosenberg's recent article, **Advancing new methods for understanding public sentiment about educational reforms: The case of Twitter and the Next Generation Science Standards.** We will focus on conducting a very simplistic "replication study" by comparing the sentiment of tweets about the [Next Generation Science Standards](https://www.nextgenscience.org) (NGSS) and [Common Core State Standards](http://www.corestandards.org) (CCSS) in order to better understand public reaction to these two curriculum reform efforts.
 
-### Tidy Text Flow Chart
+### 2c. Load Packages
 
-For Unit 2, our focus will be on using the Twitter API to import data on topics or tweets of interest and using sentiment lexicons to help gauge public opinion about those topics or tweets. Silge & Robinson nicely illustrate the tools of text mining to approach the emotional content of text programmatically, in the following diagram:
-
-![Figure 2.1: A flowchart of a typical text analysis that uses tidytext for sentiment analysis.](img/sentiment-flow.png "Figure 2.1: A flowchart of a typical text analysis that uses tidytext for sentiment analysis. This chapter shows how to implement sentiment analysis using tidy data principles."){width="90%"}
-
-For Unit 2, our walkthrough will cover the following topics:
-
-1.  **Prepare**: Prior to analysis, it's critical to understand the context and data sources you're working with so you can formulate useful and answerable questions. We'll take a quick look at Dr. Rosenberg's study as well as data available through Twitter's API.
-2.  **Wrangle**: In section 2 we revisit tidying and tokenizing text from Unit 1, and and learn some new functions for appending sentiment scores to our tweets using the AFFIN, bing, and nrc sentiment lexicons.
-3.  **Explore**: In section 3, we use simple summary statistics and basic data visualization to compare sentiment between NGSS and CCSS tweets.
-4.  **Model**: While we won't leverage modeling approaches until Unit 3, we will examine the mixed effects model used by Rosenberg et al. to analyze the sentiment of tweets
-
-### 1a. Some Context
-
-### 1b. Guiding Questions
-
-For this walkthrough, we'll use a similar approach used by the authors to guage public sentiment around the NGSS, by compare how much more positive or negative NGSS tweets are relative to CSSS tweets.
-
-Our (very) specific questions of interest for this walkthrough are:
-
-1.  What is the public sentiment expressed toward the NGSS?
-2.  How does sentiment for NGSS compare to sentiment for CCSS?
-3.  How does public sentiment vary over time?
-
-And just to reiterate from Learning Lab 1, one overarching question we'll explore throughout this module, and that Silge and Robinson (2018) identify as a central question to text mining and natural language processing, is:
-
-> How do we to **quantify** what a document or collection of documents is about?
+![uses tidytext for sentiment analysis.](img/sentiment-flow.png "Figure 2.1: A flowchart of a typical text analysis that uses tidytext for sentiment analysis. This chapter shows how to implement sentiment analysis using tidy data principles."){width="90%"}
 
 ```{r}
-library(dplyr)
 library(readr)
-library(tidyr)
-library(rtweet)
-library(writexl)
-library(readxl)
 library(tidytext)
-library(textdata)
+library(dplyr)
+library(tidyr)
 library(ggplot2)
-library(textdata)
-library(scales)
 ```
+
+#### The vader Package 📦
+
+![](img/vader.jpeg){width="20%"}\
+
+The {Vader} package is Valence Aware Dictionary for sEntiment Reasoning (VADER) is a rule-based model for sentiment analysis of social media text .
+
+\
 
 ------------------------------------------------------------------------
 
 ## 2. WRANGLE
 
-a.  
+a.  **Get Sentiments**. We conclude our data wrangling by introducing sentiment lexicons and the `inner_join()` function for appending sentiment values to our data frame.
 
-b.  **Get Sentiments**. We conclude our data wrangling by introducing sentiment lexicons and the `inner_join()` function for appending sentiment values to our data frame.
+b.  **Join Sentiment.**
 
-### 2a. Add Sentiment Values
+### 2a. Get Sentiment Values
+
+Recall from TM Learning Lab 1
+
+Let's
 
 Now that we have our tweets nice and tidy, we're almost ready to begin exploring public sentiment (at least for the past week due to Twitter API rate limits) around the CCSS and NGSS standards. For this part of our workflow we introduce two new functions from the [`tidytext`](https://github.com/juliasilge/tidytext) and `dplyr` packages respectively:
 
