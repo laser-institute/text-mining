@@ -195,11 +195,24 @@ Use the code chunk below to view your new `ngss_tweets_q1` data frame using one 
 ```
 
 1.  How many tweets did our query using the Twitter API actually return? How many variables?
-2.  
-3.  Why do you think our query pulled in far less than 5,000 tweets requested? [Hint](https://cbail.github.io/textasdata/apis/rmarkdown/Application_Programming_interfaces.html#rate-limiting).
-4.  How many tweets are returned if you don't include the `n =` argument?
-5.  Does our query also include retweets? How do you know?
-6.  Does capitalization in your query matter?
+
+    -   
+
+2.  Why do you think our query pulled in far less than 5,000 tweets requested? [Hint](https://cbail.github.io/textasdata/apis/rmarkdown/Application_Programming_interfaces.html#rate-limiting).
+
+    -   
+
+3.  How many tweets are returned if you don't include the `n =` argument?
+
+    -   
+
+4.  Does our query also include retweets? How do you know?
+
+    -   
+
+5.  Does capitalization in your query matter?
+
+    -   
 
 #### Using the OR Operator
 
@@ -216,7 +229,11 @@ head(ngss_tweets_q2)
 
 #### [Your Turn]{style="color: green;"} ⤵
 
-Try including both search terms but excluding the `OR` operator to answer the following question:
+In the following code chunk, try including both search terms but excluding the `OR` operator to answer the questions below:
+
+```{r}
+
+```
 
 1.  Does excluding the `OR` operator return more tweets, the same number of tweets, or fewer tweets? Why?
 2.  Does our query also include tweets containing the \#ngss hashtag?
