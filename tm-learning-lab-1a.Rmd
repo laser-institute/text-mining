@@ -4,11 +4,11 @@ subtitle: 'Text Mining Learning Lab 1a (Optional)'
 author: "YOUR NAME HERE"
 date: "`r format(Sys.Date(),'%B %e, %Y')`"
 output:
+  html_notebook:
   html_document:
     toc: true
     toc_depth: 5
     toc_float: yes
-  html_notebook:
 bibliography: lit/references.bib
 ---
 
@@ -26,7 +26,7 @@ The Text Mining Learning Labs during the second week of the Summer Workshop are 
 
 ![](img/tidyverse.png){width="20%"}
 
-As noted in our Getting Started activity, R uses "packages" add-ons that enhance its functionality. One package that we'll be using extensively is {tidyverse}. The {tidyverse} package is actually a [collection of R packages](https://www.tidyverse.org/packages) designed for reading, wrangling, and exploring data and which all share an underlying design philosophy, grammar, and data structures.
+As noted in our Getting Started activity, R uses "packages" and add-ons that enhance its functionality. One package that we'll be using extensively is {tidyverse}. The {tidyverse} package is actually a [collection of R packages](https://www.tidyverse.org/packages) designed for reading, wrangling, and exploring data and which all share an underlying design philosophy, grammar, and data structures.
 
 Click the green arrow in the right corner of the "code chunk" that follows to load the {tidyverse} library.
 
