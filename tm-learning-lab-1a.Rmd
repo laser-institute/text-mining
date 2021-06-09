@@ -4,11 +4,11 @@ subtitle: 'Text Mining Learning Lab 1a (Optional)'
 author: "YOUR NAME HERE"
 date: "`r format(Sys.Date(),'%B %e, %Y')`"
 output:
-  html_notebook:
   html_document:
     toc: true
     toc_depth: 5
     toc_float: yes
+  html_notebook:
 bibliography: lit/references.bib
 ---
 
@@ -221,6 +221,17 @@ ngss_dictionary <- c("#NGSSchat OR ngss",
 ngss_tweets_q4 <- search_tweets2(ngss_dictionary,
                               n=5000)
 ```
+
+Now let's create a dictionary for the Common Core State Standards and pass that to our `search_tweets()` function to get the most recent tweets:
+
+```{r}
+ccss_dictionary <- c("#commoncore", '"common core"')
+
+ccss_tweets <- ccss_dictionary %>% 
+  search_tweets2(n=5000, include_rts = FALSE)
+```
+
+Notice that you can use the pipe operator with the `search_tweets()` function just like you would other functions from the tidyverse.
 
 #### 👉 Your Turn ⤵
 
