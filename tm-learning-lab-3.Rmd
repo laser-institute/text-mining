@@ -16,11 +16,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## 1. PREPARE
 
-This week, our walkthrough is guided by my colleague Josh Rosenberg's recent article, **Advancing new methods for understanding public sentiment about educational reforms: The case of Twitter and the Next Generation Science Standards.** We will focus on conducting a very simplistic "replication study" by comparing the sentiment of tweets about the [Next Generation Science Standards](https://www.nextgenscience.org) (NGSS) and [Common Core State Standards](http://www.corestandards.org) (CCSS) in order to better understand public reaction to these two curriculum reform efforts.
+Recall from TM Learning Lab 1 that one of our goals for these labs is to produce a simplistic replication of the analyses by Rosenberg et al (2021). Our aim is to compare the sentiment of tweets about the [Next Generation Science Standards](https://www.nextgenscience.org) (NGSS) and [Common Core State Standards](http://www.corestandards.org) (CCSS) in order to better understand public reaction to these two curriculum reform efforts.
 
-### 2c. Load Packages
-
-![uses tidytext for sentiment analysis.](img/sentiment-flow.png "Figure 2.1: A flowchart of a typical text analysis that uses tidytext for sentiment analysis. This chapter shows how to implement sentiment analysis using tidy data principles."){width="90%"}
+### 1a. Load Libraries
 
 ```{r}
 library(readr)
@@ -40,7 +38,15 @@ Let's go ahead and
 
 #### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
 
-Use the code chunk below to\
+Use the code chunk below to
+
+```{r}
+
+```
+
+### 1b. Import Data
+
+Finally, let's import our data again from Learning Lab 1 that we'll be using for our sentiment analysis:
 
 ------------------------------------------------------------------------
 
@@ -153,39 +159,12 @@ sentiment_loughran
 
 ## 3. EXPLORE
 
-Now that we have our tweets tidied and sentiments joined, we're ready for a little data exploration. As highlighted in Unit 1, calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. One goal in this phase is explore questions that drove the original analysis and develop new questions and hypotheses to test in later stages. Topics addressed in Section 3 include:
+Now that we have our tweets tidied and sentiments joined, we're ready for a little data exploration. As highlighted in Learning Lab 1, calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. One goal in this phase is explore questions that drove the original analysis and develop new questions and hypotheses to test in later stages. Topics addressed in Section 3 include:
 
 a.  **Time Series**. We take a quick look at the date range of our tweets and compare number of postings by standards.
 b.  **Sentiment Summaries**. We put together some basic summaries of our sentiment values in order to compare public sentiment
 
-### 3a. Time Series
-
-Before we dig into sentiment, let's use the handy `ts_plot` function built into `rtweet` to take a very quick look at how far back our tidied `tweets` data set goes:
-
-```{r}
-ts_plot(tweets, by = "days")
-```
-
-Notice that this effectively creates a `ggplot` time series plot for us. I've included the `by =` argument which by default is set to "days". It looks like tweets go back 9 days which the rate limit set by Twitter.
-
-Try changing it to "hours" and see what happens.
-
-##### ✅ Comprehension Check
-
-1.  Use `ts_plot` with the `group_by` function to compare the number of tweets over time by Next Gen and Common Core `standards`
-2.  Which set of standards is Twitter users talking about the most?
-
-Hint: use the `?ts_plot` help function to check the examples to see how this can be done.
-
-Your line graph should look something like this:
-
-```{r, echo=F}
-tweets %>%
-  group_by(standards) %>%
-  ts_plot(by = "days")
-```
-
-### 3b. Sentiment Summaries
+### 3a. Tidy Sentiment Summaries
 
 Since our primary goals is to compare public sentiment around the NGSS and CCSS state standards, in this section we put together some basic numerical summaries using our different lexicons to see whether tweets are generally more positive or negative for each standard as well as differences between the two. To do this, we revisit the following `dplyr` functions:
 
@@ -309,8 +288,6 @@ summary_afinn
 ```
 
 ## 4. MODEL
-
-As highlighted in [Chapter 3 of Data Science in Education Using R](https://datascienceineducation.com/c03.html), the **Model** step of the data science process entails "using statistical models, from simple to complex, to understand trends and patterns in the data." The authors note that while descriptive statistics and data visualization during the **Explore** step can help us to identify patterns and relationships in our data, statistical models can be used to help us determine if relationships, patterns and trends are actually meaningful.
 
 Recall from the PREPARE section that the Rosenberg et al. study was guide by the following questions:
 

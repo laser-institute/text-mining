@@ -25,7 +25,7 @@ The transition to digital learning has made available new sources of data, provi
 
 -   **Learning Lab 1: Tidy Text, Tokens, & Twitter.** We take a closer look at the literature guiding our analysis; wrangle our data into a one-token-per-row tidy text format; and use simple word counts to explore our tweets about the common core and next generation science standards.
 
--   **Learning Lab 2: Twice the fun with Bigrams.** For our second lab, we see what pairs of words and word correlations tell us about our tweets what insight they provide in response to our research questions.
+-   **Learning Lab 2: Twice the fun with Bigrams.** For our second lab, we explore our unigrams, or single word tokens a little more, and also see what pairs of words and word correlations tell us about our tweets what insight they provide in response to our research questions.
 
 -   **Learning Lab 3: Come to the Dark Side.** We focus on the use of lexicons in our third lab and introduce the {vader} package to compare the sentiment of tweets about the NGSS and CCSS state standards in order to better understand public reaction to these two curriculum reform efforts. 
 
@@ -41,17 +41,46 @@ Text Mining Module 1 is guided by a recent publication by @rosenberg2020, *Advan
 
 [Full Paper (Preprint)](https://osf.io/xymsd/.)
 
-**Abstract**
+##### **Abstract**
 
 While the Next Generation Science Standards (NGSS) are a long-standing and widespread standards-based educational reform effort, they have received less public attention, and no studies have explored the sentiment of the views of multiple stakeholders toward them. To establish how public sentiment about this reform might be similar to or different from past efforts, we applied a suite of data science techniques to posts about the standards on Twitter from 2010-2020 (N = 571,378) from 87,719 users. Applying data science techniques to identify teachers and to estimate tweet sentiment, we found that the public sentiment towards the NGSS is overwhelmingly positive -- 33 times more so than for the CCSS. Mixed effects models indicated that sentiment became more positive over time and that teachers, in particular, showed a more positive sentiment towards the NGSS. We discuss implications for educational reform efforts and the use of data science methods for understanding their implementation.
 
-**Data Source & Analysis**
+##### **Data Sources**
 
 Similar to what we'll be learning in this lab, Rosenberg et al. used publicly accessible data from Twitter collected using the Full-Archive Twitter API and the `rtweet` package in R. Specifically, the authors accessed tweets and user information from the hashtag-based \#NGSSchat online community, all tweets that included any of the following phrases, with "/" indicating an additional phrase featuring the respective plural form: "ngss", "next generation science standard/s", "next gen science standard/s".
 
-Unlike this learning lab, however, the authors determined Tweet sentiment using the Java version of SentiStrength to assign tweets to two 5-point scales of sentiment, one for positivity and one for negativity, because SentiStrength is a validated measure for sentiment in short informal texts (Thelwall et al., 2011). In addition, they used this tool because Wang and Fikis (2019) used it to explore the sentiment of CCSS-related posts. We'll be using the AFINN sentiment lexicon which also assigns words in a tweet to two 5-point scales, in addition to exploring some other sentiment lexicons to see if they produce similar results.
+Data used in this lab was pulled using an [Academic Research developer account](https://developer.twitter.com/en/products/twitter-api/academic-research) and the {academictwitter} package, which uses the Twitter API v2 endpoints and allows researchers to access the full twitter archive. For those that created a standard developer account, the [rtweet & the Twitter API](https://laser-institute.github.io/text-mining/tm-learning-lab-1a.html) supplemental learning lab will show you how to pull your own data from Twitter.
 
-The authors also used the `lme4` package in R to run a mixed effects model to determine if sentiment changes over time and differs between teachers and non-teacher. In addition to looking at the relationships between tweet sentiment, time and teachers, we'll also take a look at the correlation between words within tweets.
+Data for this lab includes all tweets from 2020 that included the following terms: `#ccss`, `common core`, `#ngsschat`, `ngss`. Below is an example of the code used to retrieve data for this lab. It is set not to run and will not run if you try, but it does illustrate the search query used, variables selected, and time frame.
+
+```{r, eval=FALSE}
+ccss_tweets_2021 <-
+  get_all_tweets('(#commoncore OR "common core") -is:retweet lang:en',
+                 "2021-01-01T00:00:00Z",
+                 "2021-05-31T00:00:00Z",
+                 bearer_token,
+                 data_path = "ccss-data/",
+                 bind_tweets = FALSE)
+
+ccss_tweets <- bind_tweet_jsons(data_path = "ccss-data/") %>%
+  select(text,
+         created_at,
+         author_id,
+         id,
+         conversation_id,
+         source,
+         possibly_sensitive,
+         in_reply_to_user_id)
+
+
+write_csv(ccss_tweets, "data/ccss-tweets.csv")
+```
+
+##### **Analysis**
+
+Also similar to what we'll demonstrate in Lab 3, the authors determined Tweet sentiment using the Java version of SentiStrength to assign tweets to two 5-point scales of sentiment, one for positivity and one for negativity, because SentiStrength is a validated measure for sentiment in short informal texts (Thelwall et al., 2011). In addition, they used this tool because Wang and Fikis (2019) used it to explore the sentiment of CCSS-related posts. We'll be using the AFINN sentiment lexicon which also assigns words in a tweet to two 5-point scales, in addition to exploring some other sentiment lexicons to see if they produce similar results.
+
+The authors also used the `lme4` package in R to run a mixed effects model to determine if sentiment changes over time and differs between teachers and non-teacher. We won't look at the relationships between tweet sentiment, time and teachers in these labs, but we will take a look at the correlation between words within tweets in TM Learning Lab 2.
 
 **Summary of Key Findings**
 
@@ -110,14 +139,14 @@ Let's go ahead and load the {tidytext} package:
 library(tidytext)
 ```
 
-For a more comprehensive introduction to the `tidytext` package, we cannot recommend enough the free online book, *Text Mining with R: A Tidy Approach* [@silge2017text].
+For a more comprehensive introduction to the `tidytext` package, we cannot recommend enough the free online book, *Text Mining with R: A Tidy Approach* [@silge2017text]. If you're interested in pursuing text analysis using R post Summer Workshop, this will be a go to reference.
 
 ## 2. WRANGLE
 
 The importance of data wrangling, particularly when working with text, is difficult to overstate. Just as a refresher, wrangling involves the initial steps of going from raw data to a dataset that can be explored and modeled [@krumm2018]. Learning Lab 2 will have a heavy emphasis on preparing text for analysis and in particular we'll learn how to:
 
-a.  **Merge Tweets**. First we revisit the familiar `read_csv()` function for reading in our CCSS and NGSS tweets and introduce two new functions for merging data frames as we've seen in earlier learning labs.
-b.  **Restructure Data**. We focus on removing extraneous data using \`
+a.  **Import Data**. First we revisit the familiar `read_csv()` function for reading in our CCSS and NGSS tweets
+b.  **Restructure Data**. We focus on removing extraneous data using the `select()` and `filter()` functions from {dplyr}, and introduce two new functions for merging the data frames that we imported.
 c.  **Tidy Text.** We introduce the {tidytext} package to "tidy" and tokenize our tweets in order to create our data frame for analysis revisit the concept of joins to remove "stop words" that don't add much value to our analysis.
 
 ### 2a. Import and View Data
@@ -491,56 +520,136 @@ ss_tokens_3 %>%
 
 Much better! Note that we could extend this stop word list indefinitely. Feel free to use the code chunk below to try adding more words to our stop list.
 
+Before we move any further, let's save our tidied tweets as a new data frame for Section 3 and also save it as a .csv file in our data folder:
+
 ```{r}
-# your code here
+ss_tidy_tweets <- ss_tokens_3
+
+write_csv(ss_tokens_3, "data/ss_tidy_tweets.csv")
 ```
 
 ## 3. EXPLORE
 
-Calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. One goal in this phase is explore questions that drove the original analysis and develop new questions and hypotheses to test in later stages. In Section 3, we will calculate some very basic summary statistics from our tidied text, explore key words of interest to gather additional context, and use data visualization to identify patterns and trends that may not be obvious from our tables and numerical summaries. Topics addressed in Section 3 include:
+Calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. In Section 3, we keep things relatively simple and focus on some simple data summaries:
 
--   3Word Counts. We focus primarily on the use of word counts and calculating proportions to to help us identify common words used to describe the most valuable aspects of online professional development offerings.
+a.  **Word Counts**. We focus primarily on the use of word counts and briefly introduce word frequencies to help us identify word commonly used in tweets about the NGSS and CCSS curriculum standards.
 
--   **Word Search**. We learn about the global regular expression parser, or `grep` package in R, to search for key words among our data set.
+b.  **Word Frequencies**. We wrap up this lab and preview some data visualization work in later labs by creating a simple wordcloud to explore summarize and highlight key words among our tweets.
 
-Word Counts
+### 3a. Word Counts
 
-Word Clouds
+As highlighted in [Word Counts are Amazing](https://tedunderwood.com/2013/02/20/wordcounts-are-amazing/), an excellent post and blog by Ted Underwood at University of Illinois, one simple but powerful approach to text analysis is counting the frequency in which words occur in a given collection of documents, or corpus.
+
+Word counts are a good example of a simple approach that illustrates the central question to text mining and natural language processing, introduced at the beginning:
+
+> How do we to **quantify** what a document or collection of documents is about?
+
+So far, we've used the `count()` function from the {dplyr} package to look at word counts across our entire corpus of tweets.
+
+Let's use the same function to look at counts of the most common words by standards this time since one of our goals is to compare public sentiment between the two standards:
+
+```{r}
+ss_tidy_tweets %>%
+  count(standards, word, sort = TRUE)
+```
+
+Note that we included `standards` in our function to count how often each word occurs for each set of standards. For example, if you tab through the output, you will see that "students" is among the top words in both sets of standards, and occurs 1,432 times in the NGSS tweets and 1,127 times in the CCSS tweets.
+
+Unsurprisingly words from our Twitter API search query are among the top words in each set of standards as well.
+
+It's a little difficult to directly compare the top words in each set since they are lumped together. Let's use our `filter()` function again to just look at the CCSS tweets and save this for later to use in our Reach activity:
+
+```{r}
+ccss_counts <- ss_tidy_tweets %>%
+  filter(standards == "ccss") %>%
+  count(word, sort = TRUE)
+
+ccss_counts
+```
+
+#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
+
+Now use the code below to get the counts for our NGSS tweets so we can compare the top words for each set of standards:
+
+```{r}
+# your code here
+```
+
+What might the top words for each set of standards suggest about similarities and differences for how Twitter users talk about each? What might it suggest about public sentiment?
+
+-   your response here
+
+### 3b. Word Frequencies
+
+We saw above that the word "students" is among the top words in both sets of standards, but to help facilitate comparisons, is often helpful to look at the frequency that each word occurs among all words for that document group. This will also helps us to better gauge how prominent each word is for each set of standards.
+
+For example, let's create counts for each `standards` and `word` paring like we did above, and then create a new column using the `mutate()` function that calculates the proportion that word makes up among all words:
+
+```{r}
+ccss_frequencies <- ccss_counts %>%
+  mutate(proportion = n / sum(n))
+
+ccss_frequencies
+```
+
+#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
+
+Now use the code below to get the frequencies for our NGSS tweets so we can compare the top words for each set of standards:
+
+```{r}
+# your code here
+```
+
+We can see in both cases that our search terms are heavily skewing our proportions. What might we do to address this?
+
+-   your response here
 
 ## 4. MODEL
 
-As highlighted in [Chapter 3 of Data Science in Education Using R](https://datascienceineducation.com/c03.html) , the **Model** step of the data science process entails "using statistical models, from simple to complex, to understand trends and patterns in the data." The authors note that while descriptive statistics and data visualization during the **Explore** step can help us to identify patterns and relationships in our data, statistical models can be used to help us determine if relationships, patterns and trends are actually meaningful.
-
-We Recall from the PREPARE section that the Rosenberg et al. study was guide by the following questions:
-
-1.  What is the public sentiment expressed toward the NGSS?
-
-2.  How does sentiment for teachers differ from non-teachers?
-
-3.  How do tweets posted to \#NGSSchat differ from those without the hashtag?
-
-4.  How does participation in \#NGSSchat relate to the public sentiment individuals express?
-
-5.  How does public sentiment vary over time?
-
-Similar to an approach we'll be using in TM Learning Lab 3, @rosenberg2020 used sentiment scores from the SentiStrength lexicon to answer RQ \#1. To address the remaining questions the authors used a mixed effects model (also known as multi-level or hierarchical linear models via the {lme4} package in R.
-
-Collectively, the authors found that:
-
-1.  The SentiStrength scale indicated an overall neutral sentiment for tweets about the Next Generation Science Standards.
-
-2.  Teachers were more positive in their posts than other participants.
-
-3.  Posts including \#NGSSchat that were posted outside of chats were slightly more positive relative to those that did not include the \#NGSSchat hashtag.
-
-4.  The effect upon individuals of being involved in the \#NGSSchat was positive, suggesting that there is an impact on individuals---not tweets---of participating in a community focused on the NGSS.
-
-5.  Posts about the NGSS became substantially more positive over time.
+As highlighted in [Chapter 3 of Data Science in Education Using R](https://datascienceineducation.com/c03.html) , the **Model** step of the data science process entails "using statistical models, from simple to complex, to understand trends and patterns in the data." The authors note that while descriptive statistics and data visualization during the **Explore** step can help us to identify patterns and relationships in our data, statistical models can be used to help us determine if relationships, patterns and trends are actually meaningful. In TM Learning Lab 3, we'll take a closer look at the study by @rosenberg2020 and how they used modeling to compare differences in sentiment between teachers and non-teachers discussing the common core.
 
 ## 5. COMMUNICATE
 
-Knit, commit and push all changed files so that your Git pane is cleared up afterwards. You should confirm that what you committed and pushed are indeed in your repo that we will see by visiting your repo on GitHub.
+Congratulations - you've completed the first text mining learning lab! To complete your work, you can click the drop down arrow at the top of the file, then select "Knit top HTML". This will create a report in your Files pane that serves as a record of your code and its output you can open or share.
 
-### Reach 🎉
+If you wanted, you could save the processed data set to your data folder. The `write_csv()` function is useful for this. The following code is set to not run, as we wanted to ensure that everyone had the data set needed to begin the second learning lab, but if you're confident in your prepared data, you can save it with the following:
+
+```{r, eval = FALSE}
+write_csv()
+```
+
+## Reach (Optional)
+
+If you're using data that you brought to the institute or data that you pulled from Twitter, try tidying your data into a tidy text format and examining the top words in your dataset.
+
+If you'd like to use the data we've been working with for your reach, let's try some basic data visualization with text. The `wordcloud2` package is pretty dead simple tool for generating HTML based word clouds.
+
+For example, let's load the `wordclouds2` library, and run the `wordcloud2()` function on our `ccss_counts` data frame:
+
+```{r}
+library(wordcloud2)
+
+wordcloud2(ccss_counts)
+```
+
+As you can see, "math" is a pretty common topic with discussing the common core on twitter but words like "core" and "common" are not very helpful since those were in our search terms when pulling data from Twitter.
+
+In a separate r script file, try modifying our list of stop words, retidying our text, and doing a new word count with these and perhaps other words removed. Also, take a look at the help file for `wordclouds2` to see if there might be otherwise you could visually improve this visualization.
+
+Word clouds are much maligned and sometimes referred to as pie charts for words, but they can be useful for quickly summarizing and communicating qualitative data for education practitioners and are intuitive for them to interpret. Also, for better or worse, these are now included as a default viz for open-ended survey items in online Qualtrics reports.
+
+## Reflection
+
+In this learning lab, we focused on the literature guiding our analysis; wrangling our data into a one-token-per-row tidy text format; and using simple word counts and frequencies to compare common words used in tweets about the NGSS and CCSS curriculum standards. Below, add a few notes in response to the following prompts:
+
+1.  One thing I took away from this learning lab:
+
+    -   
+
+2.  One thing I want to learn more about:
+
+    -   
 
 ## References
+
+Note: Citations embedded in R Markdown will only show upon knitting.

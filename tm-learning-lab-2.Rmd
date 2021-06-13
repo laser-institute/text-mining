@@ -74,7 +74,7 @@ wordcloud2(unigram_counts,
 
 \
 
-##  Bigrams
+## Bigrams
 
 In the function above we specified tokens as individual words, but many interesting text analyses are based on the relationships between words, which words tend to follow others immediately, or words that tend to co-occur within the same documents.
 
