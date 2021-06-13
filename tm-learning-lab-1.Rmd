@@ -4,11 +4,11 @@ subtitle: 'Text Mining Learning Lab 1'
 author: "YOUR NAME HERE"
 date: "`r format(Sys.Date(),'%B %e, %Y')`"
 output:
-  html_notebook:
   html_document:
     toc: true
     toc_depth: 5
     toc_float: yes
+  html_notebook:
 bibliography: lit/references.bib
 csl: lit/apa.csl
 ---
@@ -23,11 +23,11 @@ The transition to digital learning has made available new sources of data, provi
 
 **Text Mining (TM) Module 1: Public Sentiment and the State Standards** will help demonstrate how text mining can be applied in STEM education research and provide LASER Institute scholars hands-on experience with popular techniques for collecting, processing, and analyzing text-based data. Specifically, the four learning labs that make up this module address the following topics:
 
--   **Learning Lab 1: Tidy Text, Tokens, & Twitter.** We take a closer look at the literature and research questions that will be guiding our analysis; importing data through Twitter's developer API; and wrangling our data into a one-token-per-row tidy text format.
+-   **Learning Lab 1: Tidy Text, Tokens, & Twitter.** We take a closer look at the literature guiding our analysis; wrangle our data into a one-token-per-row tidy text format; and use simple word counts to explore our tweets about the common core and next generation science standards.
 
--   **Learning Lab 2: Word Counts, Clouds & Correlations.** For our second lab, we use simple summary statistics, data visualization, and word correlations to explore our data and see what insight they provides in response to our questions.
+-   **Learning Lab 2: Twice the fun with Bigrams.** For our second lab, we see what pairs of words and word correlations tell us about our tweets what insight they provide in response to our research questions.
 
--   **Learning Lab 3: Come to the Dark Side.** We focus on the use of lexicons and introduce the {vader} package to compare the sentiment of tweets about the NGSS and CCSS state standards in order to better understand public reaction to these two curriculum reform efforts. 
+-   **Learning Lab 3: Come to the Dark Side.** We focus on the use of lexicons in our third lab and introduce the {vader} package to compare the sentiment of tweets about the NGSS and CCSS state standards in order to better understand public reaction to these two curriculum reform efforts. 
 
 -   **Learning Lab 4: A Tale of Two Standards.** We wrap our look at public sentiment around STEM state curriculum standards by selecting an analysis that provides some unique insight; refining and polishing a data product; and writing a brief narrative to communicate findings in response to our research questions.
 
@@ -114,10 +114,10 @@ For a more comprehensive introduction to the `tidytext` package, we cannot recom
 
 ## 2. WRANGLE
 
-In this section, we'll be working with data retrieved using the Twitter API
+The importance of data wrangling, particularly when working with text, is difficult to overstate. Just as a refresher, wrangling involves the initial steps of going from raw data to a dataset that can be explored and modeled [@krumm2018]. Learning Lab 2 will have a heavy emphasis on preparing text for analysis and in particular we'll learn how to:
 
 a.  **Merge Tweets**. First we revisit the familiar `read_csv()` function for reading in our CCSS and NGSS tweets and introduce two new functions for merging data frames as we've seen in earlier learning labs.
-b.  **Restructure Data**.
+b.  **Restructure Data**. We focus on removing extraneous data using \`
 c.  **Tidy Text.** We introduce the {tidytext} package to "tidy" and tokenize our tweets in order to create our data frame for analysis revisit the concept of joins to remove "stop words" that don't add much value to our analysis.
 
 ### 2a. Import and View Data
@@ -273,7 +273,7 @@ Try not to peek at the answer below unless you are having difficulty with your c
 ngss_tweets_clean <- ngss_tweets %>%
   filter(possibly_sensitive == "FALSE") %>%
   select(text, author_id, created_at, conversation_id, id) %>%
-  mutate(standards = "ccss") %>%
+  mutate(standards = "ngss") %>%
   relocate(standards)
 
 head(ngss_tweets_clean)
@@ -299,7 +299,7 @@ head(ss_tweets)
 tail(ss_tweets)
 ```
 
-Wow, so much for family friendly! Based on this very limited sample, which set of standards do you think Twitter users are more negative about?
+Wow, so much for a family friendly learning lab! Based on this very limited sample, which set of standards do you think Twitter users are more negative about?
 
 -   your response here
 
@@ -308,7 +308,8 @@ Let's take a slightly larger sample of the CCSS tweets:
 ```{r}
 ss_tweets %>% 
   filter(standards == "ccss") %>%
-  sample_n(20)
+  sample_n(20) %>%
+  relocate(text)
            
 ```
 
@@ -430,7 +431,7 @@ Well, many of these tweets are clearly about the ccss and math at least, but bey
 
 #### Remove Stop Words
 
-Often in text analysis, we will want to remove these stop words if they are not useful for an analysis. The `stop_words` dataset in the tidytext package contains stop words from three lexicons. We can use them all together, as we have here, or `filter()` to only use one set of stop words if that is more appropriate for a certain analysis.
+Often in text analysis, we will want to remove these stop words if they are not useful for an analysis. The `stop_words` dataset in the {tidytext} package contains stop words from three lexicons. We can use them all together, as we have here, or `filter()` to only use one set of stop words if that is more appropriate for a certain analysis.
 
 Let's take a closer the lexicons and stop words included in each:
 
@@ -444,12 +445,12 @@ In order to remove these stop words, we will use a function called `anti_join()
 
 ![](img/anti-join.png)
 
-For a good overview of the different `dplyr` joins see here: <https://medium.com/the-codehub/beginners-guide-to-using-joins-in-r-682fc9b1f119>
+For a good overview of the different `dplyr` joins see here: <https://medium.com/the-codehub/beginners-guide-to-using-joins-in-r-682fc9b1f119>.
 
 Now let's remove stop words that don't help us learn much about what people are saying about the state standards.
 
 ```{r stop-unigrams}
-ss_tokens_2 <- anti_join(ss_tokens,
+ss_tokens_2 <- anti_join(ss_tokens_1,
                            stop_words,
                            by = "word")
 
@@ -458,33 +459,85 @@ head(ss_tokens_2)
 
 Notice that we've specified the `by =` argument to look for matching words in the `word` column for both data sets and remove any rows from the `tweet_tokens` dataset that match the `stop_words` dataset. Remember when we first tokenized our dataset I conveniently chose `output = word` as the column name because it matches the column name `word` in the `stop_words` dataset contained in the `tidytext` package. This makes our call to `anti_join()`simpler because `anti_join()` knows to look for the column named `word` in each dataset. However this wasn't really necessary since `word` is the only matching column name in both datasets and it would have matched those columns by default.
 
-#### Custom Stop Words
+#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
 
-Before wrapping up, let's take a quick count of the most common tokens to see if the results are a little more meaningful:
+Use the code chunk below to take a quick count of the most common tokens in our `ss_tweets_2` data frame to see if the results are a little more meaningful
 
 ```{r}
 ss_tokens_2 %>%
   count(word, sort = TRUE)
 ```
 
-Notice that the nonsense word "amp" is among our high frequency words. Let's add a filter to our previous code similar to what we did with our bigrams to remove rows with "amp" in them:
+#### Custom Stop Words
+
+Notice that the nonsense word "amp" is among our high frequency words as well as some. We can create our own custom stop word list to to weed out any additional words that don't carry much meaning but skew our data by being so prominent.
+
+Let's create a custom stop word list by using the simple `c()` function to combine our words. We can the add a filter to keep rows where words in our `word` column do NOT `!` match words `%in%` `my_stopwords` list:
 
 ```{r}
+my_stopwords <- c("amp", "=", "+")
+
 ss_tokens_3 <-
   ss_tokens_2 %>%
-  anti_join(stop_words, by = "word") %>%
-  filter(!word == "amp")
+  filter(!word %in% my_stopwords)
 ```
 
-Note that we could extend this filter to weed out any additional words that don't carry much meaning but skew our data by being so prominent.
+Let's take a look at our top words again and see if that did the trick:
 
-#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
+```{r}
+ss_tokens_3 %>%
+  count(word, sort = TRUE)
+```
 
-Tidy your `my_tweets` dataset from Section 2a by tokenizing your text into unigrams and removing stop words.
+Much better! Note that we could extend this stop word list indefinitely. Feel free to use the code chunk below to try adding more words to our stop list.
 
-Also, since we created some unnecessarily lengthy code to demonstrate many of the steps in the tidying process, try to use a more compact series of functions and assign your data frame to `my_tidy_tweets`.
+```{r}
+# your code here
+```
 
-### 🧶 Knit and Check ✅
+## 3. EXPLORE
+
+Calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. One goal in this phase is explore questions that drove the original analysis and develop new questions and hypotheses to test in later stages. In Section 3, we will calculate some very basic summary statistics from our tidied text, explore key words of interest to gather additional context, and use data visualization to identify patterns and trends that may not be obvious from our tables and numerical summaries. Topics addressed in Section 3 include:
+
+-   3Word Counts. We focus primarily on the use of word counts and calculating proportions to to help us identify common words used to describe the most valuable aspects of online professional development offerings.
+
+-   **Word Search**. We learn about the global regular expression parser, or `grep` package in R, to search for key words among our data set.
+
+Word Counts
+
+Word Clouds
+
+## 4. MODEL
+
+As highlighted in [Chapter 3 of Data Science in Education Using R](https://datascienceineducation.com/c03.html) , the **Model** step of the data science process entails "using statistical models, from simple to complex, to understand trends and patterns in the data." The authors note that while descriptive statistics and data visualization during the **Explore** step can help us to identify patterns and relationships in our data, statistical models can be used to help us determine if relationships, patterns and trends are actually meaningful.
+
+We Recall from the PREPARE section that the Rosenberg et al. study was guide by the following questions:
+
+1.  What is the public sentiment expressed toward the NGSS?
+
+2.  How does sentiment for teachers differ from non-teachers?
+
+3.  How do tweets posted to \#NGSSchat differ from those without the hashtag?
+
+4.  How does participation in \#NGSSchat relate to the public sentiment individuals express?
+
+5.  How does public sentiment vary over time?
+
+Similar to an approach we'll be using in TM Learning Lab 3, @rosenberg2020 used sentiment scores from the SentiStrength lexicon to answer RQ \#1. To address the remaining questions the authors used a mixed effects model (also known as multi-level or hierarchical linear models via the {lme4} package in R.
+
+Collectively, the authors found that:
+
+1.  The SentiStrength scale indicated an overall neutral sentiment for tweets about the Next Generation Science Standards.
+
+2.  Teachers were more positive in their posts than other participants.
+
+3.  Posts including \#NGSSchat that were posted outside of chats were slightly more positive relative to those that did not include the \#NGSSchat hashtag.
+
+4.  The effect upon individuals of being involved in the \#NGSSchat was positive, suggesting that there is an impact on individuals---not tweets---of participating in a community focused on the NGSS.
+
+5.  Posts about the NGSS became substantially more positive over time.
+
+## 5. COMMUNICATE
 
 Knit, commit and push all changed files so that your Git pane is cleared up afterwards. You should confirm that what you committed and pushed are indeed in your repo that we will see by visiting your repo on GitHub.
 
