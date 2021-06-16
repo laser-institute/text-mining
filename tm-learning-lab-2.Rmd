@@ -15,19 +15,142 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## 3. EXPLORE
 
-As highlighted in DSEIUR and Learning Analytics Goes to School, calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. In Section 3, we will calculate some very basic summary statistics from our tidied text, explore key words of interest to gather additional context, and use data visualization to identify patterns and trends that may not be obvious from our tables and numerical summaries. Topics addressed in Section 3 include::
+Calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. For our first lab, we're going to keep things relatively simple and focus on some basic data visualization with text.
 
-a.  **c**
+### Unigrams
 
-b.  **Time Series**. We take a quick look at the date range of our tweets and compare number of postings by standards.
+Above, we looked at word counts for our tweets as a whole. Since our ultimate goal is to compare public sentiment between the CCSS and NGSS, let's filter tweets specific to the common core and save to a new data frame:
 
-### 3a. Count Words
+```{r}
+ccss_tidy_tweets <- ss_tidy_tweets %>%
+  filter(standards == "ccss")
+```
 
-> People new to text mining are often disillusioned when they figure out how it's actually done --- which is still, in large part, by counting words. They're willing to believe that computers have developed some clever strategy for finding patterns in language --- but think "surely it's something better than *that?*"
+Just like did above, let's now count the number of times each word occurs in these tweets and take a look at how many words we have:
 
-The quote above from [Word Counts are Amazing](https://tedunderwood.com/2013/02/20/wordcounts-are-amazing/) by Ted Underwood...
+```{r}
+ccss_counts <- ccss_tidy_tweets %>%
+  count(word, sort = TRUE) 
 
-Recall from the previous section that one overarching question guiding most of our efforts in these text mining labs is: "How do we **quantify** what a text is about?"
+ccss_counts
+```
+
+Wow, 57,000 unique words is a lot to try and visualize! Also, words like "common" and "core" were in our search terms and not very helpful. Let's
+
+Finally, let's
+
+```{r}
+ccss_counts_paired <- ccss_counts %>%
+  filter(n > 200, 
+         !word == c("common", "core", "#commoncore"))
+
+ccss_counts_paired
+```
+
+### Word Clouds
+
+Word clouds are much maligned and sometimes referred to as the "pie charts of text analysis", but they can be useful for communicating simple summaries of qualitative data for education practitioners and are intuitive for them to interpret. Also, for better or worse, these are now included as a default visualization for open-ended survey items in online Qualtrics reports and you can even add your own stop words.
+
+The {wordclouds2} package is pretty dead simple tool for generating HTML based word clouds. By default, when you pass
+
+For example, let's load the {wordclouds2} library, and run the `wordcloud2()` function on our `ccss_counts` data frame.
+
+```{r}
+library(wordcloud2)
+
+ccss_counts %>% wordcloud2()
+```
+
+As you can see, "math" is a pretty common topic when discussing the common core on twitter but words like "core" and "common" are not very helpful since those were in our search terms when pulling data from Twitter.
+
+#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
+
+In the code chunk below, create a word cloud for the NGSS tweets
+
+```{r}
+ss_tidy_tweets %>%
+  filter(standards == "ngss") %>%
+  count(word, sort = TRUE) %>%
+  filter(n > 200, 
+         !word == c("#ngss", "ngss")) %>%
+  wordcloud2()
+```
+
+Also, take a look at the help file for `wordclouds2` to see if there might be otherwise you could visually improve this visualization.
+
+Calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. In Section 3, we keep things relatively simple and focus on some simple data summaries:
+
+a.  **Word Counts**. We focus primarily on the use of word counts and briefly introduce word frequencies to help us identify word commonly used in tweets about the NGSS and CCSS curriculum standards.
+
+b.  **Word Frequencies**. We wrap up this lab and preview some data visualization work in later labs by creating a simple wordcloud to explore summarize and highlight key words among our tweets.
+
+### 3a. Word Counts
+
+As highlighted in [Word Counts are Amazing](https://tedunderwood.com/2013/02/20/wordcounts-are-amazing/), an excellent post and blog by Ted Underwood at University of Illinois, one simple but powerful approach to text analysis is counting the frequency in which words occur in a given collection of documents, or corpus.
+
+Word counts are a good example of a simple approach that illustrates the central question to text mining and natural language processing, introduced at the beginning:
+
+> How do we to **quantify** what a document or collection of documents is about?
+
+So far, we've used the `count()` function from the {dplyr} package to look at word counts across our entire corpus of tweets.
+
+Let's use the same function to look at counts of the most common words by standards this time since one of our goals is to compare public sentiment between the two standards:
+
+```{r}
+ss_tidy_tweets %>%
+  count(standards, word, sort = TRUE)
+```
+
+Note that we included `standards` in our function to count how often each word occurs for each set of standards. For example, if you tab through the output, you will see that "students" is among the top words in both sets of standards, and occurs 1,432 times in the NGSS tweets and 1,127 times in the CCSS tweets.
+
+Unsurprisingly words from our Twitter API search query are among the top words in each set of standards as well.
+
+It's a little difficult to directly compare the top words in each set since they are lumped together. Let's use our `filter()` function again to just look at the CCSS tweets and save this for later to use in our Reach activity:
+
+```{r}
+ccss_counts <- ss_tidy_tweets %>%
+  filter(standards == "ccss") %>%
+  count(word, sort = TRUE)
+
+ccss_counts
+```
+
+#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
+
+Now use the code below to get the counts for our NGSS tweets so we can compare the top words for each set of standards:
+
+```{r}
+# your code here
+```
+
+What might the top words for each set of standards suggest about similarities and differences for how Twitter users talk about each? What might it suggest about public sentiment?
+
+-   your response here
+
+### 3b. Word Frequencies
+
+We saw above that the word "students" is among the top words in both sets of standards, but to help facilitate comparisons, is often helpful to look at the frequency that each word occurs among all words for that document group. This will also helps us to better gauge how prominent each word is for each set of standards.
+
+For example, let's create counts for each `standards` and `word` paring like we did above, and then create a new column using the `mutate()` function that calculates the proportion that word makes up among all words:
+
+```{r}
+ccss_frequencies <- ccss_counts %>%
+  mutate(proportion = n / sum(n))
+
+ccss_frequencies
+```
+
+#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
+
+Now use the code below to get the frequencies for our NGSS tweets so we can compare the top words for each set of standards:
+
+```{r}
+# your code here
+```
+
+We can see in both cases that our search terms are heavily skewing our proportions. What might we do to address this?
+
+-   your response here
 
 \
 

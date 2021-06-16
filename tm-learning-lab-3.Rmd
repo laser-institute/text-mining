@@ -74,7 +74,7 @@ a.  **Get Sentiments**. We introduce sentiment lexicons, take a look at how each
 
 b.  **Join Sentiment.** We learn yet another join function, the `inner_join()`, for appending sentiment values to our data frame.
 
-For a quick overview of the different join functions with helpful visuals, here is an additional resource to the one shared in Learning Lab 1: [<https://statisticsglobe.com/r-dplyr-join-inner-left-right-full-semi-anti>](https://statisticsglobe.com/r-dplyr-join-inner-left-right-full-semi-anti){.uri}
+For a quick overview of the different join functions with helpful visuals, here is an additional resource to the one shared in Learning Lab 1: [\<https://statisticsglobe.com/r-dplyr-join-inner-left-right-full-semi-anti\>](https://statisticsglobe.com/r-dplyr-join-inner-left-right-full-semi-anti){.uri}
 
 ### 2a. Get Sentiments
 

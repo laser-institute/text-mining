@@ -25,7 +25,7 @@ The transition to digital learning has made available new sources of data, provi
 
 -   **Learning Lab 1: Tidy Text, Tokens, & Twitter.** We take a closer look at the literature guiding our analysis; wrangle our data into a one-token-per-row tidy text format; and use simple word counts to explore our tweets about the common core and next generation science standards.
 
--   **Learning Lab 2: Twice the fun with Bigrams.** For our second lab, we explore our unigrams, or single word tokens a little more, and also see what pairs of words and word correlations tell us about our tweets what insight they provide in response to our research questions.
+-   **Learning Lab 2: Bigrams + Word Pairs = 2x the Fun.** For our second lab, we'll see what insights bigrams, word pairs and word correlations tell us about our tweets and what they might suggest about public sentiment towards the CCSS and NGSS.
 
 -   **Learning Lab 3: Come to the Dark Side.** We focus on the use of lexicons in our third lab and introduce the {vader} package to compare the sentiment of tweets about the NGSS and CCSS state standards in order to better understand public reaction to these two curriculum reform efforts. 
 
@@ -194,7 +194,7 @@ ngss_tweets <- read_csv("data/ngss-tweets.csv",
 Use the following code chunk to inspect your tweets using a function you've learned so for for viewing your data:
 
 ```{r}
-# your code here
+glimpse(ngss_tweets)
 ```
 
 ### 2b. Restructure Data
@@ -234,7 +234,12 @@ ccss_tweets_2 <- ccss_tweets_1 %>%
 Use the code chunk below to reorder the columns to your liking and assign to `ccss_tweets_3`:
 
 ```{r}
-# your code here
+ccss_tweets_3 <- ccss_tweets_1 %>% 
+  select(id,
+         text,
+         author_id,
+         created_at, 
+         conversation_id)
 ```
 
 #### Add & Relocate Columns
@@ -291,7 +296,13 @@ Recall from section [1b. Define Questions] that we are interested in comparing w
 Create an new `ngss_tweets_clean` data frame consisting of the Next Generation Science Standards tweets we imported by use the code above as a guide.
 
 ```{r}
-# your code here
+ngss_tweets_clean <- ngss_tweets %>%
+  filter(possibly_sensitive == "FALSE") %>%
+  select(text, author_id, created_at, conversation_id, id) %>%
+  mutate(standards = "ngss") %>%
+  relocate(standards)
+
+head(ngss_tweets_clean)
 ```
 
 Try not to peek at the answer below unless you are having difficulty with your code.
@@ -347,7 +358,10 @@ ss_tweets %>%
 Use the code chunk below to take a sample of the NGSS tweets:
 
 ```{r}
-# your code here
+ss_tweets %>% 
+  filter(standards == "ccss") %>%
+  sample_n(20) %>%
+  relocate(text)
 ```
 
 Still of the same opinion?
@@ -384,8 +398,6 @@ head(tidy_tweets)
 ```
 
 Later in the year, we'll learn about other data structures for text analysis like the document-term matrix and corpus objects. For now, however, working with the familiar tidy data frame allows us to take advantage of popular packages that use the shared tidyverse syntax and principles for wrangling, exploring, and modeling data.
-
-#### Unigrams
 
 As demonstrated above, the `tidytext` package provides the incredibly powerful `unnest_tokens()` function to tokenize text (including tweets!) and convert them to a one-token-per-row format.
 
@@ -530,83 +542,64 @@ write_csv(ss_tokens_3, "data/ss_tidy_tweets.csv")
 
 ## 3. EXPLORE
 
-Calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. In Section 3, we keep things relatively simple and focus on some simple data summaries:
+Calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. For our first lab, we're going to keep things super simple and focus on:
 
-a.  **Word Counts**. We focus primarily on the use of word counts and briefly introduce word frequencies to help us identify word commonly used in tweets about the NGSS and CCSS curriculum standards.
+a.  **Top Tokens.** Since once of our goals is to compare tweets about the NGSS and CSSS standards, we'll take a look at the to 50 words that appear in each.
 
-b.  **Word Frequencies**. We wrap up this lab and preview some data visualization work in later labs by creating a simple wordcloud to explore summarize and highlight key words among our tweets.
+b.  **Word Clouds.** To help illustrate the relative frequency each of these top 50 words occurs, we'll introduce the {wordclouds2} package for creating interactive word clouds that can be knitted with your HTML doc.
 
-### 3a. Word Counts
+### 3a. Top Tokens
 
-As highlighted in [Word Counts are Amazing](https://tedunderwood.com/2013/02/20/wordcounts-are-amazing/), an excellent post and blog by Ted Underwood at University of Illinois, one simple but powerful approach to text analysis is counting the frequency in which words occur in a given collection of documents, or corpus.
+First, let's take advantage of the the `%>%` operator combine some of the functions we've used above with the `top_n()` function from the {dplyr} package. By default, this function is looking for a data frame as the first argument, and then the number of rows to return.
 
-Word counts are a good example of a simple approach that illustrates the central question to text mining and natural language processing, introduced at the beginning:
+Let's take a look at the top tokens among the CCSS tweets by filtering our `standards` by CCSS, counting the number of times each `word` occurs, and taking the look at the 50 most common words:
 
-> How do we to **quantify** what a document or collection of documents is about?
+```{r}
+ccss_top_tokens <- ss_tidy_tweets %>%
+  filter(standards == "ccss") %>%
+  count(word, sort = TRUE) %>%
+  top_n(50)
 
-So far, we've used the `count()` function from the {dplyr} package to look at word counts across our entire corpus of tweets.
+ccss_top_tokens
+```
 
-Let's use the same function to look at counts of the most common words by standards this time since one of our goals is to compare public sentiment between the two standards:
+Not surprisingly, our search terms appear in the top 50 but the word "math" also features prominently among CCSS tweets!
+
+### Word Clouds
+
+Word clouds are much maligned and sometimes referred to as the "pie charts of text analysis", but they can be useful for communicating simple summaries of qualitative data for education practitioners and are intuitive for them to interpret. Also, for better or worse, these are now included as a default visualization for open-ended survey items in online Qualtrics reports and you can even add your own stop words.
+
+The {wordclouds2} package is pretty dead simple tool for generating HTML based word clouds. By default, when you pass a data frame to the `wordcloud2()` function, it will look for a word column and a column with frequencies or counts, i.e., our column `n` that we created with the `count()` function.
+
+Let's load the {wordclouds2} library, and run the `wordcloud2()` function on our `ccss_top_tokens` data frame.
+
+```{r}
+library(wordcloud2)
+
+wordcloud2(ccss_top_tokens)
+```
+
+As you can see, "math" is a pretty common topic when discussing the common core on twitter but words like "core" and "common" -- which you can see better if you click the "show in a new window" button or run the code in you console -- are not very helpful since those were in our search terms when pulling data from Twitter. For your Reach in this lab, you'll be asked to remove those words using what you've learned so far about data wrangling.
+
+#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
+
+In the code chunk below, filter, count and select the top 50 tokens to create a word cloud for the NGSS tweets. A gold star if you can can do it without using the assignment operator!
 
 ```{r}
 ss_tidy_tweets %>%
-  count(standards, word, sort = TRUE)
+  filter(standards == "ngss") %>%
+  count(word, sort = TRUE) %>%
+  top_n(50) %>%
+  wordcloud2()
 ```
 
-Note that we included `standards` in our function to count how often each word occurs for each set of standards. For example, if you tab through the output, you will see that "students" is among the top words in both sets of standards, and occurs 1,432 times in the NGSS tweets and 1,127 times in the CCSS tweets.
-
-Unsurprisingly words from our Twitter API search query are among the top words in each set of standards as well.
-
-It's a little difficult to directly compare the top words in each set since they are lumped together. Let's use our `filter()` function again to just look at the CCSS tweets and save this for later to use in our Reach activity:
-
-```{r}
-ccss_counts <- ss_tidy_tweets %>%
-  filter(standards == "ccss") %>%
-  count(word, sort = TRUE)
-
-ccss_counts
-```
-
-#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
-
-Now use the code below to get the counts for our NGSS tweets so we can compare the top words for each set of standards:
-
-```{r}
-# your code here
-```
-
-What might the top words for each set of standards suggest about similarities and differences for how Twitter users talk about each? What might it suggest about public sentiment?
-
--   your response here
-
-### 3b. Word Frequencies
-
-We saw above that the word "students" is among the top words in both sets of standards, but to help facilitate comparisons, is often helpful to look at the frequency that each word occurs among all words for that document group. This will also helps us to better gauge how prominent each word is for each set of standards.
-
-For example, let's create counts for each `standards` and `word` paring like we did above, and then create a new column using the `mutate()` function that calculates the proportion that word makes up among all words:
-
-```{r}
-ccss_frequencies <- ccss_counts %>%
-  mutate(proportion = n / sum(n))
-
-ccss_frequencies
-```
-
-#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
-
-Now use the code below to get the frequencies for our NGSS tweets so we can compare the top words for each set of standards:
-
-```{r}
-# your code here
-```
-
-We can see in both cases that our search terms are heavily skewing our proportions. What might we do to address this?
-
--   your response here
+Also, take a look at the help file for `wordclouds2` to see if there might be otherwise you could visually improve this visualization.
 
 ## 4. MODEL
 
-As highlighted in [Chapter 3 of Data Science in Education Using R](https://datascienceineducation.com/c03.html) , the **Model** step of the data science process entails "using statistical models, from simple to complex, to understand trends and patterns in the data." The authors note that while descriptive statistics and data visualization during the **Explore** step can help us to identify patterns and relationships in our data, statistical models can be used to help us determine if relationships, patterns and trends are actually meaningful. In TM Learning Lab 3, we'll take a closer look at the study by @rosenberg2020 and how they used modeling to compare differences in sentiment between teachers and non-teachers discussing the common core.
+As highlighted in [Chapter 3 of Data Science in Education Using R](https://datascienceineducation.com/c03.html) , the Model step of the data science process entails "using statistical models, from simple to complex, to understand trends and patterns in the data." The authors note that while descriptive statistics and data visualization during the Explore step can help us to identify patterns and relationships in our data, statistical models can be used to help us determine if relationships, patterns and trends are actually meaningful.
+
+In TM Learning Lab 3, we'll take a closer look at the study by @rosenberg2020 and how they used modeling to compare differences in sentiment between teachers and non-teachers discussing the common core.
 
 ## 5. COMMUNICATE
 
@@ -622,21 +615,28 @@ write_csv()
 
 If you're using data that you brought to the institute or data that you pulled from Twitter, try tidying your data into a tidy text format and examining the top words in your dataset.
 
-If you'd like to use the data we've been working with for your reach, let's try some basic data visualization with text. The `wordcloud2` package is pretty dead simple tool for generating HTML based word clouds.
+If you'd like to use the data we've been working with for your reach, see if you can make a more meaningful and attractive word cloud for each set of standards. For example, words like "core" and "common" are not very helpful since those were in our search terms when pulling data from Twitter. See if you can filter those out before making a word cloud and run `?wordcloud2` in your console to take a look at the settings for tweaking the appearance of your word cloud.
 
-For example, let's load the `wordclouds2` library, and run the `wordcloud2()` function on our `ccss_counts` data frame:
+Use a separate r script file, try modifying our list of stop words, retidying our text, and doing a new word count with these and perhaps other words removed. Also, take a look at the help file for `wordclouds2` to see if there might be otherwise you could visually improve this visualization.
 
 ```{r}
-library(wordcloud2)
-
-wordcloud2(ccss_counts)
+ss_tidy_tweets %>%
+  filter(standards == "ccss") %>%
+  count(word, sort = TRUE) %>%
+  filter(!word == c("common", "core")) %>%
+  top_n(100) %>%
+  wordcloud2(shape = 'circle',
+             color = 'random-dark')
 ```
 
-As you can see, "math" is a pretty common topic with discussing the common core on twitter but words like "core" and "common" are not very helpful since those were in our search terms when pulling data from Twitter.
+```{r}
+ngss_top_tokens <- ss_tidy_tweets %>%
+  filter(standards == "ngss") %>%
+  count(word, sort = TRUE) %>%
+  top_n(50)
 
-In a separate r script file, try modifying our list of stop words, retidying our text, and doing a new word count with these and perhaps other words removed. Also, take a look at the help file for `wordclouds2` to see if there might be otherwise you could visually improve this visualization.
-
-Word clouds are much maligned and sometimes referred to as pie charts for words, but they can be useful for quickly summarizing and communicating qualitative data for education practitioners and are intuitive for them to interpret. Also, for better or worse, these are now included as a default viz for open-ended survey items in online Qualtrics reports.
+wordcloud2(ngss_top_tokens)
+```
 
 ## Reflection
 
