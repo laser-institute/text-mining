@@ -193,13 +193,15 @@ summary_bing <- count(sentiment_bing, sentiment, sort = TRUE)
 summary_bing
 ```
 
-Collectively, it looks like our combined dataset has more positive words than negative words.
+Collectively, it looks like our combined dataset has more negative words than positive words.
 
-Since our main goal is to compare positive and negative sentiment between CCSS and NGSS, let's use the `group_by` function again to get `sentiment` summaries for NGSS and CCSS separately:
+#### [Your Turn]{style="color: green;"} ⤵
+
+Since our main goal is to compare positive and negative sentiment between CCSS and NGSS, add the `group_by()` function and supply the appropriate argument again to get `sentiment` summaries for NGSS and CCSS separately:
 
 ```{r}
 summary_bing <- sentiment_bing %>% 
-  group_by(standards) %>% 
+  group_by(standards) %>%
   count(sentiment) 
 
 summary_bing
@@ -211,7 +213,7 @@ Looks like CCSS have far more negative words than positive, while NGSS skews muc
 
 Our last step will be calculate a single sentiment "score" for our tweets that we can use for quick comparison and create a new variable indicating which lexicon we used.
 
-First, let's untidy our data a little by using the `spread` function from the `tidyr` package to transform our `sentiment` column into separate columns for `negative` and `positive` that contains the `n` counts for each:
+First, let's untidy our data a little by introducing the `spread` function from the `tidyr` package to transform our `sentiment` column into separate columns for `negative` and `positive` that contains the `n` counts for each:
 
 ```{r}
 summary_bing <- sentiment_bing %>% 
@@ -238,7 +240,7 @@ summary_bing
 
 There we go, now we can see that CCSS scores negative, while NGSS is overall positive. By quite a bit in fact!!
 
-Let's calculate a quick score for using the `afinn` lexicon now. Remember that AFINN provides a value from -5 to 5 for each:
+Let's calculate a quick score using the `afinn` lexicon now. Remember that AFINN provides a value from -5 to 5 for each:
 
 ```{r}
 head(sentiment_afinn)
@@ -296,13 +298,27 @@ Collectively, the authors found that:
 
 Congratulations - you've made it through the end of the Dark Side! To complete your work, you can click the drop down arrow at the top of the file, then select "Knit top HTML". This will create a report in your Files pane that serves as a record of your code and its output you can open or share.
 
-## Reach (Optional)
+## R-each (Optional)
 
 If you're using data that you brought to the institute or data that you pulled from Twitter, try computing sentiment values for your own data.
 
 1.  we learning how to use the {vader} package to assign sentiment scores the each tweet, rather than lumping scores for each tweet into a single "bag of words."
 
 If you'd like to use the data we've been working with for your reach,
+
+```{r}
+ccss_sample <- ss_tweets %>% 
+  filter(standards == "ccss") %>%
+  sample_n(500)
+
+ccss_sample
+```
+
+```{r}
+vader_summary <- vader_df(ss_sample$text)
+
+vader_summary
+```
 
 ## Reflection
 

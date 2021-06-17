@@ -611,7 +611,7 @@ If you wanted, you could save the processed data set to your data folder. The `w
 write_csv()
 ```
 
-## Reach (Optional)
+## R-each (Optional)
 
 If you're using data that you brought to the institute or data that you pulled from Twitter, try tidying your data into a tidy text format and examining the top words in your dataset.
 
