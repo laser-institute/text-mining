@@ -296,9 +296,13 @@ Collectively, the authors found that:
 
 ## 5. COMMUNICATE
 
-Congratulations - you've made it through the end of the Dark Side! To complete your work, you can click the drop down arrow at the top of the file, then select "Knit top HTML". This will create a report in your Files pane that serves as a record of your code and its output you can open or share.
+Congratulations - you've made it to the end! To complete your work, you can click the drop down arrow at the top of the file, then select "Knit top HTML". This will create a report in your Files pane that serves as a record of your code and its output you can open or share.
 
 ## R-each (Optional)
+
+R you ready to Come to the Dark Side?!?! If yes, then try our R-each!
+
+![](img/dark-side.jpeg){width="80%"}
 
 If you're using data that you brought to the institute or data that you pulled from Twitter, try computing sentiment values for your own data.
 
@@ -317,7 +321,7 @@ ccss_sample
 ```{r}
 vader_summary <- vader_df(ss_sample$text)
 
-vader_summary
+mean(vader_summary$compound)
 ```
 
 ## Reflection
