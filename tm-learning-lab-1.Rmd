@@ -8,7 +8,6 @@ output:
     toc: true
     toc_depth: 5
     toc_float: yes
-  html_notebook:
 bibliography: lit/references.bib
 csl: lit/apa.csl
 ---
@@ -41,11 +40,11 @@ Text Mining Module 1 is guided by a recent publication by @rosenberg2020, *Advan
 
 [Full Paper (Preprint)](https://osf.io/xymsd/.)
 
-##### **Abstract**
+##### Abstract
 
 While the Next Generation Science Standards (NGSS) are a long-standing and widespread standards-based educational reform effort, they have received less public attention, and no studies have explored the sentiment of the views of multiple stakeholders toward them. To establish how public sentiment about this reform might be similar to or different from past efforts, we applied a suite of data science techniques to posts about the standards on Twitter from 2010-2020 (N = 571,378) from 87,719 users. Applying data science techniques to identify teachers and to estimate tweet sentiment, we found that the public sentiment towards the NGSS is overwhelmingly positive -- 33 times more so than for the CCSS. Mixed effects models indicated that sentiment became more positive over time and that teachers, in particular, showed a more positive sentiment towards the NGSS. We discuss implications for educational reform efforts and the use of data science methods for understanding their implementation.
 
-##### **Data Sources**
+##### Data Sources
 
 Similar to what we'll be learning in this lab, Rosenberg et al. used publicly accessible data from Twitter collected using the Full-Archive Twitter API and the `rtweet` package in R. Specifically, the authors accessed tweets and user information from the hashtag-based \#NGSSchat online community, all tweets that included any of the following phrases, with "/" indicating an additional phrase featuring the respective plural form: "ngss", "next generation science standard/s", "next gen science standard/s".
 
@@ -76,7 +75,7 @@ ccss_tweets <- bind_tweet_jsons(data_path = "ccss-data/") %>%
 write_csv(ccss_tweets, "data/ccss-tweets.csv")
 ```
 
-##### **Analysis**
+##### Analysis
 
 Also similar to what we'll demonstrate in Lab 3, the authors determined Tweet sentiment using the Java version of SentiStrength to assign tweets to two 5-point scales of sentiment, one for positivity and one for negativity, because SentiStrength is a validated measure for sentiment in short informal texts (Thelwall et al., 2011). In addition, they used this tool because Wang and Fikis (2019) used it to explore the sentiment of CCSS-related posts. We'll be using the AFINN sentiment lexicon which also assigns words in a tweet to two 5-point scales, in addition to exploring some other sentiment lexicons to see if they produce similar results.
 
@@ -293,23 +292,9 @@ head(ccss_tweets_clean)
 
 Recall from section [1b. Define Questions] that we are interested in comparing word usage and public sentiment around both the Common Core and Next Gen Science Standards.
 
-Create an new `ngss_tweets_clean` data frame consisting of the Next Generation Science Standards tweets we imported by use the code above as a guide.
+Create an new `ngss_tweets_clean` data frame consisting of the Next Generation Science Standards tweets we imported by using the code above as a guide.
 
 ```{r}
-ngss_tweets_clean <- ngss_tweets %>%
-  filter(possibly_sensitive == "FALSE") %>%
-  select(text, author_id, created_at, conversation_id, id) %>%
-  mutate(standards = "ngss") %>%
-  relocate(standards)
-
-head(ngss_tweets_clean)
-```
-
-Try not to peek at the answer below unless you are having difficulty with your code.
-
-#### Answer
-
-```{r 2b-answer}
 ngss_tweets_clean <- ngss_tweets %>%
   filter(possibly_sensitive == "FALSE") %>%
   select(text, author_id, created_at, conversation_id, id) %>%
@@ -341,7 +326,7 @@ tail(ss_tweets)
 
 Wow, so much for a family friendly learning lab! Based on this very limited sample, which set of standards do you think Twitter users are more negative about?
 
--   your response here
+-   CSSS
 
 Let's take a slightly larger sample of the CCSS tweets:
 
@@ -359,14 +344,14 @@ Use the code chunk below to take a sample of the NGSS tweets:
 
 ```{r}
 ss_tweets %>% 
-  filter(standards == "ccss") %>%
+  filter(standards == "ngss") %>%
   sample_n(20) %>%
   relocate(text)
 ```
 
 Still of the same opinion?
 
--   Respond here...
+-   Yes, these appear much less negative.
 
 ### 2c. Tidy Text
 
@@ -436,7 +421,12 @@ The `unnest_tokens()` function also has a specialized `“tweets”` tokenizer
 Rewrite the code above (**you can check answer below**) to include the token argument set to "tweets", assign to `ss_tokens_1`, and answer the questions that follow:
 
 ```{r}
-# your code here
+ss_tokens_1 <- unnest_tokens(ss_tweets, 
+                              output = word, 
+                              input = text, 
+                              token = "tweets")
+
+head(ss_tokens_1)
 ```
 
 1.  How many observations were our original `ss_tweets` data frame?
@@ -447,20 +437,9 @@ Rewrite the code above (**you can check answer below**) to include the token arg
 
     -   
 
-#### Answer
+Before we move any further let's take a quick look at the most common word in our two datasets. To do so, we'll introduce the easy to use `count()` function from the {dplyr} package.
 
-Your code should look something like this:
-
-```{r}
-ss_tokens_1 <- unnest_tokens(ss_tweets, 
-                              output = word, 
-                              input = text, 
-                              token = "tweets")
-
-head(ss_tokens_1)
-```
-
-Before we move any further let's take a quick look at the most common word in our two datasets:
+Like most functions we've introduced, the first argument `count()` expects is a data frame which we provided with the `%>%` operator, followed but the column, in our case `word`, whose values we want to count:
 
 ```{r}
 ss_tokens_1 %>%
@@ -468,7 +447,7 @@ ss_tokens_1 %>%
 
 ```
 
-Well, many of these tweets are clearly about the ccss and math at least, but beyond that it's a bit hard to tell because there are so many "stop words" like "the", "to", "and", "in" that don't carry much meaning by themselves.
+Well, many of these tweets are clearly about the CCSS and math at least, but beyond that it's a bit hard to tell because there are so many "stop words" like "the", "to", "and", "in" that don't carry much meaning by themselves.
 
 #### Remove Stop Words
 
@@ -502,12 +481,22 @@ Notice that we've specified the `by =` argument to look for matching words in th
 
 #### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
 
-Use the code chunk below to take a quick count of the most common tokens in our `ss_tweets_2` data frame to see if the results are a little more meaningful
+Use the code chunk below to take a quick count of the most common tokens in our `ss_tweets_2` data frame to see if the results are a little more meaningful, then answer the questions that follow.
 
 ```{r}
 ss_tokens_2 %>%
   count(word, sort = TRUE)
 ```
+
+#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
+
+1.  How many unique tokens are in our data tidied text?
+
+    -   73,596
+
+2.  How many times does the word "math" occur in our set of tweets?
+
+    -   11,788
 
 #### Custom Stop Words
 
@@ -603,6 +592,16 @@ In TM Learning Lab 3, we'll take a closer look at the study by @rosenberg2020 an
 
 ## 5. COMMUNICATE
 
+In this learning lab, we focused on the literature guiding our analysis; wrangling our data into a one-token-per-row tidy text format; and using simple word counts and frequencies to compare common words used in tweets about the NGSS and CCSS curriculum standards. Below, add a few notes in response to the following prompts:
+
+1.  One thing I took away from this learning lab:
+
+    -   
+
+2.  One thing I want to learn more about:
+
+    -   
+
 Congratulations - you've completed the first text mining learning lab! To complete your work, you can click the drop down arrow at the top of the file, then select "Knit top HTML". This will create a report in your Files pane that serves as a record of your code and its output you can open or share.
 
 If you wanted, you could save the processed data set to your data folder. The `write_csv()` function is useful for this. The following code is set to not run, as we wanted to ensure that everyone had the data set needed to begin the second learning lab, but if you're confident in your prepared data, you can save it with the following:
@@ -615,9 +614,9 @@ write_csv()
 
 If you're using data that you brought to the institute or data that you pulled from Twitter, try tidying your data into a tidy text format and examining the top words in your dataset.
 
-If you'd like to use the data we've been working with for your reach, see if you can make a more meaningful and attractive word cloud for each set of standards. For example, words like "core" and "common" are not very helpful since those were in our search terms when pulling data from Twitter. See if you can filter those out before making a word cloud and run `?wordcloud2` in your console to take a look at the settings for tweaking the appearance of your word cloud.
+If you'd like to use the data we've been working with for your reach, see if you can make a more meaningful and attractive word cloud for each set of standards. For example, words like "core" and "common" are not very helpful since those were in our search terms when pulling data from Twitter. Try to `filter()` those out before making a word cloud and run `?wordcloud2` in your console to take a look at the settings for tweaking the appearance of your word cloud.
 
-Use a separate r script file, try modifying our list of stop words, retidying our text, and doing a new word count with these and perhaps other words removed. Also, take a look at the help file for `wordclouds2` to see if there might be otherwise you could visually improve this visualization.
+Using a separate r script file, try modifying our list of stop words, retidying our text, and doing a new word count with these and perhaps other words removed. Also, take a look at the help file for `wordclouds2` to see if there might be otherwise you could visually improve this visualization.
 
 ```{r}
 ss_tidy_tweets %>%
@@ -628,27 +627,6 @@ ss_tidy_tweets %>%
   wordcloud2(shape = 'circle',
              color = 'random-dark')
 ```
-
-```{r}
-ngss_top_tokens <- ss_tidy_tweets %>%
-  filter(standards == "ngss") %>%
-  count(word, sort = TRUE) %>%
-  top_n(50)
-
-wordcloud2(ngss_top_tokens)
-```
-
-## Reflection
-
-In this learning lab, we focused on the literature guiding our analysis; wrangling our data into a one-token-per-row tidy text format; and using simple word counts and frequencies to compare common words used in tweets about the NGSS and CCSS curriculum standards. Below, add a few notes in response to the following prompts:
-
-1.  One thing I took away from this learning lab:
-
-    -   
-
-2.  One thing I want to learn more about:
-
-    -   
 
 ## References
 
