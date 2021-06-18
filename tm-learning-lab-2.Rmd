@@ -1,7 +1,7 @@
 ---
 title: "Come to the Dark Side"
 subtitle: "Text Mining Learning Lab 2"
-author: "LASER Institute"
+author: "YOUR NAME HERE"
 date: "`r format(Sys.Date(),'%B %e, %Y')`"
 output: 
   html_document:
