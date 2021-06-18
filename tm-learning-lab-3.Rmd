@@ -296,21 +296,33 @@ Collectively, the authors found that:
 
 ## 5. COMMUNICATE
 
+In this learning lab, we focused we focus on the use of lexicons for text analysis and introduce the {vader} package to compare the sentiment of tweets about the NGSS and CCSS state standards. Below, add a few notes in response to the following prompts:
+
+1.  One thing I took away from this learning lab:
+
+    -   
+
+2.  One thing I want to learn more about:
+
+    -   
+
 Congratulations - you've made it to the end! To complete your work, you can click the drop down arrow at the top of the file, then select "Knit top HTML". This will create a report in your Files pane that serves as a record of your code and its output you can open or share.
 
 ## R-each (Optional)
 
-R you ready to Come to the Dark Side?!?! If yes, then try our R-each!
+R you ready to Come to the Dark Side?!?! If yes, then try our R-each! For our reach in this lab, you aim is to compute sentiment scores for your own data or the data in this lab using the {vader} package demonstrated below.
 
 ![](img/dark-side.jpeg){width="80%"}
 
-If you're using data that you brought to the institute or data that you pulled from Twitter, try computing sentiment values for your own data.
+As noted in the PERPARE section, the {vader} package is for the Valence Aware Dictionary for sEntiment Reasoning (VADER), a rule-based model for general sentiment analysis of social media text and specifically attuned to measuring sentiment in microblog-like contexts.
 
-1.  we learning how to use the {vader} package to assign sentiment scores the each tweet, rather than lumping scores for each tweet into a single "bag of words."
+Since our
 
-If you'd like to use the data we've been working with for your reach,
+VADER can take a little while to run since it's computationally intensives so let's first take at just a sample of 500 untidied CCSS tweets using the `sample_n()` function
 
 ```{r}
+ss_tweets <- read_csv()
+
 ccss_sample <- ss_tweets %>% 
   filter(standards == "ccss") %>%
   sample_n(500)
@@ -323,15 +335,3 @@ vader_summary <- vader_df(ss_sample$text)
 
 mean(vader_summary$compound)
 ```
-
-## Reflection
-
-In this learning lab, we focused we focus on the use of lexicons for text analysis and introduce the {vader} package to compare the sentiment of tweets about the NGSS and CCSS state standards. Below, add a few notes in response to the following prompts:
-
-1.  One thing I took away from this learning lab:
-
-    -   
-
-2.  One thing I want to learn more about:
-
-    -   
