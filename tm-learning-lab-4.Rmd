@@ -1,5 +1,5 @@
 ---
-title: "TM Lab 1: Tidy Text, Tokens, & Sentiment"
+title: "TM Lab 4: A Tale of Two Standards"
 subtitle: ''
 author: "LASER TEAM"
 date: "2/21/2021"
@@ -31,7 +31,7 @@ Remember that the questions of interest that we want to focus on our for our sel
 To address questions 1 and 2, we're going to focus our analyses, data products and sharing format on the following:
 
 1.  **Analyses**. For RQ1, let's try and replicate as closely as possible the analysis by Rosenberg et al. so I will clean up my analysis and calculate a single sentiment score using the AFINN Lexicon for the entire tweet and label it positive or negative based on that score. I also want to highlight how regardless of the lexicon selected, NGSS tweets contain more positive words than negative, so I'll also polish my previous analyses and calculate percentages of positive and negative words for the
-2.  **Data Products**. I know these are shunned in the world of data viz, but I think a **pie chart** will actually be an effective way to quickly communicate the proportion of positive and negative tweets among the Next Generation Science Standards. And for my analyses with the `bing`, `nrc`, and `loughan` lexicons, I'll create some 100% stacked bars showing the percentage of positive and negative words among all tweets for the NGSS and CCSS.
+2.  **Data Products**. I know these are shunned in the world of data viz, but I think a **pie chart** will actually be an effective way to quickly communicate the proportion of positive and negative tweets among the Next Generation Science Standards. And for our analyses with the `bing`, `nrc`, and `loughan` lexicons, we'll create some 100% stacked bars showing the percentage of positive and negative words among all tweets for the NGSS and CCSS.
 3.  **Format**. Similar to Unit 1, I'll be using [R Markdown](https://rmarkdown.rstudio.com) again to create a quick slide deck. Recall that R Markdown files can also be used to create a [wide range of outputs and formats](https://rmarkdown.rstudio.com/gallery.html), including polished PDF or Word documents, websites, web apps, journal articles, online books, interactive tutorials and more. And to make this process even more user-friendly, R Studio now includes [a visual editor](https://rstudio.github.io/visual-markdown-editing/#/)!
 
 ### 1b. Load Libraries
