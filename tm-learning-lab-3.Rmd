@@ -90,7 +90,7 @@ The three general-purpose lexicons we'll focus on are:
 
 -   `nrc` categorizes words in a binary fashion ("yes"/"no") into categories of positive, negative, anger, anticipation, disgust, fear, joy, sadness, surprise, and trust.
 
-Note that if this is your first time using the AFINN and NRC lexicons and you are working in RStudio Desktop, you'll be prompted to download both. Respond yes to the prompt by entering "1" and the NRC and AFINN lexicons will download. You'll only have to do this the first time you use the NRC lexicon.
+**Note that if this is your first time using the AFINN and NRC lexicons and you are working in RStudio Desktop, you'll be prompted to download both.** Respond yes to the prompt by entering "1" and the NRC and AFINN lexicons will download. You'll only have to do this the first time you use the NRC lexicon.
 
 Let's take a quick look at each of these lexicons using the `get_sentiments()` function and assign them to their respective names for later use:
 
@@ -167,7 +167,9 @@ sentiment_bing
 Use the code chunk below to create a `sentiment_nrc` data frame and answer the following questions:
 
 ```{r}
-# your code here
+sentiment_nrc <- inner_join(ss_tidy_tweets, nrc, by = "word")
+
+sentiment_nrc
 ```
 
 1.  What do you notice about the change in the number of observations (i.e. words) between the `ss_tidy_tweets` and data frames with sentiment values attached? Why did this happen?
@@ -262,12 +264,19 @@ Again, CCSS is overall negative while NGSS is overall positive!
 
 #### [Your Turn]{style="color: green;"} ⤵
 
-Now it your turn to calculate a single sentiment score for NGSS and CCSS using either the `loughan` or `nrc` lexicon. Just like the `bing` lexicon, the `loughan` lexicon only scores words as "positive" or "negative."
-
-The `nrc` lexicon, however, contains "positive" and "negative" values just like `bing` and `loughan`, but also includes values like "trust" and "sadness" as shown below. You will need to use the `filter()` function as an additional step to select rows that only contain "positive" and "negative" values.
+Now it your turn to calculate a single sentiment score for NGSS and CCSS using the `nrc` lexicon. The `nrc` lexicon, however, contains "positive" and "negative" values just like `bing` and `loughan`, but also includes values like "trust" and "sadness" as shown below. You will need to use the `filter()` function as an additional step to select rows that only contain "positive" and "negative" values.
 
 ```{r}
-# your code here
+
+summary_nrc <- sentiment_nrc %>% 
+  filter(sentiment %in% c("positive", "negative")) %>%
+  group_by(standards) %>% 
+  count(sentiment, sort = TRUE) %>% 
+  mutate(method = "nrc")  %>%
+  spread(sentiment, n) %>%
+  mutate(sentiment = positive - negative)
+
+summary_nrc
 ```
 
 1.  Are these findings above still consistent with those from other lexicons above?
@@ -316,22 +325,92 @@ R you ready to Come to the Dark Side?!?! If yes, then try our R-each! For our re
 
 As noted in the PERPARE section, the {vader} package is for the Valence Aware Dictionary for sEntiment Reasoning (VADER), a rule-based model for general sentiment analysis of social media text and specifically attuned to measuring sentiment in microblog-like contexts.
 
-Since our
+Unlike our our previous approach of assigning sentiment to each individual word in our corpus of tweets, the VADER assigns a number of different sentiment measures based on the context of the entire social-media post or in our case a tweet. So rather than working with tidy text, we'll need to work with our tweets in their original format.
 
-VADER can take a little while to run since it's computationally intensives so let's first take at just a sample of 500 untidied CCSS tweets using the `sample_n()` function
+VADER can also take a little while to run since it's computationally intensive so let's read in our original `ccss-tweets.csv` and take at just a sample of 500 untidied CCSS tweets using the `sample_n()` function
 
 ```{r}
-ss_tweets <- read_csv()
-
-ccss_sample <- ss_tweets %>% 
-  filter(standards == "ccss") %>%
+ccss_sample <- read_csv("data/ccss-tweets.csv") %>%
   sample_n(500)
 
 ccss_sample
 ```
 
-```{r}
-vader_summary <- vader_df(ss_sample$text)
+Note above that we passed our `read_csv()` output directly to our `sample()` function rather than saving a new data frame object, passing that to `sample_n()`, and saving as another data frame object. The power of the `%>%` pipe!
 
-mean(vader_summary$compound)
+On to the Dark Side. The {vader} package basically has just one function, `vader_df()` that does one thing and expects just one column from a data frame. Let's give VADER the our `ccss_sample` data frame and include the `$` operator to give it just our `text` column containing our tweets.
+
+```{r}
+summary_vader <- vader_df(ccss_sample$text)
+
+summary_vader
 ```
+
+Take a look at `vader_summary` data frame using the `View()` function and sort by most positive and negative tweets.
+
+Does it generally seem accurately identify positive and negative tweets? Could you find any that you think were mislabeled?
+
+-   YOUR RESPONSE HERE
+
+Hutto, C. & Gilbert, E. (2014) provide an excellent summary of the VADER package on their [GitHub repository](scores) and I've copied and explanation of the scores below:
+
+-   The `compound` score is computed by summing the valence scores of each word in the lexicon, adjusted according to the rules, and then normalized to be between -1 (most extreme negative) and +1 (most extreme positive). This is the most useful metric if you want a single unidimensional measure of sentiment for a given sentence. Calling it a 'normalized, weighted composite score' is accurate.
+
+**NOTE:** The `compound` score is the one most commonly used for sentiment analysis by most researchers, including the authors.
+
+Let's take a look at the average compound score for our CCSS sample of tweets:
+
+```{r}
+mean(summary_vader$compound)
+```
+
+Overall, the CCSS tweets lean slightly negative as we would expect.
+
+But what if we wanted to compare these more easily to our other sentiment lexicons just to check if result are fairly consistent?
+
+The author's note that it is also useful for researchers who would like to set standardized thresholds for classifying sentences as either positive, neutral, or negative. Typical threshold values are:
+
+-   **positive sentiment**: `compound` score \>= 0.05
+
+-   **neutral sentiment**: (`compound` score \> -0.05) and (`compound` score \< 0.05)
+
+-   **negative sentiment**: `compound` score \<= -0.05
+
+Let's give that a try and see how things shake out:
+
+```{r}
+vader_results <- summary_vader %>% 
+  mutate(sentiment = ifelse(compound >= 0.05, "positive",
+                            ifelse(compound <= -0.05, "negative", "neutral"))) %>%
+  count(sentiment, sort = TRUE) %>% 
+  spread(sentiment, n) %>% 
+  relocate(positive)
+
+vader_results
+```
+
+Not quite as bleak as we might have expected according to VADER!
+
+#### [Your Turn]{style="color: green;"} ⤵
+
+In a separate R script file, try using VADER to perform a sentiment analysis of the NGSS tweets and see how they compare. Post your working code in the chunk below.
+
+```{r}
+ngss_sample <- read_csv("data/ngss-tweets.csv") %>%
+  sample_n(500)
+
+summary_vader_ngss <- vader_df(ngss_sample$text)
+
+summary_vader_ngss
+
+vader_results_ngss <- summary_vader_ngss %>% 
+  mutate(sentiment = ifelse(compound >= 0.05, "positive",
+                            ifelse(compound <= -0.05, "negative", "neutral"))) %>%
+  count(sentiment, sort = TRUE) %>% 
+  spread(sentiment, n) %>% 
+  relocate(positive)
+
+vader_results_ngss
+```
+
+\
