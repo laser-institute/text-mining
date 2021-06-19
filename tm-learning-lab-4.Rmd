@@ -1,240 +1,513 @@
 ---
-title: "TM Lab 4: A Tale of Two Standards"
-subtitle: ''
-author: "LASER TEAM"
+title: 'Bigrams + Words Pairs = 4x the Fun'
+subtitle: 'Text Mining Learning Lab 4'
+author: "YOUR NAME HERE"
 date: "2/21/2021"
 output: 
   html_document:
     toc: true
     toc_depth: 3
     toc_float: yes
-bibliography: references.bib
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## 1. Prepare
+## 3. EXPLORE
 
-The final(ish) step in our workflow/process is sharing the results of analysis with wider audience. @krumm2018 outlined the following 3-step process for communicating with education stakeholders what you have learned through analysis:
+Calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. For our first lab, we're going to keep things relatively simple and focus on some basic data visualization with text.
 
-1.  **Select**. Communicating what one has learned involves selecting among those analyses that are most important and most useful to an intended audience, as well as selecting a form for displaying that information, such as a graph or table in static or interactive form, i.e. a "data product."
-2.  **Polish**. After creating initial versions of data products, research teams often spend time refining or polishing them, by adding or editing titles, labels, and notations and by working with colors and shapes to highlight key points.
-3.  **Narrate**. Writing a narrative to accompany the data products involves, at a minimum, pairing a data product with its related research question, describing how best to interpret the data product, and explaining the ways in which the data product helps answer the research question.
+### Unigrams
 
-Remember that the questions of interest that we want to focus on our for our selection, polishing, and narration include:
-
-1.  What is the public sentiment expressed toward the NGSS?
-2.  How does sentiment for NGSS compare to sentiment for CCSS?
-
-To address questions 1 and 2, we're going to focus our analyses, data products and sharing format on the following:
-
-1.  **Analyses**. For RQ1, let's try and replicate as closely as possible the analysis by Rosenberg et al. so I will clean up my analysis and calculate a single sentiment score using the AFINN Lexicon for the entire tweet and label it positive or negative based on that score. I also want to highlight how regardless of the lexicon selected, NGSS tweets contain more positive words than negative, so I'll also polish my previous analyses and calculate percentages of positive and negative words for the
-2.  **Data Products**. I know these are shunned in the world of data viz, but I think a **pie chart** will actually be an effective way to quickly communicate the proportion of positive and negative tweets among the Next Generation Science Standards. And for our analyses with the `bing`, `nrc`, and `loughan` lexicons, we'll create some 100% stacked bars showing the percentage of positive and negative words among all tweets for the NGSS and CCSS.
-3.  **Format**. Similar to Unit 1, I'll be using [R Markdown](https://rmarkdown.rstudio.com) again to create a quick slide deck. Recall that R Markdown files can also be used to create a [wide range of outputs and formats](https://rmarkdown.rstudio.com/gallery.html), including polished PDF or Word documents, websites, web apps, journal articles, online books, interactive tutorials and more. And to make this process even more user-friendly, R Studio now includes [a visual editor](https://rstudio.github.io/visual-markdown-editing/#/)!
-
-### 1b. Load Libraries
-
-### 1c. Import Data
-
-### 2. Wrangle
-
-#### NGSS Sentiment
-
-We want to try and replicate as closely as possible the approach Rosenberg et al. used in their analysis. To do that, let's recycle some code we used in Learning Lab.
-
-To polish my analyses and prepare, first I need to rebuild the `tweets` dataset from my `ngss_tweets` and `ccss_tweets` and select both the `status_id` that is unique to each tweet, and the `text` column which contains the actual post:
+Above, we looked at word counts for our tweets as a whole. Since our ultimate goal is to compare public sentiment between the CCSS and NGSS, let's filter tweets specific to the common core and save to a new data frame:
 
 ```{r}
-ngss_text <-
-  ngss_tweets %>%
-  filter(lang == "en") %>%
-  select(status_id, text) %>%
-  mutate(standards = "ngss") %>%
-  relocate(standards)
-
-ccss_text <-
-  ccss_tweets %>%
-  filter(lang == "en") %>%
-  select(status_id, text) %>%
-  mutate(standards = "ccss") %>%
-  relocate(standards)
-
-tweets <- bind_rows(ngss_text, ccss_text)
-
-tweets
+ccss_tidy_tweets <- ss_tidy_tweets %>%
+  filter(standards == "ccss")
 ```
 
-The `status_id` is important because like Rosenberg et al., I want to calculate an overall sentiment score for each tweet, rather than for each word.
-
-Before I get that far however, I'll need to tidy my `tweets` again and attach my `sentiment` scores.
-
-Note that the closest lexicon we have available in our `tidytext` package to the SentiStrength lexicon used by Rosenberg is the AFINN lexicon which also uses a -5 to 5 point scale.
-
-So let's use `unnest_tokens` to tidy our tweets, remove stop words, and add `afinn` scores to each word similar to what we did in section [2c. Add Sentiment Values]:
-
-```{r, message=F}
-sentiment_afinn <- tweets %>%
-  unnest_tokens(output = word, 
-                input = text, 
-                token = "tweets")  %>% 
-  anti_join(stop_words, by = "word") %>%
-  filter(!word == "amp") %>%
-  inner_join(afinn, by = "word")
-
-sentiment_afinn
-```
-
-Next, I want to calculate a single score for each tweet. To do that, I'll use the by now familiar `group_by` and `summarize`
-
-```{r, message=F}
-afinn_score <- sentiment_afinn %>% 
-  group_by(standards, status_id) %>% 
-  summarise(value = sum(value))
-
-afinn_score
-```
-
-And like Rosenberg et al., I'll add a flag for whether the tweet is "positive" or "negative" using the `mutate` function to create a new `sentiment` column to indicate whether that tweets was positive or negative.
-
-To do this, we introduced the new `if_else` function from the `dplyr` package. This `if_else` function adds "negative" to the `sentiment` column if the score in the `value` column of the corresponding row is less than 0. If not, it will add a "positive" to the row.
+Just like did above, let's now count the number of times each word occurs in these tweets and take a look at how many words we have:
 
 ```{r}
-afinn_sentiment <- afinn_score %>%
-  filter(value != 0) %>%
-  mutate(sentiment = if_else(value < 0, "negative", "positive"))
+ccss_counts <- ccss_tidy_tweets %>%
+  count(word, sort = TRUE) 
 
-afinn_sentiment
+ccss_counts
 ```
 
-Note that since a tweet sentiment score equal to 0 is neutral, I used the `filter` function to remove it from the dataset.
+Wow, 57,000 unique words is a lot to try and visualize! Also, words like "common" and "core" were in our search terms and not very helpful. Let's
 
-Finally, we're ready to compute our ratio. We'll use the `group_by` function and `count` the number of tweets for each of the `standards` that are positive or negative in the `sentiment` column. Then we'll use the `spread` function to separate them out into separate columns so we can perform a quick calculation to compute the `ratio`.
+Finally, let's
 
 ```{r}
-afinn_ratio <- afinn_sentiment %>% 
-  group_by(standards) %>% 
-  count(sentiment) %>% 
-  spread(sentiment, n) %>%
-  mutate(ratio = negative/positive)
+ccss_counts_paired <- ccss_counts %>%
+  filter(n > 200, 
+         !word == c("common", "core", "#commoncore"))
 
-afinn_ratio
+ccss_counts_paired
 ```
 
-Finally,
+### Word Clouds
+
+Word clouds are much maligned and sometimes referred to as the "pie charts of text analysis", but they can be useful for communicating simple summaries of qualitative data for education practitioners and are intuitive for them to interpret. Also, for better or worse, these are now included as a default visualization for open-ended survey items in online Qualtrics reports and you can even add your own stop words.
+
+The {wordclouds2} package is pretty dead simple tool for generating HTML based word clouds. By default, when you pass
+
+For example, let's load the {wordclouds2} library, and run the `wordcloud2()` function on our `ccss_counts` data frame.
 
 ```{r}
-afinn_counts <- afinn_sentiment %>%
-  group_by(standards) %>% 
-  count(sentiment) %>%
-  filter(standards == "ngss")
+library(wordcloud2)
 
-afinn_counts %>%
-ggplot(aes(x="", y=n, fill=sentiment)) +
-  geom_bar(width = .6, stat = "identity") +
-  labs(title = "Next Gen Science Standards",
-       subtitle = "Proportion of Positive & Negative Tweets") +
-  coord_polar(theta = "y") +
+ccss_counts %>% wordcloud2()
+```
+
+As you can see, "math" is a pretty common topic when discussing the common core on twitter but words like "core" and "common" are not very helpful since those were in our search terms when pulling data from Twitter.
+
+#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
+
+In the code chunk below, create a word cloud for the NGSS tweets
+
+```{r}
+ss_tidy_tweets %>%
+  filter(standards == "ngss") %>%
+  count(word, sort = TRUE) %>%
+  filter(n > 200, 
+         !word == c("#ngss", "ngss")) %>%
+  wordcloud2()
+```
+
+Also, take a look at the help file for `wordclouds2` to see if there might be otherwise you could visually improve this visualization.
+
+Calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. In Section 3, we keep things relatively simple and focus on some simple data summaries:
+
+a.  **Word Counts**. We focus primarily on the use of word counts and briefly introduce word frequencies to help us identify word commonly used in tweets about the NGSS and CCSS curriculum standards.
+
+b.  **Word Frequencies**. We wrap up this lab and preview some data visualization work in later labs by creating a simple wordcloud to explore summarize and highlight key words among our tweets.
+
+### 3a. Word Counts
+
+As highlighted in [Word Counts are Amazing](https://tedunderwood.com/2013/02/20/wordcounts-are-amazing/), an excellent post and blog by Ted Underwood at University of Illinois, one simple but powerful approach to text analysis is counting the frequency in which words occur in a given collection of documents, or corpus.
+
+Word counts are a good example of a simple approach that illustrates the central question to text mining and natural language processing, introduced at the beginning:
+
+> How do we to **quantify** what a document or collection of documents is about?
+
+So far, we've used the `count()` function from the {dplyr} package to look at word counts across our entire corpus of tweets.
+
+Let's use the same function to look at counts of the most common words by standards this time since one of our goals is to compare public sentiment between the two standards:
+
+```{r}
+ss_tidy_tweets %>%
+  count(standards, word, sort = TRUE)
+```
+
+Note that we included `standards` in our function to count how often each word occurs for each set of standards. For example, if you tab through the output, you will see that "students" is among the top words in both sets of standards, and occurs 1,432 times in the NGSS tweets and 1,127 times in the CCSS tweets.
+
+Unsurprisingly words from our Twitter API search query are among the top words in each set of standards as well.
+
+It's a little difficult to directly compare the top words in each set since they are lumped together. Let's use our `filter()` function again to just look at the CCSS tweets and save this for later to use in our Reach activity:
+
+```{r}
+ccss_counts <- ss_tidy_tweets %>%
+  filter(standards == "ccss") %>%
+  count(word, sort = TRUE)
+
+ccss_counts
+```
+
+#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
+
+Now use the code below to get the counts for our NGSS tweets so we can compare the top words for each set of standards:
+
+```{r}
+# your code here
+```
+
+What might the top words for each set of standards suggest about similarities and differences for how Twitter users talk about each? What might it suggest about public sentiment?
+
+-   your response here
+
+### 3b. Word Frequencies
+
+We saw above that the word "students" is among the top words in both sets of standards, but to help facilitate comparisons, is often helpful to look at the frequency that each word occurs among all words for that document group. This will also helps us to better gauge how prominent each word is for each set of standards.
+
+For example, let's create counts for each `standards` and `word` paring like we did above, and then create a new column using the `mutate()` function that calculates the proportion that word makes up among all words:
+
+```{r}
+ccss_frequencies <- ccss_counts %>%
+  mutate(proportion = n / sum(n))
+
+ccss_frequencies
+```
+
+#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
+
+Now use the code below to get the frequencies for our NGSS tweets so we can compare the top words for each set of standards:
+
+```{r}
+# your code here
+```
+
+We can see in both cases that our search terms are heavily skewing our proportions. What might we do to address this?
+
+-   your response here
+
+\
+
+```{r}
+ library(wordcloud2)
+
+tidy_unigrams %>%
+  count(word) %>%
+  filter(n > 200) %>%
+  wordcloud2()
+```
+
+```{r}
+
+tidy_unigrams %>%
+  count(word) %>%
+  filter(n > 500) %>%
+  mutate(word = reorder(word, n)) %>%
+  ggplot(aes(n, word)) +
+  geom_col()
+
+```
+
+\
+
+```{r}
+ccss_tweets %>%
+  select(text) %>% 
+  filter(grepl('math', text)) %>%
+  sample_n(20)
+```
+
+\
+
+```{r}
+
+unigram_counts <- tidy_unigrams %>%
+  count(word) %>%
+  filter(n > 200)
+
+wordcloud2(unigram_counts,
+           color = ifelse(unigram_counts[, 2] > 800, 'black', 'gray'))
+```
+
+\
+
+## Bigrams
+
+In the function above we specified tokens as individual words, but many interesting text analyses are based on the relationships between words, which words tend to follow others immediately, or words that tend to co-occur within the same documents.
+
+We can also use the `unnest_tokens()` function to tokenize our tweets into consecutive sequences of words, called **n-grams**. By seeing how often word X is followed by word Y, we can then build a model of the relationships between them as well see in Part 2.
+
+We do this by adding the `token = "ngrams"` option to [`unnest_tokens()`](https://rdrr.io/pkg/tidytext/man/unnest_tokens.html), and setting `n` to the number of words in each n-gram. Let's set `n` to 2, so we can examine pairs of two consecutive words, often called "bigrams":
+
+```{r ccss-bigrams}
+ss_tweets_b1 <- ss_tweets %>% 
+  unnest_tokens(bigram, 
+                text, 
+                token = "ngrams", 
+                n = 2)
+
+head(ss_tweets_b1)
+```
+
+#### Filtering Bigrams
+
+As we saw above, a lot of the most common bigrams are pairs of common (uninteresting) words as well. Dealing with these is a little less straightforward and we'll need to use the `separate()` function from the `tidyr` package, which splits a column into multiple based on a delimiter. This lets us separate it into two columns, "word1" and "word2", at which point we can remove cases where either is a stop-word.
+
+```{r stop-bigrams}
+library(tidyr)
+
+ss_tweets_b2 <- ss_tweets_b1 %>%
+  separate(bigram, c("word1", "word2"), sep = " ")
+
+ss_tweets_b3 <- ss_tweets_b2 %>%
+  filter(!word1 %in% stop_words$word) %>%
+  filter(!word2 %in% stop_words$word)
+
+ss_tweets_b4 <- ss_tweets_b3 %>%
+  unite(bigram, word1, word2, sep = " ")
+```
+
+\
+
+### 3b. Graph Pairs
+
+```{r}
+tidy_bigrams %>%
+  count(bigram, sort = TRUE)
+
+```
+
+\
+
+```{r}
+
+library(igraph)
+library(ggraph)
+library(stringr)
+
+math_bigrams <- ccss_tweets %>%
+  filter(str_detect(text, 'math')) %>%
+  unnest_tokens(bigram, 
+                text, 
+                token = "ngrams", 
+                n = 2)
+
+bigrams_separated <- math_bigrams %>%
+  separate(bigram, c("word1", "word2"), sep = " ")
+
+bigrams_filtered <- bigrams_separated %>%
+  filter(!word1 %in% stop_words$word) %>%
+  filter(!word2 %in% stop_words$word)
+
+bigram_graph <- bigrams_filtered %>% 
+  count(word1, word2, sort = TRUE) %>%
+  filter(n > 10) %>%
+  graph_from_data_frame()
+
+
+set.seed(2017)
+
+ggraph(bigram_graph, layout = "fr") +
+  geom_edge_link(aes(edge_alpha = n)) +
+  geom_node_point() +
+  geom_node_text(aes(label = name), vjust = 1, hjust = 1)
+```
+
+\
+
+\
+
+```{r}
+
+```
+
+## 4. MODEL {data-link="4. MODEL"}
+
+```{r}
+
+library(widyr)
+
+math_unigrams <- ccss_tweets %>%
+  filter(str_detect(text, 'math')) %>%
+  unnest_tokens(word, 
+                text, 
+                token = "tweets")
+
+word_pairs <- math_unigrams %>%
+  pairwise_count(word, id, sort = TRUE)
+```
+
+\
+
+```{r}
+
+word_cors <- math_unigrams %>%
+  group_by(word) %>%
+  filter(n() >= 20) %>%
+  pairwise_cor(word, id, sort = TRUE)
+
+word_cors %>%
+  filter(item1 == "math")
+
+```
+
+\
+
+```{r}
+word_cors <- tidy_unigrams %>%
+  group_by(word) %>%
+  filter(n() >= 50) %>%
+  pairwise_cor(word, id, sort = TRUE)
+```
+
+\
+
+```{r}
+word_cors %>%
+  filter(item1 %in% c("math", "#math")) %>%
+  group_by(item1) %>%
+  slice_max(correlation, n = 6) %>%
+  ungroup() %>%
+  mutate(item2 = reorder(item2, correlation)) %>%
+  ggplot(aes(item2, correlation)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~ item1, scales = "free") +
+  coord_flip()
+```
+
+\
+
+```{r}
+word_cors %>%
+  filter(correlation > .15) %>%
+  graph_from_data_frame() %>%
+  ggraph(layout = "fr") +
+  geom_edge_link(aes(edge_alpha = correlation), show.legend = FALSE) +
+  geom_node_point(color = "lightblue", size = 5) +
+  geom_node_text(aes(label = name), repel = TRUE) +
   theme_void()
-
 ```
 
-#### NGSS vs CCSS
+## 3. EXPLORE
 
-Finally, to address Question 2, I want to compare the percentage of positive and negative words contained in the corpus of tweets for the NGSS and CCSS standards using the four different lexicons to see how sentiment compares based on lexicon used.
+Now that we have our tweets tidied and sentiments joined, we're ready for a little data exploration. As highlighted in Unit 1, calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. One goal in this phase is explore questions that drove the original analysis and develop new questions and hypotheses to test in later stages. Topics addressed in Section 3 include:
 
-I'll begin by polishing my previous summaries and creating identical summaries for each lexicon that contains the following columns: `method`, `standards`, `sentiment`, and `n`, or word counts:
+a.  **Time Series**. We take a quick look at the date range of our tweets and compare number of postings by standards.
+b.  **Sentiment Summaries**. We put together some basic summaries of our sentiment values in order to compare public sentiment
+
+### 3a. Time Series
+
+Before we dig into sentiment, let's use the handy `ts_plot` function built into `rtweet` to take a very quick look at how far back our tidied `tweets` data set goes:
 
 ```{r}
-summary_afinn2 <- sentiment_afinn %>% 
-  group_by(standards) %>% 
-  filter(value != 0) %>%
-  mutate(sentiment = if_else(value < 0, "negative", "positive")) %>% 
-  count(sentiment, sort = TRUE) %>% 
-  mutate(method = "AFINN")
+ts_plot(tweets, by = "days")
+```
 
-summary_bing2 <- sentiment_bing %>% 
+Notice that this effectively creates a `ggplot` time series plot for us. I've included the `by =` argument which by default is set to "days". It looks like tweets go back 9 days which the rate limit set by Twitter.
+
+Try changing it to "hours" and see what happens.
+
+##### ✅ Comprehension Check
+
+1.  Use `ts_plot` with the `group_by` function to compare the number of tweets over time by Next Gen and Common Core `standards`
+2.  Which set of standards is Twitter users talking about the most?
+
+Hint: use the `?ts_plot` help function to check the examples to see how this can be done.
+
+Your line graph should look something like this:
+
+```{r, echo=F}
+tweets %>%
+  group_by(standards) %>%
+  ts_plot(by = "days")
+```
+
+### 3b. Sentiment Summaries
+
+Since our primary goals is to compare public sentiment around the NGSS and CCSS state standards, in this section we put together some basic numerical summaries using our different lexicons to see whether tweets are generally more positive or negative for each standard as well as differences between the two. To do this, we revisit the following `dplyr` functions:
+
+-   [`count()`](https://dplyr.tidyverse.org/reference/count.html?q=count) lets you quickly count the unique values of one or more variables
+
+-   [`group_by()`](https://dplyr.tidyverse.org/articles/grouping.html?q=group) takes a data frame and one or more variables to group by
+
+-   [`summarise()`](https://dplyr.tidyverse.org/reference/summarise.html) creates a numerical summary of data using arguments like [`mean()`](https://rdrr.io/r/base/mean.html) and [`median()`](https://rdrr.io/r/stats/median.html)
+
+-   [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) adds new variables and preserves existing ones
+
+And introduce one new function:
+
+-   `spread()`
+
+#### Sentiment Counts
+
+Let's start with `bing`, our simplest sentiment lexicon, and use the `count` function to count how many times in our `sentiment_bing` data frame "positive" and "negative" occur in `sentiment` column and :
+
+```{r}
+summary_bing <- count(sentiment_bing, sentiment, sort = TRUE)
+```
+
+Collectively, it looks like our combined dataset has more positive words than negative words.
+
+```{r}
+summary_bing
+```
+
+Since our main goal is to compare positive and negative sentiment between CCSS and NGSS, let's use the `group_by` function again to get `sentiment` summaries for NGSS and CCSS separately:
+
+```{r}
+summary_bing <- sentiment_bing %>% 
+  group_by(standards) %>% 
+  count(sentiment) 
+
+summary_bing
+```
+
+Looks like CCSS have far more negative words than positive, while NGSS skews much more positive. So far, pretty consistent with Rosenberg et al. findings!!!
+
+#### Compute Sentiment Value
+
+Our last step will be calculate a single sentiment "score" for our tweets that we can use for quick comparison and create a new variable indicating which lexicon we used.
+
+First, let's untidy our data a little by using the `spread` function from the `tidyr` package to transform our `sentiment` column into separate columns for `negative` and `positive` that contains the `n` counts for each:
+
+```{r}
+summary_bing <- sentiment_bing %>% 
   group_by(standards) %>% 
   count(sentiment, sort = TRUE) %>% 
-  mutate(method = "bing")
+  spread(sentiment, n) 
 
-summary_nrc2 <- sentiment_nrc %>% 
+summary_bing
+```
+
+Finally, we'll use the `mutate` function to create two new variables: `sentiment` and `lexicon` so we have a single sentiment score and the lexicon from which it was derived:
+
+```{r}
+summary_bing <- sentiment_bing %>% 
+  group_by(standards) %>% 
+  count(sentiment, sort = TRUE) %>% 
+  spread(sentiment, n) %>%
+  mutate(sentiment = positive - negative) %>%
+  mutate(lexicon = "bing") %>%
+  relocate(lexicon)
+
+summary_bing
+```
+
+There we go, now we can see that CCSS scores negative, while NGSS is overall positive.
+
+Let's calculate a quick score for using the `afinn` lexicon now. Remember that AFINN provides a value from -5 to 5 for each:
+
+```{r}
+head(sentiment_afinn)
+```
+
+To calculate late a summary score, we will need to first group our data by `standards` again and then use the `summarise` function to create a new `sentiment` variable by adding all the positive and negative scores in the `value` column:
+
+```{r}
+summary_afinn <- sentiment_afinn %>% 
+  group_by(standards) %>% 
+  summarise(sentiment = sum(value)) %>% 
+  mutate(lexicon = "AFINN") %>%
+  relocate(lexicon)
+
+summary_afinn
+```
+
+Again, CCSS is overall negative while NGSS is overall positive!
+
+##### ✅ Comprehension Check
+
+For your final task for this walkthough, calculate a single sentiment score for NGSS and CCSS using the remaining `nrc` and `loughan` lexicons and answer the following questions. Are these findings above still consistent?
+
+Hint: The `nrc` lexicon contains "positive" and "negative" values just like `bing` and `loughan`, but also includes values like "trust" and "sadness" as shown below. You will need to use the `filter()` function to select rows that only contain "positive" and "negative."
+
+```{r}
+nrc
+```
+
+```{r, echo=F, message=F}
+summary_nrc <- sentiment_nrc %>% 
   filter(sentiment %in% c("positive", "negative")) %>%
   group_by(standards) %>% 
   count(sentiment, sort = TRUE) %>% 
-  mutate(method = "nrc") 
+  mutate(method = "nrc")  %>%
+  spread(sentiment, n) %>%
+  mutate(sentiment = positive/negative)
 
-summary_loughran2 <- sentiment_loughran %>% 
-  filter(sentiment %in% c("positive", "negative")) %>%
+summary_nrc
+
+summary_afinn <- sentiment_afinn %>% 
   group_by(standards) %>% 
-  count(sentiment, sort = TRUE) %>% 
-  mutate(method = "loughran") 
+  summarise(sentiment = sum(value)) %>%
+  mutate(lexicon = "AFINN") %>%
+  relocate(lexicon)
+
+summary_afinn
 ```
-
-Next, I'll combine those four data frames together using the `bind_rows` function again:
-
-```{r}
-summary_sentiment <- bind_rows(summary_afinn2,
-                               summary_bing2,
-                               summary_nrc2,
-                               summary_loughran2) %>%
-  arrange(method, standards) %>%
-  relocate(method)
-
-summary_sentiment
-```
-
-Then I'll create a new data frame that has the total word counts for each set of standards and each method and join that to my `summary_sentiment` data frame:
-
-```{r}
-total_counts <- summary_sentiment %>%
-  group_by(method, standards) %>%
-  summarise(total = sum(n))
-
-sentiment_counts <- left_join(summary_sentiment, total_counts)
-
-sentiment_counts
-```
-
-Finally, I'll add a new row that calculates the percentage of positive and negative words for each set of state standards:
-
-```{r}
-sentiment_percents <- sentiment_counts %>%
-  mutate(percent = n/total * 100)
-
-sentiment_percents
-```
-
-Now that I have my sentiment percent summaries for each lexicon, I'm going great my 100% stacked bar charts for each lexicon:
-
-```{r}
-sentiment_percents %>%
-  ggplot(aes(x = standards, y = percent, fill=sentiment)) +
-  geom_bar(width = .8, stat = "identity") +
-  facet_wrap(~method, ncol = 1) +
-  coord_flip() +
-  labs(title = "Public Sentiment on Twitter", 
-       subtitle = "The Common Core & Next Gen Science Standards",
-       x = "State Standards", 
-       y = "Percentage of Words")
-```
-
-And finished! The chart above clearly illustrates that regardless of sentiment lexicon used, the NGSS contains more positive words than the CCSS lexicon.
-
-### 5c. Narrate
-
-With our "data products" cleanup complete, we can start pulling together a quick presentation to share with the class. We've already seen what a more formal journal article looks like in the PREPARE section of this walkthrough. For your Independent Analysis assignment for Unit 2, you'll be creating either a simple report or slide deck to share out some key findings from our analysis.
-
-Regardless of whether you plan to talk us through your analysis and findings with a presentation or walk us through with a brief written report, your assignment should address the following questions:
-
-1.  **Purpose**. What question or questions are guiding your analysis? What did you hope to learn by answering these questions and why should your audience care about your findings?
-2.  **Methods**. What data did you selected for analysis? What steps did you take took to prepare your data for analysis and what techniques you used to analyze your data? These should be fairly explicit with your embedded code.
-3.  **Findings**. What did you ultimately find? How do your "data products" help to illustrate these findings? What conclusions can you draw from your analysis?
-4.  **Discussion**. What were some of the strengths and weaknesses of your analysis? How might your audience use this information? How might you revisit or improve upon this analysis in the future?
-
-#### Examples and Templates
-
-You can view my example presentation here: COMING SOON!
-
-And use my R Markdown presentation file as a template: COMING SOON!

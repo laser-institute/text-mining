@@ -27,6 +27,7 @@ Before introducing the {vader} package, let's load some two familiar packages th
 ```{r}
 library(tidyverse)
 library(tidytext)
+library(here)
 ```
 
 #### The vader Package 📦
@@ -47,11 +48,9 @@ library(vader)
 
 ### 1b. Import Data
 
-Finally, let's load the {here} library introduced in Foundations and import our `ss_tidy_tweets.csv` data from Learning Lab 1 that we'll be using for our sentiment analysis:
+Finally, let's use the by now familiar `read_csv()` and `here()` functions to import our `ss_tidy_tweets.csv` data from Learning Lab 1 that we'll be using for our sentiment analysis:
 
 ```{r}
-library(here)
-
 ss_tidy_tweets <- read_csv(here("data", "ss_tidy_tweets.csv"), 
                    col_types = cols(author_id = col_character(),
                                     conversation_id = col_character(), 

@@ -1,0 +1,264 @@
+---
+title: "A Tale of Two Standards"
+subtitle: 'Text Mining Learning Lab 3'
+author: "YOUR NAME HERE"
+date: "2/21/2021"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: yes
+bibliography: lit/references.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. Prepare
+
+Ultimately, the aim of our work is to share the results of analysis with wider audience, whether in a peer-reviewed journal or reporting directly to education stakeholders. The latter is among particular importance in Learning Analytics. In *Learning Analytics Goes to School*, @krumm2018 outlined the following 3-step process for communicating with education stakeholders what you have learned through analysis:
+
+1.  **Select**. Communicating what one has learned involves selecting among those analyses that are most important and most useful to an intended audience, as well as selecting a form for displaying that information, such as a graph or table in static or interactive form, or **data product.**
+2.  **Polish**. After creating initial versions of data products, research teams often spend time refining or polishing them, by adding or editing titles, labels, and notations and by working with colors and shapes to highlight key points.
+3.  **Narrate**. Writing a narrative to accompany the data products involves, at a minimum, pairing a data product with its related research question, describing how best to interpret the data product, and explaining the ways in which the data product helps answer the research question.
+
+### 1a. Questions & Analyses
+
+Remember that the questions of interest that we want to focus on our for our selection, polishing, and narration include:
+
+1.  What is the public sentiment expressed toward the NGSS?
+2.  How does sentiment for NGSS compare to sentiment for CCSS?
+
+To address questions 1 and 2, we're going to focus our analyses and data products on the following:
+
+1.  **Analyses**. For RQ1, let's try and replicate as closely as possible the analysis by @rosenberg2021a. We will clean up our analysis from Learning Lab 2 and calculate a single sentiment score using the AFINN Lexicon for the entire tweet and label it positive or negative based on that score. We also want to highlight how regardless of the lexicon selected, NGSS tweets contain more positive words than negative, so we'll also polish our previous analyses and calculate the percentages of positive and negative words for the NGSS specifically.
+2.  **Data Products**. I know these are shunned in the world of data viz, but I think a **pie chart** will actually be an effective way to quickly communicate the proportion of positive and negative tweets among the Next Generation Science Standards. And for our analyses with the `bing`, `nrc`, and `loughan` lexicons, we'll create 100% stacked bars showing the percentage of positive and negative words among all tweets for the NGSS and CCSS.
+
+### 1b. Load Libraries
+
+For this learning lab, we'll need only to packages to wrangle, analyze, and summarize our text-based data in response to
+
+#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
+
+In the code chunk below, load the two packages we'll need for working with text as data using tidy data principles. **Hint:** They both begin with "tidy".
+
+```{r}
+library(tidytext)
+library(tidyverse)
+```
+
+### 2. Wrangle
+
+The majority wrangling for Learning Lab 3 will build upon functions already introduced and practiced for during Learning Labs 1 & 2. You will be expected to do the bulk of the wrangling for this section, but will be provided guidance when new approaches for wrangling are introduced.
+
+### 1c. Import Data
+
+For Learning Lab 3, let's start again with our raw data and import into the R environment. We'll be working with the `ccss-tweets.csv` and `ngss-tweets.csv` located in the data folder.
+
+#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
+
+Use the code chunk below to import the the NGSS and CCSS tweets and save as `ccss_tweets` and `ngss_tweets` respectively.
+
+```{r}
+ccss_tweets <- read_csv(here("data", "ccss-tweets.csv"))
+
+ngss_tweets <- read_csv(here("data", "ngss-tweets.csv"))
+```
+
+#### NGSS Sentiment
+
+To prepare for our analyses, first we need to rebuild the `tweets` dataset from my `ngss_tweets` and `ccss_tweets` and select both the `id` that is unique to each tweet, and the `text` column which contains the actual post:
+
+```{r}
+ngss_text <-
+  ngss_tweets %>%
+  filter(lang == "en") %>%
+  select(id, text) %>%
+  mutate(standards = "ngss") %>%
+  relocate(standards)
+
+ccss_text <-
+  ccss_tweets %>%
+  filter(lang == "en") %>%
+  select(status_id, text) %>%
+  mutate(standards = "ccss") %>%
+  relocate(standards)
+
+tweets <- bind_rows(ngss_text, ccss_text)
+
+tweets
+```
+
+The `status_id` is important because like Rosenberg et al., I want to calculate an overall sentiment score for each tweet, rather than for each word.
+
+Before I get that far however, I'll need to tidy my `tweets` again and attach my `sentiment` scores.
+
+Note that the closest lexicon we have available in our `tidytext` package to the SentiStrength lexicon used by Rosenberg is the AFINN lexicon which also uses a -5 to 5 point scale.
+
+So let's use `unnest_tokens` to tidy our tweets, remove stop words, and add `afinn` scores to each word similar to what we did in section [2c. Add Sentiment Values]:
+
+```{r, message=F}
+sentiment_afinn <- tweets %>%
+  unnest_tokens(output = word, 
+                input = text, 
+                token = "tweets")  %>% 
+  anti_join(stop_words, by = "word") %>%
+  filter(!word == "amp") %>%
+  inner_join(afinn, by = "word")
+
+sentiment_afinn
+```
+
+Next, I want to calculate a single score for each tweet. To do that, I'll use the by now familiar `group_by` and `summarize`
+
+```{r, message=F}
+afinn_score <- sentiment_afinn %>% 
+  group_by(standards, status_id) %>% 
+  summarise(value = sum(value))
+
+afinn_score
+```
+
+And like Rosenberg et al., I'll add a flag for whether the tweet is "positive" or "negative" using the `mutate` function to create a new `sentiment` column to indicate whether that tweets was positive or negative.
+
+To do this, we introduced the new `if_else` function from the `dplyr` package. This `if_else` function adds "negative" to the `sentiment` column if the score in the `value` column of the corresponding row is less than 0. If not, it will add a "positive" to the row.
+
+```{r}
+afinn_sentiment <- afinn_score %>%
+  filter(value != 0) %>%
+  mutate(sentiment = if_else(value < 0, "negative", "positive"))
+
+afinn_sentiment
+```
+
+Note that since a tweet sentiment score equal to 0 is neutral, I used the `filter` function to remove it from the dataset.
+
+Finally, we're ready to compute our ratio. We'll use the `group_by` function and `count` the number of tweets for each of the `standards` that are positive or negative in the `sentiment` column. Then we'll use the `spread` function to separate them out into separate columns so we can perform a quick calculation to compute the `ratio`.
+
+```{r}
+afinn_ratio <- afinn_sentiment %>% 
+  group_by(standards) %>% 
+  count(sentiment) %>% 
+  spread(sentiment, n) %>%
+  mutate(ratio = negative/positive)
+
+afinn_ratio
+```
+
+Finally,
+
+```{r}
+afinn_counts <- afinn_sentiment %>%
+  group_by(standards) %>% 
+  count(sentiment) %>%
+  filter(standards == "ngss")
+
+afinn_counts %>%
+ggplot(aes(x="", y=n, fill=sentiment)) +
+  geom_bar(width = .6, stat = "identity") +
+  labs(title = "Next Gen Science Standards",
+       subtitle = "Proportion of Positive & Negative Tweets") +
+  coord_polar(theta = "y") +
+  theme_void()
+
+```
+
+#### NGSS vs CCSS
+
+Finally, to address Question 2, I want to compare the percentage of positive and negative words contained in the corpus of tweets for the NGSS and CCSS standards using the four different lexicons to see how sentiment compares based on lexicon used.
+
+I'll begin by polishing my previous summaries and creating identical summaries for each lexicon that contains the following columns: `method`, `standards`, `sentiment`, and `n`, or word counts:
+
+```{r}
+summary_afinn2 <- sentiment_afinn %>% 
+  group_by(standards) %>% 
+  filter(value != 0) %>%
+  mutate(sentiment = if_else(value < 0, "negative", "positive")) %>% 
+  count(sentiment, sort = TRUE) %>% 
+  mutate(method = "AFINN")
+
+summary_bing2 <- sentiment_bing %>% 
+  group_by(standards) %>% 
+  count(sentiment, sort = TRUE) %>% 
+  mutate(method = "bing")
+
+summary_nrc2 <- sentiment_nrc %>% 
+  filter(sentiment %in% c("positive", "negative")) %>%
+  group_by(standards) %>% 
+  count(sentiment, sort = TRUE) %>% 
+  mutate(method = "nrc") 
+
+summary_loughran2 <- sentiment_loughran %>% 
+  filter(sentiment %in% c("positive", "negative")) %>%
+  group_by(standards) %>% 
+  count(sentiment, sort = TRUE) %>% 
+  mutate(method = "loughran") 
+```
+
+Next, I'll combine those four data frames together using the `bind_rows` function again:
+
+```{r}
+summary_sentiment <- bind_rows(summary_afinn2,
+                               summary_bing2,
+                               summary_nrc2,
+                               summary_loughran2) %>%
+  arrange(method, standards) %>%
+  relocate(method)
+
+summary_sentiment
+```
+
+Then I'll create a new data frame that has the total word counts for each set of standards and each method and join that to my `summary_sentiment` data frame:
+
+```{r}
+total_counts <- summary_sentiment %>%
+  group_by(method, standards) %>%
+  summarise(total = sum(n))
+
+sentiment_counts <- left_join(summary_sentiment, total_counts)
+
+sentiment_counts
+```
+
+Finally, I'll add a new row that calculates the percentage of positive and negative words for each set of state standards:
+
+```{r}
+sentiment_percents <- sentiment_counts %>%
+  mutate(percent = n/total * 100)
+
+sentiment_percents
+```
+
+Now that I have my sentiment percent summaries for each lexicon, I'm going great my 100% stacked bar charts for each lexicon:
+
+```{r}
+sentiment_percents %>%
+  ggplot(aes(x = standards, y = percent, fill=sentiment)) +
+  geom_bar(width = .8, stat = "identity") +
+  facet_wrap(~method, ncol = 1) +
+  coord_flip() +
+  labs(title = "Public Sentiment on Twitter", 
+       subtitle = "The Common Core & Next Gen Science Standards",
+       x = "State Standards", 
+       y = "Percentage of Words")
+```
+
+And finished! The chart above clearly illustrates that regardless of sentiment lexicon used, the NGSS contains more positive words than the CCSS lexicon.
+
+### 5c. Narrate
+
+With our "data products" cleanup complete, we can start pulling together a quick presentation to share with the class. We've already seen what a more formal journal article looks like in the PREPARE section of this walkthrough. For your Independent Analysis assignment for Unit 2, you'll be creating either a simple report or slide deck to share out some key findings from our analysis.
+
+Regardless of whether you plan to talk us through your analysis and findings with a presentation or walk us through with a brief written report, your assignment should address the following questions:
+
+1.  **Purpose**. What question or questions are guiding your analysis? What did you hope to learn by answering these questions and why should your audience care about your findings?
+2.  **Methods**. What data did you selected for analysis? What steps did you take took to prepare your data for analysis and what techniques you used to analyze your data? These should be fairly explicit with your embedded code.
+3.  **Findings**. What did you ultimately find? How do your "data products" help to illustrate these findings? What conclusions can you draw from your analysis?
+4.  **Discussion**. What were some of the strengths and weaknesses of your analysis? How might your audience use this information? How might you revisit or improve upon this analysis in the future?
+
+#### Examples and Templates
+
+You can view my example presentation here: COMING SOON!
+
+And use my R Markdown presentation file as a template: COMING SOON!
