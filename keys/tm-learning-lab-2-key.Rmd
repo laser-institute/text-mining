@@ -37,7 +37,7 @@ The {vader} package is for the Valence Aware Dictionary for sEntiment Reasoning 
 
 To learn more about the {vader} package and its development, take a look at the article by Hutto and Gilbert (2014), [VADER: A Parsimonious Rule-based Model forSentiment Analysis of Social Media Text](http://comp.social.gatech.edu/papers/icwsm14.vader.hutto.pdf).
 
-Let's go ahead and load the vader library:
+Let's go ahead and load the VADER library:
 
 ```{r}
 library(vader)
@@ -61,7 +61,7 @@ ss_tidy_tweets <- read_csv("data/ss_tidy_tweets.csv",
 Use the head, tail, glimpse or other view function or method to quickly inspect our data and make sure everything looks in order:
 
 ```{r}
-# your code here
+glimpse(ss_tidy_tweets)
 ```
 
 ------------------------------------------------------------------------
@@ -80,11 +80,11 @@ For a quick overview of the different join functions with helpful visuals, here 
 
 Recall from our readings that sentiment analysis tries to evaluate words for their emotional association. Silge & Robinson point out that, "one way to analyze the sentiment of a text is to consider the text as a combination of its individual words and the sentiment content of the whole text as the sum of the sentiment content of the individual words." This isn't the only way to approach sentiment analysis, but it is an easier entry point into sentiment analysis and one that often-used.
 
-The {tidytext} package introduced in Learning Lab 1 provides access to several sentiment lexicons based on unigrams, i.e., single words. These lexicons contain many English words and the words are assigned scores for positive/negative sentiment, and also possibly emotions like joy, anger, sadness, and so forth.
+The {tidytext} package introduced in Learning Lab 1 provides access to several sentiment lexicons based on unigrams, i.e., single words. These lexicons contain many English words and the words are assigned scores for positive/negative sentiment, and also possibly emotions like joy, anger, sadness, etc.
 
 The three general-purpose lexicons we'll focus on are:
 
--   `AFINN` assigns words with a score that runs between -5 and 5, with negative scores indicating negative sentiment and positive scores indicating positive sentiment.
+-   `AFINN` assigns words with a score that runs between -5 and 5, with negative scores indicating negative sentiment and positive scores indicating positive sentiment. AFINN is very similar to the lexicon used in our guiding study by Rosenberg et al. (2021)
 
 -   `bing` categorizes words in a binary fashion into positive and negative categories.
 
@@ -145,7 +145,7 @@ Let's use `inner_join()` to combine our two `tidy_tweets` and `afinn` data frame
 ```{r}
 sentiment_afinn <- inner_join(ss_tidy_tweets, afinn, by = "word")
 
-sentiment_afinn
+sentiment_afinn %>% select(word, value)
 ```
 
 Notice that each word in your `sentiment_afinn` data frame now contains a value ranging from -5 (very negative) to 5 (very positive).
@@ -155,7 +155,7 @@ Let's join and take a look at the our sentiments according to bing:
 ```{r}
 sentiment_bing <- inner_join(ss_tidy_tweets, bing, by = "word")
 
-sentiment_bing
+sentiment_bing  %>% select(word, sentiment)
 ```
 
 #### [Your Turn]{style="color: green;"} ⤵
@@ -169,7 +169,7 @@ Use the code chunk below to create a `sentiment_nrc` data frame and answer the f
 ```{r}
 sentiment_nrc <- inner_join(ss_tidy_tweets, nrc, by = "word")
 
-sentiment_nrc
+sentiment_nrc  %>% select(word, sentiment)
 ```
 
 1.  What do you notice about the change in the number of observations (i.e. words) between the `ss_tidy_tweets` and data frames with sentiment values attached? Why did this happen?
@@ -215,7 +215,7 @@ Looks like CCSS have far more negative words than positive, while NGSS skews muc
 
 Our last step will be calculate a single sentiment "score" for our tweets that we can use for quick comparison and create a new variable indicating which lexicon we used.
 
-First, let's untidy our data a little by introducing the `spread` function from the `tidyr` package to transform our `sentiment` column into separate columns for `negative` and `positive` that contains the `n` counts for each:
+First, let's untidy our data a little by introducing the `spread()` function from the {tidyr} package to transform our `sentiment` column into separate columns for `negative` and `positive` that contains the `n` counts for each:
 
 ```{r}
 summary_bing <- sentiment_bing %>% 
@@ -242,10 +242,10 @@ summary_bing
 
 There we go, now we can see that CCSS scores negative, while NGSS is overall positive. By quite a bit in fact!!
 
-Let's calculate a quick score using the `afinn` lexicon now. Remember that AFINN provides a value from -5 to 5 for each:
+We're going to calculate a quick score using the `afinn` lexicon now, but first recall that AFINN provides a value from -5 to 5 for each:
 
 ```{r}
-head(sentiment_afinn)
+sentiment_afinn %>% select(word, value)
 ```
 
 To calculate a summary score, we will need to first group our data by `standards` again and then use the `summarise` function to create a new `sentiment` variable by adding all the positive and negative scores in the `value` column:
@@ -260,14 +260,13 @@ summary_afinn <- sentiment_afinn %>%
 summary_afinn
 ```
 
-Again, CCSS is overall negative while NGSS is overall positive!
+Again, CCSS is overwhelmingly negative in terms of total negative words, while NGSS is overall positive!
 
 #### [Your Turn]{style="color: green;"} ⤵
 
 Now it your turn to calculate a single sentiment score for NGSS and CCSS using the `nrc` lexicon. The `nrc` lexicon, however, contains "positive" and "negative" values just like `bing` and `loughan`, but also includes values like "trust" and "sadness" as shown below. You will need to use the `filter()` function as an additional step to select rows that only contain "positive" and "negative" values.
 
 ```{r}
-
 summary_nrc <- sentiment_nrc %>% 
   filter(sentiment %in% c("positive", "negative")) %>%
   group_by(standards) %>% 
@@ -389,7 +388,11 @@ vader_results <- summary_vader %>%
 vader_results
 ```
 
-Not quite as bleak as we might have expected according to VADER!
+Not quite as bleak as we might have expected according to VADER! But then again, the VADER bring an entirely different perspective coming from the dark side.
+
+Comparing the results from those of other sentiment lexicons, why do you think we should cautions both in our selection of lexicons for use, as well as in their interpretation?
+
+-   YOUR RESPONSE HERE
 
 #### [Your Turn]{style="color: green;"} ⤵
 

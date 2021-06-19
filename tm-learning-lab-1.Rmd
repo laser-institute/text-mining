@@ -193,7 +193,8 @@ ngss_tweets <- read_csv("data/ngss-tweets.csv",
 Use the following code chunk to inspect your tweets using a function you've learned so for for viewing your data:
 
 ```{r}
-glimpse(ngss_tweets)
+# VIEW DATA
+
 ```
 
 ### 2b. Restructure Data
@@ -233,12 +234,8 @@ ccss_tweets_2 <- ccss_tweets_1 %>%
 Use the code chunk below to reorder the columns to your liking and assign to `ccss_tweets_3`:
 
 ```{r}
-ccss_tweets_3 <- ccss_tweets_1 %>% 
-  select(id,
-         text,
-         author_id,
-         created_at, 
-         conversation_id)
+# SELECT AND REORDER COLUMNS 
+
 ```
 
 #### Add & Relocate Columns
@@ -278,7 +275,6 @@ colnames(ccss_tweets_5)
 Before moving on to the CCSS standards, let's use the `%>%` operator and rewrite the code from our wrangling so there is less redundancy and it is easier to read:
 
 ```{r}
-# Search Tweets
 ccss_tweets_clean <- ccss_tweets %>%
   filter(possibly_sensitive == "FALSE") %>%
   select(text, author_id, created_at, conversation_id, id) %>%
@@ -295,13 +291,11 @@ Recall from section [1b. Define Questions] that we are interested in comparing w
 Create an new `ngss_tweets_clean` data frame consisting of the Next Generation Science Standards tweets we imported by using the code above as a guide.
 
 ```{r}
-ngss_tweets_clean <- ngss_tweets %>%
-  filter(possibly_sensitive == "FALSE") %>%
-  select(text, author_id, created_at, conversation_id, id) %>%
-  mutate(standards = "ngss") %>%
-  relocate(standards)
+# RESTRUCTURE TWEETS
 
-head(ngss_tweets_clean)
+
+# VIEW TWEETS
+
 ```
 
 #### Merge Data Frames
@@ -320,22 +314,23 @@ Note that when creating a "union" like this (i.e. stacking one data frame on top
 Finally, let's take a quick look at both the `head()` and the `tail()` of this new `ss_tweets` data frame to make sure it contains both "ngss" and "ccss" standards:
 
 ```{r}
-head(ss_tweets)
-tail(ss_tweets)
+# VIEW FIRST AND LAST 6 TWEETS
+
 ```
 
 Wow, so much for a family friendly learning lab! Based on this very limited sample, which set of standards do you think Twitter users are more negative about?
 
--   CSSS
+-   YOUR RESPONSE HERE
 
-Let's take a slightly larger sample of the CCSS tweets:
+#### Sample Tweets
+
+Let's introduce the `sample_n()` function to take a slightly larger sample of the CCSS tweets:
 
 ```{r}
 ss_tweets %>% 
   filter(standards == "ccss") %>%
   sample_n(20) %>%
   relocate(text)
-           
 ```
 
 #### [Your Turn]{style="color: green;"} ⤵
@@ -343,15 +338,13 @@ ss_tweets %>%
 Use the code chunk below to take a sample of the NGSS tweets:
 
 ```{r}
-ss_tweets %>% 
-  filter(standards == "ngss") %>%
-  sample_n(20) %>%
-  relocate(text)
+# SAMPLE AND INSPECT TWEETS
+
 ```
 
 Still of the same opinion?
 
--   Yes, these appear much less negative.
+-   YOUR RESPONSE HERE
 
 ### 2c. Tidy Text
 
@@ -418,15 +411,10 @@ ss_tokens <- ss_tweets %>%
 
 The `unnest_tokens()` function also has a specialized `“tweets”` tokenizer in the `tokens =` argument that is very useful for dealing with Twitter text. It retains hashtags and mentions of usernames with the \@ symbol as illustrated by our \@catturd2 friend who featured prominently in our the first CCSS tweet.
 
-Rewrite the code above (**you can check answer below**) to include the token argument set to "tweets", assign to `ss_tokens_1`, and answer the questions that follow:
+Rewrite the code above to include the token argument set to "tweets", assign to `ss_tokens_1`, and answer the questions that follow:
 
 ```{r}
-ss_tokens_1 <- unnest_tokens(ss_tweets, 
-                              output = word, 
-                              input = text, 
-                              token = "tweets")
-
-head(ss_tokens_1)
+# UNNEST TWEETS 
 ```
 
 1.  How many observations were our original `ss_tweets` data frame?
@@ -484,19 +472,19 @@ Notice that we've specified the `by =` argument to look for matching words in th
 Use the code chunk below to take a quick count of the most common tokens in our `ss_tweets_2` data frame to see if the results are a little more meaningful, then answer the questions that follow.
 
 ```{r}
-ss_tokens_2 %>%
-  count(word, sort = TRUE)
+# COUNT TOKENS
+
 ```
 
 #### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
 
 1.  How many unique tokens are in our data tidied text?
 
-    -   73,596
+    -   
 
 2.  How many times does the word "math" occur in our set of tweets?
 
-    -   11,788
+    -   
 
 #### Custom Stop Words
 
@@ -575,11 +563,8 @@ As you can see, "math" is a pretty common topic when discussing the common core 
 In the code chunk below, filter, count and select the top 50 tokens to create a word cloud for the NGSS tweets. A gold star if you can can do it without using the assignment operator!
 
 ```{r}
-ss_tidy_tweets %>%
-  filter(standards == "ngss") %>%
-  count(word, sort = TRUE) %>%
-  top_n(50) %>%
-  wordcloud2()
+# FILTER, COUNT, AND VISUALIZE TWEETS
+
 ```
 
 Also, take a look at the help file for `wordclouds2` to see if there might be otherwise you could visually improve this visualization.
@@ -619,13 +604,8 @@ If you'd like to use the data we've been working with for your reach, see if you
 Using a separate r script file, try modifying our list of stop words, retidying our text, and doing a new word count with these and perhaps other words removed. Also, take a look at the help file for `wordclouds2` to see if there might be otherwise you could visually improve this visualization.
 
 ```{r}
-ss_tidy_tweets %>%
-  filter(standards == "ccss") %>%
-  count(word, sort = TRUE) %>%
-  filter(!word == c("common", "core")) %>%
-  top_n(100) %>%
-  wordcloud2(shape = 'circle',
-             color = 'random-dark')
+# MAKE A PRETTY WORD CLOUD
+
 ```
 
 ## References
