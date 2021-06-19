@@ -11,7 +11,7 @@
 
 <meta name="author" content="YOUR NAME HERE" />
 
-<meta name="date" content="2021-06-17" />
+<meta name="date" content="2021-06-19" />
 
 <title>Tidy Text, Tokens, and Twitter</title>
 
@@ -271,7 +271,7 @@ div.tocify {
 <h1 class="title toc-ignore">Tidy Text, Tokens, and Twitter</h1>
 <h3 class="subtitle">Text Mining Learning Lab 1</h3>
 <h4 class="author">YOUR NAME HERE</h4>
-<h4 class="date">June 17, 2021</h4>
+<h4 class="date">June 19, 2021</h4>
 
 </div>
 
@@ -282,9 +282,9 @@ div.tocify {
 <p><strong>Text Mining (TM) Module 1: Public Sentiment and the State Standards</strong> will help demonstrate how text mining can be applied in STEM education research and provide LASER Institute scholars hands-on experience with popular techniques for collecting, processing, and analyzing text-based data. Specifically, the four learning labs that make up this module address the following topics:</p>
 <ul>
 <li><p><strong>Learning Lab 1: Tidy Text, Tokens, &amp; Twitter.</strong> We take a closer look at the literature guiding our analysis; wrangle our data into a one-token-per-row tidy text format; and use simple word counts to explore our tweets about the common core and next generation science standards.</p></li>
-<li><p><strong>Learning Lab 2: Bigrams + Word Pairs = 2x the Fun.</strong> For our second lab, we’ll see what insights bigrams, word pairs and word correlations tell us about our tweets and what they might suggest about public sentiment towards the CCSS and NGSS.</p></li>
-<li><p><strong>Learning Lab 3: Come to the Dark Side.</strong> We focus on the use of lexicons in our third lab and introduce the {vader} package to compare the sentiment of tweets about the NGSS and CCSS state standards in order to better understand public reaction to these two curriculum reform efforts. </p></li>
-<li><p><strong>Learning Lab 4: A Tale of Two Standards.</strong> We wrap our look at public sentiment around STEM state curriculum standards by selecting an analysis that provides some unique insight; refining and polishing a data product; and writing a brief narrative to communicate findings in response to our research questions.</p></li>
+<li><p><strong>Learning Lab 2: Come to the Dark Side.</strong> We focus on the use of lexicons in our third lab and introduce the {vader} package to compare the sentiment of tweets about the NGSS and CCSS state standards in order to better understand public reaction to these two curriculum reform efforts. </p></li>
+<li><p><strong>Learning Lab 3: A Tale of Two Standards.</strong> We wrap our look at public sentiment around STEM state curriculum standards by selecting an analysis that provides some unique insight; refining and polishing a data product; and writing a brief narrative to communicate findings in response to our research questions.</p></li>
+<li><p><strong>Learning Lab 4: Bigrams + Word Pairs = 4x the Fun.</strong> For our last lab, we’ll see what insights bigrams, word pairs and word correlations tell us about our tweets and what they might suggest about public sentiment towards the CCSS and NGSS.</p></li>
 </ul>
 <div id="a.-review-the-literature" class="section level3">
 <h3>1a. Review the Literature</h3>
@@ -581,26 +581,26 @@ head(ngss_tweets_clean)</code></pre>
 <pre><code>## # A tibble: 20 x 6
 ##    text          standards author_id  created_at          conversation_id id    
 ##    &lt;chr&gt;         &lt;chr&gt;     &lt;chr&gt;      &lt;dttm&gt;              &lt;chr&gt;           &lt;chr&gt; 
-##  1 &quot;@jamft @Rya… ccss      517880113  2021-04-05 17:38:25 13790890009090… 13791…
-##  2 &quot;Be sure to … ccss      141015714  2021-02-16 02:38:09 13615051165749… 13615…
-##  3 &quot;@PaulConfer… ccss      1319166865 2021-03-12 00:22:31 13701568913687… 13701…
-##  4 &quot;This is wha… ccss      118806470… 2021-05-26 22:39:41 13976838875815… 13976…
-##  5 &quot;@StevieOakl… ccss      64090784   2021-04-16 15:38:40 13830292075806… 13830…
-##  6 &quot;@Sodangfanc… ccss      26692880   2021-05-03 02:43:01 13890469878662… 13890…
-##  7 &quot;@TheGatorGa… ccss      130074275… 2021-02-15 02:00:59 13611325251381… 13611…
-##  8 &quot;@La_tre1019… ccss      262238184  2021-01-11 13:28:24 13484747151747… 13486…
-##  9 &quot;Based on co… ccss      865491913… 2021-03-18 03:17:29 13723866479421… 13723…
-## 10 &quot;@TheWellsRe… ccss      805604918… 2021-02-02 16:12:22 13565663406440… 13566…
-## 11 &quot;@philllosor… ccss      133508788… 2021-04-12 13:02:32 13815902117638… 13815…
-## 12 &quot;@deemusings… ccss      931974623… 2021-05-28 20:17:48 13983628902021… 13983…
-## 13 &quot;@GuidoFawke… ccss      760437703… 2021-04-13 02:53:59 13818000526040… 13818…
-## 14 &quot;@CaitlinPac… ccss      778923280… 2021-04-24 20:47:00 13857739704865… 13860…
-## 15 &quot;@NickAdamsi… ccss      917785046  2021-04-24 03:07:58 13857115789814… 13857…
-## 16 &quot;@AJBSaysThi… ccss      907929618  2021-05-27 02:04:03 13973870058273… 13977…
-## 17 &quot;Starts smal… ccss      3131587995 2021-03-10 15:17:51 13696686722189… 13696…
-## 18 &quot;@nypost I d… ccss      2225253266 2021-01-10 01:09:23 13479981984392… 13480…
-## 19 &quot;@alainpenny… ccss      725085514… 2021-01-30 20:38:18 13556137410024… 13556…
-## 20 &quot;Have #Commo… ccss      40672085   2021-02-22 21:45:34 13639682001033… 13639…</code></pre>
+##  1 &quot;Brief histo… ccss      434624246  2021-01-25 18:20:57 13537698465892… 13537…
+##  2 &quot;I don’t kno… ccss      445634433  2021-02-24 20:01:05 13646666814028… 13646…
+##  3 &quot;@catturd2 C… ccss      56526760   2021-03-12 15:26:15 13703539985286… 13703…
+##  4 &quot;@PolitiBunn… ccss      109735594… 2021-03-09 17:22:43 13692965046204… 13693…
+##  5 &quot;Someone pls… ccss      107291676… 2021-02-11 19:57:01 13599546151109… 13599…
+##  6 &quot;@Breaking91… ccss      830592097… 2021-02-15 04:59:10 13611208798083… 13611…
+##  7 &quot;@realchrisr… ccss      24490265   2021-05-05 01:20:52 13897292471455… 13897…
+##  8 &quot;Common core… ccss      239432753  2021-03-17 00:42:31 13719852629689… 13719…
+##  9 &quot;@aliettedb … ccss      112306995  2021-02-03 16:37:13 13569990117068… 13570…
+## 10 &quot;#WishList \… ccss      33214235   2021-01-06 04:43:41 13466788037210… 13466…
+## 11 &quot;@no_silence… ccss      130490455… 2021-01-02 22:42:03 13454566430608… 13455…
+## 12 &quot;It offers a… ccss      131300588… 2021-01-09 07:56:44 13478143883595… 13478…
+## 13 &quot;@wolfblitze… ccss      278680116  2021-01-03 18:09:07 13457524107786… 13457…
+## 14 &quot;@MalloryGat… ccss      107884570… 2021-04-28 10:45:00 13856907971235… 13873…
+## 15 &quot;@ChangeAbou… ccss      1022365562 2021-02-03 16:12:33 13569808756160… 13569…
+## 16 &quot;@SocialNoma… ccss      122887801… 2021-02-22 14:47:35 13637623909874… 13638…
+## 17 &quot;@brianjoral… ccss      4721684036 2021-01-16 11:24:41 13498863009214… 13504…
+## 18 &quot;@Theophanes… ccss      135502539… 2021-04-16 19:56:01 13831444888020… 13831…
+## 19 &quot;@zearned An… ccss      145859713  2021-04-20 22:42:50 13822875231336… 13846…
+## 20 &quot;@Vols_Obses… ccss      4777548853 2021-03-31 03:05:48 13770662735201… 13770…</code></pre>
 </div>
 <div id="your-turn-4" class="section level4">
 <h4><span style="color: green;">Your Turn</span> ⤵</h4>
@@ -612,26 +612,26 @@ head(ngss_tweets_clean)</code></pre>
 <pre><code>## # A tibble: 20 x 6
 ##    text          standards author_id  created_at          conversation_id id    
 ##    &lt;chr&gt;         &lt;chr&gt;     &lt;chr&gt;      &lt;dttm&gt;              &lt;chr&gt;           &lt;chr&gt; 
-##  1 &quot;@NGSS_tweep… ngss      17467306   2021-01-25 16:56:21 13535042813710… 13537…
-##  2 &quot;Science edu… ngss      134978243… 2021-05-22 13:00:10 13960884979294… 13960…
-##  3 &quot;Excited to … ngss      98171356   2021-04-11 01:38:14 13810589788478… 13810…
-##  4 &quot;#TCRWP #sci… ngss      111462090  2021-01-28 12:13:00 13547644096970… 13547…
-##  5 &quot;I just lear… ngss      1708601203 2021-03-19 15:08:08 13729278785019… 13729…
-##  6 &quot;Expanding o… ngss      2988710739 2021-05-10 05:55:51 13916330617925… 13916…
-##  7 &quot;@BMSscience… ngss      864318744… 2021-01-14 18:54:59 13497530843444… 13497…
-##  8 &quot;@NGSS_tweep… ngss      700040036… 2021-01-13 04:15:21 13491290287084… 13492…
-##  9 &quot;Free 30-min… ngss      264285997  2021-04-30 13:06:55 13881176616122… 13881…
-## 10 &quot;A3 I hope t… ngss      3164721571 2021-01-22 02:29:40 13524432842752… 13524…
-## 11 &quot;Third Grade… ngss      1285132351 2021-04-15 20:17:54 13827903060813… 13827…
-## 12 &quot;@GoSunDevil… ngss      14449947   2021-01-04 01:56:11 13458371686194… 13459…
-## 13 &quot;@NGSS_tweep… ngss      743895579… 2021-03-10 16:32:10 13696875334922… 13696…
-## 14 &quot;Interested … ngss      3519351254 2021-04-26 14:41:49 13866919918414… 13866…
-## 15 &quot;Excited to … ngss      702894499… 2021-04-22 17:23:58 13852832498832… 13852…
-## 16 &quot;Social dist… ngss      27067107   2021-02-01 15:00:30 13562561167249… 13562…
-## 17 &quot;A reminder … ngss      826524822… 2021-01-11 23:25:09 13487729674723… 13487…
-## 18 &quot;Join our cl… ngss      24298665   2021-03-10 03:33:29 13694915735332… 13694…
-## 19 &quot;Very excite… ngss      22293234   2021-03-25 12:22:25 13750604996209… 13750…
-## 20 &quot;Who knew \&quot;… ngss      1889421842 2021-03-13 01:12:31 13705432626756… 13705…</code></pre>
+##  1 &quot;Join Endeav… ngss      1154712469 2021-05-24 18:45:53 13969002751353… 13969…
+##  2 &quot;Love The Wo… ngss      2193297931 2021-02-05 02:30:25 13575169011575… 13575…
+##  3 &quot;@NGSS_tweep… ngss      129449714… 2021-01-13 15:46:42 13493555214474… 13493…
+##  4 &quot;@ZingerLear… ngss      862286744  2021-02-28 18:21:44 13660827834880… 13660…
+##  5 &quot;Teacher Pro… ngss      884778810… 2021-01-21 15:20:54 13522749815484… 13522…
+##  6 &quot;Senior Scie… ngss      884778810… 2021-02-09 17:53:03 13591986405359… 13591…
+##  7 &quot;NYS 4th Gra… ngss      1694389531 2021-05-16 14:55:59 13939433150206… 13939…
+##  8 &quot;Simplify th… ngss      519877122  2021-02-15 17:24:49 13613658636649… 13613…
+##  9 &quot;Calling all… ngss      20546506   2021-01-16 19:08:34 13505203371008… 13505…
+## 10 &quot;@NGSS_tweep… ngss      2837235125 2021-01-06 14:07:06 13468188110522… 13468…
+## 11 &quot;🔥🔥🔥What awe… ngss      862286744  2021-02-11 01:19:59 13596735045603… 13596…
+## 12 &quot;@kimmomteac… ngss      255769626  2021-03-26 03:24:18 13752341532815… 13752…
+## 13 &quot;@MrLoera NG… ngss      119225611… 2021-02-08 19:17:10 13588574223878… 13588…
+## 14 &quot;Solution Pr… ngss      287671900  2021-03-02 13:36:54 13667443242648… 13667…
+## 15 &quot;This is a w… ngss      3293043086 2021-02-05 03:44:54 13575356466849… 13575…
+## 16 &quot;Please RT: … ngss      239946682  2021-05-10 18:19:42 13918202557318… 13918…
+## 17 &quot;Whoa! Talk … ngss      255769626  2021-05-25 02:03:56 13970105156043… 13970…
+## 18 &quot;This year m… ngss      214267863  2021-04-24 02:16:47 13857797239936… 13857…
+## 19 &quot;MHS - Compo… ngss      761245434… 2021-05-26 16:04:00 13975843116043… 13975…
+## 20 &quot;Writing abo… ngss      298174195  2021-03-16 19:41:54 13719096083195… 13719…</code></pre>
 <p>Still of the same opinion?</p>
 <ul>
 <li>Yes, these appear much less negative.</li>
@@ -892,8 +892,8 @@ write_csv(ss_tokens_3, &quot;data/ss_tidy_tweets.csv&quot;)</code></pre>
 <pre class="r"><code>library(wordcloud2)
 
 wordcloud2(ccss_top_tokens)</code></pre>
-<div id="htmlwidget-5564962b5dfd5da6bf04" style="width:672px;height:480px;" class="wordcloud2 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5564962b5dfd5da6bf04">{"x":{"word":["common","core","math","education","kids","standards","school","dont","grade","people","im","schools","students","teach","#commoncore","curriculum","teachers","teaching","learning","taught","time","children","public","2","understand","didnt","learn","read","history","parents","system","million","free","1","english","youre","practice","doesnt","sense","trump","gates","workbook","|","download","3","left","teacher","add","thinking","critical"],"freq":[26599,26405,11688,1917,1821,1810,1806,1622,1443,1410,1302,1279,1127,1055,1017,1015,909,903,882,831,727,684,669,651,596,591,582,577,567,567,567,563,562,538,533,524,516,503,500,485,473,471,469,455,441,441,441,433,421,405],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":0.00676717169818414,"backgroundColor":"white","gridSize":0,"minRotation":-0.785398163397448,"maxRotation":0.785398163397448,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
+<div id="htmlwidget-332d373a42709cdd6e0a" style="width:672px;height:480px;" class="wordcloud2 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-332d373a42709cdd6e0a">{"x":{"word":["common","core","math","education","kids","standards","school","dont","grade","people","im","schools","students","teach","#commoncore","curriculum","teachers","teaching","learning","taught","time","children","public","2","understand","didnt","learn","read","history","parents","system","million","free","1","english","youre","practice","doesnt","sense","trump","gates","workbook","|","download","3","left","teacher","add","thinking","critical"],"freq":[26599,26405,11688,1917,1821,1810,1806,1622,1443,1410,1302,1279,1127,1055,1017,1015,909,903,882,831,727,684,669,651,596,591,582,577,567,567,567,563,562,538,533,524,516,503,500,485,473,471,469,455,441,441,441,433,421,405],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":0.00676717169818414,"backgroundColor":"white","gridSize":0,"minRotation":-0.785398163397448,"maxRotation":0.785398163397448,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
 <p>As you can see, “math” is a pretty common topic when discussing the common core on twitter but words like “core” and “common” – which you can see better if you click the “show in a new window” button or run the code in you console – are not very helpful since those were in our search terms when pulling data from Twitter. For your Reach in this lab, you’ll be asked to remove those words using what you’ve learned so far about data wrangling.</p>
 <div id="your-turn-8" class="section level4" style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);">
 <h4 style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"><span style="color: green;">Your Turn</span> ⤵</h4>
@@ -904,8 +904,8 @@ wordcloud2(ccss_top_tokens)</code></pre>
   top_n(50) %&gt;%
   wordcloud2()</code></pre>
 <pre><code>## Selecting by n</code></pre>
-<div id="htmlwidget-51cb610daccf00e16161" style="width:672px;height:480px;" class="wordcloud2 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-51cb610daccf00e16161">{"x":{"word":["#ngsschat","#ngss","science","@ngsstweeps","students","ngss","learning","teachers","#science","ss","standards","learn","#stem","questions","love","time","teaching","school","free","unit","im","check","curriculum","student","join","lesson","teacher","#scied","stem","education","phenomena","share","week","support","ideas","classroom","grade","models","aligned","resources","thinking","class","kids","excited","@ngsschat","2","day","virtual","educators","dont"],"freq":[3058,2646,1950,1561,1432,1343,803,598,527,512,463,435,419,406,383,368,361,348,338,334,311,288,287,279,276,268,268,263,262,257,256,250,245,243,241,239,239,239,233,232,225,210,202,201,200,200,199,192,189,186],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":0.0588620013080445,"backgroundColor":"white","gridSize":0,"minRotation":-0.785398163397448,"maxRotation":0.785398163397448,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
+<div id="htmlwidget-668dcdf8c48bf1235868" style="width:672px;height:480px;" class="wordcloud2 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-668dcdf8c48bf1235868">{"x":{"word":["#ngsschat","#ngss","science","@ngsstweeps","students","ngss","learning","teachers","#science","ss","standards","learn","#stem","questions","love","time","teaching","school","free","unit","im","check","curriculum","student","join","lesson","teacher","#scied","stem","education","phenomena","share","week","support","ideas","classroom","grade","models","aligned","resources","thinking","class","kids","excited","@ngsschat","2","day","virtual","educators","dont"],"freq":[3058,2646,1950,1561,1432,1343,803,598,527,512,463,435,419,406,383,368,361,348,338,334,311,288,287,279,276,268,268,263,262,257,256,250,245,243,241,239,239,239,233,232,225,210,202,201,200,200,199,192,189,186],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":0.0588620013080445,"backgroundColor":"white","gridSize":0,"minRotation":-0.785398163397448,"maxRotation":0.785398163397448,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
 <p>Also, take a look at the help file for <code>wordclouds2</code> to see if there might be otherwise you could visually improve this visualization.</p>
 </div>
 </div>
@@ -947,8 +947,8 @@ wordcloud2(ccss_top_tokens)</code></pre>
 <pre><code>## Warning in word == c(&quot;common&quot;, &quot;core&quot;): longer object length is not a multiple
 ## of shorter object length</code></pre>
 <pre><code>## Selecting by n</code></pre>
-<div id="htmlwidget-0867968b82d481151193" style="width:672px;height:480px;" class="wordcloud2 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-0867968b82d481151193">{"x":{"word":["math","education","kids","standards","school","dont","grade","people","im","schools","students","teach","#commoncore","curriculum","teachers","teaching","learning","taught","time","children","public","2","understand","didnt","learn","read","history","parents","system","million","free","1","english","youre","practice","doesnt","sense","trump","gates","workbook","|","download","3","left","teacher","add","thinking","critical","4","answer","bill","lol","isnt","level","child","shit","biden","dumb","reading","real","learned","theyre","skills","bad","makes","science","world","testing","obama","stupid","votes","american","test","hard","love","race","ive","lot","failed","5","wrong","division","day","designed","lesson","book","@catturd2","understanding","money","writing","hate","ed","stop","america","student","class","days","country","😂","government"],"freq":[11688,1917,1821,1810,1806,1622,1443,1410,1302,1279,1127,1055,1017,1015,909,903,882,831,727,684,669,651,596,591,582,577,567,567,567,563,562,538,533,524,516,503,500,485,473,471,469,455,441,441,441,433,421,405,403,401,397,396,390,382,380,380,374,369,365,365,359,357,355,353,351,350,342,336,331,331,327,324,319,316,316,316,314,314,312,310,308,303,298,298,298,290,288,283,278,278,277,273,273,269,264,263,262,260,259,259],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":0.0154004106776181,"backgroundColor":"white","gridSize":0,"minRotation":-0.785398163397448,"maxRotation":0.785398163397448,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
+<div id="htmlwidget-4b79585e5a20e1e92f16" style="width:672px;height:480px;" class="wordcloud2 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4b79585e5a20e1e92f16">{"x":{"word":["math","education","kids","standards","school","dont","grade","people","im","schools","students","teach","#commoncore","curriculum","teachers","teaching","learning","taught","time","children","public","2","understand","didnt","learn","read","history","parents","system","million","free","1","english","youre","practice","doesnt","sense","trump","gates","workbook","|","download","3","left","teacher","add","thinking","critical","4","answer","bill","lol","isnt","level","child","shit","biden","dumb","reading","real","learned","theyre","skills","bad","makes","science","world","testing","obama","stupid","votes","american","test","hard","love","race","ive","lot","failed","5","wrong","division","day","designed","lesson","book","@catturd2","understanding","money","writing","hate","ed","stop","america","student","class","days","country","😂","government"],"freq":[11688,1917,1821,1810,1806,1622,1443,1410,1302,1279,1127,1055,1017,1015,909,903,882,831,727,684,669,651,596,591,582,577,567,567,567,563,562,538,533,524,516,503,500,485,473,471,469,455,441,441,441,433,421,405,403,401,397,396,390,382,380,380,374,369,365,365,359,357,355,353,351,350,342,336,331,331,327,324,319,316,316,316,314,314,312,310,308,303,298,298,298,290,288,283,278,278,277,273,273,269,264,263,262,260,259,259],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":0.0154004106776181,"backgroundColor":"white","gridSize":0,"minRotation":-0.785398163397448,"maxRotation":0.785398163397448,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
 </div>
 <div id="references" class="section level2">
 <h2>References</h2>

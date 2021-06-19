@@ -338,7 +338,7 @@ ccss_sample
 
 Note above that we passed our `read_csv()` output directly to our `sample()` function rather than saving a new data frame object, passing that to `sample_n()`, and saving as another data frame object. The power of the `%>%` pipe!
 
-On to the Dark Side. The {vader} package basically has just one function, `vader_df()` that does one thing and expects just one column from a data frame. Let's give VADER the our `ccss_sample` data frame and include the `$` operator to give it just our `text` column containing our tweets.
+On to the Dark Side. The {vader} package basically has just one function, `vader_df()` that does one thing and expects just one column from one frame. He's very single minded! Let's give VADER our `ccss_sample` data frame and include the `$` operator to include only the `text` column containing our tweets.
 
 ```{r}
 summary_vader <- vader_df(ccss_sample$text)
