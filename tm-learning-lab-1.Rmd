@@ -32,27 +32,34 @@ The transition to digital learning has made available new sources of data, provi
 
 ### 1a. Review the Literature
 
-Text Mining Module 1 is guided by a recent publication by @rosenberg2020, *Advancing new methods for understanding public sentiment about educational reforms: The case of Twitter and the Next Generation Science Standards*. This study in turn builds on upon previous work by @wang2017 examining public opinion on the Common Core State Standards (CCSS) on Twitter. For Module 1, we will focus on analyzing tweets about the [Next Generation Science Standards](https://www.nextgenscience.org) (NGSS) and [Common Core State Standards](http://www.corestandards.org) (CCSS) in order to better understand key words and phrases that emerge, as well as public sentiment towards these two curriculum reform efforts.
+Text Mining Module 1 is guided by a recent publication by *Understanding Public Sentiment About Educational Reforms: The Next Generation Science Standards on Twitter* [@rosenberg2021]. This study in turn builds on upon previous work by @wang2017 examining public opinion on the Common Core State Standards (CCSS) on Twitter. For Module 1, we will focus on analyzing tweets about the [Next Generation Science Standards](https://www.nextgenscience.org) (NGSS) and [Common Core State Standards](http://www.corestandards.org) (CCSS) in order to better understand key words and phrases that emerge, as well as public sentiment towards these two curriculum reform efforts.
 
 #### Twitter and the Next Generation Science Standards
 
-![](img/rosenberg.png){width="30%"}
+[![](img/aera-open-screen-shot.png){width="310"}](https://doi.org/10.1177/23328584211024261)
 
-[Full Paper (Preprint)](https://osf.io/xymsd/.)
+[Full Paper (AERA Open)](https://journals.sagepub.com/doi/full/10.1177/23328584211024261)
 
 ##### Abstract
 
-While the Next Generation Science Standards (NGSS) are a long-standing and widespread standards-based educational reform effort, they have received less public attention, and no studies have explored the sentiment of the views of multiple stakeholders toward them. To establish how public sentiment about this reform might be similar to or different from past efforts, we applied a suite of data science techniques to posts about the standards on Twitter from 2010-2020 (N = 571,378) from 87,719 users. Applying data science techniques to identify teachers and to estimate tweet sentiment, we found that the public sentiment towards the NGSS is overwhelmingly positive -- 33 times more so than for the CCSS. Mixed effects models indicated that sentiment became more positive over time and that teachers, in particular, showed a more positive sentiment towards the NGSS. We discuss implications for educational reform efforts and the use of data science methods for understanding their implementation.
+System-wide educational reforms are difficult to implement in the United States, but despite the difficulties, reforms can be successful, particularly when they are associated with broad public support. This study reports on the nature of the public sentiment expressed about a nationwide science education reform effort, the Next Generation Science Standards (NGSS). Through the use of data science techniques to measure the sentiment of posts on Twitter about the NGSS (*N* = 565,283), we found that public sentiment about the NGSS is positive, with only 11 negative posts for every 100 positive posts. In contrast to findings from past research and public opinion polling on the Common Core State Standards, sentiment about the NGSS has become more positive over time---and was especially positive for teachers. We discuss what this positive sentiment may indicate about the success of the NGSS in light of opposition to the Common Core State Standards.
 
 ##### Data Sources
 
 Similar to what we'll be learning in this lab, Rosenberg et al. used publicly accessible data from Twitter collected using the Full-Archive Twitter API and the `rtweet` package in R. Specifically, the authors accessed tweets and user information from the hashtag-based \#NGSSchat online community, all tweets that included any of the following phrases, with "/" indicating an additional phrase featuring the respective plural form: "ngss", "next generation science standard/s", "next gen science standard/s".
 
-Data used in this lab was pulled using an [Academic Research developer account](https://developer.twitter.com/en/products/twitter-api/academic-research) and the {academictwitter} package, which uses the Twitter API v2 endpoints and allows researchers to access the full twitter archive. For those that created a standard developer account, the [rtweet & the Twitter API](https://laser-institute.github.io/text-mining/tm-learning-lab-1a.html) supplemental learning lab will show you how to pull your own data from Twitter.
+Data used in this lab was pulled using an [Academic Research developer account](https://developer.twitter.com/en/products/twitter-api/academic-research) and the {academictwitter} package, which uses the Twitter API v2 endpoints and allows researchers to access the full twitter archive.
 
-Data for this lab includes all tweets from 2020 that included the following terms: `#ccss`, `common core`, `#ngsschat`, `ngss`. Below is an example of the code used to retrieve data for this lab. It is set not to run and will not run if you try, but it does illustrate the search query used, variables selected, and time frame.
+For those that created a standard developer account, the [rtweet & the Twitter API](https://laser-institute.github.io/text-mining/tm-learning-lab-1a.html) supplemental learning lab will show you how to pull your own data from Twitter.
+
+If you created an academic developer account, [this brief code snipped, or gist](https://gist.github.com/jrosen48/0747497e40700e570676dae88b255919) shows you how to access posts for any term over any time period using the {academictwitteR} package.
+
+Data for this lab includes all tweets from January through May of 2021 that included the following terms: `#ccss`, `common core`, `#ngsschat`, `ngss`. Below is an example of the code used to retrieve CCSS data for this lab. It is set not to run, and won't run if you try because your account isn't setup/authenticated with Twitter, but it does illustrate the search query used, variables selected, and time frame.
 
 ```{r, eval=FALSE}
+library(academictwitteR)
+library(tidyverse)
+
 ccss_tweets_2021 <-
   get_all_tweets('(#commoncore OR "common core") -is:retweet lang:en',
                  "2021-01-01T00:00:00Z",
@@ -71,15 +78,14 @@ ccss_tweets <- bind_tweet_jsons(data_path = "ccss-data/") %>%
          possibly_sensitive,
          in_reply_to_user_id)
 
-
-write_csv(ccss_tweets, "data/ccss-tweets.csv")
+write_csv(ccss_tweets, here("data", "ccss-tweets.csv"))
 ```
 
 ##### Analysis
 
 Also similar to what we'll demonstrate in Lab 3, the authors determined Tweet sentiment using the Java version of SentiStrength to assign tweets to two 5-point scales of sentiment, one for positivity and one for negativity, because SentiStrength is a validated measure for sentiment in short informal texts (Thelwall et al., 2011). In addition, they used this tool because Wang and Fikis (2019) used it to explore the sentiment of CCSS-related posts. We'll be using the AFINN sentiment lexicon which also assigns words in a tweet to two 5-point scales, in addition to exploring some other sentiment lexicons to see if they produce similar results.
 
-The authors also used the `lme4` package in R to run a mixed effects model to determine if sentiment changes over time and differs between teachers and non-teacher. We won't look at the relationships between tweet sentiment, time and teachers in these labs, but we will take a look at the correlation between words within tweets in TM Learning Lab 2.
+The authors also used the `lme4` package in R to run a mixed effects (or multi-level) model to determine if sentiment changes over time and differs between teachers and non-teacher. We won't look at the relationships between tweet sentiment, time and teachers in these labs, but we will take a look at the correlation between words within tweets in TM Learning Lab 2.
 
 **Summary of Key Findings**
 
@@ -151,7 +157,7 @@ c.  **Tidy Text.** We introduce the {tidytext} package to "tidy" and tokenize ou
 ### 2a. Import and View Data
 
 ```{r}
-ccss_tweets <- read_csv("data/ccss-tweets.csv", 
+ccss_tweets <- read_csv(here("data", "ccss-tweets.csv"), 
           col_types = cols(author_id = col_character(), 
                            id = col_character(),
                            conversation_id = col_character(), 
@@ -181,7 +187,7 @@ Try using the "Import Dataset" feature in the upper right environment pane to im
 The code generated should look something like this:
 
 ```{r}
-ngss_tweets <- read_csv("data/ngss-tweets.csv", 
+ngss_tweets <- read_csv(here("data", "ngss-tweets.csv")), 
           col_types = cols(author_id = col_character(), 
                            id = col_character(),
                            conversation_id = col_character(), 
@@ -589,7 +595,7 @@ In this learning lab, we focused on the literature guiding our analysis; wrangli
 
 Congratulations - you've completed the first text mining learning lab! To complete your work, you can click the drop down arrow at the top of the file, then select "Knit top HTML". This will create a report in your Files pane that serves as a record of your code and its output you can open or share.
 
-If you wanted, you could save the processed data set to your data folder. The `write_csv()` function is useful for this. The following code is set to not run, as we wanted to ensure that everyone had the data set needed to begin the second learning lab, but if you're confident in your prepared data, you can save it with the following:
+If you wanted, you could save the processed data set to your data folder. The `write_csv()` function (in combination with using `here()` to specify the file path) is useful for this. The following code is set to not run, as we wanted to ensure that everyone had the data set needed to begin the second learning lab, but if you're confident in your prepared data, you can save it with the following:
 
 ```{r, eval = FALSE}
 write_csv()

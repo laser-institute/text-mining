@@ -47,10 +47,12 @@ library(vader)
 
 ### 1b. Import Data
 
-Finally, let's import our `ss_tidy_tweets.csv` data from Learning Lab 1 that we'll be using for our sentiment analysis:
+Finally, let's load the {here} library introduced in Foundations and import our `ss_tidy_tweets.csv` data from Learning Lab 1 that we'll be using for our sentiment analysis:
 
 ```{r}
-ss_tidy_tweets <- read_csv("data/ss_tidy_tweets.csv", 
+library(here)
+
+ss_tidy_tweets <- read_csv(here("data", "ss_tidy_tweets.csv"), 
                    col_types = cols(author_id = col_character(),
                                     conversation_id = col_character(), 
                                     id = col_character()))
@@ -329,7 +331,7 @@ Unlike our our previous approach of assigning sentiment to each individual word 
 VADER can also take a little while to run since it's computationally intensive so let's read in our original `ccss-tweets.csv` and take at just a sample of 500 untidied CCSS tweets using the `sample_n()` function
 
 ```{r}
-ccss_sample <- read_csv("data/ccss-tweets.csv") %>%
+ccss_sample <- read_csv(here("data", "ccss-tweets.csv")) %>%
   sample_n(500)
 
 ccss_sample
@@ -363,9 +365,9 @@ Let's take a look at the average compound score for our CCSS sample of tweets:
 mean(summary_vader$compound)
 ```
 
-Overall, the CCSS tweets lean slightly negative as we would expect.
+Overall, does your CCSS tweets sample lean slightly negative or positive? Is this what you expected?
 
-But what if we wanted to compare these more easily to our other sentiment lexicons just to check if result are fairly consistent?
+What if we wanted to compare these results more easily to our other sentiment lexicons just to check if result are fairly consistent?
 
 The author's note that it is also useful for researchers who would like to set standardized thresholds for classifying sentences as either positive, neutral, or negative. Typical threshold values are:
 
@@ -388,7 +390,7 @@ vader_results <- summary_vader %>%
 vader_results
 ```
 
-Not quite as bleak as we might have expected according to VADER! But then again, the VADER bring an entirely different perspective coming from the dark side.
+Not quite as bleak as we might have expected according to VADER! But then again, VADER brings an entirely different perspective coming from the dark side.
 
 Comparing the results from those of other sentiment lexicons, why do you think we should cautions both in our selection of lexicons for use, as well as in their interpretation?
 
@@ -399,7 +401,7 @@ Comparing the results from those of other sentiment lexicons, why do you think w
 In a separate R script file, try using VADER to perform a sentiment analysis of the NGSS tweets and see how they compare. Post your working code in the chunk below.
 
 ```{r}
-ngss_sample <- read_csv("data/ngss-tweets.csv") %>%
+ngss_sample <- read_csv(here("data", "ngss-tweets.csv")) %>%
   sample_n(500)
 
 summary_vader_ngss <- vader_df(ngss_sample$text)
@@ -416,4 +418,6 @@ vader_results_ngss <- summary_vader_ngss %>%
 vader_results_ngss
 ```
 
-\
+How do your results compare to the CSSS sample of tweets?
+
+-   YOUR RESPONSE HERE
