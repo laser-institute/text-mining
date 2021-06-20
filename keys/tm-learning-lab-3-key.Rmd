@@ -46,6 +46,7 @@ In the code chunk below, load the two packages we'll need for working with text 
 ```{r}
 library(tidytext)
 library(tidyverse)
+library(here)
 ```
 
 ## 2. WRANGLE
@@ -125,6 +126,18 @@ tidy_tweets
 
 ### 3a. Determine Tweet Sentiment
 
+Before we can polish our analysis of tweet sentiment, recall from Learning Lab 2 that we'll first need to assign assign each lexicon to their respective names:
+
+```{r}
+afinn <- get_sentiments("afinn")
+
+bing <- get_sentiments("bing")
+
+nrc <- get_sentiments("nrc")
+
+loughran <- get_sentiments("loughran")
+```
+
 #### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
 
 Similar to the VADER package, we want to calculate a single score for each tweet, rather than for each word. To do that, we'll use the `group_by()` and `summarize()` functions group by `standards` and `id` and then use the `sum()` function to add the total sentiment `value` for each tweet.
@@ -194,30 +207,44 @@ How would you interprets these ratios for sentiment to an education stakeholder?
 
 Finally, to address Question 2, we want to compare the percentage of positive and negative words contained in the corpus of tweets for the NGSS and CCSS standards using the four different lexicons to see how sentiment compares based on lexicon used.
 
-#### Create Lexicon Summaries
-
-Let's begin by polishing my previous summaries and creating identical summaries for each lexicon that contains the following columns: `method`, `standards`, `sentiment`, and `n`, or word counts:
+First let's quickly assign sentiment for each of our lexicons to out tidied tweets. We've already read in our lexicons and created the `afinn_sentiment` data frame consisting of our tidied tweets with sentiment values above, so let's do the same for the remaining three:
 
 ```{r}
-summary_afinn2 <- sentiment_afinn %>% 
+bing_sentiment <- get_sentiments("bing") %>%
+  inner_join(tidy_tweets, bing, by = "word")
+
+nrc_sentiment <- get_sentiments("nrc") %>%
+  inner_join(tidy_tweets, nrc, by = "word")
+
+loughran_sentiment <- get_sentiments("loughran") %>%
+  inner_join(tidy_tweets, loughran, by = "word")
+
+```
+
+#### Create Lexicon Summaries
+
+Next let's polish our previous summaries and create identical summaries for each lexicon that contains the following columns: `method`, `standards`, `sentiment`, and `n`, or word counts:
+
+```{r}
+summary_afinn2 <- afinn_sentiment %>% 
   group_by(standards) %>% 
   filter(value != 0) %>%
   mutate(sentiment = if_else(value < 0, "negative", "positive")) %>% 
   count(sentiment, sort = TRUE) %>% 
   mutate(method = "AFINN")
 
-summary_bing2 <- sentiment_bing %>% 
+summary_bing2 <- bing_sentiment %>% 
   group_by(standards) %>% 
   count(sentiment, sort = TRUE) %>% 
   mutate(method = "bing")
 
-summary_nrc2 <- sentiment_nrc %>% 
+summary_nrc2 <- nrc_sentiment %>% 
   filter(sentiment %in% c("positive", "negative")) %>%
   group_by(standards) %>% 
   count(sentiment, sort = TRUE) %>% 
   mutate(method = "nrc") 
 
-summary_loughran2 <- sentiment_loughran %>% 
+summary_loughran2 <- loughran_sentiment %>% 
   filter(sentiment %in% c("positive", "negative")) %>%
   group_by(standards) %>% 
   count(sentiment, sort = TRUE) %>% 
@@ -304,7 +331,7 @@ Collectively, the authors found that:
 4.  The effect upon individuals of being involved in the \#NGSSchat was positive, suggesting that there is an impact on individuals---not tweets---of participating in a community focused on the NGSS.
 5.  Posts about the NGSS became substantially more positive over time.
 
-### 5. COMMUNICATE
+## 5. COMMUNICATE
 
 In this learning lab, we focused we focused on the use of lexicons for text analysis and introduce the {vader} package to compare the sentiment of tweets about the NGSS and CCSS state standards. Below, add a few notes in response to the following prompts:
 

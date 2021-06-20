@@ -124,7 +124,7 @@ For our first lab on text mining in STEM education, we'll use approaches similar
 
 As noted in our Getting Started activity, R uses "packages" and add-ons that enhance its functionality. One package that we'll be using extensively is {tidyverse}. The {tidyverse} package is actually a [collection of R packages](https://www.tidyverse.org/packages) designed for reading, wrangling, and exploring data and which all share an underlying design philosophy, grammar, and data structures. This shared features are sometimes "tidy data principles."
 
-Click the green arrow in the right corner of the "code chunk" that follows to load the {tidyverse} library as well as the {here} package introduce in previous labs.
+Click the green arrow in the right corner of the "code chunk" that follows to load the {tidyverse} library as well as the {here} package introduced in previous labs.
 
 ```{r}
 library(tidyverse)
@@ -156,6 +156,8 @@ b.  **Restructure Data**. We focus on removing extraneous data using the `select
 c.  **Tidy Text.** We introduce the {tidytext} package to "tidy" and tokenize our tweets in order to create our data frame for analysis revisit the concept of joins to remove "stop words" that don't add much value to our analysis.
 
 ### 2a. Import and View Data
+
+First, let's use the by now familiar `read_csv()` and `here()` functions to import our `ccss_tweets.csv` file saved in our data folder:
 
 ```{r}
 ccss_tweets <- read_csv(here("data", "ccss-tweets.csv"), 

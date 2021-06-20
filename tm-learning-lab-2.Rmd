@@ -287,23 +287,9 @@ summary_nrc
 
 ## 4. MODEL
 
-Recall from the PREPARE section that the Rosenberg et al. study was guide by the following questions:
+As highlighted in [Chapter 3 of Data Science in Education Using R](https://datascienceineducation.com/c03.html) , the Model step of the data science process entails "using statistical models, from simple to complex, to understand trends and patterns in the data." The authors note that while descriptive statistics and data visualization during the Explore step can help us to identify patterns and relationships in our data, statistical models can be used to help us determine if relationships, patterns and trends are actually meaningful.
 
-1.  What is the public sentiment expressed toward the NGSS?
-2.  How does sentiment for teachers differ from non-teachers?
-3.  How do tweets posted to \#NGSSchat differ from those without the hashtag?
-4.  How does participation in \#NGSSchat relate to the public sentiment individuals express?
-5.  How does public sentiment vary over time?
-
-Similar to our sentiment summary using the AFINN lexicon, the Rosenberg et al. study used the -5 to 5 sentiment score from the SentiStrength lexicon to answer RQ \#1. To address the remaining questions the authors used a mixed effects model (also known as multi-level or hierarchical linear models via the lme4 package in R.
-
-Collectively, the authors found that:
-
-1.  The SentiStrength scale indicated an overall neutral sentiment for tweets about the Next Generation Science Standards.
-2.  Teachers were more positive in their posts than other participants.
-3.  Posts including \#NGSSchat that were posted outside of chats were slightly more positive relative to those that did not include the \#NGSSchat hashtag.
-4.  The effect upon individuals of being involved in the \#NGSSchat was positive, suggesting that there is an impact on individuals---not tweets---of participating in a community focused on the NGSS.
-5.  Posts about the NGSS became substantially more positive over time.
+In TM Learning Lab 3, we'll take a closer look at the study by @rosenberg2020 and how they used modeling to compare differences in sentiment between teachers and non-teachers discussing the common core.
 
 ## 5. COMMUNICATE
 
