@@ -1,6 +1,6 @@
 ---
 title: 'rtweet & the Twitter API'
-subtitle: 'Text Mining Learning Lab 1a (Optional)'
+subtitle: 'Text Mining Learning Lab 4 (Optional)'
 author: "YOUR NAME HERE"
 date: "`r format(Sys.Date(),'%B %e, %Y')`"
 output:
@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## 1. PREPARE
 
-The Text Mining Learning Labs during the second week of the Summer Workshop are guided by a recent publication by @rosenberg2020 and will focus on analyzing tweets about the [Next Generation Science Standards](https://www.nextgenscience.org) (NGSS) and [Common Core State Standards](http://www.corestandards.org) (CCSS). We'll dive deeper into these tweets in Text Mining (TM) Module 1: Public Sentiment and the State Standards. For now, this supplemental learning lab is designed to help you understand how data used in the study and the learning labs was collected. More importantly though, this supplemental lab is will get you up and running with the Twitter API in case you are interested in using data from Twitter in your own research or evaluation work.
+The Text Mining Learning Labs are guided by a recent publication by @rosenberg2020 and will focus on analyzing tweets about the [Next Generation Science Standards](https://www.nextgenscience.org) (NGSS) and [Common Core State Standards](http://www.corestandards.org) (CCSS). We'll dive deeper into these tweets in Text Mining (TM) Module 1: Public Sentiment and the State Standards. For now, this supplemental learning lab is designed for those who created a Twitter Developer account and will help you understand how data used in our guiding study and the learning labs was collected. More importantly though, this supplemental lab is will get you up and running with the Twitter API in case you are interested in using data from Twitter in your own research or evaluation work.
 
 ### 1a. Load Libraries
 

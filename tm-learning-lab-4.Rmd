@@ -1,513 +1,312 @@
 ---
-title: 'Bigrams + Words Pairs = 4x the Fun'
-subtitle: 'Text Mining Learning Lab 4'
+title: 'rtweet & the Twitter API'
+subtitle: 'Text Mining Learning Lab 4 (Optional)'
 author: "YOUR NAME HERE"
-date: "2/21/2021"
-output: 
+date: "`r format(Sys.Date(),'%B %e, %Y')`"
+output:
   html_document:
     toc: true
-    toc_depth: 3
+    toc_depth: 5
     toc_float: yes
+  html_notebook:
+bibliography: lit/references.bib
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## 3. EXPLORE
+## 1. PREPARE
 
-Calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. For our first lab, we're going to keep things relatively simple and focus on some basic data visualization with text.
+The Text Mining Learning Labs during the second week of the Summer Workshop are guided by a recent publication by @rosenberg2020 and will focus on analyzing tweets about the [Next Generation Science Standards](https://www.nextgenscience.org) (NGSS) and [Common Core State Standards](http://www.corestandards.org) (CCSS). For now, this supplemental learning lab is designed for those who created a Twitter Developer account and will help you understand how data used in our guiding study and the learning labs was collected. More importantly though, this supplemental lab is will get you up and running with the Twitter API in case you are interested in using data from Twitter in your own research or evaluation work.
 
-### Unigrams
+### 1a. Load Libraries
 
-Above, we looked at word counts for our tweets as a whole. Since our ultimate goal is to compare public sentiment between the CCSS and NGSS, let's filter tweets specific to the common core and save to a new data frame:
+#### tidyverse 📦
 
-```{r}
-ccss_tidy_tweets <- ss_tidy_tweets %>%
-  filter(standards == "ccss")
-```
+![](img/tidyverse.png){width="20%"}
 
-Just like did above, let's now count the number of times each word occurs in these tweets and take a look at how many words we have:
+As noted in our Getting Started activity, R uses "packages" and add-ons that enhance its functionality. One package that we'll be using extensively is {tidyverse}. The {tidyverse} package is actually a [collection of R packages](https://www.tidyverse.org/packages) designed for reading, wrangling, and exploring data and which all share an underlying design philosophy, grammar, and data structures.
 
-```{r}
-ccss_counts <- ccss_tidy_tweets %>%
-  count(word, sort = TRUE) 
-
-ccss_counts
-```
-
-Wow, 57,000 unique words is a lot to try and visualize! Also, words like "common" and "core" were in our search terms and not very helpful. Let's
-
-Finally, let's
+Click the green arrow in the right corner of the "code chunk" that follows to load the {tidyverse} library.
 
 ```{r}
-ccss_counts_paired <- ccss_counts %>%
-  filter(n > 200, 
-         !word == c("common", "core", "#commoncore"))
-
-ccss_counts_paired
+library(tidyverse)
 ```
 
-### Word Clouds
+Again, don't worry if you saw a number of messages: those probably mean that the tidyverse loaded just fine. Any conflicts you may have seen mean that functions in these packages you loaded have the same name as functions in other packages and R will default to function from the last loaded package unless you specify otherwise.
 
-Word clouds are much maligned and sometimes referred to as the "pie charts of text analysis", but they can be useful for communicating simple summaries of qualitative data for education practitioners and are intuitive for them to interpret. Also, for better or worse, these are now included as a default visualization for open-ended survey items in online Qualtrics reports and you can even add your own stop words.
+#### rtweet 📦
 
-The {wordclouds2} package is pretty dead simple tool for generating HTML based word clouds. By default, when you pass
+![](img/rtweet.jpeg){width="21%"}
 
-For example, let's load the {wordclouds2} library, and run the `wordcloud2()` function on our `ccss_counts` data frame.
+The `rtweet` package provides users a range of functions designed to extract data from Twitter's REST and streaming APIs and has three main goals:
+
+1.  Formulate and send requests to Twitter's REST and stream APIs.
+
+2.  Retrieve and iterate over returned data.
+
+3.  Wrangling data into tidy structures.
+
+Let's load the {rtweet} package that we'll be using to accomplish all three of the goals listed above:
 
 ```{r}
-library(wordcloud2)
-
-ccss_counts %>% wordcloud2()
+library(rtweet)
 ```
 
-As you can see, "math" is a pretty common topic when discussing the common core on twitter but words like "core" and "common" are not very helpful since those were in our search terms when pulling data from Twitter.
+### 1b. Authorize RStudio
 
-#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
+In order to authorize R to use your Twitter App to retrieve data, you'll need to create a personal Twitter token by completing the following steps:
 
-In the code chunk below, create a word cloud for the NGSS tweets
+1.  Navigate to [developer.twitter.com/en/apps](https://developer.twitter.com/en/apps) and select your Twitter app
+2.  Click the tab labeled `Keys and tokens` to retrieve your keys.
+3.  Locate the `Consumer API keys` (aka "API Secret").
+
+![](img/create-app-6.png){width="80%"}
+
+3.  Scroll down to `Access token & access token secret` and click `Create`
+
+![](img/create-app-7.png){width="80%"}
+
+4.  Copy and paste the following code into the R Script file named `twitter-auth.R` located in files pane, replace the four fake keys with your own, and pass them along to `create_token()` function.
+
+```{r api-keys, eval=FALSE}
+## store api keys (these are fake example values; replace with your own keys)
+app_name <- "Text Mining in Education"
+api_key <- "afYS4vbIlPAj096E60c4W1fiK"
+api_secret_key <- "bI91kqnqFoNCrZFbsjAWHD4gJ91LQAhdCJXCj3yscfuULtNkuu"
+access_token <- "9551451262-wK2EmA942kxZYIwa5LMKZoQA4Xc2uyIiEwu2YXL"
+access_token_secret <- "9vpiSGKg1fIPQtxc5d5ESiFlZQpfbknEN1f1m2xe5byw7"
+
+## authenticate via web browser
+token <- create_token(
+  app = app_name,
+  consumer_key = api_key,
+  consumer_secret = api_secret_key,
+  access_token = access_token,
+  access_secret = access_token_secret)
+```
+
+**Note**: these keys are named secret for a reason. We store these up in a separate R script file rather than in a R Markdown file that you will eventually share.
+
+#### Check Authorization
+
+The `create_token()` function should automatically save your token as an environment variable. So next time you start an R session -- on the same machine -- rtweet should 🤞 automatically find your token.
+
+10. To make sure it works, you can run the following code and check to make sure the app name and `api_key` match those on your dev account.
+
+```{r get-token}
+## check to see if the token is loaded
+get_token()
+```
+
+That's it! You're ready ready to start wrangling some tweets!!!
+
+## 2. WRANGLE
+
+### 2a. Search Tweets
+
+#### Constructing a Query
+
+Since one of our goals for TM Module 1 is a simplistic replication of the study by [@rosenberg2020], let's begin by introducing the `search_tweets()` function to mine some tweets about the Next Generation Science Standards.
+
+Use the code chunk below to run the following code to request from Twitter's API 5,000 tweets containing the NGSSchat hashtag and store as a new data frame called `ngss_tweets_q1`:
 
 ```{r}
-ss_tidy_tweets %>%
-  filter(standards == "ngss") %>%
-  count(word, sort = TRUE) %>%
-  filter(n > 200, 
-         !word == c("#ngss", "ngss")) %>%
-  wordcloud2()
+ngss_tweets_q1 <- search_tweets(q = "#NGSSchat", 
+                                n = 5000)
 ```
 
-Also, take a look at the help file for `wordclouds2` to see if there might be otherwise you could visually improve this visualization.
+Note that the first argument the `search_tweets()` function expects, `q =`, is the search term included in quotation marks and that `n =` specifies the maximum number of tweets we want.
 
-Calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. In Section 3, we keep things relatively simple and focus on some simple data summaries:
+#### 👉 Your Turn ⤵
 
-a.  **Word Counts**. We focus primarily on the use of word counts and briefly introduce word frequencies to help us identify word commonly used in tweets about the NGSS and CCSS curriculum standards.
-
-b.  **Word Frequencies**. We wrap up this lab and preview some data visualization work in later labs by creating a simple wordcloud to explore summarize and highlight key words among our tweets.
-
-### 3a. Word Counts
-
-As highlighted in [Word Counts are Amazing](https://tedunderwood.com/2013/02/20/wordcounts-are-amazing/), an excellent post and blog by Ted Underwood at University of Illinois, one simple but powerful approach to text analysis is counting the frequency in which words occur in a given collection of documents, or corpus.
-
-Word counts are a good example of a simple approach that illustrates the central question to text mining and natural language processing, introduced at the beginning:
-
-> How do we to **quantify** what a document or collection of documents is about?
-
-So far, we've used the `count()` function from the {dplyr} package to look at word counts across our entire corpus of tweets.
-
-Let's use the same function to look at counts of the most common words by standards this time since one of our goals is to compare public sentiment between the two standards:
-
-```{r}
-ss_tidy_tweets %>%
-  count(standards, word, sort = TRUE)
-```
-
-Note that we included `standards` in our function to count how often each word occurs for each set of standards. For example, if you tab through the output, you will see that "students" is among the top words in both sets of standards, and occurs 1,432 times in the NGSS tweets and 1,127 times in the CCSS tweets.
-
-Unsurprisingly words from our Twitter API search query are among the top words in each set of standards as well.
-
-It's a little difficult to directly compare the top words in each set since they are lumped together. Let's use our `filter()` function again to just look at the CCSS tweets and save this for later to use in our Reach activity:
-
-```{r}
-ccss_counts <- ss_tidy_tweets %>%
-  filter(standards == "ccss") %>%
-  count(word, sort = TRUE)
-
-ccss_counts
-```
-
-#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
-
-Now use the code below to get the counts for our NGSS tweets so we can compare the top words for each set of standards:
-
-```{r}
-# your code here
-```
-
-What might the top words for each set of standards suggest about similarities and differences for how Twitter users talk about each? What might it suggest about public sentiment?
-
--   your response here
-
-### 3b. Word Frequencies
-
-We saw above that the word "students" is among the top words in both sets of standards, but to help facilitate comparisons, is often helpful to look at the frequency that each word occurs among all words for that document group. This will also helps us to better gauge how prominent each word is for each set of standards.
-
-For example, let's create counts for each `standards` and `word` paring like we did above, and then create a new column using the `mutate()` function that calculates the proportion that word makes up among all words:
-
-```{r}
-ccss_frequencies <- ccss_counts %>%
-  mutate(proportion = n / sum(n))
-
-ccss_frequencies
-```
-
-#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
-
-Now use the code below to get the frequencies for our NGSS tweets so we can compare the top words for each set of standards:
+Use the code chunk below to view your new `ngss_tweets_q1` data frame using one of the methods previously introduced to help answer the following questions:
 
 ```{r}
 # your code here
+
 ```
 
-We can see in both cases that our search terms are heavily skewing our proportions. What might we do to address this?
+1.  How many tweets did our first query using the Twitter API actually return? How many variables?
 
--   your response here
+    -   
 
-\
+2.  Why do you think our query pulled in far less than 5,000 tweets requested? [Hint](https://cbail.github.io/textasdata/apis/rmarkdown/Application_Programming_interfaces.html#rate-limiting).
+
+    -   
+
+3.  How many tweets are returned if you don't include the `n =` argument?
+
+    -   
+
+4.  Does our query also include retweets? How do you know?
+
+    -   
+
+5.  Does capitalization in your query matter? Use the code chunk below to find out.
 
 ```{r}
- library(wordcloud2)
+# your code here 
 
-tidy_unigrams %>%
-  count(word) %>%
-  filter(n > 200) %>%
-  wordcloud2()
 ```
+
+#### Using the OR Operator
+
+In *Understanding public sentiment about educational reforms: The Next Generation Science Standards on Twitter*, @rosenberg2020 accessed tweets and user information from the hashtag-based \#NGSSchat online community, including all tweets that used the following phrases: "ngss", "next generation science standard/s", "next gen science standard/s". Note that "/" indicates an additional phrase featuring the respective plural form.
+
+Let's modify our query using the `OR` operator to also include "ngss" so it will return tweets containing either \#NGSSchat or "ngss" and assign to `ngss_or_tweets`:
 
 ```{r}
+ngss_tweets_q2 <- search_tweets(q = "#NGSSchat OR ngss", 
+                                n = 5000)
 
-tidy_unigrams %>%
-  count(word) %>%
-  filter(n > 500) %>%
-  mutate(word = reorder(word, n)) %>%
-  ggplot(aes(n, word)) +
-  geom_col()
-
+ngss_tweets_q2
 ```
 
-\
+#### 👉 Your Turn ⤵
+
+In the following code chunk, try including both search terms but excluding the `OR` operator to answer the questions below:
 
 ```{r}
-ccss_tweets %>%
-  select(text) %>% 
-  filter(grepl('math', text)) %>%
-  sample_n(20)
+# your code here
+
 ```
 
-\
+1.  Does excluding the `OR` operator return more tweets, the same number of tweets, or fewer tweets? Why?
+
+    -   
+
+2.  Does our query also include tweets containing the \#ngss hashtag?
+
+    -   
+
+3.  What other useful arguments does the `search_tweet()` function contain? Try adding one and see what happens.
+
+    -   
+
+**Hint**: Use the `?search_tweets` help function to learn more about the `q` argument and other arguments for composing search queries.
+
+#### Using Multiple Queries
+
+Unfortunately, the `OR` operator will only get us so far. In order to include the additional search terms, we will need to use the `c()` function to combine our search terms into a single list.
+
+The `rtweets` package has an additional `search_tweets2()` function for using multiple queries in a search. To do this, either wrap single quotes around a search query using double quotes, e.g., `q = '"next gen science standard"'` or escape each internal double quote with a single backslash, e.g., `q = "\"next gen science standard\""`.
+
+Copy and past the following code to store the results of our query in `ngss_tweets`:
 
 ```{r}
-
-unigram_counts <- tidy_unigrams %>%
-  count(word) %>%
-  filter(n > 200)
-
-wordcloud2(unigram_counts,
-           color = ifelse(unigram_counts[, 2] > 800, 'black', 'gray'))
+ngss_tweets_q3 <- search_tweets2(q = c("#NGSSchat OR ngss",
+                                       '"next generation science standard"'),
+                                 n = 5000)
 ```
 
-\
+Notice the unique syntax required for the query argument. For example, when "OR" is entered between search terms, `query = "#NGSSchat OR ngss"`, Twitter's REST API should return any tweet that contains either "\#NGSSchat" or "ngss." It is also possible to search for exact phrases using double quotes. To do this, either wrap single quotes around a search query using double quotes, e.g., `q = '"next generation science standard"'` as we did above, or escape each internal double quote with a single backslash, e.g., `q = "\"next generation science standard\""`.
 
-## Bigrams
+#### Our First Dictionary
 
-In the function above we specified tokens as individual words, but many interesting text analyses are based on the relationships between words, which words tend to follow others immediately, or words that tend to co-occur within the same documents.
+We still have a few queries to add in order to replicate the approach by Rosenberg et al, but dealing with that many queries inside a single function is a bit tedious.
 
-We can also use the `unnest_tokens()` function to tokenize our tweets into consecutive sequences of words, called **n-grams**. By seeing how often word X is followed by word Y, we can then build a model of the relationships between them as well see in Part 2.
+Let's go ahead and create our very first "dictionary" --- we'll learn more about dictionary-based approaches to text mining in Learning Lab 3 --- for identifying tweets related to the NGSS standards, and then pass that dictionary to the `q =` query argument to pull related tweets:
 
-We do this by adding the `token = "ngrams"` option to [`unnest_tokens()`](https://rdrr.io/pkg/tidytext/man/unnest_tokens.html), and setting `n` to the number of words in each n-gram. Let's set `n` to 2, so we can examine pairs of two consecutive words, often called "bigrams":
-
-```{r ccss-bigrams}
-ss_tweets_b1 <- ss_tweets %>% 
-  unnest_tokens(bigram, 
-                text, 
-                token = "ngrams", 
-                n = 2)
-
-head(ss_tweets_b1)
-```
-
-#### Filtering Bigrams
-
-As we saw above, a lot of the most common bigrams are pairs of common (uninteresting) words as well. Dealing with these is a little less straightforward and we'll need to use the `separate()` function from the `tidyr` package, which splits a column into multiple based on a delimiter. This lets us separate it into two columns, "word1" and "word2", at which point we can remove cases where either is a stop-word.
-
-```{r stop-bigrams}
-library(tidyr)
-
-ss_tweets_b2 <- ss_tweets_b1 %>%
-  separate(bigram, c("word1", "word2"), sep = " ")
-
-ss_tweets_b3 <- ss_tweets_b2 %>%
-  filter(!word1 %in% stop_words$word) %>%
-  filter(!word2 %in% stop_words$word)
-
-ss_tweets_b4 <- ss_tweets_b3 %>%
-  unite(bigram, word1, word2, sep = " ")
-```
-
-\
-
-### 3b. Graph Pairs
+To do so, we'll need to add some additional search terms to our list. Run the following code to store your dictionary and queried tweets in your environment:
 
 ```{r}
-tidy_bigrams %>%
-  count(bigram, sort = TRUE)
+ngss_dictionary <- c("#NGSSchat OR ngss",
+                     '"next generation science standard"',
+                     '"next generation science standards"',
+                     '"next gen science standard"',
+                     '"next gen science standards"')
 
+ngss_tweets_q4 <- search_tweets2(ngss_dictionary,
+                              n=5000)
 ```
 
-\
+Now let's create a dictionary for the Common Core State Standards and pass that to our `search_tweets()` function to get the most recent tweets:
 
 ```{r}
+ccss_dictionary <- c("#commoncore", '"common core"')
 
-library(igraph)
-library(ggraph)
-library(stringr)
-
-math_bigrams <- ccss_tweets %>%
-  filter(str_detect(text, 'math')) %>%
-  unnest_tokens(bigram, 
-                text, 
-                token = "ngrams", 
-                n = 2)
-
-bigrams_separated <- math_bigrams %>%
-  separate(bigram, c("word1", "word2"), sep = " ")
-
-bigrams_filtered <- bigrams_separated %>%
-  filter(!word1 %in% stop_words$word) %>%
-  filter(!word2 %in% stop_words$word)
-
-bigram_graph <- bigrams_filtered %>% 
-  count(word1, word2, sort = TRUE) %>%
-  filter(n > 10) %>%
-  graph_from_data_frame()
-
-
-set.seed(2017)
-
-ggraph(bigram_graph, layout = "fr") +
-  geom_edge_link(aes(edge_alpha = n)) +
-  geom_node_point() +
-  geom_node_text(aes(label = name), vjust = 1, hjust = 1)
+ccss_tweets <- ccss_dictionary %>% 
+  search_tweets2(n=5000, include_rts = FALSE)
 ```
 
-\
+Notice that you can use the pipe operator with the `search_tweets()` function just like you would other functions from the tidyverse.
 
-\
+#### 👉 Your Turn ⤵
+
+1.  In the code chunk below, write a new query based on a STEM area of interest.
+
+2.  Assign your search to a new object called `my_tweets` or something appropriate.
+
+3.  Output your new dataset using the `datatable()` function from the `DT` package and take a quick look.
 
 ```{r}
+# your code here
 
 ```
 
-## 4. MODEL {data-link="4. MODEL"}
+To learn more about constructing search terms using the query argument, enter `?search_tweets` in your console and review the documentation for the `q=` argument.
+
+### 2b. Other Useful Functions
+
+For your own research, you may be interested in exploring posts by specific users rather than topics, key words, or hashtags. Yes, there is a function for that too!
+
+For example, let's create another list containing the usernames of the LASER Institute leads using the `c()` function again and use the `get_timelines()` function to get the most recent tweets from each of those users:
+
+```{r, eval=TRUE}
+laser_peeps <- c("sbkellogg", "jrosenberg6432", "yanecnu", "robmoore3", "hollylynnester")
+
+laser_tweets <- laser_peeps %>%
+  get_timelines(include_rts=FALSE)
+```
+
+Notice that you can use the pipe operator with the `rtweet` functions just like you would other functions from the tidyverse.
+
+And let's use the `sample_n()` function from the `dplyr` package to pick 10 random tweets and use `select()` to select and view just the `screenname` and `text` columns that contains the user and the content of their post:
+
+```{r, eval=TRUE}
+sample_n(laser_tweets, 10) %>%
+  select(screen_name, text)
+```
+
+The `rtweet` package also has handy `ts_plot` function built into `rtweet` to take a very quick look at how far back our data set goes:
+
+```{r, eval=TRUE}
+ts_plot(ngss_tweets_q4, by = "days")
+```
+
+Notice that this effectively creates a {ggplot} time series plot for us. I've included the `by =` argument which by default is set to "days". It looks like tweets go back 9 days which is the rate limit set by Twitter.
+
+#### 👉 Your Turn ⤵
+
+Use the code chunk below and to change the time series plot above from "days" to "hours" and see what happens.
 
 ```{r}
-
-library(widyr)
-
-math_unigrams <- ccss_tweets %>%
-  filter(str_detect(text, 'math')) %>%
-  unnest_tokens(word, 
-                text, 
-                token = "tweets")
-
-word_pairs <- math_unigrams %>%
-  pairwise_count(word, id, sort = TRUE)
-```
-
-\
-
-```{r}
-
-word_cors <- math_unigrams %>%
-  group_by(word) %>%
-  filter(n() >= 20) %>%
-  pairwise_cor(word, id, sort = TRUE)
-
-word_cors %>%
-  filter(item1 == "math")
+# your code here
 
 ```
 
-\
+### 🧶 Knit & Check ✅
 
-```{r}
-word_cors <- tidy_unigrams %>%
-  group_by(word) %>%
-  filter(n() >= 50) %>%
-  pairwise_cor(word, id, sort = TRUE)
-```
+Congrats! You made it to the end of the **rtweet & the Twitter API** supplemental learning lab. Knit your document and check to see if you encounter any errors.
 
-\
+### Reach 🧗🏾‍♀
 
-```{r}
-word_cors %>%
-  filter(item1 %in% c("math", "#math")) %>%
-  group_by(item1) %>%
-  slice_max(correlation, n = 6) %>%
-  ungroup() %>%
-  mutate(item2 = reorder(item2, correlation)) %>%
-  ggplot(aes(item2, correlation)) +
-  geom_bar(stat = "identity") +
-  facet_wrap(~ item1, scales = "free") +
-  coord_flip()
-```
+Try one of the following search functions from the `rtweet` vignette:
 
-\
+1.  `get_timelines()` Get the most recent 3,200 tweets from users.
+2.  `stream_tweets()` Randomly sample (approximately 1%) from the live stream of all tweets.
+3.  `get_friends()` Retrieve a list of all the accounts a user follows.
+4.  `get_followers()` Retrieve a list of the accounts following a user.
+5.  `get_favorites()` Get the most recently favorited statuses by a user.
+6.  `get_trends()` Discover what's currently trending in a city.
+7.  `search_users()` Search for 1,000 users with the specific hashtag in their profile bios.
 
-```{r}
-word_cors %>%
-  filter(correlation > .15) %>%
-  graph_from_data_frame() %>%
-  ggraph(layout = "fr") +
-  geom_edge_link(aes(edge_alpha = correlation), show.legend = FALSE) +
-  geom_node_point(color = "lightblue", size = 5) +
-  geom_node_text(aes(label = name), repel = TRUE) +
-  theme_void()
-```
+We've only scratched the surface of the number of functions available in the `rtweets` package for searching Twitter. To learn more about the `rtweet` package, you can find full documentation on CRAN at: <https://cran.r-project.org/web/packages/rtweet/rtweet.pdf>
 
-## 3. EXPLORE
+Or use the following function to access the package vignette:
 
-Now that we have our tweets tidied and sentiments joined, we're ready for a little data exploration. As highlighted in Unit 1, calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. One goal in this phase is explore questions that drove the original analysis and develop new questions and hypotheses to test in later stages. Topics addressed in Section 3 include:
-
-a.  **Time Series**. We take a quick look at the date range of our tweets and compare number of postings by standards.
-b.  **Sentiment Summaries**. We put together some basic summaries of our sentiment values in order to compare public sentiment
-
-### 3a. Time Series
-
-Before we dig into sentiment, let's use the handy `ts_plot` function built into `rtweet` to take a very quick look at how far back our tidied `tweets` data set goes:
-
-```{r}
-ts_plot(tweets, by = "days")
-```
-
-Notice that this effectively creates a `ggplot` time series plot for us. I've included the `by =` argument which by default is set to "days". It looks like tweets go back 9 days which the rate limit set by Twitter.
-
-Try changing it to "hours" and see what happens.
-
-##### ✅ Comprehension Check
-
-1.  Use `ts_plot` with the `group_by` function to compare the number of tweets over time by Next Gen and Common Core `standards`
-2.  Which set of standards is Twitter users talking about the most?
-
-Hint: use the `?ts_plot` help function to check the examples to see how this can be done.
-
-Your line graph should look something like this:
-
-```{r, echo=F}
-tweets %>%
-  group_by(standards) %>%
-  ts_plot(by = "days")
-```
-
-### 3b. Sentiment Summaries
-
-Since our primary goals is to compare public sentiment around the NGSS and CCSS state standards, in this section we put together some basic numerical summaries using our different lexicons to see whether tweets are generally more positive or negative for each standard as well as differences between the two. To do this, we revisit the following `dplyr` functions:
-
--   [`count()`](https://dplyr.tidyverse.org/reference/count.html?q=count) lets you quickly count the unique values of one or more variables
-
--   [`group_by()`](https://dplyr.tidyverse.org/articles/grouping.html?q=group) takes a data frame and one or more variables to group by
-
--   [`summarise()`](https://dplyr.tidyverse.org/reference/summarise.html) creates a numerical summary of data using arguments like [`mean()`](https://rdrr.io/r/base/mean.html) and [`median()`](https://rdrr.io/r/stats/median.html)
-
--   [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) adds new variables and preserves existing ones
-
-And introduce one new function:
-
--   `spread()`
-
-#### Sentiment Counts
-
-Let's start with `bing`, our simplest sentiment lexicon, and use the `count` function to count how many times in our `sentiment_bing` data frame "positive" and "negative" occur in `sentiment` column and :
-
-```{r}
-summary_bing <- count(sentiment_bing, sentiment, sort = TRUE)
-```
-
-Collectively, it looks like our combined dataset has more positive words than negative words.
-
-```{r}
-summary_bing
-```
-
-Since our main goal is to compare positive and negative sentiment between CCSS and NGSS, let's use the `group_by` function again to get `sentiment` summaries for NGSS and CCSS separately:
-
-```{r}
-summary_bing <- sentiment_bing %>% 
-  group_by(standards) %>% 
-  count(sentiment) 
-
-summary_bing
-```
-
-Looks like CCSS have far more negative words than positive, while NGSS skews much more positive. So far, pretty consistent with Rosenberg et al. findings!!!
-
-#### Compute Sentiment Value
-
-Our last step will be calculate a single sentiment "score" for our tweets that we can use for quick comparison and create a new variable indicating which lexicon we used.
-
-First, let's untidy our data a little by using the `spread` function from the `tidyr` package to transform our `sentiment` column into separate columns for `negative` and `positive` that contains the `n` counts for each:
-
-```{r}
-summary_bing <- sentiment_bing %>% 
-  group_by(standards) %>% 
-  count(sentiment, sort = TRUE) %>% 
-  spread(sentiment, n) 
-
-summary_bing
-```
-
-Finally, we'll use the `mutate` function to create two new variables: `sentiment` and `lexicon` so we have a single sentiment score and the lexicon from which it was derived:
-
-```{r}
-summary_bing <- sentiment_bing %>% 
-  group_by(standards) %>% 
-  count(sentiment, sort = TRUE) %>% 
-  spread(sentiment, n) %>%
-  mutate(sentiment = positive - negative) %>%
-  mutate(lexicon = "bing") %>%
-  relocate(lexicon)
-
-summary_bing
-```
-
-There we go, now we can see that CCSS scores negative, while NGSS is overall positive.
-
-Let's calculate a quick score for using the `afinn` lexicon now. Remember that AFINN provides a value from -5 to 5 for each:
-
-```{r}
-head(sentiment_afinn)
-```
-
-To calculate late a summary score, we will need to first group our data by `standards` again and then use the `summarise` function to create a new `sentiment` variable by adding all the positive and negative scores in the `value` column:
-
-```{r}
-summary_afinn <- sentiment_afinn %>% 
-  group_by(standards) %>% 
-  summarise(sentiment = sum(value)) %>% 
-  mutate(lexicon = "AFINN") %>%
-  relocate(lexicon)
-
-summary_afinn
-```
-
-Again, CCSS is overall negative while NGSS is overall positive!
-
-##### ✅ Comprehension Check
-
-For your final task for this walkthough, calculate a single sentiment score for NGSS and CCSS using the remaining `nrc` and `loughan` lexicons and answer the following questions. Are these findings above still consistent?
-
-Hint: The `nrc` lexicon contains "positive" and "negative" values just like `bing` and `loughan`, but also includes values like "trust" and "sadness" as shown below. You will need to use the `filter()` function to select rows that only contain "positive" and "negative."
-
-```{r}
-nrc
-```
-
-```{r, echo=F, message=F}
-summary_nrc <- sentiment_nrc %>% 
-  filter(sentiment %in% c("positive", "negative")) %>%
-  group_by(standards) %>% 
-  count(sentiment, sort = TRUE) %>% 
-  mutate(method = "nrc")  %>%
-  spread(sentiment, n) %>%
-  mutate(sentiment = positive/negative)
-
-summary_nrc
-
-summary_afinn <- sentiment_afinn %>% 
-  group_by(standards) %>% 
-  summarise(sentiment = sum(value)) %>%
-  mutate(lexicon = "AFINN") %>%
-  relocate(lexicon)
-
-summary_afinn
+```{r rtweet-vignette, eval=F}
+vignette("intro", package="rtweet")
 ```

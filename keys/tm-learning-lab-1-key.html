@@ -11,7 +11,7 @@
 
 <meta name="author" content="YOUR NAME HERE" />
 
-<meta name="date" content="2021-06-19" />
+<meta name="date" content="2021-06-21" />
 
 <title>Tidy Text, Tokens, and Twitter</title>
 
@@ -271,7 +271,7 @@ div.tocify {
 <h1 class="title toc-ignore">Tidy Text, Tokens, and Twitter</h1>
 <h3 class="subtitle">Text Mining Learning Lab 1</h3>
 <h4 class="author">YOUR NAME HERE</h4>
-<h4 class="date">June 19, 2021</h4>
+<h4 class="date">June 21, 2021</h4>
 
 </div>
 
@@ -279,12 +279,12 @@ div.tocify {
 <div id="prepare" class="section level2">
 <h2>1. PREPARE</h2>
 <p>The transition to digital learning has made available new sources of data, providing researchers new opportunities for understanding and improving STEM learning. Data sources such as digital learning environments and administrative data systems, as well as data produced by social media websites and the mass digitization of academic and practitioner publications, hold enormous potential to address a range of pressing problems in STEM Education, but collecting and analyzing text-based data also presents unique challenges.</p>
-<p><strong>Text Mining (TM) Module 1: Public Sentiment and the State Standards</strong> will help demonstrate how text mining can be applied in STEM education research and provide LASER Institute scholars hands-on experience with popular techniques for collecting, processing, and analyzing text-based data. Specifically, the four learning labs that make up this module address the following topics:</p>
+<p><strong>Text Mining (TM) Module 1: Public Sentiment and the State Standards</strong> will help demonstrate how text mining can be applied in STEM education research and provide LASER Institute scholars hands-on experience with popular techniques for collecting, processing, and analyzing text-based data. Specifically, the three learning labs that make up this module address the following topics:</p>
 <ul>
 <li><p><strong>Learning Lab 1: Tidy Text, Tokens, &amp; Twitter.</strong> We take a closer look at the literature guiding our analysis; wrangle our data into a one-token-per-row tidy text format; and use simple word counts to explore our tweets about the common core and next generation science standards.</p></li>
 <li><p><strong>Learning Lab 2: Come to the Dark Side.</strong> We focus on the use of lexicons in our third lab and introduce the {vader} package to compare the sentiment of tweets about the NGSS and CCSS state standards in order to better understand public reaction to these two curriculum reform efforts. </p></li>
 <li><p><strong>Learning Lab 3: A Tale of Two Standards.</strong> We wrap our look at public sentiment around STEM state curriculum standards by selecting an analysis that provides some unique insight; refining and polishing a data product; and writing a brief narrative to communicate findings in response to our research questions.</p></li>
-<li><p><strong>Learning Lab 4: Bigrams + Word Pairs = 4x the Fun.</strong> For our last lab, we’ll see what insights bigrams, word pairs and word correlations tell us about our tweets and what they might suggest about public sentiment towards the CCSS and NGSS.</p></li>
+<li><p><strong>Learning Lab 4: rTweet &amp; the Twitter API (Optional).</strong> This supplemental learning lab will get you up and running with the Twitter API in case you are interested in using data from Twitter in your own research. This lab can only be completed by those who created a Twitter Developer account.</p></li>
 </ul>
 <div id="a.-review-the-literature" class="section level3">
 <h3>1a. Review the Literature</h3>
@@ -587,26 +587,26 @@ head(ngss_tweets_clean)</code></pre>
 <pre><code>## # A tibble: 20 x 6
 ##    text          standards author_id  created_at          conversation_id id    
 ##    &lt;chr&gt;         &lt;chr&gt;     &lt;chr&gt;      &lt;dttm&gt;              &lt;chr&gt;           &lt;chr&gt; 
-##  1 &quot;Also a remi… ccss      125680282… 2021-02-18 13:39:57 13623964376826… 13623…
-##  2 &quot;@IainBro @t… ccss      884461813… 2021-02-17 02:30:28 13618010257623… 13618…
-##  3 &quot;Get ready t… ccss      151840776  2021-04-08 18:04:46 13802200847114… 13802…
-##  4 &quot;@gboddicker… ccss      138247029… 2021-05-20 16:02:40 13951198236597… 13954…
-##  5 &quot;YES 75% OF … ccss      133491622… 2021-03-11 02:42:07 13698410346502… 13698…
-##  6 &quot;@MathAndCob… ccss      133995607… 2021-01-21 00:43:25 13520015576724… 13520…
-##  7 &quot;@laurenboeb… ccss      104821567… 2021-01-30 00:13:41 13553067331288… 13553…
-##  8 &quot;@MsJR88 Mus… ccss      938120945… 2021-05-03 12:14:23 13889267868562… 13891…
-##  9 &quot;@AndreaC612… ccss      119538043… 2021-01-01 09:38:01 13437010132959… 13449…
-## 10 &quot;i like when… ccss      123897157… 2021-01-25 00:44:59 13535041013262… 13535…
-## 11 &quot;Saturday Mo… ccss      956303731… 2021-02-06 19:33:02 13581366390553… 13581…
-## 12 &quot;It&#39;s Common… ccss      809950081… 2021-01-25 03:11:13 13535409022376… 13535…
-## 13 &quot;i like when… ccss      123897157… 2021-05-13 08:15:04 13927552585693… 13927…
-## 14 &quot;@pvtjokerus… ccss      760627542… 2021-04-17 23:00:07 13835096626291… 13835…
-## 15 &quot;Common core… ccss      35422221   2021-01-02 17:30:27 13454222172412… 13454…
-## 16 &quot;@Armataan @… ccss      104147135… 2021-05-04 04:56:46 13890542386223… 13894…
-## 17 &quot;@AFCMobile … ccss      138904569… 2021-05-17 00:49:44 13940883541034… 13940…
-## 18 &quot;@mattmurphy… ccss      783778849  2021-02-19 16:49:20 13628019847519… 13628…
-## 19 &quot;Bro @mabr3m… ccss      350142324  2021-01-10 05:36:39 13481416856126… 13481…
-## 20 &quot;If You Like… ccss      129862308… 2021-03-02 16:42:23 13667910024642… 13667…</code></pre>
+##  1 &quot;@BernieSand… ccss      1031629957 2021-04-23 14:06:41 13855959907747… 13855…
+##  2 &quot;@DDayFilms … ccss      129262218… 2021-02-15 19:45:03 13609964695499… 13614…
+##  3 &quot;@TeacherKwa… ccss      2688394555 2021-03-13 18:36:22 13707976443486… 13708…
+##  4 &quot;I see a lot… ccss      365828563  2021-02-18 02:10:28 13622229214611… 13622…
+##  5 &quot;@RufusKings… ccss      117479536… 2021-01-23 00:53:46 13527813476689… 13527…
+##  6 &quot;@h3av3nLys3… ccss      175150086  2021-01-15 22:56:44 13501032950465… 13502…
+##  7 &quot;The pattern… ccss      722992427… 2021-03-04 11:40:02 13674396908198… 13674…
+##  8 &quot;Is this Com… ccss      952443148… 2021-01-15 15:56:11 13501095359108… 13501…
+##  9 &quot;@LuisaThapa… ccss      117410118… 2021-02-26 03:43:25 13648869007634… 13651…
+## 10 &quot;Preview of … ccss      983864598… 2021-03-19 23:12:58 13730498893205… 13730…
+## 11 &quot;@gingerweil… ccss      16971760   2021-03-27 02:12:08 13756297969532… 13756…
+## 12 &quot;Not me chug… ccss      276797416  2021-03-05 04:45:15 13676976922608… 13676…
+## 13 &quot;@raynor_seb… ccss      824006994… 2021-02-26 20:41:43 13653935161138… 13654…
+## 14 &quot;@NEWS_MAKER… ccss      134575690… 2021-01-07 19:50:47 13470183212842… 13472…
+## 15 &quot;@WCoastGuyn… ccss      250217471  2021-04-13 15:34:53 13819641757910… 13819…
+## 16 &quot;#CommonCore… ccss      727931684… 2021-04-18 19:58:02 13838724690275… 13838…
+## 17 &quot;@HolaCarmit… ccss      107161142  2021-04-23 23:03:41 13857232185064… 13857…
+## 18 &quot;Dang common… ccss      31163420   2021-01-29 20:59:35 13552593170086… 13552…
+## 19 &quot;@SavageKC3 … ccss      132927978… 2021-03-24 02:17:16 13744489467396… 13745…
+## 20 &quot;Homeschool … ccss      43382137   2021-03-13 05:20:49 13706057458597… 13706…</code></pre>
 </div>
 <div id="your-turn-4" class="section level4">
 <h4><span style="color: green;">Your Turn</span> ⤵</h4>
@@ -618,26 +618,26 @@ head(ngss_tweets_clean)</code></pre>
 <pre><code>## # A tibble: 20 x 6
 ##    text          standards author_id  created_at          conversation_id id    
 ##    &lt;chr&gt;         &lt;chr&gt;     &lt;chr&gt;      &lt;dttm&gt;              &lt;chr&gt;           &lt;chr&gt; 
-##  1 &quot;There is st… ngss      114868880… 2021-03-09 15:21:54 13693074630240… 13693…
-##  2 &quot;My favorite… ngss      837332688… 2021-03-12 19:22:03 13704550632865… 13704…
-##  3 &quot;@WisconsinD… ngss      3259165069 2021-03-20 01:58:59 13730916706113… 13730…
-##  4 &quot;@JamesFalle… ngss      969031663… 2021-01-29 04:21:48 13549732742796… 13550…
-##  5 &quot;I&#39;m plannin… ngss      2548449702 2021-02-18 11:33:23 13623560656107… 13623…
-##  6 &quot;@krademaker… ngss      558971700  2021-01-22 02:05:17 13524369125654… 13524…
-##  7 &quot;InnerOrbit … ngss      996880982… 2021-04-12 19:02:06 13816840668320… 13816…
-##  8 &quot;Our toolkit… ngss      373421465  2021-03-08 15:55:11 13689534533100… 13689…
-##  9 &quot;Have you tr… ngss      101032466… 2021-01-18 00:00:21 13509561557539… 13509…
-## 10 &quot;@NGSS_tweep… ngss      3098279073 2021-02-19 16:48:12 13628050118776… 13628…
-## 11 &quot;@paulanders… ngss      126932888… 2021-02-01 22:51:44 13563747058427… 13563…
-## 12 &quot;NEW #Kinder… ngss      3193235195 2021-04-01 17:48:29 13776792728449… 13776…
-## 13 &quot;@helenrey @… ngss      3342700540 2021-04-09 00:30:28 13803119991297… 13803…
-## 14 &quot;A2: The big… ngss      778122576… 2021-01-08 08:10:11 13474555483886… 13474…
-## 15 &quot;Want to giv… ngss      264285997  2021-05-13 20:53:54 13929462272019… 13929…
-## 16 &quot;At a time w… ngss      928651307… 2021-04-10 20:04:29 13809749877382… 13809…
-## 17 &quot;@NGSS_tweep… ngss      956366433… 2021-02-16 18:16:50 13617186256154… 13617…
-## 18 &quot;Having stud… ngss      2988710739 2021-02-23 06:42:26 13641033066671… 13641…
-## 19 &quot;@sciresSoeh… ngss      743895579… 2021-03-19 01:13:10 13727172737781… 13727…
-## 20 &quot;spanish 3 h… ngss      129404628… 2021-02-11 18:42:06 13599357617437… 13599…</code></pre>
+##  1 &quot;Inspire the… ngss      838387248  2021-01-29 15:18:00 13551733542994… 13551…
+##  2 &quot;Q4: Hope yo… ngss      114868880… 2021-04-02 01:28:24 13777950140681… 13777…
+##  3 &quot;In the inte… ngss      1342104169 2021-02-16 00:11:33 13614682204069… 13614…
+##  4 &quot;A3. Templat… ngss      122486432… 2021-05-07 01:29:30 13904788687174… 13904…
+##  5 &quot;Neither vir… ngss      2339627738 2021-04-21 23:14:53 13850091727905… 13850…
+##  6 &quot;@sbottasull… ngss      1117819076 2021-03-26 14:04:20 13752341532815… 13754…
+##  7 &quot;How can you… ngss      2592073856 2021-05-20 19:40:06 13954643662003… 13954…
+##  8 &quot;Looking for… ngss      1947899756 2021-05-14 17:30:02 13932573106806… 13932…
+##  9 &quot;These #CCC-… ngss      830204981… 2021-03-25 03:11:40 13749218985810… 13749…
+## 10 &quot;@msruggerio… ngss      103568513… 2021-04-06 16:07:13 13792420850317… 13794…
+## 11 &quot;A6: Appendi… ngss      105986111… 2021-03-26 01:31:02 13752589635293… 13752…
+## 12 &quot;With the su… ngss      376553775  2021-02-19 02:47:32 13625946395139… 13625…
+## 13 &quot;See you in … ngss      558971700  2021-04-02 01:35:55 13777969062739… 13777…
+## 14 &quot;The prettie… ngss      763276827… 2021-01-21 08:35:32 13521729693852… 13521…
+## 15 &quot;A3 Checking… ngss      862286744  2021-01-08 02:34:23 13473710383093… 13473…
+## 16 &quot;Sooo cool! … ngss      89859520   2021-01-23 05:47:42 13528555076823… 13528…
+## 17 &quot;@DavidENorm… ngss      103568513… 2021-01-02 02:13:41 13451738733864… 13451…
+## 18 &quot;Giving kids… ngss      3121819738 2021-01-21 17:33:36 13523083759633… 13523…
+## 19 &quot;Tomorrow is… ngss      996880982… 2021-03-15 19:02:04 13715371987392… 13715…
+## 20 &quot;@czavacki @… ngss      720566202  2021-03-25 15:04:40 13750931832988… 13751…</code></pre>
 <p>Still of the same opinion?</p>
 <ul>
 <li>Yes, these appear much less negative.</li>
@@ -898,8 +898,8 @@ write_csv(ss_tokens_3, here(&quot;data&quot;, &quot;ss_tidy_tweets.csv&quot;))</
 <pre class="r"><code>library(wordcloud2)
 
 wordcloud2(ccss_top_tokens)</code></pre>
-<div id="htmlwidget-8a0e26ff7a03f9900fef" style="width:672px;height:480px;" class="wordcloud2 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-8a0e26ff7a03f9900fef">{"x":{"word":["common","core","math","education","kids","standards","school","dont","grade","people","im","schools","students","teach","#commoncore","curriculum","teachers","teaching","learning","taught","time","children","public","2","understand","didnt","learn","read","history","parents","system","million","free","1","english","youre","practice","doesnt","sense","trump","gates","workbook","|","download","3","left","teacher","add","thinking","critical"],"freq":[26599,26405,11688,1917,1821,1810,1806,1622,1443,1410,1302,1279,1127,1055,1017,1015,909,903,882,831,727,684,669,651,596,591,582,577,567,567,567,563,562,538,533,524,516,503,500,485,473,471,469,455,441,441,441,433,421,405],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":0.00676717169818414,"backgroundColor":"white","gridSize":0,"minRotation":-0.785398163397448,"maxRotation":0.785398163397448,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
+<div id="htmlwidget-9004c8f1c41934a0300c" style="width:672px;height:480px;" class="wordcloud2 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9004c8f1c41934a0300c">{"x":{"word":["common","core","math","education","kids","standards","school","dont","grade","people","im","schools","students","teach","#commoncore","curriculum","teachers","teaching","learning","taught","time","children","public","2","understand","didnt","learn","read","history","parents","system","million","free","1","english","youre","practice","doesnt","sense","trump","gates","workbook","|","download","3","left","teacher","add","thinking","critical"],"freq":[26599,26405,11688,1917,1821,1810,1806,1622,1443,1410,1302,1279,1127,1055,1017,1015,909,903,882,831,727,684,669,651,596,591,582,577,567,567,567,563,562,538,533,524,516,503,500,485,473,471,469,455,441,441,441,433,421,405],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":0.00676717169818414,"backgroundColor":"white","gridSize":0,"minRotation":-0.785398163397448,"maxRotation":0.785398163397448,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
 <p>As you can see, “math” is a pretty common topic when discussing the common core on twitter but words like “core” and “common” – which you can see better if you click the “show in a new window” button or run the code in you console – are not very helpful since those were in our search terms when pulling data from Twitter. For your Reach in this lab, you’ll be asked to remove those words using what you’ve learned so far about data wrangling.</p>
 <div id="your-turn-8" class="section level4" style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);">
 <h4 style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"><span style="color: green;">Your Turn</span> ⤵</h4>
@@ -910,8 +910,8 @@ wordcloud2(ccss_top_tokens)</code></pre>
   top_n(50) %&gt;%
   wordcloud2()</code></pre>
 <pre><code>## Selecting by n</code></pre>
-<div id="htmlwidget-9ab6d998b7aca1075b45" style="width:672px;height:480px;" class="wordcloud2 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9ab6d998b7aca1075b45">{"x":{"word":["#ngsschat","#ngss","science","@ngsstweeps","students","ngss","learning","teachers","#science","ss","standards","learn","#stem","questions","love","time","teaching","school","free","unit","im","check","curriculum","student","join","lesson","teacher","#scied","stem","education","phenomena","share","week","support","ideas","classroom","grade","models","aligned","resources","thinking","class","kids","excited","@ngsschat","2","day","virtual","educators","dont"],"freq":[3058,2646,1950,1561,1432,1343,803,598,527,512,463,435,419,406,383,368,361,348,338,334,311,288,287,279,276,268,268,263,262,257,256,250,245,243,241,239,239,239,233,232,225,210,202,201,200,200,199,192,189,186],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":0.0588620013080445,"backgroundColor":"white","gridSize":0,"minRotation":-0.785398163397448,"maxRotation":0.785398163397448,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
+<div id="htmlwidget-70de43bc1f585b158b21" style="width:672px;height:480px;" class="wordcloud2 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-70de43bc1f585b158b21">{"x":{"word":["#ngsschat","#ngss","science","@ngsstweeps","students","ngss","learning","teachers","#science","ss","standards","learn","#stem","questions","love","time","teaching","school","free","unit","im","check","curriculum","student","join","lesson","teacher","#scied","stem","education","phenomena","share","week","support","ideas","classroom","grade","models","aligned","resources","thinking","class","kids","excited","@ngsschat","2","day","virtual","educators","dont"],"freq":[3058,2646,1950,1561,1432,1343,803,598,527,512,463,435,419,406,383,368,361,348,338,334,311,288,287,279,276,268,268,263,262,257,256,250,245,243,241,239,239,239,233,232,225,210,202,201,200,200,199,192,189,186],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":0.0588620013080445,"backgroundColor":"white","gridSize":0,"minRotation":-0.785398163397448,"maxRotation":0.785398163397448,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
 <p>Also, take a look at the help file for <code>wordclouds2</code> to see if there might be otherwise you could visually improve this visualization.</p>
 </div>
 </div>
@@ -941,23 +941,129 @@ wordcloud2(ccss_top_tokens)</code></pre>
 <div id="r-each-optional" class="section level2">
 <h2>R-each (Optional)</h2>
 <p>If you’re using data that you brought to the institute or data that you pulled from Twitter, try tidying your data into a tidy text format and examining the top words in your dataset.</p>
-<p>If you’d like to use the data we’ve been working with for your reach, see if you can make a more meaningful and attractive word cloud for each set of standards. For example, words like “core” and “common” are not very helpful since those were in our search terms when pulling data from Twitter. Try to <code>filter()</code> those out before making a word cloud and run <code>?wordcloud2</code> in your console to take a look at the settings for tweaking the appearance of your word cloud.</p>
-<p>Using a separate r script file, try modifying our list of stop words, retidying our text, and doing a new word count with these and perhaps other words removed. Also, take a look at the help file for <code>wordclouds2</code> to see if there might be otherwise you could visually improve this visualization.</p>
-<pre class="r"><code>ss_tidy_tweets %&gt;%
-  filter(standards == &quot;ccss&quot;) %&gt;%
-  count(word, sort = TRUE) %&gt;%
-  filter(!word == c(&quot;common&quot;, &quot;core&quot;)) %&gt;%
-  top_n(100) %&gt;%
-  wordcloud2(shape = &#39;circle&#39;,
-             color = &#39;random-dark&#39;)</code></pre>
-<pre><code>## Warning in word == c(&quot;common&quot;, &quot;core&quot;): longer object length is not a multiple
-## of shorter object length</code></pre>
-<pre><code>## Selecting by n</code></pre>
-<div id="htmlwidget-92592f8d2f421b3d4792" style="width:672px;height:480px;" class="wordcloud2 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-92592f8d2f421b3d4792">{"x":{"word":["math","education","kids","standards","school","dont","grade","people","im","schools","students","teach","#commoncore","curriculum","teachers","teaching","learning","taught","time","children","public","2","understand","didnt","learn","read","history","parents","system","million","free","1","english","youre","practice","doesnt","sense","trump","gates","workbook","|","download","3","left","teacher","add","thinking","critical","4","answer","bill","lol","isnt","level","child","shit","biden","dumb","reading","real","learned","theyre","skills","bad","makes","science","world","testing","obama","stupid","votes","american","test","hard","love","race","ive","lot","failed","5","wrong","division","day","designed","lesson","book","@catturd2","understanding","money","writing","hate","ed","stop","america","student","class","days","country","😂","government"],"freq":[11688,1917,1821,1810,1806,1622,1443,1410,1302,1279,1127,1055,1017,1015,909,903,882,831,727,684,669,651,596,591,582,577,567,567,567,563,562,538,533,524,516,503,500,485,473,471,469,455,441,441,441,433,421,405,403,401,397,396,390,382,380,380,374,369,365,365,359,357,355,353,351,350,342,336,331,331,327,324,319,316,316,316,314,314,312,310,308,303,298,298,298,290,288,283,278,278,277,273,273,269,264,263,262,260,259,259],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":0.0154004106776181,"backgroundColor":"white","gridSize":0,"minRotation":-0.785398163397448,"maxRotation":0.785398163397448,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
+<p>If you’d like to use the data we’ve been working with for your reach, let’s take a quick look at <strong>bigrams</strong>, or tokens consisting of two words.</p>
+<div id="bigrams" class="section level3">
+<h3>Bigrams</h3>
+<p>So far in this lab, we specified tokens as individual words, but many interesting text analyses are based on the relationships between words, which words tend to follow others immediately, or words that tend to co-occur within the same documents.</p>
+<p>We can also use the <code>unnest_tokens()</code> function to tokenize our tweets into consecutive sequences of words, called <strong>n-grams</strong>. By seeing how often word X is followed by word Y, we could then build a model of the relationships between them.</p>
+<p>To specify our tokens as bigrams, We do add <code>token = &quot;ngrams&quot;</code> to the <code>unnest_tokens()</code> function and setting <code>n</code> to the number of words in each n-gram. Let’s set <code>n</code> to 2, so we can examine pairs of two consecutive words, often called “bigrams”:</p>
+<pre class="r"><code>ngss_bigrams &lt;- ngss_tweets %&gt;% 
+  unnest_tokens(bigram, 
+                text, 
+                token = &quot;ngrams&quot;, 
+                n = 2)</code></pre>
+<p>Before we move any further let’s take a quick look at the most common bigrams in our NGSS tweets:</p>
+<pre class="r"><code>ngss_bigrams %&gt;% 
+  count(bigram, sort = TRUE)</code></pre>
+<pre><code>## # A tibble: 111,411 x 2
+##    bigram             n
+##    &lt;chr&gt;          &lt;int&gt;
+##  1 https t.co      6240
+##  2 ngsschat https   721
+##  3 of the           630
+##  4 in the           531
+##  5 ngss https       455
+##  6 the ngss         403
+##  7 to the           318
+##  8 for the          295
+##  9 to be            272
+## 10 on the           239
+## # … with 111,401 more rows</code></pre>
+<p>As we saw above, a lot of the most common bigrams are pairs of common (uninteresting) words as well. Dealing with these is a little less straightforward and we’ll need to use the <code>separate()</code> function from the <code>tidyr</code> package, which splits a column into multiple based on a delimiter. This lets us separate it into two columns, “word1” and “word2,” at which point we can remove cases where either is a stop-word.</p>
+<pre class="r"><code>library(tidyr)
+bigrams_separated &lt;- ngss_bigrams %&gt;%
+  separate(bigram, c(&quot;word1&quot;, &quot;word2&quot;), sep = &quot; &quot;)
+
+bigrams_filtered &lt;- bigrams_separated %&gt;%
+  filter(!word1 %in% stop_words$word) %&gt;%
+  filter(!word2 %in% stop_words$word)
+
+tidy_bigrams &lt;- bigrams_filtered %&gt;%
+  unite(bigram, word1, word2, sep = &quot; &quot;)</code></pre>
+<p>Let’s take a look at our bigram counts now:</p>
+<pre class="r"><code>tidy_bigrams %&gt;% 
+  count(bigram, sort = TRUE)</code></pre>
+<pre><code>## # A tibble: 45,507 x 2
+##    bigram                n
+##    &lt;chr&gt;             &lt;int&gt;
+##  1 https t.co         6240
+##  2 ngsschat https      721
+##  3 ngss https          455
+##  4 ngss ngsschat       236
+##  5 ngss aligned        192
+##  6 ngss standards      168
+##  7 ngss science        154
+##  8 science education   148
+##  9 science standards   112
+## 10 teachers https      106
+## # … with 45,497 more rows</code></pre>
+<p>Better, but there are still many tokens not especially useful for analysis.</p>
+<p>Let’s make a custom custom stop word dictionary for bigrams just like we did for our unigrams. A list is started for you below, but you likely want to expand our list off stop words:</p>
+<pre class="r"><code>my_words &lt;- c(&quot;https&quot;, &quot;t.co&quot;)</code></pre>
+<p>Now let’s separate, filter, and unite again:</p>
+<pre class="r"><code>tidy_bigrams &lt;- bigrams_separated %&gt;%
+  filter(!word1 %in% stop_words$word) %&gt;%
+  filter(!word2 %in% stop_words$word) %&gt;%
+  filter(!word1 %in% my_words) %&gt;%
+  filter(!word2 %in% my_words) %&gt;%
+  unite(bigram, word1, word2, sep = &quot; &quot;)</code></pre>
+<p>Note that since <code>my_words</code> is just a vector of words and not a data frame like <code>stop_words</code>, we do not need to select the <code>word</code> column using the <code>$</code> operator.</p>
+<p>Let’s take another quick count of our bigrams:</p>
+<pre class="r"><code>tidy_bigrams %&gt;% 
+  count(bigram, sort = TRUE)</code></pre>
+<pre><code>## # A tibble: 37,539 x 2
+##    bigram                          n
+##    &lt;chr&gt;                       &lt;int&gt;
+##  1 ngss ngsschat                 236
+##  2 ngss aligned                  192
+##  3 ngss standards                168
+##  4 ngss science                  154
+##  5 science education             148
+##  6 science standards             112
+##  7 ngss_tweeps ngsschat           96
+##  8 science ngss                   94
+##  9 bmsscienceteach ngss_tweeps    92
+## 10 approved approach              89
+## # … with 37,529 more rows</code></pre>
+<div id="your-turn-9" class="section level4" style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);">
+<h4 style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"><span style="color: green;">Your Turn</span> ⤵</h4>
+<p>Use the code chunk below to tidy and count our bigrams for the CCSS tweets:</p>
+<pre class="r"><code>ccss_bigrams &lt;- ccss_tweets %&gt;% 
+  unnest_tokens(bigram, 
+                text, 
+                token = &quot;ngrams&quot;, 
+                n = 2) %&gt;%
+  separate(bigram, c(&quot;word1&quot;, &quot;word2&quot;), sep = &quot; &quot;) %&gt;%
+  filter(!word1 %in% stop_words$word) %&gt;%
+  filter(!word2 %in% stop_words$word) %&gt;%
+  filter(!word1 %in% my_words) %&gt;%
+  filter(!word2 %in% my_words) %&gt;%
+  unite(bigram, word1, word2, sep = &quot; &quot;)
+
+ccss_bigrams %&gt;% 
+  count(bigram, sort = TRUE)</code></pre>
+<pre><code>## # A tibble: 85,101 x 2
+##    bigram              n
+##    &lt;chr&gt;           &lt;int&gt;
+##  1 common core     26735
+##  2 core math        8249
+##  3 core standards    683
+##  4 core education    420
+##  5 core curriculum   372
+##  6 gt gt             262
+##  7 bill gates        252
+##  8 grade common      252
+##  9 public schools    246
+## 10 grade level       233
+## # … with 85,091 more rows</code></pre>
+<p>What additional insight, if any, did looking at bigrams bring to out analysis?</p>
+<ul>
+<li>YOUR RESPONSE HERE</li>
+</ul>
 </div>
-<div id="references" class="section level2">
-<h2>References</h2>
+</div>
+<div id="references" class="section level3">
+<h3>References</h3>
 <p>Note: Citations embedded in R Markdown will only show upon knitting.</p>
 <div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
 <div id="ref-krumm2018" class="csl-entry">
@@ -974,6 +1080,7 @@ Silge, J., &amp; Robinson, D. (2017). <em>Text mining with r: A tidy approach</e
 </div>
 <div id="ref-wang2017" class="csl-entry">
 Wang, Y., &amp; Fikis, D. J. (2017). Common Core State Standards on Twitter: Public Sentiment and Opinion Leaders. <em>Educational Policy</em>, <em>33</em>(4), 650–683. <a href="https://doi.org/10.1177/0895904817723739">https://doi.org/10.1177/0895904817723739</a>
+</div>
 </div>
 </div>
 </div>

@@ -28,7 +28,7 @@ The transition to digital learning has made available new sources of data, provi
 
 -   **Learning Lab 3: A Tale of Two Standards.** We wrap our look at public sentiment around STEM state curriculum standards by selecting an analysis that provides some unique insight; refining and polishing a data product; and writing a brief narrative to communicate findings in response to our research questions.
 
--   **Learning Lab 4: Bigrams + Word Pairs = 4x the Fun.** For our last lab, we'll see what insights bigrams, word pairs and word correlations tell us about our tweets and what they might suggest about public sentiment towards the CCSS and NGSS.
+-   **Learning Lab 4: rTweet & the Twitter API (Optional).** This supplemental learning lab will get you up and running with the Twitter API in case you are interested in using data from Twitter in your own research. This lab can only be completed by those who created a Twitter Developer account.
 
 ### 1a. Review the Literature
 
@@ -608,15 +608,93 @@ write_csv()
 
 If you're using data that you brought to the institute or data that you pulled from Twitter, try tidying your data into a tidy text format and examining the top words in your dataset.
 
-If you'd like to use the data we've been working with for your reach, see if you can make a more meaningful and attractive word cloud for each set of standards. For example, words like "core" and "common" are not very helpful since those were in our search terms when pulling data from Twitter. Try to `filter()` those out before making a word cloud and run `?wordcloud2` in your console to take a look at the settings for tweaking the appearance of your word cloud.
+If you'd like to use the data we've been working with for your reach, let's take a quick look at **bigrams**, or tokens consisting of two words.
 
-Using a separate r script file, try modifying our list of stop words, retidying our text, and doing a new word count with these and perhaps other words removed. Also, take a look at the help file for `wordclouds2` to see if there might be otherwise you could visually improve this visualization.
+### Bigrams
 
-```{r}
-# MAKE A PRETTY WORD CLOUD
+So far in this lab, we specified tokens as individual words, but many interesting text analyses are based on the relationships between words, which words tend to follow others immediately, or words that tend to co-occur within the same documents.
 
+We can also use the `unnest_tokens()` function to tokenize our tweets into consecutive sequences of words, called **n-grams**. By seeing how often word X is followed by word Y, we could then build a model of the relationships between them.
+
+To specify our tokens as bigrams, We do add `token = "ngrams"` to the `unnest_tokens()` function and setting `n` to the number of words in each n-gram. Let's set `n` to 2, so we can examine pairs of two consecutive words, often called "bigrams":
+
+```{r ccss-bigrams}
+ngss_bigrams <- ngss_tweets %>% 
+  unnest_tokens(bigram, 
+                text, 
+                token = "ngrams", 
+                n = 2)
 ```
 
-## References
+Before we move any further let's take a quick look at the most common bigrams in our NGSS tweets:
+
+```{r}
+ngss_bigrams %>% 
+  count(bigram, sort = TRUE)
+```
+
+As we saw above, a lot of the most common bigrams are pairs of common (uninteresting) words as well. Dealing with these is a little less straightforward and we'll need to use the `separate()` function from the `tidyr` package, which splits a column into multiple based on a delimiter. This lets us separate it into two columns, "word1" and "word2", at which point we can remove cases where either is a stop-word.
+
+```{r stop-bigrams}
+library(tidyr)
+bigrams_separated <- ngss_bigrams %>%
+  separate(bigram, c("word1", "word2"), sep = " ")
+
+bigrams_filtered <- bigrams_separated %>%
+  filter(!word1 %in% stop_words$word) %>%
+  filter(!word2 %in% stop_words$word)
+
+tidy_bigrams <- bigrams_filtered %>%
+  unite(bigram, word1, word2, sep = " ")
+```
+
+Let's take a look at our bigram counts now:
+
+```{r}
+tidy_bigrams %>% 
+  count(bigram, sort = TRUE)
+```
+
+Better, but there are still many tokens not especially useful for analysis.
+
+Let's make a custom custom stop word dictionary for bigrams just like we did for our unigrams. A list is started for you below, but you likely want to expand our list off stop words:
+
+```{r}
+my_words <- c("https", "t.co")
+```
+
+Now let's separate, filter, and unite again:
+
+```{r}
+tidy_bigrams <- bigrams_separated %>%
+  filter(!word1 %in% stop_words$word) %>%
+  filter(!word2 %in% stop_words$word) %>%
+  filter(!word1 %in% my_words) %>%
+  filter(!word2 %in% my_words) %>%
+  unite(bigram, word1, word2, sep = " ")
+```
+
+Note that since `my_words` is just a vector of words and not a data frame like `stop_words`, we do not need to select the `word` column using the `$` operator.
+
+Let's take another quick count of our bigrams:
+
+```{r}
+tidy_bigrams %>% 
+  count(bigram, sort = TRUE)
+```
+
+#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
+
+Use the code chunk below to tidy and count our bigrams for the CCSS tweets:
+
+```{r}
+# YOUR CODE HERE
+```
+
+What additional insight, if any, did looking at bigrams bring to out analysis?
+
+-   YOUR RESPONSE HERE
+
+### References
 
 Note: Citations embedded in R Markdown will only show upon knitting.
