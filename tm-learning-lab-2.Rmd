@@ -293,7 +293,7 @@ In TM Learning Lab 3, we'll take a closer look at the study by @rosenberg2020 an
 
 ## 5. COMMUNICATE
 
-In this learning lab, we focused we focus on the use of lexicons for text analysis and introduce the {vader} package to compare the sentiment of tweets about the NGSS and CCSS state standards. Below, add a few notes in response to the following prompts:
+In this learning lab, we focused on the use of lexicons for text analysis and introduce the {vader} package to compare the sentiment of tweets about the NGSS and CCSS state standards. Below, add a few notes in response to the following prompts:
 
 1.  One thing I took away from this learning lab:
 

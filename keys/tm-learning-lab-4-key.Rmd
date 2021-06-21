@@ -119,7 +119,7 @@ ngss_tweets_q1 <- search_tweets(q = "#NGSSchat",
 
 Note that the first argument the `search_tweets()` function expects, `q =`, is the search term included in quotation marks and that `n =` specifies the maximum number of tweets we want.
 
-#### 👉 Your Turn ⤵
+#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
 
 Use the code chunk below to view your new `ngss_tweets_q1` data frame using one of the methods previously introduced to help answer the following questions:
 
@@ -164,7 +164,7 @@ ngss_tweets_q2 <- search_tweets(q = "#NGSSchat OR ngss",
 ngss_tweets_q2
 ```
 
-#### 👉 Your Turn ⤵
+#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
 
 In the following code chunk, try including both search terms but excluding the `OR` operator to answer the questions below:
 
@@ -233,7 +233,7 @@ ccss_tweets <- ccss_dictionary %>%
 
 Notice that you can use the pipe operator with the `search_tweets()` function just like you would other functions from the tidyverse.
 
-#### 👉 Your Turn ⤵
+#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
 
 1.  In the code chunk below, write a new query based on a STEM area of interest.
 
@@ -278,7 +278,7 @@ ts_plot(ngss_tweets_q4, by = "days")
 
 Notice that this effectively creates a {ggplot} time series plot for us. I've included the `by =` argument which by default is set to "days". It looks like tweets go back 9 days which is the rate limit set by Twitter.
 
-#### 👉 Your Turn ⤵
+#### [Your Turn]{style="color: green;"} ⤵ {style="font-style: normal; font-variant-caps: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-tap-highlight-color: rgba(26, 26, 26, 0.3); -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; text-decoration: none; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"}
 
 Use the code chunk below and to change the time series plot above from "days" to "hours" and see what happens.
 
@@ -287,11 +287,21 @@ Use the code chunk below and to change the time series plot above from "days" to
 
 ```
 
-### 🧶 Knit & Check ✅
+## 5. COMMUNICATE
 
-Congrats! You made it to the end of the **rtweet & the Twitter API** supplemental learning lab. Knit your document and check to see if you encounter any errors.
+In this learning lab, we focused on helping you understand how data used in our guiding study and the learning labs was collected and getting you up and running with the Twitter API in case you are interested in using data from Twitter in your own research or evaluation work. Below, add a few notes in response to the following prompts:
 
-### Reach 🧗🏾‍♀
+1.  One thing I took away from this learning lab:
+
+    -   
+
+2.  One thing I want to learn more about:
+
+    -   
+
+Congratulations - you've made it to the end! To complete your work, you can click the drop down arrow at the top of the file, then select "Knit top HTML". This will create a report in your Files pane that serves as a record of your code and its output you can open or share.
+
+## R-each
 
 Try one of the following search functions from the `rtweet` vignette:
 
@@ -302,6 +312,10 @@ Try one of the following search functions from the `rtweet` vignette:
 5.  `get_favorites()` Get the most recently favorited statuses by a user.
 6.  `get_trends()` Discover what's currently trending in a city.
 7.  `search_users()` Search for 1,000 users with the specific hashtag in their profile bios.
+
+```{r}
+# YOUR CODE HERE
+```
 
 We've only scratched the surface of the number of functions available in the `rtweets` package for searching Twitter. To learn more about the `rtweet` package, you can find full documentation on CRAN at: <https://cran.r-project.org/web/packages/rtweet/rtweet.pdf>
 

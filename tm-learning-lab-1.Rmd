@@ -50,7 +50,7 @@ Similar to what we'll be learning in this lab, Rosenberg et al. used publicly ac
 
 Data used in this lab was pulled using an [Academic Research developer account](https://developer.twitter.com/en/products/twitter-api/academic-research) and the {academictwitter} package, which uses the Twitter API v2 endpoints and allows researchers to access the full twitter archive.
 
-For those that created a standard developer account, the [rtweet & the Twitter API](https://laser-institute.github.io/text-mining/tm-learning-lab-1a.html) supplemental learning lab will show you how to pull your own data from Twitter.
+For those that created a standard developer account, the [rtweet & the Twitter API](https://laser-institute.github.io/text-mining/keys/tm-learning-lab-4-key.html) supplemental learning lab will show you how to pull your own data from Twitter.
 
 If you created an academic developer account, [this brief code snipped, or gist](https://gist.github.com/jrosen48/0747497e40700e570676dae88b255919) shows you how to access posts for any term over any time period using the {academictwitteR} package.
 

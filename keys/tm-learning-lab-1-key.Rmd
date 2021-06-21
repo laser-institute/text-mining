@@ -48,7 +48,9 @@ System-wide educational reforms are difficult to implement in the United States,
 
 Similar to what we'll be learning in this lab, Rosenberg et al. used publicly accessible data from Twitter collected using the Full-Archive Twitter API and the `rtweet` package in R. Specifically, the authors accessed tweets and user information from the hashtag-based \#NGSSchat online community, all tweets that included any of the following phrases, with "/" indicating an additional phrase featuring the respective plural form: "ngss", "next generation science standard/s", "next gen science standard/s".
 
-Data used in this lab was pulled using an [Academic Research developer account](https://developer.twitter.com/en/products/twitter-api/academic-research) and the {academictwitter} package, which uses the Twitter API v2 endpoints and allows researchers to access the full twitter archive. For those that created a standard developer account, the [rtweet & the Twitter API](https://laser-institute.github.io/text-mining/tm-learning-lab-1a.html) supplemental learning lab will show you how to pull your own data from Twitter.
+Data used in this lab was pulled using an [Academic Research developer account](https://developer.twitter.com/en/products/twitter-api/academic-research) and the {academictwitter} package, which uses the Twitter API v2 endpoints and allows researchers to access the full twitter archive.
+
+For those that created a standard developer account, the [rtweet & the Twitter API](https://laser-institute.github.io/text-mining/keys/tm-learning-lab-4-key.html) supplemental learning lab will show you how to pull your own data from Twitter.
 
 Data for this lab includes all tweets from 2020 that included the following terms: `#ccss`, `common core`, `#ngsschat`, `ngss`. Below is an example of the code used to retrieve data for this lab. It is set not to run and will not run if you try, but it does illustrate the search query used, variables selected, and time frame.
 
