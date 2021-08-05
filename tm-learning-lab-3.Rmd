@@ -46,6 +46,7 @@ In the code chunk below, load the two packages we'll need for working with text 
 ```{r}
 library(tidytext)
 library(tidyverse)
+library(here)
 ```
 
 ## 2. WRANGLE

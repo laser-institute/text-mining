@@ -190,7 +190,7 @@ Try using the "Import Dataset" feature in the upper right environment pane to im
 The code generated should look something like this:
 
 ```{r}
-ngss_tweets <- read_csv(here("data", "ngss-tweets.csv")), 
+ngss_tweets <- read_csv(here("data", "ngss-tweets.csv"), 
           col_types = cols(author_id = col_character(), 
                            id = col_character(),
                            conversation_id = col_character(), 
