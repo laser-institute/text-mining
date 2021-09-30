@@ -86,16 +86,21 @@ workshop will introduce the following concepts and skills:
     document term matrix data format as well as the `stm` package. This
     package makes use of `tm` text mining package to preprocess text and
     will also be our first introduction to word stemming.
-3.  **Model**: We take a look at two different approaches to topic
-    modeling: Latent Dirichlet Allocation (LDA) and Structural Topic
-    Modeling (STM), which is very similar to LDA but can use metadata
-    about documents to improve the assignment of words to "topics" in a
-    corpus and examine relationships between topics and covariates. 
-4.  **Explore**: To further explore the results of our topic model, we
-    use several handy functions from the `topicmodels` and `stm`
-    packages, including the `findThoughts` function for viewing
-    documents assigned to a given topic and the `toLDAvis` function for
-    exploring topic and word distributions.
+3.  **Model**: We introduce Latent Dirichlet Allocation (LDA), by far
+    the most common take approach to topic modeling you're like to see
+    in the literature. We also discuss approaches to determining an
+    appropriate number of topics.
+4.  **Explore**: In section 4, we explore our "beta" and "gamma" values
+    to help us interpret what our topic model actually tells us,
+    including which words are most commonly associate with which topics.
+5.  **Reach**: For those interested and time permitting, we'll take a
+    look at Structural Topic Modeling (STM), which is very similar to
+    LDA but can use metadata about documents to improve the assignment
+    of words to "topics" in a corpus and examine relationships between
+    topics and covariates.
+6.  **Communicate**: Finally, we'll make our best attempt a reading the
+    tea leaves to communicate what are topic models tell us about what
+    educators are saying in the Teaching Statistics MOOC-Ed forums.
 
 ------------------------------------------------------------------------
 
@@ -544,12 +549,11 @@ assumption a little later in this section.
 
 #### Stemming Tidy Text
 
-Notice that the `textProcessor` stem argument we used above is set to
-`TRUE` by default. We haven't introduced word stemming at this point
-because there is some debate about the actual value of this process.
-While words like "students" and "student" might make sense to collapse
-into their base word and actually make analyses and visualizations more
-concise and easier to interpret. [Hvitfeldt and Silge
+We haven't introduced word stemming at this point because there is some
+debate about the actual value of this process. While words like
+"students" and "student" might make sense to collapse into their base
+word and actually make analyses and visualizations more concise and
+easier to interpret. [Hvitfeldt and Silge
 (2021)](https://smltar.com/stemming.html) note, however, that words like
 the following have dramatic differences in meaning, semantics, and use
 and could result in poor models or misinterpreted results:
@@ -600,30 +604,21 @@ Stemming](https://smltar.com/stemming.html) from Hvitfeldt and Silge
 
 #### [**Your Turn**]{style="color: green;"} **⤵**
 
-Complete the following code using what we learned in the section on
-[Creating a Document Term Matrix] and answer the following questions:
-
-1.  How many fewer terms are in our stemmed document term matrix?
-2.  Did stemming words significantly reduce the sparsity of the network?
-
-**Hint:** Make sure your code includes stem counts rather than word
-counts.
+Use the code template in the code chunk below to count the top stemmed
+words and compare the differences between the two sets of word counts.
 
 ```{r}
+forums_tidy %>%
+  count(word, sort = TRUE)
+
 stemmed_forums %>%
   count(stem, sort = TRUE)
 ```
 
-```{r stem-practice, eval=FALSE}
-stemmed_dtm <- ts_forum_data %>%
-  unnest_tokens(output = word, input = post_content) %>%
-  anti_join(stop_words, by = "word") %>%
-  mutate(stem = wordStem(word)) %>%
-  ______() %>%
-  ______() %>%
-  
-stemmed_dtm
-```
+#### Create a Stemmed DTM
+
+Now let's combine all the code we've used so far to create an alternate
+document term matrix composed of stemmed words for later comparison:
 
 ```{r stem-counts, echo=FALSE, message=FALSE}
 stemmed_dtm <- ts_forum_data %>%
@@ -634,15 +629,17 @@ stemmed_dtm <- ts_forum_data %>%
   cast_dtm(post_id, stem, n)
 
 stemmed_dtm
+```
+
+#### [**Your Turn**]{style="color: green;"} **⤵**
+
+Before moving on, type the names of our two dtms in the code chunk below
+and compare the two outputs. What major difference do you see between
+our two matrices?
+
+```{r}
+stemmed_dtm
 forums_dtm
-
-stem_counts <- ts_forum_data %>%
-  unnest_tokens(output = word, input = post_content) %>%
-  anti_join(stop_words, by = "word") %>%
-  mutate(stem = wordStem(word)) %>%
-  count(stem, sort = TRUE)
-
-stem_counts
 ```
 
 ## 3. MODEL
@@ -755,6 +752,64 @@ And tying back to our work in Unit 1, Bail (2020) notes that topic
 assignments for each word are updated in an iterative fashion and that
 LDA employs the Term Frequency-Inverse Document Frequency (TF-IDF)
 metric to assign probabilities.
+
+### 3b. Finding *K*
+
+As alluded to earlier, selecting the number of topics for your model is
+a non-trivial decision and can dramatically impact your results. Bail
+(2018) notes that
+
+> *The results of topic models should not be over-interpreted unless the
+> researcher has strong theoretical apriori about the number of topics
+> in a given corpus, or if the researcher has carefully validated the
+> results of a topic model using both the quantitative and qualitative
+> techniques described above.*
+
+There are several approaches to estimating a value for K and we'll take
+a quick look at one from the `ldatuning` package right now and one from
+our `stm` package in the Reach section.
+
+#### The `FindTopicsNumber` Function
+
+The `ldatuning` package has functions for both calculating and plotting
+different metrics that can be used to estimate the most preferable
+number of topics for LDA model. It also conveniently takes the standard
+document term matrix object that we created from out tidy text and has
+the added benefit of running fairly quickly, especially compared to the
+function for finding K from the `stm` package demonstrated later.
+
+Let's use the defaults specified in the `?FindTopicNumber` documentation
+and modify slightly get metrics for a sequence of topics from 10-75
+counting by 5 and plot the output we saved using the
+`FindTopicsNumber_plot()` function:
+
+```{r find-topic, eval=FALSE}
+k_metrics <- FindTopicsNumber(
+  forums_dtm,
+  topics = seq(10, 75, by = 5),
+  metrics = "Griffiths2004",
+  method = "Gibbs",
+  control = list(),
+  mc.cores = NA,
+  return_models = FALSE,
+  verbose = FALSE,
+  libpath = NULL
+)
+
+FindTopicsNumber_plot(k_metrics)
+```
+
+Note that the `FindTopicNumbers()` function contains three additional
+metrics for calculating metrics that can be used to estimate the most
+preferable number of topics for LDA model. We used the Griffiths2004
+metrics included in the default example and I've also found this to
+produce the most interpretable results as show in the figure below:
+
+![](img/k_metrics.png){width="90%"}
+
+As a general rule of thumb and overly simplistic heuristic, we're
+looking for an inflection point in our plot which indicates an optimal
+number of topics to select for a value of K.
 
 ## 4. EXPLORE
 
@@ -897,13 +952,6 @@ gamma_terms %>%
         col.names = c("Topic", "Expected topic proportion", "Top 7 terms"))
 ```
 
-And let's also compare this to the most prevalent topics and terms from
-our `forums_stm` model that we created using the `plot()` function:
-
-```{r plot_stm}
-plot(forums_stm, n = 7)
-```
-
 ## 5. REACH
 
 ### 5a. Fitting a Structural Topic Model
@@ -931,17 +979,18 @@ models](https://juliasilge.com/blog/evaluating-stm/).
 
 #### Processing and Stemming for STM
 
+Next we'll need to prepare our original data set for structural topic
+modeling using the `textProcessor()` function. The `stm` package has a
+number of features that extend the functionality of the `topicmodels`
+package, including an argument for "stemming" words, which is set to
+`TRUE` by default.
+
 Like `unnest_tokens()`, the `textProcessor()` function includes several
 useful arguments for processing text like converting text to lowercase
 and removing punctuation and numbers. I've included several of these in
 the script below along with their defaults used if you do not explicitly
 specify in your function. Most of these are pretty intuitive and you can
-learn more by viewing the `?textProcessor` documentation.
-
-Next we'll need to prepare our original data set for structural topic
-modeling using the `textProcessor()` function. The `stm` package has a
-number of features that extend the functionality of the `topicmodels`
-package, including an argument for "stemming" words, which
+learn more by viewing the `?textProcessor` documentation
 
 Let's go ahead and process our discussion forum `post_content` in
 preparation for structural topic modeling:
@@ -979,8 +1028,6 @@ meta <- temp$meta
 vocab <- temp$vocab
 docs <- temp$documents
 ```
-
-#### 
 
 As we've seen above, STM produced an unusual `temp` textProcessor output
 that is unique to the `stm` package. And as you've probably already
@@ -1042,76 +1089,6 @@ Note that you can also just use `plot()` as well:
 plot(forums_stm, n = 5)
 ```
 
-##### ✅ Comprehension Check
-
-Fit a model for both LDA and STM using different values for K and answer
-the following questions:
-
-1.  What topics appear to be similar to those using 20 topics for K?
-2.  Knowing that you don't have as much context as I do, how might you
-    interpret one of these latent topics or themes using the key terms
-    assigned?
-3.  What topic emerged that seem dramatically different and how might
-    you interpret this topic?
-
-### 5b. Finding *K*
-
-As alluded to earlier, selecting the number of topics for your model is
-a non-trivial decision and can dramatically impact your results. Bail
-(2018) notes that
-
-> *The results of topic models should not be over-interpreted unless the
-> researcher has strong theoretical apriori about the number of topics
-> in a given corpus, or if the researcher has carefully validated the
-> results of a topic model using both the quantitative and qualitative
-> techniques described above.*
-
-There are several approaches to estimating a value for K and we'll take
-a quick look at one from the `ldatuning` package and one from our `stm`
-package.
-
-#### The FindTopicsNumber Function
-
-The `ldatuning` package has functions for both calculating and plotting
-different metrics that can be used to estimate the most preferable
-number of topics for LDA model. It also conveniently takes the standard
-document term matrix object that we created from out tidy text and has
-the added benefit of running fairly quickly, especially compared to the
-function for finding K from the `stm` package.
-
-Let's use the defaults specified in the `?FindTopicNumber` documentation
-and modify slightly get metrics for a sequence of topics from 10-75
-counting by 5 and plot the output we saved using the
-`FindTopicsNumber_plot()` function:
-
-```{r find-topic, eval=FALSE}
-k_metrics <- FindTopicsNumber(
-  forums_dtm,
-  topics = seq(10, 75, by = 5),
-  metrics = "Griffiths2004",
-  method = "Gibbs",
-  control = list(),
-  mc.cores = NA,
-  return_models = FALSE,
-  verbose = FALSE,
-  libpath = NULL
-)
-
-FindTopicsNumber_plot(k_metrics)
-```
-
-Note that the `FindTopicNumbers()` function contains three additional
-metrics for calculating metrics that can be used to estimate the most
-preferable number of topics for LDA model. We used the Griffiths2004
-metrics included in the default example and I've also found this to
-produce the most interpretable results as show in the figure below:
-
-![](img/k_metrics.png){width="90%"}
-
-As a general rule of thumb and overly simplistic heuristic, we're
-looking for an inflection point in our plot which indicates an optimal
-number of topics to select for a value of K.
-
 #### The findingK() Function
 
 Finally, Bail (2018) notes that the`stm` package has a useful function
@@ -1148,7 +1125,7 @@ the same of simplicity for this walkthrough, I'm just going to stick
 with the rather arbitrary selection of 20 topics for the remainder of
 this Unit.
 
-#### The LDAvis Explorer
+### 5b. The LDAvis Explorer
 
 One final tool that I want to introduce from the `stm` package is the
 `toLDAvis()` function which provides a great visualizations for
