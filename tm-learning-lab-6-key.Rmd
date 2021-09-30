@@ -62,7 +62,7 @@ documents and text of interests, Silge & Robinson and a new bottom row
 their flowchart consisting new data structures (i.e., a corpus object
 and document-term matrix) and and the LDA model:  
 
-[![~Figure source: Silge, J., & Robinson, D. (2017). Text mining with R: A tidy approach. O'Reilly Media, Inc. Retrieved from: https://www.tidytextmining.com/topicmodeling.html~](img/tm_flow.png "A flowchart of a text analysis that incorporates topic modeling. The topicmodels package takes a Document-Term Matrix as input and produces a model that can be tided by tidytext, such that it can be manipulated and visualized with dplyr and ggplot2."){width="90%"}](https://www.tidytextmining.com/topicmodeling.html)
+[![Figure source: Silge, J., & Robinson, D. (2017). Text mining with R: A tidy approach. O'Reilly Media, Inc. Retrieved from: https://www.tidytextmining.com/topicmodeling.html](img/tm_flow.png "A flowchart of a text analysis that incorporates topic modeling. The topicmodels package takes a Document-Term Matrix as input and produces a model that can be tided by tidytext, such that it can be manipulated and visualized with dplyr and ggplot2."){width="90%"}](https://www.tidytextmining.com/topicmodeling.html)
 
 Previously, we've looked at sentiment analysis and the VADER package as
 part of the "Model" process of the data-intensive workflow described in
@@ -117,7 +117,7 @@ c.  **Project Setup.** This should be very familiar by now, but we'll
 
 ### 1a. Review the Literature
 
-[![~Akoglu,\ K.,\ Lee,\ H.,\ &\ Kellogg,\ S.\ (2019).\ Participating\ in\ a\ MOOC\ and\ professional\ learning\ team:\ How\ a\ blended\ approach\ to\ professional\ development\ makes\ a\ difference.\ Journal\ of\ Technology\ and\ Teacher\ Education,\ 27(2),\ 129-163.\ Chicago~](img/mooc-plt.png "Our world is rich with data sources, and technology makes data more accessible than ever before! To help ensure students are future ready to use data for making informed decisions, many countries around the world have increased the emphasis on statistics and data analysis in school curriculum–from elementary/primary grades through college. This course allows you to learn, along with colleagues from other schools, an investigation cycle to teach statistics and to help students explore data to make evidence-based claims. To learn more about engaging learners in making inferences and claims supported by data and how to emphasize inferential reasoning in teaching statistics through posing different types of investigative questions, enroll in our Teaching Statistics through Inferential Reasoning MOOC-Ed."){width="60%"}](https://place.fi.ncsu.edu/local/catalog/course.php?id=4&ref=1)
+[![Akoglu, K., Lee, H., & Kellogg, S. (2019). Participating in a MOOC and professional learning team: How a blended approach to professional development makes a difference. Journal of Technology and Teacher Education, 27(2), 129-163. Chicago](img/mooc-plt.png "Our world is rich with data sources, and technology makes data more accessible than ever before! To help ensure students are future ready to use data for making informed decisions, many countries around the world have increased the emphasis on statistics and data analysis in school curriculum–from elementary/primary grades through college. This course allows you to learn, along with colleagues from other schools, an investigation cycle to teach statistics and to help students explore data to make evidence-based claims. To learn more about engaging learners in making inferences and claims supported by data and how to emphasize inferential reasoning in teaching statistics through posing different types of investigative questions, enroll in our Teaching Statistics through Inferential Reasoning MOOC-Ed."){width="60%"}](https://place.fi.ncsu.edu/local/catalog/course.php?id=4&ref=1)
 
 Full text: <https://www.learntechlib.org/p/195234/>
 
@@ -362,7 +362,7 @@ two recommendations concerning its use:
 
     -   
 
-### 2b. Cast a Document Term Matrix
+### 2b. Create a Document Term Matrix
 
 In this section we'll revisit some familiar `tidytext` functions used in
 Units 1 & 2 for tidying and tokenizing text and introduce some new
@@ -376,7 +376,7 @@ our data frames into new data structures required for topic modeling.
 -   `unnest_tokens()` splits a column into tokens
 -   `anti_join()` returns all rows from x without a match in y and used
     to remove `stop words` from out data.
--   `cast_dtm()` takes a tidied data frame take and "casts" it into a
+-   `cast_dtm()` takes a tidied data frame and "casts" it into a
     document-term matrix (dtm)
 
 **`dplyr`** **functions**
@@ -415,17 +415,23 @@ Let's tokenize our forum text and by using the familiar
 forums_tidy <- ts_forum_data %>%
   unnest_tokens(input = post_content,
                 output = word,
-                token = "ngrams",
-                n = 1) %>%
+                # token = "ngrams", n = 1
+                ) %>%
   anti_join(stop_words, by = "word")
 
 forums_tidy
 ```
 
+#### [**Your Turn**]{style="color: green;"} **⤵**
+
 Now let's do a quick word count to see some of the most common words
 used throughout the forums. This should get a sense of what we're
 working with and later we'll need these word counts for creating our
-document term matrix for topic modeling:
+document term matrix for topic modeling.
+
+Complete the following code to count the number of times each token
+occurs in the `word` column and be sure to include the `sort = TRUE`
+argument:
 
 ```{r count-words}
 forums_tidy %>%
@@ -436,22 +442,14 @@ Terms like "students," "data," and "class" are about what we would have
 expected from a course teaching statistics. The term "agree" and "time"
 however, are not so intuitive and worth a quick look as well.
 
-##### ✅ Comprehension Check
+#### Examine Posts
 
-Use the `filter()` and `grepl()` functions introduced in [Unit 1.
-Section
-3b](https://sbkellogg.github.io/eci-588/unit-1/unit-1-walkthrough.html#b.-word-search)
-to filter for rows in our `ts_forum_data` data frame that contain the
-terms "agree" and "time" and another term or terms of your choosing.
-Select a random sample of 10 posts using the `sample_n()` function for
-your terms and answer the following questions:
+Now let's use the `filter()` and `grepl()` functions to filter for rows
+in our `ts_forum_data` data frame that contain the terms "time" and
+another term or terms of your choosing.
 
-1.  What, if anything, do these posts have in common?
-
-2.  What topics or themes might be apparent, or do you anticipate
-    emerging, from our topic modeling?
-
-Your output should look something like this:
+We'll select a random sample of 10 posts using the `sample_n()` function
+for your terms and answer the following questions:
 
 ```{r find-quotes, echo=FALSE}
 forum_quotes <- ts_forum_data %>%
@@ -460,6 +458,17 @@ forum_quotes <- ts_forum_data %>%
 
 sample_n(forum_quotes,10)
 ```
+
+Now let's think about the following questions:
+
+1.  What, if anything, do these posts have in common?
+
+2.  What topics or themes might be apparent, or do you anticipate
+    emerging, from our topic modeling?
+
+**RStudio Protip**: You can also `View()` your forum quotes in the
+source pane and use the filter to isolate forum posts that include key
+words of interest.
 
 #### Creating a Document Term Matrix
 
@@ -471,7 +480,7 @@ algorithm and `LDA()` function it uses expects document-term matrix as
 the data input.
 
 Before we create a our document-term matrix, however, we have an
-important decision to make:
+important decision to make!!
 
 > **What do we consider to be a "document" in a MOOC-Ed discussion
 > forum?**
@@ -500,32 +509,25 @@ forums_dtm <- forums_tidy %>%
   cast_dtm(post_id, word, n)
 ```
 
-##### ✅ Comprehension Check
+#### [**Your Turn**]{style="color: green;"} **⤵**
 
-Take a look at our `forums_dtm` object in the console and answer the
-following question:
+Type the name of our `forums_dtm` object in the code chunk or console
+below and run. Then think about the following questions:
 
-1.  What "class" of object is `forums_dtm`?
-2.  How many unique documents and terms are included our matrix?
-3.  Why might there be fewer documents/posts than were in our original
+1.  How many unique documents and terms are included our matrix?
+2.  Why might there be fewer documents/posts than were in our original
     data frame?
-4.  What exactly is meant by "sparsity"?
+3.  What exactly is meant by "sparsity"?
 
 ```{r class-dtm, echo=FALSE}
-class(forums_dtm)
-
 forums_dtm
 ```
 
 ### 2c. To Stem or not to Stem?
 
-Next we'll need to prepare our original data set for structural topic
-modeling using the `textProcessor()` function. The `stm` package has a
-number of features that extend the functionality of the `topicmodels`
-package, including an argument for "stemming" words, which [Schofield
-and Mimno
+[Schofield and Mimno
 (2016)](https://direct.mit.edu/tacl/article/doi/10.1162/tacl_a_00099/43370/Comparing-Apples-to-Apple-The-Effects-of-Stemmers)
-describe as follows:
+note that:
 
 > Stemming is a popular way to reduce the size of a vocabulary in
 > natural language tasks by conflating words with related meanings.
@@ -539,52 +541,6 @@ The rationale behind stemming is that it can dramatically reduce the
 number of words or terms to be modeled, which in theory should help
 simplify and improve the performance of your model. We'll explore this
 assumption a little later in this section.
-
-#### Processing and Stemming for STM
-
-Like `unnest_tokens()`, the `textProcessor()` function includes several
-useful arguments for processing text like converting text to lowercase
-and removing punctuation and numbers. I've included several of these in
-the script below along with their defaults used if you do not explicitly
-specify in your function. Most of these are pretty intuitive and you can
-learn more by viewing the `?textProcessor` documentation.
-
-Let's go ahead and process our discussion forum `post_content` in
-preparation for structural topic modeling:
-
-```{r textProcessor}
-temp <- textProcessor(ts_forum_data$post_content, 
-                    metadata = ts_forum_data,  
-                    lowercase=TRUE, 
-                    removestopwords=TRUE, 
-                    removenumbers=TRUE,  
-                    removepunctuation=TRUE, 
-                    wordLengths=c(3,Inf),
-                    stem=TRUE,
-                    onlycharacter= FALSE, 
-                    striphtml=TRUE, 
-                    customstopwords=NULL)
-```
-
-Note that the first argument the `textProcessor` function expects is the
-column in our data frame that contains the text to be processed, the
-second argument `metadata =` expects the data frame that contains the
-text of interest and uses the column names to label the metadata such as
-course ids and forum names. This meatdata can be used to to improve the
-assignment of words to topics in a corpus and examine the relationship
-between topics and various covariates of interest.
-
-Unlike the `unnest_tokens()` function, the output is not a nice tidy
-data frame. Topic modeling using the `stm` package requires a very
-unique set of inputs that are specific to the package. The following
-code will pull elements from the `temp` list that was created that will
-be required for the `stm()` function we'll use in Section 4:
-
-```{r stm-inputs}
-meta <- temp$meta
-vocab <- temp$vocab
-docs <- temp$documents
-```
 
 #### Stemming Tidy Text
 
@@ -642,7 +598,7 @@ stemming process, I highly recommend the [Chapter 4
 Stemming](https://smltar.com/stemming.html) from Hvitfeldt and Silge
 (2021) book, *Supervised Machine Learning for Text Analysis in R*.
 
-##### ✅ Comprehension Check
+#### [**Your Turn**]{style="color: green;"} **⤵**
 
 Complete the following code using what we learned in the section on
 [Creating a Document Term Matrix] and answer the following questions:
@@ -652,6 +608,11 @@ Complete the following code using what we learned in the section on
 
 **Hint:** Make sure your code includes stem counts rather than word
 counts.
+
+```{r}
+stemmed_forums %>%
+  count(stem, sort = TRUE)
+```
 
 ```{r stem-practice, eval=FALSE}
 stemmed_dtm <- ts_forum_data %>%
@@ -746,6 +707,12 @@ is a **"mixture" model**, which in our context means that:
     "students". However, words can be shared between topics and words
     like "statistics" or "assessment" might appear in both equally.
 
+The figure below helps illustrate how LDA actually works:
+
+[![Vayansky, I., & Kumar, S. A. (2020). A review of topic modeling methods. Information Systems, 94, 101582.](img/topic-model.png){width="100%"}](https://www.sciencedirect.com/science/article/pii/S0306437920300703?casa_token=o9sh0a7PIesAAAAA:_6LdKTPZL8OB8kQpuz9J2zd25PMkQQzZRBpdjREcCjADeUVgRUXVNBsUKYz1xNHetj9sEOH_VA)
+
+#### Choose number of topics (*k* value)
+
 Similar to k-means other other simple clustering approaches, however,
 LDA does require us to specify a value of *k* for the number of topics
 in our corpus. Selecting *k* is no trivial matter and can greatly impact
@@ -788,212 +755,6 @@ And tying back to our work in Unit 1, Bail (2020) notes that topic
 assignments for each word are updated in an iterative fashion and that
 LDA employs the Term Frequency-Inverse Document Frequency (TF-IDF)
 metric to assign probabilities.
-
-### 3b. Fitting a Structural Topic Model
-
-Bail notes that LDA, while perhaps the most common approach to topic
-modeling, is just one of many different types, including Dynamic Topic
-Models, Correlated Topic Models, Hierarchical Topic Models, and more
-recently, Structural Topic Modeling (STM). He argues that one reason STM
-has rising in popularity and use is that it employs meta data about
-documents to improve the assignment of words to topics in a corpus and
-that can be used to examine relationships between covariates and
-documents. 
-
-Also, since Julia Silge has indicated that STM is, "my current favorite
-implementation of topic modeling in R" and has built supports in the
-`tidytext` package for building structural topic models, this package
-definitely is worth discussing in this walkthrough. I also highly
-recommend her own walkthrough of the `stm` package: [The game is afoot!
-Topic modeling of Sherlock Holmes
-stories](https://juliasilge.com/blog/sherlock-holmes-stm/) as well as
-her follow up post, [Training, evaluating, and interpreting topic
-models](https://juliasilge.com/blog/evaluating-stm/).
-
-#### The `stm` Package
-
-As we've seen above, STM produced an unusual `temp` textProcessor output
-that is unique to the `stm` package. And as you've probably already
-guessed, the `stm()` function for fitting a structural topic model does
-not take a fairly standard document term matrix like the `LDA()`
-function.
-
-Before we fit our model, we'll have to extract the elements from the
-`temp` object created after we processed our text. Specifically, the
-`stm()` function expects the following arguments:
-
--   `documents =` the document term matrix to be modeled in the native
-    stm format
--   `data =` an optional data frame containing meta data for the
-    prevalence and/or content covariates to include in the model
--   `vocab =` a character vector specifying the words in the corpus in
-    the order of the vocab indices in documents.
-
-Let's go ahead and extract these elements:
-
-```{r stm-docs}
-docs <- temp$documents 
-meta <- temp$meta 
-vocab <- temp$vocab 
-```
-
-And now use these elements to fit the model using the same number of
-topics for *K* that we specified for our LDA topic model. Let's also
-take advantage of the fact that we can include the `course_id` and
-`forum_id` covariates in the `prevealence =` argument to help improve,
-in theory, our model fit:
-
-```{r stm}
-forums_stm <- stm(documents=docs, 
-         data=meta,
-         vocab=vocab, 
-         prevalence =~ course_id + forum_id,
-         K=20,
-         max.em.its=25,
-         verbose = FALSE)
-
-forums_stm
-```
-
-As noted earlier, the `stm` package has a number of handy features. One
-of these is the `plot.STM()` function for viewing the most probable
-words assigned to each topic.
-
-By default, it only shows the first 3 terms so let's change that to 5 to
-help with interpretation:
-
-```{r plot-stm}
-plot.STM(forums_stm, n = 5)
-```
-
-Note that you can also just use `plot()` as well:
-
-```{r plot}
-plot(forums_stm, n = 5)
-```
-
-##### ✅ Comprehension Check
-
-Fit a model for both LDA and STM using different values for K and answer
-the following questions:
-
-1.  What topics appear to be similar to those using 20 topics for K?
-2.  Knowing that you don't have as much context as I do, how might you
-    interpret one of these latent topics or themes using the key terms
-    assigned?
-3.  What topic emerged that seem dramatically different and how might
-    you interpret this topic?
-
-### 3c. Finding *K*
-
-As alluded to earlier, selecting the number of topics for your model is
-a non-trivial decision and can dramatically impact your results. Bail
-(2018) notes that
-
-> *The results of topic models should not be over-interpreted unless the
-> researcher has strong theoretical apriori about the number of topics
-> in a given corpus, or if the researcher has carefully validated the
-> results of a topic model using both the quantitative and qualitative
-> techniques described above.*
-
-There are several approaches to estimating a value for K and we'll take
-a quick look at one from the `ldatuning` package and one from our `stm`
-package.
-
-#### The FindTopicsNumber Function
-
-The `ldatuning` package has functions for both calculating and plotting
-different metrics that can be used to estimate the most preferable
-number of topics for LDA model. It also conveniently takes the standard
-document term matrix object that we created from out tidy text and has
-the added benefit of running fairly quickly, especially compared to the
-function for finding K from the `stm` package.
-
-Let's use the defaults specified in the `?FindTopicNumber` documentation
-and modify slightly get metrics for a sequence of topics from 10-75
-counting by 5 and plot the output we saved using the
-`FindTopicsNumber_plot()` function:
-
-```{r find-topic, eval=FALSE}
-k_metrics <- FindTopicsNumber(
-  forums_dtm,
-  topics = seq(10, 75, by = 5),
-  metrics = "Griffiths2004",
-  method = "Gibbs",
-  control = list(),
-  mc.cores = NA,
-  return_models = FALSE,
-  verbose = FALSE,
-  libpath = NULL
-)
-
-FindTopicsNumber_plot(k_metrics)
-```
-
-Note that the `FindTopicNumbers()` function contains three additional
-metrics for calculating metrics that can be used to estimate the most
-preferable number of topics for LDA model. We used the Griffiths2004
-metrics included in the default example and I've also found this to
-produce the most interpretable results as show in the figure below:
-
-![](img/k_metrics.png){width="90%"}
-
-As a general rule of thumb and overly simplistic heuristic, we're
-looking for an inflection point in our plot which indicates an optimal
-number of topics to select for a value of K.
-
-#### The findingK() Function
-
-Finally, Bail (2018) notes that the`stm` package has a useful function
-called `searchK` which allows us to specify a range of values for `k`
-and outputs multiple goodness-of-fit measures that are "very useful in
-identifying a range of values for `k` that provide the best fit for the
-data."
-
-The syntax of this function is very similar to the `stm()` function we
-used above, except that we specify a range for `k` as one of the
-arguments. In the code below, we search all values of `k` between 10 and
-30.
-
-```{r searck-k, eval=FALSE}
-findingk <- searchK(docs, 
-                    vocab, 
-                    K = c(5:15),
-                    data = meta, 
-                    verbose=FALSE)
-
-plot(findingk)
-```
-
-Note that Running `searchK()` function on this corpus took all night on
-a pretty powerful MacBook Pro and crashed once as well, so I do not
-expect you to run this for the walkthrough. I ran a couple iterations
-and landed on between 5 and 15 with an optimal number of topics
-somewhere around 14:
-
-![](img/searchk_results.png){width="90%"}
-
-Given the somewhat conflicting results, also somewhat selfishly and for
-the same of simplicity for this walkthrough, I'm just going to stick
-with the rather arbitrary selection of 20 topics for the remainder of
-this Unit.
-
-#### The LDAvis Explorer
-
-One final tool that I want to introduce from the `stm` package is the
-`toLDAvis()` function which provides a great visualizations for
-exploring topic and word distributions using `LDAvis` topic browser:
-
-```{r LDAvis}
-toLDAvis(mod = forums_stm, docs = docs)
-```
-
-As you can see from the browser screen shot below, our current stm model
-of 20 topics is resulting in a lot of overlap among topics and suggest
-that 20 may not be an optimal number of topics, as other approaches for
-finding k also suggests:
-
-![](img/ldavis.png)
 
 ## 4. EXPLORE
 
@@ -1143,7 +904,270 @@ our `forums_stm` model that we created using the `plot()` function:
 plot(forums_stm, n = 7)
 ```
 
-### 4c. Reading the Tea Leaves
+## 5. REACH
+
+### 5a. Fitting a Structural Topic Model
+
+#### The `stm` Package
+
+Bail notes that LDA, while perhaps the most common approach to topic
+modeling, is just one of many different types, including Dynamic Topic
+Models, Correlated Topic Models, Hierarchical Topic Models, and more
+recently, Structural Topic Modeling (STM). He argues that one reason STM
+has rising in popularity and use is that it employs meta data about
+documents to improve the assignment of words to topics in a corpus and
+that can be used to examine relationships between covariates and
+documents. 
+
+Also, since Julia Silge has indicated that STM is, "my current favorite
+implementation of topic modeling in R" and has built supports in the
+`tidytext` package for building structural topic models, this package
+definitely is worth discussing in this walkthrough. I also highly
+recommend her own walkthrough of the `stm` package: [The game is afoot!
+Topic modeling of Sherlock Holmes
+stories](https://juliasilge.com/blog/sherlock-holmes-stm/) as well as
+her follow up post, [Training, evaluating, and interpreting topic
+models](https://juliasilge.com/blog/evaluating-stm/).
+
+#### Processing and Stemming for STM
+
+Like `unnest_tokens()`, the `textProcessor()` function includes several
+useful arguments for processing text like converting text to lowercase
+and removing punctuation and numbers. I've included several of these in
+the script below along with their defaults used if you do not explicitly
+specify in your function. Most of these are pretty intuitive and you can
+learn more by viewing the `?textProcessor` documentation.
+
+Next we'll need to prepare our original data set for structural topic
+modeling using the `textProcessor()` function. The `stm` package has a
+number of features that extend the functionality of the `topicmodels`
+package, including an argument for "stemming" words, which
+
+Let's go ahead and process our discussion forum `post_content` in
+preparation for structural topic modeling:
+
+```{r textProcessor}
+temp <- textProcessor(ts_forum_data$post_content, 
+                    metadata = ts_forum_data,  
+                    lowercase=TRUE, 
+                    removestopwords=TRUE, 
+                    removenumbers=TRUE,  
+                    removepunctuation=TRUE, 
+                    wordLengths=c(3,Inf),
+                    stem=TRUE,
+                    onlycharacter= FALSE, 
+                    striphtml=TRUE, 
+                    customstopwords=NULL)
+```
+
+Note that the first argument the `textProcessor` function expects is the
+column in our data frame that contains the text to be processed, the
+second argument `metadata =` expects the data frame that contains the
+text of interest and uses the column names to label the metadata such as
+course ids and forum names. This meatdata can be used to to improve the
+assignment of words to topics in a corpus and examine the relationship
+between topics and various covariates of interest.
+
+Unlike the `unnest_tokens()` function, the output is not a nice tidy
+data frame. Topic modeling using the `stm` package requires a very
+unique set of inputs that are specific to the package. The following
+code will pull elements from the `temp` list that was created that will
+be required for the `stm()` function we'll use in Section 4:
+
+```{r stm-inputs}
+meta <- temp$meta
+vocab <- temp$vocab
+docs <- temp$documents
+```
+
+#### 
+
+As we've seen above, STM produced an unusual `temp` textProcessor output
+that is unique to the `stm` package. And as you've probably already
+guessed, the `stm()` function for fitting a structural topic model does
+not take a fairly standard document term matrix like the `LDA()`
+function.
+
+Before we fit our model, we'll have to extract the elements from the
+`temp` object created after we processed our text. Specifically, the
+`stm()` function expects the following arguments:
+
+-   `documents =` the document term matrix to be modeled in the native
+    stm format
+-   `data =` an optional data frame containing meta data for the
+    prevalence and/or content covariates to include in the model
+-   `vocab =` a character vector specifying the words in the corpus in
+    the order of the vocab indices in documents.
+
+Let's go ahead and extract these elements:
+
+```{r stm-docs}
+docs <- temp$documents 
+meta <- temp$meta 
+vocab <- temp$vocab 
+```
+
+And now use these elements to fit the model using the same number of
+topics for *K* that we specified for our LDA topic model. Let's also
+take advantage of the fact that we can include the `course_id` and
+`forum_id` covariates in the `prevealence =` argument to help improve,
+in theory, our model fit:
+
+```{r stm}
+forums_stm <- stm(documents=docs, 
+         data=meta,
+         vocab=vocab, 
+         prevalence =~ course_id + forum_id,
+         K=20,
+         max.em.its=25,
+         verbose = FALSE)
+
+forums_stm
+```
+
+As noted earlier, the `stm` package has a number of handy features. One
+of these is the `plot.STM()` function for viewing the most probable
+words assigned to each topic.
+
+By default, it only shows the first 3 terms so let's change that to 5 to
+help with interpretation:
+
+```{r plot-stm}
+plot.STM(forums_stm, n = 5)
+```
+
+Note that you can also just use `plot()` as well:
+
+```{r plot}
+plot(forums_stm, n = 5)
+```
+
+##### ✅ Comprehension Check
+
+Fit a model for both LDA and STM using different values for K and answer
+the following questions:
+
+1.  What topics appear to be similar to those using 20 topics for K?
+2.  Knowing that you don't have as much context as I do, how might you
+    interpret one of these latent topics or themes using the key terms
+    assigned?
+3.  What topic emerged that seem dramatically different and how might
+    you interpret this topic?
+
+### 5b. Finding *K*
+
+As alluded to earlier, selecting the number of topics for your model is
+a non-trivial decision and can dramatically impact your results. Bail
+(2018) notes that
+
+> *The results of topic models should not be over-interpreted unless the
+> researcher has strong theoretical apriori about the number of topics
+> in a given corpus, or if the researcher has carefully validated the
+> results of a topic model using both the quantitative and qualitative
+> techniques described above.*
+
+There are several approaches to estimating a value for K and we'll take
+a quick look at one from the `ldatuning` package and one from our `stm`
+package.
+
+#### The FindTopicsNumber Function
+
+The `ldatuning` package has functions for both calculating and plotting
+different metrics that can be used to estimate the most preferable
+number of topics for LDA model. It also conveniently takes the standard
+document term matrix object that we created from out tidy text and has
+the added benefit of running fairly quickly, especially compared to the
+function for finding K from the `stm` package.
+
+Let's use the defaults specified in the `?FindTopicNumber` documentation
+and modify slightly get metrics for a sequence of topics from 10-75
+counting by 5 and plot the output we saved using the
+`FindTopicsNumber_plot()` function:
+
+```{r find-topic, eval=FALSE}
+k_metrics <- FindTopicsNumber(
+  forums_dtm,
+  topics = seq(10, 75, by = 5),
+  metrics = "Griffiths2004",
+  method = "Gibbs",
+  control = list(),
+  mc.cores = NA,
+  return_models = FALSE,
+  verbose = FALSE,
+  libpath = NULL
+)
+
+FindTopicsNumber_plot(k_metrics)
+```
+
+Note that the `FindTopicNumbers()` function contains three additional
+metrics for calculating metrics that can be used to estimate the most
+preferable number of topics for LDA model. We used the Griffiths2004
+metrics included in the default example and I've also found this to
+produce the most interpretable results as show in the figure below:
+
+![](img/k_metrics.png){width="90%"}
+
+As a general rule of thumb and overly simplistic heuristic, we're
+looking for an inflection point in our plot which indicates an optimal
+number of topics to select for a value of K.
+
+#### The findingK() Function
+
+Finally, Bail (2018) notes that the`stm` package has a useful function
+called `searchK` which allows us to specify a range of values for `k`
+and outputs multiple goodness-of-fit measures that are "very useful in
+identifying a range of values for `k` that provide the best fit for the
+data."
+
+The syntax of this function is very similar to the `stm()` function we
+used above, except that we specify a range for `k` as one of the
+arguments. In the code below, we search all values of `k` between 10 and
+30.
+
+```{r searck-k, eval=FALSE}
+findingk <- searchK(docs, 
+                    vocab, 
+                    K = c(5:15),
+                    data = meta, 
+                    verbose=FALSE)
+
+plot(findingk)
+```
+
+Note that Running `searchK()` function on this corpus took all night on
+a pretty powerful MacBook Pro and crashed once as well, so I do not
+expect you to run this for the walkthrough. I ran a couple iterations
+and landed on between 5 and 15 with an optimal number of topics
+somewhere around 14:
+
+![](img/searchk_results.png){width="90%"}
+
+Given the somewhat conflicting results, also somewhat selfishly and for
+the same of simplicity for this walkthrough, I'm just going to stick
+with the rather arbitrary selection of 20 topics for the remainder of
+this Unit.
+
+#### The LDAvis Explorer
+
+One final tool that I want to introduce from the `stm` package is the
+`toLDAvis()` function which provides a great visualizations for
+exploring topic and word distributions using `LDAvis` topic browser:
+
+```{r LDAvis}
+toLDAvis(mod = forums_stm, docs = docs)
+```
+
+As you can see from the browser screen shot below, our current stm model
+of 20 topics is resulting in a lot of overlap among topics and suggest
+that 20 may not be an optimal number of topics, as other approaches for
+finding k also suggests:
+
+![](img/ldavis.png)
+
+## 6. COMMUNICATE
+
+### 6a. Reading the Tea Leaves
 
 Recognizing that topic modeling is best used as a "tool for reading" and
 provides only an incomplete answer to our overarching, **"How do we
@@ -1257,7 +1281,7 @@ findThoughts(forums_stm,
 Looking at just the 10 posts returned, perhaps a better name for this
 topic would be **Course Reflections on Teaching Statistics**.
 
-#### Unit Takeaway
+### 6b. Topic Modeling Takeaways
 
 In addition to some useful R packages and functions for the actual
 process of topic modeling, hopefully there are two main lessons I'm
@@ -1277,14 +1301,3 @@ hoping you take away from this walkthrough:
     to help with interpretation of your topics. Moreover, the
     quantitative approaches for making the decisions highlighted above
     are imperfect and a good deal of human judgment required.
-
-##### ✅ Comprehension Check
-
-Using the STM model you fit from the Section 3 [Comprehension Check]
-with a different value for K, use the approaches demonstrated in Section
-4 to explore and interpret your topics and terms and revisit the
-following question:
-
-1.  Now that you have a little more context, how might you revise your
-    initial interpretation of some of the latent topics or latent themes
-    from your model?
