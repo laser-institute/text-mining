@@ -115,9 +115,7 @@ c.  **Project Setup.** This should be very familiar by now, but we'll
     review our R Project setup and install and load the required
     packages for the topic modeling walkthrough.
 
-### 1a. Context
-
-#### Participating in a MOOC and Professional Learning Team: How a Blended Approach to Professional Development Makes a Difference
+### 1a. Review the Literature
 
 [![~Akoglu,\ K.,\ Lee,\ H.,\ &\ Kellogg,\ S.\ (2019).\ Participating\ in\ a\ MOOC\ and\ professional\ learning\ team:\ How\ a\ blended\ approach\ to\ professional\ development\ makes\ a\ difference.\ Journal\ of\ Technology\ and\ Teacher\ Education,\ 27(2),\ 129-163.\ Chicago~](img/mooc-plt.png "Our world is rich with data sources, and technology makes data more accessible than ever before! To help ensure students are future ready to use data for making informed decisions, many countries around the world have increased the emphasis on statistics and data analysis in school curriculum–from elementary/primary grades through college. This course allows you to learn, along with colleagues from other schools, an investigation cycle to teach statistics and to help students explore data to make evidence-based claims. To learn more about engaging learners in making inferences and claims supported by data and how to emphasize inferential reasoning in teaching statistics through posing different types of investigative questions, enroll in our Teaching Statistics through Inferential Reasoning MOOC-Ed."){width="60%"}](https://place.fi.ncsu.edu/local/catalog/course.php?id=4&ref=1)
 
@@ -208,7 +206,7 @@ forums in the papers cited above:
     discussion forums than other popular unsupervised modeling
     techniques such as k-means and k-medoids clustering algorithms.
 
-### 1b. Guiding Questions
+### 1b. Refine Research Questions
 
 For the paper, [*Participating in a MOOC and Professional Learning Team:
 How a Blended Approach to Professional Development Makes a
@@ -242,7 +240,7 @@ processing, is:
 > How do we to **quantify** what a document or collection of documents
 > is about?
 
-### 1c. Set Up
+### 1c. Set Up you(R) Project
 
 As highlighted in [Chapter 6 of Data Science in Education Using
 R](https://datascienceineducation.com/c06.html) (DSIEUR), one of the
@@ -267,23 +265,21 @@ library(knitr)
 library(LDAvis)
 ```
 
-At the end of this week, I'll ask that you share with me your R script
-as evidence that you have complete the walkthrough. Although I highly
-recommend that that you manually type the code shared throughout this
-walkthrough, for large blocks of text it may be easier to copy and
-paste.
+Finally, I recommend create a new R script file that you may want to use
+to test out and tweak code prior to running in the code chunks for the
+[**Your Turn**]{style="color: green;"} **⤵** activities.
 
 ------------------------------------------------------------------------
 
 ## 2. WRANGLE
 
-As noted previously, data wrangling involves some combination of
-cleaning, reshaping, transforming, and merging data (Wickham &
-Grolemund, 2017). This week we'll revisit tidying and tokenizing text
-using the `tidytext` package, but are also introduced to the the `stm`
-package. This package makes use of `tm` text mining package to
-preprocess text (e.g., removing punctuation, stop words, etc.) and will
-also be our first introduction to word stemming.
+As noted during the Summer Institute, data wrangling involves some
+combination of cleaning, reshaping, transforming, and merging data
+(Wickham & Grolemund, 2017). For this workshop, we'll revisit tidying
+and tokenizing text using the `tidytext` package, and also use the `stm`
+package as an alternative to preprocess text (e.g., removing
+punctuation, stop words, etc.) and to introduce the concept of word
+stemming.
 
 a.  **Import Data**. We'll be working with .csv files this week and the
     `read_csv()` function but will introduce a new argument for changing
@@ -295,7 +291,7 @@ c.  **To Stem or not to STEM?** We conclude our data wrangling by also
     introducing the `textProcessor()` function for preprocessing and
     discuss the pros and cons of word stemming.
 
-### 2a. Import Forum Data
+### 2a. Import and Inspect Data
 
 To get started, we need to import, or "read", our data into R. The
 function used to import your data will depend on the file format of the
@@ -316,19 +312,55 @@ any other object in R.
 
 ```{r read-csv}
 ts_forum_data <- read_csv("data/ts_forum_data.csv", 
-  col_types = cols(course_id = col_character(),
-                   forum_id = col_character(), 
-                   discussion_id = col_character(), 
-                   post_id = col_character()
-                   )
+                  col_types = cols(course_id = col_character(),
+                                   forum_id = col_character(), 
+                                   discussion_id = col_character(), 
+                                   post_id = col_character()
+           )
     )
 ```
 
 By default, many of the columns like `course_id` and `forum_id` are read
 in as numeric data. For our purposes, we plan to treat them as unique
-identifiers or names for out courses, forums, discussions, and posts.
+identifiers or names for our courses, forums, discussions, and posts.
 The `read_csv()` function has a handy `col_types =` argument changing
 the column types from numeric to characters.
+
+#### [**Your Turn**]{style="color: green;"} **⤵**
+
+In the code chunk below, use one of your prefered methods for inspecting
+your data (e.g. typing the object name, `View()`, `glimpse()`, `head()`,
+etc.) and answer the questions that follow. Yes, the "V" is capitalized
+for the \`---very unusual for an R function (the tidyverse does have
+it's own lowercase `view()` function if that bothers you though).
+Because this function is a bit atypical in more ways than one, I have
+two recommendations concerning its use:
+
+-   Use it strictly in the console. Because it opens a new viewing
+    window, **including it in an R Markdown script can cause issues when
+    "knitting"** or rendering an HTML (or PDF) report. Hence I have
+    included the `eval = FALSE` argument in the code chunk so it it not
+    run when you knit your document.
+
+-   Close the viewer window that opens once you have viewed the data.
+    Keeping it open can clutter your work space a bit and can lead to
+    confusion about what data frame it was you viewed.
+
+```{r}
+
+
+
+```
+
+1.  What notice about the data? What do you think the observations,
+    variables, and values in our data represent?
+
+    -   
+
+2.  What questions do you have about the data? What do you think you'd
+    still need to know to conduct a proper analysis?
+
+    -   
 
 ### 2b. Cast a Document Term Matrix
 
@@ -367,10 +399,9 @@ our data frames into new data structures required for topic modeling.
 #### Tidying Text
 
 Prior to topic modeling, we have a few remaining steps to tidy our text
-that hopefully should feel familiar by this point. If you recall from
-[Chapter 1 of Text Mining With
-R](https://www.tidytextmining.com/tidytext.html), these preprocessing
-steps include:
+that we introduced during the Summer Institute. [Chapter 1 of Text
+Mining With R](https://www.tidytextmining.com/tidytext.html) does a nice
+job of outlining these preprocessing steps:
 
 1.  Transforming our text into "tokens"
 2.  Removing unnecessary characters, punctuation, and whitespace
@@ -382,7 +413,10 @@ Let's tokenize our forum text and by using the familiar
 
 ```{r tokenize-forums}
 forums_tidy <- ts_forum_data %>%
-  unnest_tokens(output = word, input = post_content) %>%
+  unnest_tokens(input = post_content,
+                output = word,
+                token = "ngrams",
+                n = 1) %>%
   anti_join(stop_words, by = "word")
 
 forums_tidy
