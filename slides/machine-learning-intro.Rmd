@@ -1,0 +1,143 @@
+---
+title: "Interdisciplinarity of Applied Machine Learning in STEM Education"
+author: "Dr. Shiyan Jiang"
+institute: "The LASER Institute"
+date: "2021/08/11 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    css:
+       - default
+       - css/laser.css
+       - css/laser-fonts.css
+    lib_dir: libs
+    seal: false
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      slideNumberFormat: |
+         <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+         </div>
+---
+class: clear, title-slide, inverse, center, top, middle
+
+# `r rmarkdown::metadata$title`
+## `r rmarkdown::metadata$subtitle`
+### `r rmarkdown::metadata$author`
+###  2021/08/11 (updated: `r Sys.Date()`)
+
+---
+
+# What is Machine Learning?
+
+.pull-left[
+.font140[
+<br/>
++ Large dataset
+
++ **Informative feature**
+
++ Pattern
+
++ Prediction
+]]
+
+.pull-right[
+![](img/chiwawa.png)
+]
+
+
+---
+class: clear, inverse, center, middle
+
+# Machine Learning is about automatically finding meaningful patterns in data
+
+---
+class: clear, middle
+
+.pull-left[
+<br/><br/><br/>
+.font150[**Interdisciplinarity**]
+]
+.pull-right[
+![](img/interdisciplinarity.png)
+]
+
+---
+# Interdisciplinarity
+
+<br/><br/><br/>
+
+![](img/interdisciplinarity2.png)
+
+---
+# Outline
+<br/>
+.font140[
++ Overview
+
++ Affordances
+
++ Limitations 
+]
+
+---
+# Overview: Literature Review
+
+.font130[
++ Journal of Science Education and Technology [Special Issue](https://link.springer.com/journal/10956/volumes-and-issues/30-2) (2021) Applying ML in Science Assessment
+
++ Alonso-Fernández et al. (2019) reviewed the literature for applications to game learning analytics (GLA) data
+
++ Luan & Tsai (2021) reviewed the literature for applications of ML for precision education
+
++ Bergner & von Davier (2019) reviewed NAEP’s use of learning process data
+]
+---
+# Overview: ML Techniques
+.font130[
+- Unsupervised learning:
+ - Augmented Reality in Science Laboratories: Investigating High School Students’ .orange[**Navigation Patterns**] and Their Effects on Learning Performance (Jiang et al., 2021)
+
+- Supervised learning: 
+ - Predicting .orange[**STEM and Non-STEM College Major Enrollment**] from Middle School Interaction with Mathematics Educational Software (San Pedro et al., 2014)
+]
+---
+# Overview: ML for K-12
+
+![](img/structuredunstructured.png)
+
+.pull-left[<img style="border-radius: 50%; float: left; margin: 4px;" src="https://www.nsf.gov/images/logos/NSF_4-Color_bitmap_Logo.png" height="70px"/> .font90[<br/>Project StoryQ]]
+---
+# Affordances of Machine Learning
+<br/>
+.font140[
+- **Students:** e.g., customizable experiences
+
+- **Teachers:** e.g., automated scoring
+
+- **Researchers:** e.g., analyze patterns in data
+]
+---
+# Limitations of Machine Learning
+<br/>
+.font140[
+- Ethical considerations
+
+- Deterministic problems
+
+- Lack of (good) data
+
+- Interpretability 
+
+- Learning in context
+]
+
+---
+class: clear, inverse, center, middle
+
+.font140[Machine Learning is a current hot topic and continues to grow in popularity based on its applications]
+
+
