@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>TM Lab 1: Topic Modeling</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Dr. Shiyan Jiang" />
+    <meta name="date" content="2022-04-05" />
+    <script src="libs/header-attrs-2.13/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/panelset-0.2.6/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset-0.2.6/panelset.js"></script>
+    <script src="libs/clipboard-2.0.6/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"<i class=\"fa fa-clipboard\"><\/i>","success":"<i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"Press Ctrl+C to Copy"})</script>
+    <link href="libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.6/tile-view.js"></script>
+    <link rel="stylesheet" href="css/laser.css" type="text/css" />
+    <link rel="stylesheet" href="css/laser-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class: clear, title-slide, inverse, center, top, middle
+
+
+
+
+
+
+
+
+
+
+# TM Lab 1: Topic Modeling
+----
+### **Dr. Shiyan Jiang**
+### April 05, 2022
+
+---
+# Agenda
+
+.pull-left[
+## Part 1: Research Overview
+- What is Topic Modeling?
+- What research questions can topic modeling answer?
+- What are limitations &amp; ethical considerations?
+
+]
+
+.pull-right[
+
+## Part 2: R Code-Along
+- Document Term Matrix
+- LDA (Latent Dirichlet allocation)
+- Finding K
+]
+
+---
+# A Quick Refresher
+
+## Sentiment analysis
+
+.center[
+&lt;img src="img/sentiment-flow.png" height="350px"/&gt;
+]
+
+.footnote[
+Figure source: Silge &amp; Robinson, 2017
+]
+
+---
+class: clear, inverse, middle, center
+
+# Part 1: Research Overview
+
+Applying Topic Modeling in STEM Education Research
+
+---
+
+# What is Topic Modeling?
+
+### "Topic modeling is a field of natural language processing that aims to extract themes by text mining a set of documents." (Blei, 2012; Vijayan, 2021)
+
+.center[
+&lt;img src="img/tminml.png" height="300px"/&gt;
+]
+
+.footnote[
+Figure source: Naskar, n.d.
+]
+
+---
+# Research questions
+
+.panelset[
+
+
+.panel[.panel-name[Literature]
+
+Literature review (e.g., Chen et al., 2020)
+- In what research topics were the Computers &amp; Education community interested ?
+- How did such research topics evolve over time?
+
+Assessment (e.g., Ming &amp; Ming, 2015)
+- Do the concepts discussed by students as inferred by pLSA (Probabilistic latent semantic analysis) predict their course outcomes?
+- How does the accuracy of these predictions change over time as more student work is analyzed?
+
+]
+
+.panel[.panel-name[Walkthrough example]
+
+.pull-left[
+
+Course/project evaluation (e.g., Akoglu et al., 2019)
+- What are the similarities and differences between how PLT (professional learning team) members and Non-PLT online participants engage and meet course goals in a MOOC-Ed designed for educators?
+
+]
+
+
+.pull-right[
+
+
+|forum_name                 |post_content                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+|:--------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|Investigate: Analyze Tasks |I also like the Coke vs. Pepsi problem because it is an actual investigation rather than just a worksheet for them to go through. I think it's something that will interest the students and it can demonstrate nicely how confidence intervals and hypothesis tests can reflect real life data.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+|Investigate: Analyze Tasks |By far the best activity as a whole was Pepsi vs. Coke.  However the data set was qualitative with minimal variables and I was not impressed with the method for conducting the investigation.   I think that it would be more valid for students to develop their own investigative proposal (including posing a question that they want to answer within  the confines of Coke vs. Pepsi).     After watching the presenter's videos I see a much greater correlation between scientific processes and statistical methods.  The entire investigative process needs to be modeled at each step and students need to learn through experimenting with their own investigations.  We are attempting to do this with all of our Chemistry Labs this year. |
+|Investigate: Analyze Tasks |Hello Clark   I felt the same way...the Pepsi vs Coke comparison is the best exercise in the high school section. Both the others are also good although it is data that is collected individually and/or hypothetically whereas the Coke/Pepsi thing was really a fun activity  an event where everybody was actively involved. Also the collected data was something that the students could own up to because they were instrumental in not only collecting the data  but also in actually making the data happen.                                                                                                                                                                                                                                    |
+|Investigate: Analyze Tasks |I definitely agree: there are not much comparison. The last task is very simple: just to look at the dotplot and arrive to an evident conclusion. The first one instruct the students to calculate the coefficients by hand. I really don't see the point on doing such calculations by hand when there are many technological tools available for our use. I always like to teach my students first the algorithms and calculations by hand but then right away we get to technology  mostly the TI84 since it is the one I have a class set available. The coke and Pepsi activity is definitely the one that allow more critical thinking  discussion and sharing among the students.                                                                 |
+|Investigate: Analyze Tasks |I agree that the Pepsi vs. Coke experiment was the most interesting of all the experiments  even in the middle school tasks. This study can even be done in middle school. Teachers are working with student interest which will keep them engaged throughout the entire lesson. There is movement throughout the classroom  conversations among students. and then a final comparison with the entire class. This is something I would absolutely do with my future students.                                                                                                                                                                                                                                                                           |
+|Investigate: Analyze Tasks |I think it is a good approach to get students feel what it is like to be \the researcher\". For that reason  I think the Pepsi vs Coke Approach is productive. I suggest that this activity could be improved by having students create a \"fictitious\" release form so that every student who drinks the Pepsi or the Coke signs the consent form agreeing to participate. After all in all experimental studies this is what needs to be done. This is just a suggestion. "                                                                                                                                                                                                                                                                           |
+
+]
+
+
+]
+
+.panel[.panel-name[Discuss]
+
+Take a look at the dataset located [here](https://github.com/yan2014/TM_LASER/tree/main/data-u) and consider the following:
+- What format is this data set stored as? 
+- What are some things you notice about this dataset? 
+- What questions do you have about this dataset?
+- What similar dataset do you have? 
+- What research questions do you want to address with your dataset?
+
+]
+
+]
+
+
+
+---
+# What are limitations &amp; ethical considerations?
+
+.panelset[
+- Nuances of language or context may be lost
+- Limited to source material selected by researcher(s)
+- Not good for small corpora
+- “Computing probabilities allows a "generative" process by which a collection of new “synthetic documents” can be generated that would closely reflect the statistical characteristics of the original collection” (Wikipedia).
+]
+
+
+---
+class: clear, inverse, middle, center
+
+# part_2(R, code_along)
+
+Document Term Matrix, LDA, and Finding K 
+
+---
+# Document Term Matrix
+
+.panelset[
+
+.center[
+&lt;img src="img/DTM.png" height="400px"/&gt;
+]
+
+
+Figure source: SPE3DLab, n.d.
+
+
+]
+
+---
+# LDA
+
+.panelset[
+
+.center[
+&lt;img src="img/LDA.png" height="400px"/&gt;
+]
+
+
+Figure source: Ma, 2019
+
+
+]
+
+---
+# LDA
+
+.panelset[
+
+.center[
+&lt;img src="img/LDA2.png" height="400px"/&gt;
+]
+
+
+]
+---
+class: clear, center
+
+## .font130[.center[**Thank you!**]]
+&lt;br/&gt;**Dr. Shiyan Jiang**&lt;br/&gt;&lt;mailto:sjiang24@ncsu.edu&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "default",
+"highlightLines": true,
+"highlightLanguage": "r",
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"slideNumberFormat": "<div class=\"progress-bar-container\">\n <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">\n </div>\n</div>"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
