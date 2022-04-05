@@ -692,21 +692,22 @@ classification or clustering approaches.
 Unlike simple forms of cluster analysis such as k-means clustering, LDA
 is a **"mixture" model**, which in our context means that:
 
-1.  **Every [document]{.ul} contains a mixture of topics.** Unlike
-    algorithms like k-means, LDA treats each document as a mixture of
-    topics, which allows documents to "overlap" each other in terms of
-    content, rather than being separated into discrete groups. So in
-    practice, this means that a discussion forum post could have an
-    estimated topic proportion of 70% for Topic 1 (e.g. be mostly about
-    a Topic 1), but also be partly about Topic 2.
-2.  **Every [topic]{.ul} contains a mixture of words.** For example, if
-    we specified in our LDA model just 2 topics for our discussion
-    posts, we might find that one topic seems to be about pedagogy while
-    another is about learning. The most common words in the pedagogy
-    topic might be "teacher", "strategies", and "instruction", while the
-    learning topic may be made up of words like "understanding" and
-    "students". However, words can be shared between topics and words
-    like "statistics" or "assessment" might appear in both equally.
+1.  **Every [document]{.underline} contains a mixture of topics.**
+    Unlike algorithms like k-means, LDA treats each document as a
+    mixture of topics, which allows documents to "overlap" each other in
+    terms of content, rather than being separated into discrete groups.
+    So in practice, this means that a discussion forum post could have
+    an estimated topic proportion of 70% for Topic 1 (e.g. be mostly
+    about a Topic 1), but also be partly about Topic 2.
+2.  **Every [topic]{.underline} contains a mixture of words.** For
+    example, if we specified in our LDA model just 2 topics for our
+    discussion posts, we might find that one topic seems to be about
+    pedagogy while another is about learning. The most common words in
+    the pedagogy topic might be "teacher", "strategies", and
+    "instruction", while the learning topic may be made up of words like
+    "understanding" and "students". However, words can be shared between
+    topics and words like "statistics" or "assessment" might appear in
+    both equally.
 
 Similar to k-means other other simple clustering approaches, however,
 LDA does require us to specify a value of *k* for the number of topics
