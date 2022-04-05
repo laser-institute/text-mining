@@ -1,7 +1,7 @@
 ---
-  title: "TM Lab 1: Topic Modeling"
+  title: "TM Lab 3: Topic Modeling"
   subtitle: "Test"
-  author: "**Dr. Shiyan Jiang**"
+  author: "**The LASER Team**"
   institute: "LASER Institute"
   date: '`r format(Sys.time(), "%B %d, %Y")`'
   output:
@@ -32,7 +32,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ```{r, echo=FALSE}
 # then load all the relevant packages
-pacman::p_load(pacman, knitr, tidyverse, readxl)
+pacman::p_load(pacman, knitr, tidyverse, readxl, tidytext, topicmodels)
 ```
 
 ```{r xaringan-panelset, echo=FALSE}
@@ -65,7 +65,7 @@ xaringanExtra::use_tile_view()
 
 .pull-left[
 ## Part 1: Research Overview
-- What is Topic Modeling?
+- What is topic modeling?
 - What research questions can topic modeling answer?
 - What are limitations & ethical considerations?
 
@@ -74,23 +74,11 @@ xaringanExtra::use_tile_view()
 .pull-right[
 
 ## Part 2: R Code-Along
+- Tidy Text
 - Document Term Matrix
-- LDA (Latent Dirichlet allocation)
-- Finding K
+- Fit a Topic Model
 ]
 
----
-# A Quick Refresher
-
-## Sentiment analysis
-
-.center[
-<img src="img/sentiment-flow.png" height="350px"/>
-]
-
-.footnote[
-Figure source: Silge & Robinson, 2017
-]
 
 ---
 class: clear, inverse, middle, center
@@ -99,19 +87,56 @@ class: clear, inverse, middle, center
 
 Applying Topic Modeling in STEM Education Research
 
+
 ---
+# What is Topic Modeling? 
 
-# What is Topic Modeling?
+.panelset[
 
-### "Topic modeling is a field of natural language processing that aims to extract themes by text mining a set of documents." (Blei, 2012; Vijayan, 2021)
+.panel[.panel-name[Machine Learning]
 
+Topic modeling is a form of unsupervised machine learning that uses various techniques to identify latent themes among a collection of documents.
 .center[
 <img src="img/tminml.png" height="300px"/>
 ]
 
-.footnote[
-Figure source: Naskar, n.d.
 ]
+
+
+.panel[.panel-name[Techniques]
+
+With a bit of tongue-in-cheek, [Meeks and Weingart](http://journalofdigitalhumanities.org/2-1/dh-contribution-to-topic-modeling/) describe topic modeling as:
+
+>leveraging occult statistical methods like 'dirichlet priors' and 'bayesian models'... to provide seductive but obscure results in the form of easily interpreted (and manipulated) 'topics.'
+
+Occult methods include, but are not limited to:
+- Latent Dirichlet Allocation (**LDA**)
+- Structure Topic Modeling (STM)
+- Latent Semantic Analysis (LSA)
+
+]
+
+
+.panel[.panel-name[Bag of Words]
+.center[
+<img src="img/bag-of-words.png" height="400px"/>
+]
+
+
+]
+
+
+.panel[.panel-name[Latent Themes]
+.center[
+<img src="img/latent-themes.png" height="400px"/>
+
+]
+]
+]
+
+
+
+
 
 ---
 # Research questions
@@ -158,16 +183,12 @@ ts_forum_data |>
 ]
 
 
+
 ]
 
 .panel[.panel-name[Discuss]
 
-Take a look at the dataset located [here](https://github.com/yan2014/TM_LASER/tree/main/data-u) and consider the following:
-- What format is this data set stored as? 
-- What are some things you notice about this dataset? 
-- What questions do you have about this dataset?
-- What similar dataset do you have? 
-- What research questions do you want to address with your dataset?
+Given your current understanding of Topic Modeling, how to you evision topic modeling might be useful in your research?
 
 ]
 
@@ -182,7 +203,7 @@ Take a look at the dataset located [here](https://github.com/yan2014/TM_LASER/tr
 - Nuances of language or context may be lost
 - Limited to source material selected by researcher(s)
 - Not good for small corpora
-- “Computing probabilities allows a "generative" process by which a collection of new “synthetic documents” can be generated that would closely reflect the statistical characteristics of the original collection” (Wikipedia).
+- Understanding of context needed
 ]
 
 
@@ -191,51 +212,197 @@ class: clear, inverse, middle, center
 
 # part_2(R, code_along)
 
-Document Term Matrix, LDA, and Finding K 
+Tidy Text, Cast a DTM, Fit a Topic Model
 
 ---
-# Document Term Matrix
+# A Quick Refresher
+
+## Sentiment analysis
+
+.center[
+<img src="img/sentiment-flow.png" height="350px"/>
+]
+
+.footnote[
+Figure source: Silge & Robinson, 2017
+]
+
+---
+
+# Wrangle Data
 
 .panelset[
+
+.panel[.panel-name[Import Data]
+
+Let's import forum data collected from the Friday Institute's MOOC-Eds:
+
+```{r import-data, echo=TRUE, message=FALSE}
+ts_forum_data <- read_csv("data/ts_forum_data.csv", 
+  col_types = cols(course_id = col_character(),
+                   forum_id = col_character(), 
+                   discussion_id = col_character(), 
+                   post_id = col_character()
+                   )
+    )
+```
+
+
+]
+
+.panel[.panel-name[Tidy Text]
+
+Next, let's tokenize our forum text and by using the `unnest_tokens()` function and remove stop words per usual:
+
+```{r wrangle-data, echo=TRUE, message=FALSE, warning=FALSE}
+
+forums_tidy <- ts_forum_data %>%
+  unnest_tokens(output = word, input = post_content) %>%
+  anti_join(stop_words, by = "word")
+
+```
+
+]
+
+.panel[.panel-name[Inspect Data]
+
+In the corresponding line of your R script, take a look at the `forums_tidy` data file we just imported:
+
+```{r inspect-data, echo=TRUE}
+# ADD CODE BELOW
+#
+#
+
+```
+
+
+]
+
+.panel[.panel-name[Discuss]
+
+Think about the questions below and be prepared to share your response:              
+1. What do you think the rows and columns represent in our tidy data? 
+1. What else do you notice about our data?
+1. What questions do you have about our tidy text? 
+
+]
+
+]
+
+
+---
+# Convert to Document Term Matrix
+
+.panelset[
+
+.panel[.panel-name[The DTM]
+
+Before we can begin modeling our tidy forum data in R, we need to convert to our tidy text into a document term matrix.
 
 .center[
 <img src="img/DTM.png" height="400px"/>
 ]
 
 
-Figure source: SPE3DLab, n.d.
+]
+
+.panel[.panel-name[Cast DTM]
+
+Before we can begin analyzing our network data in R, we need to convert to a network class R object. Run the following code in your R script:
+
+```{r convert-dtm, echo=TRUE, message=FALSE, warning=FALSE}
+
+forums_dtm <- forums_tidy %>%
+  count(post_id, word) %>%
+  cast_dtm(post_id, word, n)
+
+```
+
+
+]
+
+.panel[.panel-name[Inspect DTM]
+
+In the corresponding line of your R script, type `forum_dtm` and run to inspect the properties of our document term matrix:
+
+```{r view-netwok, echo=TRUE}
+# ADD CODE BELOW
+#
+#
+
+```
+
+
+]
+
+.panel[.panel-name[Discuss]
+
+Think about the questions below:              
+
+1. How many documents are in our DTM?
+1. How many unique words are in our DTM?
+1. What questions, if any, do have about our DTM?
+
+Type your responses in the chat.
+
+]
 
 
 ]
 
 ---
-# LDA
+
+# Fit a Topic Model
 
 .panelset[
 
-.center[
-<img src="img/LDA.png" height="400px"/>
+.panel[.panel-name[topicmodels]
+
+The {topicmodels} package provides functions for Latent Dirichlet Allocation (LDA) models and Correlated Topics Models (CTM). 
+
+```{r topicmodels, echo=TRUE, eval=FALSE}
+library(topicmodels)
+```
+
+]
+
+
+.panel[.panel-name[LDA Function]
+The `LDA()` function requires two basic arguments: a DTM and the number of topics. We'll 20 as our value for the `k =` argument and set a `seed =` value so we can reproduce our results:
+
+```{r density, echo=TRUE, eval=TRUE}
+forums_lda <- LDA(forums_dtm, 
+                  k = 20, 
+                  control = list(seed = 588)
+                  )
+```
+
 ]
 
 
-Figure source: Ma, 2019
+.panel[.panel-name[Inspect Terms]
 
+In the corresponding line of your R script, type `forum_dtm` and run to inspect the properties of our document term matrix:
 
-]
+```{r view-terms, echo=TRUE}
+terms(forums_lda, 5)
 
----
-# LDA
-
-.panelset[
-
-.center[
-<img src="img/LDA2.png" height="400px"/>
-]
-
+```
 
 ]
+
+.panel[.panel-name[Discuss]
+
+What "latent themes" or "topics" might you apply to these word groups? 
+
+]
+]
+
+
+
+
 ---
 class: clear, center
 
 ## .font130[.center[**Thank you!**]]
-<br/>**Dr. Shiyan Jiang**<br/><mailto:sjiang24@ncsu.edu>
+<br/>**The LASER Team**<br/><mailto:sjiang24@ncsu.edu>
