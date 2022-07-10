@@ -1,4 +1,4 @@
-<img src="sna-capstone/img/SNA_Primary_HX.jpg" width="30%"/>
+<img src="image/textmining.png" width="30%"/>
 
 # Text Mining in STEM Ed Research
 
