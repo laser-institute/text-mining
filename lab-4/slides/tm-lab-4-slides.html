@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>TM Lab 4: Text Classification</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Dr. Shiyan Jiang" />
+    <meta name="date" content="2022-06-30" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/panelset-0.2.6/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset-0.2.6/panelset.js"></script>
+    <script src="libs/clipboard-2.0.6/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"<i class=\"fa fa-clipboard\"><\/i>","success":"<i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"Press Ctrl+C to Copy"})</script>
+    <link href="libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.6/tile-view.js"></script>
+    <link rel="stylesheet" href="css/laser.css" type="text/css" />
+    <link rel="stylesheet" href="css/laser-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class: clear, title-slide, inverse, center, top, middle
+
+
+
+
+
+
+
+
+
+
+# TM Lab 4: Text Classification
+----
+### **Dr. Shiyan Jiang**
+### June 30, 2022
+
+---
+# Agenda
+
+.pull-left[
+## Part 1: Research Overview
+- What is Text Classification?
+- What research questions can text classification answer?
+
+]
+
+.pull-right[
+
+## Part 2: R Code-Along
+- tf-idf
+- cross validation
+- SVM
+]
+
+---
+class: clear, inverse, middle, center
+
+# Part 1: Research Overview
+
+Applying Text Classification in STEM Education Research
+
+---
+
+# What is Text Classification?
+
+### Text classification is a machine learning technique that assigns a set of predefined categories to open-ended text.
+
+.center[
+&lt;img src="img/tcflow.png" height="300px"/&gt;
+]
+
+.footnote[
+Figure source: https://monkeylearn.com/text-classification/
+]
+
+---
+# Research questions
+
+.panelset[
+
+
+.panel[.panel-name[Literature]
+
+Automatic coding (e.g., Xing et al., 2019): Text classification for automating the analysis of text data, such as forum posts.
+
+Assessment (e.g., Sung et al., 2021): Text classification in assessing student’s multimodal representational thinking in the AR-assisted lab.
+- What is the affordance of machine learning in promptly assessing a student’s multimodal representational thinking in an AR-assisted lab?
+
+Prediction (e.g., Wang et al., 2022): Text classification for studying the effect of intelligent systems.
+]
+
+.panel[.panel-name[Walkthrough example]
+
+.pull-left[
+
+Assessment
+- How can machine learning be used to assess learners’ critical data literacy in open online learning environments?
+]
+
+
+.pull-right[
+
+
+|comment                                                                                                                                                                                                                                                                            |more_info |
+|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------|
+|this graph shows me when there is a extreme rainfall and if it  close to where you live                                                                                                                                                                                            |FALSE     |
+|the graph shows me that there will be an extreme rainfall                                                                                                                                                                                                                          |FALSE     |
+|this map showed me that the damage has already been done and that it isn??t even one specific place(state) but all of the map. our planet has already been hit with the effects and we can??t really do much but just watch and wait to see what happens eventually in the future. |FALSE     |
+|In all places there going to be affected no matter what.In the state where i live we??ve experimented hurricanes more. So somethings might change for example the level of water or wind speed.                                                                                    |FALSE     |
+|I noticed that my county was a high risk for hurricanes, I wonder why that is when I have never experienced a hurricane in the 13 years I've lived here.                                                                                                                           |FALSE     |
+|I notice that at the moment no matter where you live in the united states there is some sort of extreme unusual weather that could possibly affect you and your state.                                                                                                             |FALSE     |
+
+]
+
+
+]
+
+.panel[.panel-name[Discuss]
+
+Take a look at the dataset located [here](https://github.com/yan2014/TM_LASER_textclassification2022/tree/main/text%20classification/data) and consider the following:
+- What format is this data set stored as? 
+- What are some things you notice about this dataset? 
+- What questions do you have about this dataset?
+- What similar dataset do you have? 
+- What research questions do you want to address with your dataset?
+
+]
+
+]
+
+---
+class: clear, inverse, middle, center
+
+# part_2(R, code_along)
+
+tf-idf, cross validation, and SVM 
+
+[Text Mining_Text Classification]
+
+---
+# tf-idf
+
+### The statistic tf-idf is intended to measure how important a word is to a document in a collection (or corpus) of documents.
+
+
+tf (term frequency): how frequently a word occurs in a document;
+
+idf (inverse document frequency): 
+
+.panelset[
+
+.center[
+&lt;img src="img/idf.png" height="100px"/&gt;
+]
+
+
+]
+
+idf can be combined with term frequency to calculate a term’s tf-idf (the two quantities multiplied together).
+
+---
+# cross validation
+
+.panelset[
+
+.center[
+&lt;img src="img/cv.png" height="400px"/&gt;
+]
+
+
+]
+
+---
+# SVM
+
+.panelset[
+
+.center[
+&lt;img src="img/svm.png" height="400px"/&gt;
+]
+
+
+]
+---
+class: clear, center
+
+## .font130[.center[**Thank you!**]]
+&lt;br/&gt;**Dr. Shiyan Jiang**&lt;br/&gt;&lt;mailto:sjiang24@ncsu.edu&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "default",
+"highlightLines": true,
+"highlightLanguage": "r",
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"slideNumberFormat": "<div class=\"progress-bar-container\">\n <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">\n </div>\n</div>"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
