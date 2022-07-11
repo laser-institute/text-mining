@@ -2,7 +2,12 @@
 
 # Text Mining in STEM Ed Research
 
-The transition to digital learning has made available new sources of data, providing researchers new opportunities for understanding and improving STEM learning. Data sources such as digital learning environments and administrative data systems, as well as data produced by social media websites and the mass digitization of academic and practitioner publications, hold enormous potential to address a range of pressing problems in STEM Education, but collecting and analyzing text-based data also presents unique challenges.
+The transition to digital learning has made available new sources of data, providing researchers new opportunities for understanding and improving STEM learning. Data sources such as digital learning environments and administrative data systems, as well as data produced by social media websites and the mass digitization of academic and practitioner publications, hold enormous potential to address a range of pressing problems in STEM Education, but collecting and analyzing text-based data also presents unique challenges. Text mining labs address the following critical questions:
+
+1. What kinds of text data are valuable?
+1. How can we quantify text data?
+1. What kinds of research questions could be addressed with text data?
+1. How can we set up a research agenda that drives innovations in STEM education research with text data?
 
 **Lab 1: Text Mining Basics - Tidy Text & Word Counts** as summarized in our Overview Presentation is a gentle introduction to getting our text “tidy” so we can perform some basic word counts, look at words that occur at a higher rate in a group of documents, examine words that are unique to those document groups, and create visualizations such as word cloud. The focus of our Essential Readings and case study in this lab is to help LASER Scholars gain a general understanding of key text mining concepts and terminology, as well as develop a basic comfort level with quantifying text data and working with text data. Our Text mining Case Study: **What aspects of online professional development offerings do teachers find most valuable?** is guided by the work from Friday Institute and it examined teachers' experiences in professional development. Finally, the Intro to Text Mining Badge provides an opportunity create your own data product and to reflect on how theses concepts and techniques might apply to your own research.
 
