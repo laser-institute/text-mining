@@ -128,3 +128,45 @@ Science at NCSU, and provides a nice bridge to our articles on LIWC.  
     McWilliams, M., & Bolling, K. (2016). Visualization of Twitter Data
     in the Classroom. *Decision Sciences Journal of Innovative
     Education*, *14*(4), 362-381.
+
+LIWC in Education
+
+The last set of articles focus on the use of LIWC. While LIWC is a
+proprietary tool and there is no official R package for using LIWC \--
+though the [quanteda package(opens in new
+window)](https://quanteda.io/) does include a LIWC dictionary \-- these
+articles provide some good examples of how LIWC can can be used to
+provide insight into educational contexts. The first is a very quick
+demonstration of how LIWC was applied to analyze tweets from high
+profile ed policy people. The second article demonstrates the use of
+both LIWC and [Coh-Metrix(opens in new
+window)](http://www.cohmetrix.com/) to examine the relationship between
+linguistic features and ratings of student essays while the third how
+LIWC can be used to predict course performance. The final resource is a
+dissertation by Rob Moore, a former NCSU student. Obviously a lengthy
+read but does provide a nice overview LIWC as well as a detailed process
+for its application in research.  
+
+1.  Petrilli, M. (2015). [What twitter says about the education policy
+    debate(opens in new
+    window)](https://moodle-courses2122.wolfware.ncsu.edu/pluginfile.php/1515909/mod_forum/intro/%20What%20twitter%20says%20about%20the%20education%20policy%20debate.pdf). *Education
+    Next*. Retrieved
+    from <http://educationnext.org/files/ednext_XV_4_what_next.pdf>
+
+2.  Varner, L. K., Roscoe, R. D., & McNamara, D. S. (2013). [Evaluative
+    misalignment of 10th-grade student and teacher criteria for essay
+    quality: An automated textual analysis.(opens in new
+    window)](https://moodle-courses2122.wolfware.ncsu.edu/pluginfile.php/1515909/mod_forum/intro/%20Evaluative%20misalignment%20of%2010th-grade%20student%20and%20teacher%20criteria%20for%20essay%20quality-%20An%20automated%20textual%20analysis.pdf) *Journal
+    of Writing Research, 5(1),
+    35--59.* <http://doi.org/10.17239/jowr-2013.05.01.2>
+
+3.  Robinson, R. L., Navea, R., & Ickes, W. (2013). [Predicting final
+    course performance from students' written self-introductions: A LIWC
+    analysis(opens in new
+    window)](https://moodle-courses2122.wolfware.ncsu.edu/pluginfile.php/1515909/mod_forum/intro/RobinsonNaveaIckes2012.pdf). *Journal
+    of Language and Social Psychology*.
+    <http://doi.org/10.1177/0261927X13476869>
+
+4.  Moore, R. L. (2017). [Examining the influence of massive open online
+    course pacing condition on the demonstration of cognitive
+    presence.](https://moodle-courses2122.wolfware.ncsu.edu/pluginfile.php/1515909/mod_forum/intro/etd.pdf) 
