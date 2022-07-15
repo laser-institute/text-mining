@@ -260,3 +260,9 @@ from these two models:
 
 1.  Does the SVM model work better than the naive Bayes model?
 2.  Why does the SVM model work better (or worse)?
+
+svm_poly(degree = 1) %\>%
+
+  set_mode("classification") %\>%
+
+  set_engine("kernlab", scaled = FALSE)
