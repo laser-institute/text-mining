@@ -165,7 +165,6 @@ Lexicons!
 <img src="img/innerjoin.png" height="350px"/>
 ]
 
-
 ]
 
 ---
@@ -176,8 +175,10 @@ Lexicons!
 .panelset[
 
 .center[
-<img src="img/lexicon.png" height="350px"/>
+<img src="img/lexicon.png" height="340px"/>
 ]
+
+[Source](https://bookdown.org/psonkin18/berkshire/sentiment.html)
 
 
 ]
@@ -188,9 +189,10 @@ Lexicons!
 .panelset[
 
 .center[
-<img src="img/sentimentcounts.png" height="450px"/>
+<img src="img/sentimentcounts.png" height="440px"/>
 ]
 
+[LIWC study](https://onlinelibrary.wiley.com/doi/full/10.1002/sce.21679)
 
 ]
 ---
