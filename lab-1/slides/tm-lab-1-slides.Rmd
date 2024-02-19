@@ -111,7 +111,7 @@ ts_forum_data <- slice(ts_forum_data, -1, -2)
 
 ts_forum_data %>%
   tail() %>%
-  select(Resource,Role) %>%
+  select(Resource...6,Role) %>%
   kable()
 ```
 
