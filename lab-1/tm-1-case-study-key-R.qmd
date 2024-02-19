@@ -1,6 +1,15 @@
 ---
-title: "tm-1-case-study-key-R"
-format: html
+title: "What aspects of online professional development offerings do teachers find most valuable"
+author: "LASER Institute"
+date: today 
+format:
+  html:
+    toc: true
+    toc-depth: 4
+    toc-location: right
+theme:
+  light: simplex
+  dark: cyborg
 editor: visual
 ---
 
@@ -8,7 +17,7 @@ editor: visual
 
 In this case study, we'll **"walk through"** a basic research workflow, or data analysis process, modeled after the Data-Intensive Research Workflow from *Learning Analytics Goes to School* (Krumm et al., 2018):
 
-![Figure 2.2 Steps of Data-Intensive Research Workflow](img/workflow.png){alt="Figure 2.2 Steps of Data-Intensive Research Workflow"}
+![Figure 2.2 Steps of Data-Intensive Research Workflow](img/workflow.png)
 
 Each walkthrough will focus on a basic analysis using text mining techniques that you'll be expected to reproduce, and apply to a new research question in independent practice, using the provided dataset or dataset of your own choosing.
 
@@ -90,7 +99,7 @@ As highlighted in Chapter 6 of Data Science in Education Using R (DSIEUR), one o
 6.  Choose where to save your Project by clicking on "Browse" next to the box labeled "Create project as a subdirectory of:". If you are just using this to learn and test out creating a Project, consider placing it in your downloads or another temporary directory so that you remember to remove it later.
 7.  Click "Create Project"
 
-![Create New File](img/file.png){alt="Create New File"}
+![Create New File](img/file.png)
 
 Now that you have a Project to store .R scripts that you create as you work through this lab, let's create our first .R script:
 
