@@ -1,0 +1,86 @@
+---
+title: "Intro to Text Mining"
+subtitle: "TM Module 1: A Conceptual Overview"
+format:
+  revealjs: 
+    slide-number: c/t
+    progress: true
+    chalkboard: 
+      buttons: false
+    preview-links: auto
+    logo: img/LASERLogoB.png
+    theme: [default, css/laser.scss]
+    width: 1920
+    height: 1080
+    margin: 0.05
+    footer: <a href=https://www.go.ncsu.edu/laser-institutego.ncsu.edu/laser-institute>
+resources:
+  - demo.pdf
+bibliography: lit/references.bib
+editor: visual
+---
+
+## Turn text into numbers
+
+Some common techniques used for converting textual data into numerical representations:
+
+-   word count
+-   term frequency
+-   inverse document frequency
+-   TF-IDF
+
+::: notes
+**Speaker Notes:**
+:::
+
+## Word count
+-   Review 1: This movie is very scary and long
+-   Review 2: This movie is not scary and is slow
+-   Review 3: This movie is spooky and good
+![Alt text](img/wordcount.png)
+
+::: notes
+**Speaker Notes:**
+:::
+
+## Term frequency
+The number we fill the matrix with are simply the raw count of the tokens in each document. This is called the term frequency (TF) approach.
+
+![](img/termfrequency.png)
+
+::: notes
+**Speaker Notes:**
+:::
+
+## IDF, TF-IDF
+IDF is a measure of how important a term is. TF-IDF is intended to measure how important a word is to a document in a collection (or corpus) of documents.
+
+![](img/tfidf.png)
+
+::: notes
+**Speaker Notes:**
+:::
+
+## Tokenization, Stemming, Stopword
+-   Tokenization is the process of breaking down a text document or input into smaller units, typically words or phrases, known as tokens.
+-   Stemming is a technique used in text processing to reduce words to their root or base form, known as the stem.
+-   Stopwords are common words that are filtered out or excluded from text data during text processing because they typically do not carry significant meaning or contribute much to the understanding of the text.
+
+::: notes
+**Speaker Notes:**
+:::
+
+
+## Acknowledgements
+
+::: columns
+::: {.column width="20%"}
+![](img/nsf.jpg){fig-align="center" width="80%"}
+:::
+
+::: {.column width="80%"}
+This work was supported by the National Science Foundation grants DRL-2025090 and DRL-2321128 (ECR:BCSER). Any opinions, findings, and conclusions expressed in this material are those of the authors and do not necessarily reflect the views of the National Science Foundation.
+:::
+:::
+
+## References
