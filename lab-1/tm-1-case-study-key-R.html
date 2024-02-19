@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>tm-1-case-study-key-R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="tm-1-case-study-key-R_files/libs/clipboard/clipboard.min.js"></script>
+<script src="tm-1-case-study-key-R_files/libs/quarto-html/quarto.js"></script>
+<script src="tm-1-case-study-key-R_files/libs/quarto-html/popper.min.js"></script>
+<script src="tm-1-case-study-key-R_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="tm-1-case-study-key-R_files/libs/quarto-html/anchor.min.js"></script>
+<link href="tm-1-case-study-key-R_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="tm-1-case-study-key-R_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="tm-1-case-study-key-R_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="tm-1-case-study-key-R_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="tm-1-case-study-key-R_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="tm-1-case-study-key-R_files/libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<link href="tm-1-case-study-key-R_files/libs/wordcloud2-0.0.1/wordcloud.css" rel="stylesheet">
+<script src="tm-1-case-study-key-R_files/libs/wordcloud2-0.0.1/wordcloud2-all.js"></script>
+<script src="tm-1-case-study-key-R_files/libs/wordcloud2-0.0.1/hover.js"></script>
+<script src="tm-1-case-study-key-R_files/libs/wordcloud2-binding-0.2.1/wordcloud2.js"></script>
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">tm-1-case-study-key-R</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">0. INTRODUCTION</h2>
+<p>In this case study, we’ll <strong>“walk through”</strong> a basic research workflow, or data analysis process, modeled after the Data-Intensive Research Workflow from <em>Learning Analytics Goes to School</em> (Krumm et al., 2018):</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/workflow.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure 2.2 Steps of Data-Intensive Research Workflow</figcaption>
+</figure>
+</div>
+<p>Each walkthrough will focus on a basic analysis using text mining techniques that you’ll be expected to reproduce, and apply to a new research question in independent practice, using the provided dataset or dataset of your own choosing.</p>
+<p>We will focus on analysis of open-ended survey items from an evaluation of the North Carolina Department of Public Instruction (NCDPI) online professional development offered as part of the state’s <a href="https://www.fi.ncsu.edu/projects/evaluation-of-race-to-the-top/">Race to the Top</a> efforts.</p>
+<section id="walkthrough-focus" class="level3">
+<h3 class="anchored" data-anchor-id="walkthrough-focus">Walkthrough Focus</h3>
+<p>Our focus will be on getting our text “tidy” so we can perform some basic word counts, look at words that occur at a higher rate in a group of documents, and examine words that are unique to those document groups. Specifically, the Walkthrough will cover the following workflow topics:</p>
+<ol type="1">
+<li><strong>Prepare</strong>: Prior to analysis, it’s critical to understand the context and data sources you’re working with so you can formulate useful and answerable questions. You’ll also need to set up a “Project” for our walkthrough.</li>
+<li><strong>Wrangle</strong>: Wrangling data entails the work of manipulating, cleaning, transforming, and merging data. In section 2 we focus on reading, reducing, and tidying our data.</li>
+<li><strong>Explore</strong>: In section 3, we use simple summary statistics, more sophisticated approaches like term frequency-inverse document frequency (tf-idf), and basic data visualization to explore our data and see what insight it provides in response to our question.</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="prepare" class="level2">
+<h2 class="anchored" data-anchor-id="prepare">1. PREPARE</h2>
+<p>Prior to analysis, it’s critical to understand the context and data sources available so you can formulate useful questions that can be feasibly addressed by your data. For this section, we’ll focus on the following topics:</p>
+<ol type="a">
+<li><strong>Context</strong>. We learn a little bit about the North Carolina Race to the Top grant and the evaluation of the online professional development work, including questions and findings from the 2012 report.</li>
+<li><strong>Questions.</strong> What aspects of online professional development offerings do <strong>teachers</strong> find most valuable?</li>
+<li><strong>Project Setup.</strong> We visit Chapter 6 from DSIEUR to set up a Project in RStudio and R script for analysis.</li>
+</ol>
+<section id="a.-some-context" class="level3">
+<h3 class="anchored" data-anchor-id="a.-some-context">1a. Some Context</h3>
+<section id="rtt-online-professional-development-evaluation" class="level4">
+<h4 class="anchored" data-anchor-id="rtt-online-professional-development-evaluation">RTT Online Professional Development Evaluation</h4>
+<p><img src="img/opd.png" class="img-fluid"></p>
+<p><a href="https://github.com/laser-institute/essential-readings/blob/main/text%20mining/TMbasics.pdf">link to the report</a></p>
+<p>North Carolina was one of 12 recipients of the 2010 federal Race to the Top (RttT) grants, bringing nearly $400 million to the state’s public school system. Over the course of four years, NC’s RttT coordinated a set of activities and policy reforms designed to collectively improve the performances of students, teachers, leaders, and schools.</p>
+<p>The North Carolina Race to the Top (RttT) proposal (North Carolina Office of the Governor, 2010) specifies that the state’s Professional Development Initiative will focus on the “use of e-learning tools to meet the professional development needs of teachers, schools, and districts” (p.&nbsp;191). It points to research demonstrating that “well-designed and -implemented online professional development programs are not only valued by teachers but also positively impact classroom practices and student learning.”</p>
+<p><strong>Data Source &amp; Analysis</strong></p>
+<p>The evaluation used a wide range of data sources including interviews, document review, site analytics, and surveys, which we’ll focus on for this walkthrough. Survey protocols were designed in cooperation with NCDPI to systematically collect information about local professional development, state-level supports, use of available RttT professional development resources, and organizational and classroom practices in the schools, which will serve as a baseline to assess changes over the period of the North Carolina RttT initiatives.</p>
+<p>Quantitative analyses focused primarily on descriptive analysis of item-level responses. In addition, quantitative data from these surveys were analyzed to examine patterns in responses by participants’ role, event type (e.g., module, webinar, resource), and region. Responses to open-ended survey items of the Online Resources Survey were manually coded by their relation to each Learning Forward professional development standard.</p>
+<p>Note that the dataset we’ll be using for analysis in this walkthrough is exported as is from Qualtrics with personal identifiers, select demographics, metadata, and closed-ended responses removed.</p>
+<p><strong>Summary of Findings</strong></p>
+<p>Approximately half of the state’s educators completed at least one online module by the end of the 2011-12 school year. Overall, most participants agreed that the webinars and modules were relevant to their professional development needs, though some content was redundant with prior PD activities and not always content- or grade-specific, and some modules did not meet national standards. Most online modules were completed independently and not in Professional Learning Community groups.</p>
+<p>A common theme from focus groups and open-ended survey responses was the <strong>convenience</strong> of online professional development. One teacher in a focus group stated, “I liked the format. And the way that it was given, it was at your own pace, which works well for our schedules…” Educators also frequently cited that the <strong>information and resources</strong> provided through the modules improved their understanding of the new standards and the teacher evaluation process. Webinar participants appreciated the useful, updated information presented through a combination of PowerPoint slides and <strong>video clips</strong>.</p>
+<p>While the majority of educators have indicated their satisfaction with these resources, the findings suggest that the use of these resources at both the state and local level was not wholly consistent with national standards for online professional development. Many LEAs likely needed additional guidance, training, support, technology tools, and/or content resources to ensure that local efforts contribute to the quality of the experiences for educators and that the vision for online professional development outlined in the state’s RttT proposal is realized and can be sustained beyond RttT.</p>
+</section>
+</section>
+<section id="b.-guiding-questions" class="level3">
+<h3 class="anchored" data-anchor-id="b.-guiding-questions">1b. Guiding Questions</h3>
+<p>The State’s progress on designing and implementing online professional development was originally guided by the following (very) general evaluation questions:</p>
+<ol type="1">
+<li>State Strategies: To what extent did the state implement and support proposed RttT professional development efforts?</li>
+<li>Short-Term Outcomes: What were direct outcomes of state-level RttT professional development efforts?</li>
+</ol>
+<p>For this walkthrough, we’ll use text mining to complement prior qualitative analyses conducted as part of the RttT Evaluation by examining responses to open-ended questions on the RttT Online PD Survey administered to over 15,000 NC educators.</p>
+<p>Our (very) specific questions of interest for this walkthrough are:</p>
+<ol type="1">
+<li><strong>What aspects of online professional development offerings do <em>teachers</em> find most valuable?</strong></li>
+<li><strong>How might resources differ in the value they afford teachers?</strong></li>
+</ol>
+<p>Finally, one overarching question we’ll explore throughout this lab, and that Silge and Robinson (2018) identify as a central question to text mining and natural language processing, is:</p>
+<blockquote class="blockquote">
+<p>How do we to <strong>quantify</strong> what a document or collection of documents is about?</p>
+</blockquote>
+</section>
+<section id="c.-set-up-a-project" class="level3">
+<h3 class="anchored" data-anchor-id="c.-set-up-a-project">1c. Set Up a Project</h3>
+<p>As highlighted in Chapter 6 of Data Science in Education Using R (DSIEUR), one of the first steps of every workflow should be to set up a “Project” within RStudio. This will be your “home” for any files and code used or created in Lab 1. Open RStudio and follow these steps from DESIUR 6.6 to create a Project for Lab 1:</p>
+<ol type="1">
+<li>Click on “File”</li>
+<li>Select “New Project”</li>
+<li>Choose “New Directory”</li>
+<li>Click on “New Project”</li>
+<li>Enter your Project’s name in the box that says, “Directory name”. Choose a Project name that helps you remember that this is a project is part of Lab 1: Tidy Text &amp; Word Counts. Avoid using spaces in your Project name, and instead, separate words with hyphens or underscore characters.</li>
+<li>Choose where to save your Project by clicking on “Browse” next to the box labeled “Create project as a subdirectory of:”. If you are just using this to learn and test out creating a Project, consider placing it in your downloads or another temporary directory so that you remember to remove it later.</li>
+<li>Click “Create Project”</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/file.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Create New File</figcaption>
+</figure>
+</div>
+<p>Now that you have a Project to store .R scripts that you create as you work through this lab, let’s create our first .R script:</p>
+<ol type="1">
+<li>Click on “File”</li>
+<li>Select “R script”</li>
+<li>Click the disk icon or select “Save” from file menu to save.</li>
+<li>Enter a file name. See the <a href="https://style.tidyverse.org/files.html#names">R Style Guide</a> for standard file naming conventions.</li>
+</ol>
+<p>Finally, using your newly created R script, type the following code to load the packages that we’ll be needing for this walkthrough.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install necessary libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.2     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.2     ✔ tibble    3.2.1
+✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ purrr     1.0.1     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>I highly recommend that that you manually type the code shared throughout this walkthrough, for large blocks of text it may be easier to cut and paste.</p>
+<hr>
+</section>
+</section>
+<section id="wrangle" class="level2">
+<h2 class="anchored" data-anchor-id="wrangle">2. WRANGLE</h2>
+<p>In general, data wrangling involves some combination of cleaning, reshaping, transforming, and merging data (Wickham &amp; Grolemund, 2017). The importance of data wrangling is difficult to overstate, as it involves the initial steps of going from raw data to a dataset that can be explored and modeled (Krumm et al, 2018).</p>
+<ol type="a">
+<li><strong>Reading Data</strong>. Before working with data, we need to “read” it into R. It also helps to inspect your data</li>
+<li><strong>Data Reduction</strong>. We focus on tools from the <code>dplyr</code> package to view, <code>rename</code>, select, slice, and filter our data in preparation for analysis.</li>
+<li><strong>Tidy Text</strong>. We’ll learn how to use the <code>tidytext</code> package to both “tidy” and tokenize our text in order to create a data frame to use for analysis.</li>
+</ol>
+<section id="a.-read-view-write-data" class="level3">
+<h3 class="anchored" data-anchor-id="a.-read-view-write-data">2a. Read, View, Write Data</h3>
+<p>The Reading Data section introduces the following functions for reading data into R and inspecting it’s contents:</p>
+<ul>
+<li><code>dplyr::read_csv()</code> Reading .csv files into R.</li>
+<li><code>base::print()</code> View your data frame in the Console Pane</li>
+<li><code>utils::view()</code> View your data frame in the Source Pane</li>
+<li><code>tibble::glimpse()</code> Like print, but transposed so you can see all columns</li>
+<li><code>utils::head()</code> View the first 6 rows of your data.</li>
+<li><code>utils::tail()</code> View last 6 rows of your data.</li>
+<li><code>dplyr::write_csv()</code> writing .csv files to directory.</li>
+</ul>
+<p>Remember, the name before the double colon indicates the package the function comes from. For example, <code>read_csv</code> comes from the `readr`` package.</p>
+<section id="reading-data-into-r" class="level4">
+<h4 class="anchored" data-anchor-id="reading-data-into-r">Reading Data into R</h4>
+<p>To get started, we need to import, or “read”, our data into R. The function used to import your data will depend on the file format of the data you are trying to import.</p>
+<ol type="1">
+<li>Download the <code>opd_survey.csv</code> file we’ll be using for this Lab from our github.</li>
+<li>Create a folder in directory on your computer where you stored your R Project and name it “data”.</li>
+<li>Add the file to your data folder.</li>
+<li>Check your Files tab in R Studio to verify that your file is indeed in your data folder.</li>
+</ol>
+<p>Now let’s read our data into our Environment and assign it to a variable name so we can work with it like any other object in R.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>opd_survey <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/opd_survey.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>New names:
+Rows: 57054 Columns: 19
+── Column specification
+──────────────────────────────────────────────────────── Delimiter: "," chr
+(19): RecordedDate, ResponseId, Role, Q14, Q16...5, Resource...6, Resour...
+ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
+Specify the column types or set `show_col_types = FALSE` to quiet this message.
+• `Q16` -&gt; `Q16...5`
+• `Resource` -&gt; `Resource...6`
+• `Resource_10_TEXT` -&gt; `Resource_10_TEXT...9`
+• `Resource` -&gt; `Resource...10`
+• `Resource_10_TEXT` -&gt; `Resource_10_TEXT...11`
+• `Q16` -&gt; `Q16...12`</code></pre>
+</div>
+</div>
+<p>Notice that <code>read_csv()</code> dealt with the issues of duplicate column names for us!!</p>
+<p>If you happen to run into issues with data import, RStudio as has an Import Dataset feature for a point and click approach to adding data to your environment.</p>
+<p><img src="img/import.png" class="img-fluid" style="width:70.0%"></p>
+</section>
+<section id="viewing-data-in-rstudio" class="level4">
+<h4 class="anchored" data-anchor-id="viewing-data-in-rstudio">Viewing Data in RStudio</h4>
+<p>Once your data is in R, there are many different ways you can view it. Give each of the following at try:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># enter the name of your data frame and view directly in console </span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>opd_survey </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># view your data frame transposed so your can see every column and the first few entries</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(opd_survey) </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># look at just the first six entries</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(opd_survey) </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># or the last six entries</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(opd_survey) </span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># view the names of your variables or columns</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(opd_survey) </span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co"># or view in source pane</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span>(opd_survey) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="writing-data-to-your-project-folder" class="level4">
+<h4 class="anchored" data-anchor-id="writing-data-to-your-project-folder">Writing Data to your Project Folder</h4>
+<p>In addition to reading data from your project folder, you can also write data back to a folder. The <code>readr</code> package has an intuitively named <code>write_csv()</code> function for doing just that.</p>
+<p>Using the following code to create a copy of the opd_survey.csv file in your data folder from the <code>opd_survey</code> data frame you created:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(opd_survey, <span class="st">"data/opd_survey_copy.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that the first argument is the data frame you created earlier and the second argument is the file name you plan to give it, including (if necessary) the file path for where it should go.</p>
+</section>
+<section id="comprehension-check" class="level4">
+<h4 class="anchored" data-anchor-id="comprehension-check">Comprehension Check</h4>
+<p>Throughout this walkthrough, you will be asked to respond to questions or short tasks to check your comprehension of the content covered. For section 2a. Read, View, and Write Data, please respond to these questions by commenting out a line or lines in your R script like so:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. What argument would you add to `read_csv()` if my file did not not have column names or headers? </span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># I would need to add the ____ argument and set it to equal ____ to prevent R from setting the first row as column names. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol type="1">
+<li>What argument would you add to <code>read_csv()</code> if my file did not not have column names or headers? You can type <code>?read_csv</code> to get help on this function or check this handy <a href="https://github.com/rstudio/cheatsheets/blob/master/data-import.pdf">cheatsheet for the readr package</a> from the <code>readr</code> website at <a href="https://readr.tidyverse.org/index.html" class="uri">https://readr.tidyverse.org/index.html</a></li>
+<li>What is the first argument that <code>read_csv()</code> always expects and what happens if you don’t include in quotes?</li>
+<li>What package would I need if I wanted to read a Microsoft Excel file into R? Hint: Check the cheatsheet.</li>
+<li>What are some of the pros and cons of <code>view()</code> compared to other functions for viewing your data?</li>
+<li>What happens if you use <code>write_csv(opd_survey, "opd_survey_copy.csv")</code> and just specify the file name instead including the folder?</li>
+<li>What immediate data wrangling issues do you anticipate we’ll have to deal with now that you’ve looked at our data?</li>
+</ol>
+</section>
+</section>
+<section id="b.-reduce-data" class="level3">
+<h3 class="anchored" data-anchor-id="b.-reduce-data">2b. Reduce Data</h3>
+<p>As you’ve probably already noticed from viewing our dataset, we clearly have more data than we need to answer our rather basic research question. For this part of our workflow we focus on the following functions from the <a href="https://dplyr.tidyverse.org"><code>dplyr</code> package</a> for wrangling our data:</p>
+<p><a href="https://dplyr.tidyverse.org"><strong><code>dplyr</code></strong></a> <strong>functions</strong></p>
+<ul>
+<li><code>select()</code> picks variables based on their names.</li>
+<li><code>slice()</code> lets you select, remove, and duplicate rows.</li>
+<li><code>rename()</code> changes the names of individual variables using new_name = old_name syntax</li>
+<li><code>filter()</code> picks cases, or rows, based on their values in a specified column.</li>
+</ul>
+<p><a href=""><strong><code>stats</code></strong></a> <strong>functions</strong></p>
+<ul>
+<li><code>na.omit()</code> a handy little function from the <code>stats</code> package for removing rows with missing values, i.e.&nbsp;NA.</li>
+</ul>
+<section id="subset-columns" class="level4">
+<h4 class="anchored" data-anchor-id="subset-columns">Subset Columns</h4>
+<p>To begin, let’s <code>select()</code> Role, Resources (named as Resource…6 in the data frame), and Q21 columns and store as new data frame since those respectively pertain to educator role, OPD resource they are evaluating, and, as illustrated by the second row,</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(opd_survey)[<span class="dv">6</span>] <span class="ot">=</span><span class="st">"Resource"</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>opd_selected <span class="ot">&lt;-</span> <span class="fu">select</span>(opd_survey, Role, Resource, Q21)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice that like the bulk of all tidyverse functions, the first input <code>select()</code> expects is a data frame, followed by the columns you’d like to select.</p>
+<p>Let’s take a look at our newly created data frame that should have dramatically fewer variables:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(opd_selected)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  Role                                                            Resource Q21  
+  &lt;chr&gt;                                                           &lt;chr&gt;    &lt;chr&gt;
+1 "What is your role within your school district or organization… "Please… "Wha…
+2 "{\"ImportId\":\"QID2\"}"                                       "{\"Imp… "{\"…
+3 "Central Office Staff (e.g. Superintendents, Tech Director, Cu… "Summer…  &lt;NA&gt;
+4 "Central Office Staff (e.g. Superintendents, Tech Director, Cu… "Online… "Glo…
+5 "School Support Staff (e.g. Counselors, Technology Facilitator… "Online…  &lt;NA&gt;
+6 "School Support Staff (e.g. Counselors, Technology Facilitator… "Calend… "com…</code></pre>
+</div>
+</div>
+</section>
+<section id="rename-columns" class="level4">
+<h4 class="anchored" data-anchor-id="rename-columns">Rename Columns</h4>
+<p>Notice that Q21 is not a terribly informative variable name. Let’s now take our <code>opd_selected</code> data frame and use the <code>rename()</code> function along with the <code>=</code> assignment operator to change the name from Q21 to “text” and save it as <code>opd_renamed</code>.</p>
+<p>This naming is somewhat intentional because not only is it the text we are interested in analyzing, but also mirrors the naming conventions in our [Text Mining with R]<a href="https://www.tidytextmining.com/tidytext.html" class="uri">https://www.tidytextmining.com/tidytext.html</a> book and will make it easier to follow the examples there.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>opd_renamed <span class="ot">&lt;-</span> <span class="fu">rename</span>(opd_selected, <span class="at">text =</span> Q21)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="subset-rows" class="level4">
+<h4 class="anchored" data-anchor-id="subset-rows">Subset Rows</h4>
+<p>Now let’s deal with the legacy rows that Qualtrics outputs by default, which are effectively 3 sets of headers. We will use the <code>slice()</code> function, which is basically the same as the <code>select()</code> function but for rows instead of columns, to carve out those two rows.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>opd_sliced <span class="ot">&lt;-</span> <span class="fu">slice</span>(opd_renamed, <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">2</span>) <span class="co"># the - sign indicates to NOT keep rows 1 and 2</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(opd_sliced)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  Role                                                            Resource text 
+  &lt;chr&gt;                                                           &lt;chr&gt;    &lt;chr&gt;
+1 Central Office Staff (e.g. Superintendents, Tech Director, Cur… Summer … &lt;NA&gt; 
+2 Central Office Staff (e.g. Superintendents, Tech Director, Cur… Online … Glob…
+3 School Support Staff (e.g. Counselors, Technology Facilitator,… Online … &lt;NA&gt; 
+4 School Support Staff (e.g. Counselors, Technology Facilitator,… Calendar comm…
+5 Teacher                                                         Live We… leve…
+6 Teacher                                                         Online … None…</code></pre>
+</div>
+</div>
+<p>Now let’s take our <code>opd_sliced</code> and remove any rows that are missing data, as indicated by an <code>NA</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>opd_complete <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(opd_sliced)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally, since we are only interested in the feedback from teachers, let’s also filter our dataset for only participants who indicated their <code>Role</code> as “Teacher”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>opd_teacher <span class="ot">&lt;-</span> <span class="fu">filter</span>(opd_complete, Role <span class="sc">==</span> <span class="st">"Teacher"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(opd_teacher)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  Role    Resource                                                         text 
+  &lt;chr&gt;   &lt;chr&gt;                                                            &lt;chr&gt;
+1 Teacher Live Webinar                                                     "lev…
+2 Teacher Online Learning Module (e.g. Call for Change, Understanding the… "Non…
+3 Teacher Online Learning Module (e.g. Call for Change, Understanding the… "In …
+4 Teacher Online Learning Module (e.g. Call for Change, Understanding the… "Und…
+5 Teacher Online Learning Module (e.g. Call for Change, Understanding the… "ove…
+6 Teacher Online Learning Module (e.g. Call for Change, Understanding the… "onl…</code></pre>
+</div>
+</div>
+<p>That was a lot of code we just wrote to end up with <code>opd_teacher</code>. Let’s review:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>opd_selected <span class="ot">&lt;-</span> <span class="fu">select</span>(opd_survey, Role, Resource, Q21)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>opd_renamed <span class="ot">&lt;-</span> <span class="fu">rename</span>(opd_selected, <span class="at">text =</span> Q21)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>opd_sliced <span class="ot">&lt;-</span> <span class="fu">slice</span>(opd_renamed, <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">2</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>opd_complete <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(opd_sliced)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>opd_teacher <span class="ot">&lt;-</span> <span class="fu">filter</span>(opd_complete, Role <span class="sc">==</span> <span class="st">"Teacher"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that we could have reused <code>opd_teacher</code> and simply overwritten it each time to prevent creating new objects:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>opd_teacher <span class="ot">&lt;-</span> <span class="fu">select</span>(opd_survey, Role, Resource, Q21)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>opd_teacher <span class="ot">&lt;-</span> <span class="fu">rename</span>(opd_teacher, <span class="at">text =</span> Q21)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>opd_teacher <span class="ot">&lt;-</span> <span class="fu">slice</span>(opd_teacher, <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">2</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>opd_teacher <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(opd_teacher)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>opd_teacher <span class="ot">&lt;-</span> <span class="fu">filter</span>(opd_teacher, Role <span class="sc">==</span> <span class="st">"Teacher"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="code-reduction" class="level4">
+<h4 class="anchored" data-anchor-id="code-reduction">Code Reduction</h4>
+<p>Fortunately, we can use the Pipe Operator <code>%&gt;%</code> introduced in <a href="https://datascienceineducation.com/c06.html">Chapter 6 of Data Science in Education Using R (DSIEUR)</a> to dramatically simplify these cleaning steps and reduce the code written</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>opd_teacher <span class="ot">&lt;-</span> opd_survey <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Role, Resource, Q21) <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">text =</span> Q21) <span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Role <span class="sc">==</span> <span class="st">"Teacher"</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(opd_teacher)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  Role    Resource                                                         text 
+  &lt;chr&gt;   &lt;chr&gt;                                                            &lt;chr&gt;
+1 Teacher Live Webinar                                                     "lev…
+2 Teacher Online Learning Module (e.g. Call for Change, Understanding the… "Non…
+3 Teacher Online Learning Module (e.g. Call for Change, Understanding the… "In …
+4 Teacher Online Learning Module (e.g. Call for Change, Understanding the… "Und…
+5 Teacher Online Learning Module (e.g. Call for Change, Understanding the… "ove…
+6 Teacher Online Learning Module (e.g. Call for Change, Understanding the… "onl…</code></pre>
+</div>
+</div>
+<p><strong>Our dataset is now ready to be tidied!!!</strong></p>
+</section>
+<section id="comprehension-check-1" class="level4">
+<h4 class="anchored" data-anchor-id="comprehension-check-1">Comprehension Check</h4>
+<ol type="1">
+<li>How would you change the code in the Subset Columns section if you wanted to analyze how educators are are using the online resources instead of the most beneficial aspects?</li>
+<li>How would you rewrite the code in the Subset Rows section if you were interested in looking at School Executive responses instead of teachers?</li>
+<li>Rewrite the piped code in the Code Reduction section to prepare a data frame for tidying that includes all Roles, not just teachers, but excludes the Resource column. Assign it to <code>opd_benefits</code> for later use.</li>
+</ol>
+</section>
+</section>
+<section id="c.-tidy-text" class="level3">
+<h3 class="anchored" data-anchor-id="c.-tidy-text">2c. Tidy Text</h3>
+<p>For this part of our workflow we focus on the following functions from the <a href="https://cran.r-project.org/web/packages/tidytext/"><code>tidytext</code></a> and <code>dplyr</code> packages respectively:</p>
+<ul>
+<li><code>unnest_tokens()</code> splits a column into tokens</li>
+<li><code>anti_join()</code> returns all rows from x with<strong>out</strong> a match in y.</li>
+</ul>
+<section id="tidy-data-principles" class="level4">
+<h4 class="anchored" data-anchor-id="tidy-data-principles">Tidy Data Principles</h4>
+<p>Not surprisingly, the Tidyverse set of packages including packages like <code>dplyr</code> adhere “tidy” data principles <a href="https://www.jstatsoft.org/article/view/v021i12">(Wickham 2014)</a>. Tidy data has a specific structure:</p>
+<ul>
+<li>Each variable is a column</li>
+<li>Each observation is a row</li>
+<li>Each type of observational unit is a table</li>
+</ul>
+<p>Why would this data be considered “untidy”?</p>
+<p><img src="img/untidy.png" class="img-fluid" style="width:100.0%"></p>
+<p>Text data, by it’s very nature is ESPECIALLY untidy. In <a href="https://www.tidytextmining.com/tidytext.html">Chapter 1 of Text Mining with R</a>, Silge and Robinson define the tidy text format as</p>
+<blockquote class="blockquote">
+<p><small><strong>a table with one-token-per-row</strong>. A token is a meaningful unit of text, such as a word, that we are interested in using for analysis, and tokenization is the process of splitting text into tokens. This one-token-per-row structure is in contrast to the ways text is often stored in current analyses, perhaps as strings or in a document-term matrix. For tidy text mining, the <strong>token</strong> that is stored in each row is most often a single word, but can also be an n-gram, sentence, or paragraph. In the tidytext package, we provide functionality to tokenize by commonly used units of text like these and convert to a one-term-per-row format.</small></p>
+</blockquote>
+<p>In this section, our goals is to transform our <code>opd_teacher</code> data from this:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  Role    Resource                                                         text 
+  &lt;chr&gt;   &lt;chr&gt;                                                            &lt;chr&gt;
+1 Teacher Live Webinar                                                     "lev…
+2 Teacher Online Learning Module (e.g. Call for Change, Understanding the… "Non…
+3 Teacher Online Learning Module (e.g. Call for Change, Understanding the… "In …
+4 Teacher Online Learning Module (e.g. Call for Change, Understanding the… "Und…
+5 Teacher Online Learning Module (e.g. Call for Change, Understanding the… "ove…
+6 Teacher Online Learning Module (e.g. Call for Change, Understanding the… "onl…</code></pre>
+</div>
+</div>
+<p>to this:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  Role    Resource                                                         word 
+  &lt;chr&gt;   &lt;chr&gt;                                                            &lt;chr&gt;
+1 Teacher Live Webinar                                                     leve…
+2 Teacher Live Webinar                                                     ofqu…
+3 Teacher Live Webinar                                                     and  
+4 Teacher Live Webinar                                                     revi…
+5 Teacher Live Webinar                                                     bloo…
+6 Teacher Online Learning Module (e.g. Call for Change, Understanding the… none </code></pre>
+</div>
+</div>
+</section>
+<section id="tokenize-text" class="level4">
+<h4 class="anchored" data-anchor-id="tokenize-text">Tokenize Text</h4>
+<p>In order to tidy our text, we need to break the text into individual tokens (a process called tokenization) and transform it to a tidy data structure. To do this, we use tidytext’s incredibly powerful <code>unnest_tokens()</code> function.</p>
+<p>After all the work we did prepping our data, this is going to feel a little anticlimactic.</p>
+<p>Let’s go ahead and tidy our text and save it as <code>opd_tidy</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>opd_tidy <span class="ot">&lt;-</span> <span class="fu">unnest_tokens</span>(opd_teacher, word, text)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(opd_tidy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  Role    Resource                                                         word 
+  &lt;chr&gt;   &lt;chr&gt;                                                            &lt;chr&gt;
+1 Teacher Live Webinar                                                     leve…
+2 Teacher Live Webinar                                                     ofqu…
+3 Teacher Live Webinar                                                     and  
+4 Teacher Live Webinar                                                     revi…
+5 Teacher Live Webinar                                                     bloo…
+6 Teacher Online Learning Module (e.g. Call for Change, Understanding the… none </code></pre>
+</div>
+</div>
+<p>Note that we also could have just added <code>unnest_tokens(word, text)</code> to our previous piped chain of functions like so:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>opd_tidy <span class="ot">&lt;-</span> opd_survey <span class="sc">%&gt;%</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Role, Resource, Q21) <span class="sc">%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">text =</span> Q21) <span class="sc">%&gt;%</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Role <span class="sc">==</span> <span class="st">"Teacher"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, text)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(opd_tidy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  Role    Resource                                                         word 
+  &lt;chr&gt;   &lt;chr&gt;                                                            &lt;chr&gt;
+1 Teacher Live Webinar                                                     leve…
+2 Teacher Live Webinar                                                     ofqu…
+3 Teacher Live Webinar                                                     and  
+4 Teacher Live Webinar                                                     revi…
+5 Teacher Live Webinar                                                     bloo…
+6 Teacher Online Learning Module (e.g. Call for Change, Understanding the… none </code></pre>
+</div>
+</div>
+<p>There is A LOT to unpack with this function. First notice that <code>unnest_tokens</code> expects a data frame as the first argument, followed by two column names. The first is an output column name that doesn’t currently exist but will be created as the text is unnested into it (<code>word</code>, in this case). This if followed by the input column that the text comes from which we uncreatively named <code>text</code>. Also notice:</p>
+<ul>
+<li>Other columns, such as <code>Role</code> and <code>Resource</code>, are retained.</li>
+<li>All punctuation has been removed.</li>
+<li>Tokens have been changed to lowercase, which makes them easier to compare or combine with other datasets. However, we can use the <code>to_lower = FALSE</code> argument to turn off this behavior).</li>
+</ul>
+</section>
+<section id="remove-stop-words" class="level4">
+<h4 class="anchored" data-anchor-id="remove-stop-words">Remove Stop Words</h4>
+<p>One final step in tidying our text is to remove words that don’t add much value to our analysis (at least when using this approach) such as “and”, “the”, “of”, “to” etc. The <code>tidytext</code> package contains a <code>stop_words</code> dataset derived from three different lexicons that we’ll use to remove rows that match words in this dataset.</p>
+<p>Let’s take a look at these common stop words so we know what we’re getting rid of from our <code>opd_tidy</code> dataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(stop_words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  word      lexicon
+  &lt;chr&gt;     &lt;chr&gt;  
+1 a         SMART  
+2 a's       SMART  
+3 able      SMART  
+4 about     SMART  
+5 above     SMART  
+6 according SMART  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span>(stop_words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In order to remove these stop words, we will use function called <code>anti_join()</code> that looks for matching values in a specific column from two datasets and returns rows from the original dataset that have no matches. For a good overview of the different <code>dplyr</code> joins see here: <a href="https://medium.com/the-codehub/beginners-guide-to-using-joins-in-r-682fc9b1f119" class="uri">https://medium.com/the-codehub/beginners-guide-to-using-joins-in-r-682fc9b1f119</a></p>
+<p><img src="img/anti-join.png" class="img-fluid" style="width:80.0%"></p>
+<p>Let’s remove rows from our <code>opd_tidy</code> data frame that contain matches in the <code>word</code> column with those in the <code>stop_words</code> dataset and save it as <code>opd_clean</code> since we were done cleaning our data at this point.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>opd_clean <span class="ot">&lt;-</span> <span class="fu">anti_join</span>(opd_tidy, stop_words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(word)`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(opd_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  Role    Resource                                                         word 
+  &lt;chr&gt;   &lt;chr&gt;                                                            &lt;chr&gt;
+1 Teacher Live Webinar                                                     leve…
+2 Teacher Live Webinar                                                     ofqu…
+3 Teacher Live Webinar                                                     revi…
+4 Teacher Live Webinar                                                     bloo…
+5 Teacher Online Learning Module (e.g. Call for Change, Understanding the… modu…
+6 Teacher Online Learning Module (e.g. Call for Change, Understanding the… teac…</code></pre>
+</div>
+</div>
+</section>
+<section id="comprehension-check-2" class="level4">
+<h4 class="anchored" data-anchor-id="comprehension-check-2">Comprehension Check</h4>
+<ol type="1">
+<li>How would you include the <code>anti_join()</code> function in our previous chain that uses the pipe operator? Give it a try and see what happens.</li>
+<li>Why do you think the console provided the message “Joining, by = ‘word’”?</li>
+<li>How would you use <code>anti_join()</code> if we had named the output column from <code>unnest_tokens()</code> “tokens” instead? Hint: Check ?anti_join documentation.</li>
+<li>Tidy your opd_benefits data by tokenizing your text and removing stop words.</li>
+</ol>
+<hr>
+</section>
+</section>
+</section>
+<section id="explore" class="level2">
+<h2 class="anchored" data-anchor-id="explore">3. EXPLORE</h2>
+<p>As highlighted in both DSEIUR and Learning Analytics Goes to School, calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. One goal in this phase is explore questions that drove the original analysis and develop new questions and hypotheses to test in later stages. In Section 3, we will calculate some very basic summary statistics from our tidied text, explore key words of interest to gather additional context, and use data visualization to identify patterns and trends that may not be obvious from our tables and numerical summaries. Topics addressed in Section 3 include:</p>
+<ul>
+<li><strong>Summary Stats</strong>. We focus primarily on the use of word counts and calculating proportions to to help us identify common words used to describe the most valuable aspects of online professional development offerings.</li>
+<li><strong>Word Search</strong>. We learn about the global regular expression parser, or <code>grep</code> package in R, to search for key words among our data set.</li>
+<li><strong>Data Visualization</strong>. Finally, we wrap up this walkthrough by creating wordclouds, bar plots, and small multiple charts to explore patterns and trends that would be difficult to distinguish otherwise.</li>
+</ul>
+<section id="a.-summary-stats" class="level3">
+<h3 class="anchored" data-anchor-id="a.-summary-stats">3a. Summary Stats</h3>
+<p>Prior to making any data visualization, we revisit our or overarching question guiding most of our efforts in this lab, “How do we <strong>quantify</strong> what a text is about?”</p>
+<p>In this section, we introduce the following functions:</p>
+<p><a href="https://dplyr.tidyverse.org"><strong><code>dplyr</code></strong></a> <strong>functions</strong></p>
+<ul>
+<li><p><a href="https://dplyr.tidyverse.org/reference/count.html?q=count"><code>count()</code></a> lets you quickly count the unique values of one or more variables</p></li>
+<li><p><a href="https://dplyr.tidyverse.org/articles/grouping.html?q=group"><code>group_by()</code></a> takes a data frame and one or more variables to group by</p></li>
+<li><p><a href="https://dplyr.tidyverse.org/reference/summarise.html"><code>summarise()</code></a></p></li>
+<li><p><a href="https://dplyr.tidyverse.org/reference/mutate.html"><code>mutate()</code></a> adds new variables and preserves existing ones</p></li>
+<li><p><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html?q=join"><code>left_join()</code></a> add columns from one dataset to another</p></li>
+</ul>
+<p><a href="https://cran.r-project.org/web/packages/tidytext/index.html"><strong><code>tidytext</code></strong></a> <strong>functions</strong></p>
+<ul>
+<li>bind_tf_idf() binds the term frequency and inverse document frequency of a tidy text dataset to the dataset</li>
+</ul>
+<section id="word-counts" class="level4">
+<h4 class="anchored" data-anchor-id="word-counts">Word Counts</h4>
+<p>As highlighted in <a href="https://tedunderwood.com/2013/02/20/wordcounts-are-amazing/">Word Counts are Amazing</a>, one simple but powerful approach to text analysis is counting the frequency in which words occur in a given collection of documents, or corpus.</p>
+<p>Now that we have our original survey data in a tidy text format, we can use the <code>count()</code> function from the <code>dplyr</code> package to find the most common words used by teachers when asked, “What was the most beneficial/valuable aspect of this online resource?”</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>opd_counts <span class="ot">&lt;-</span> <span class="fu">count</span>(opd_clean, word, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co"># alternatively, we could have use the %&gt;% operator to yield the same result.</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>opd_counts <span class="ot">&lt;-</span> opd_clean <span class="sc">%&gt;%</span> </span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>opd_counts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5,352 × 2
+   word              n
+   &lt;chr&gt;         &lt;int&gt;
+ 1 information    1885
+ 2 learning       1520
+ 3 videos         1385
+ 4 resources      1286
+ 5 online         1139
+ 6 examples       1105
+ 7 understanding  1092
+ 8 time           1082
+ 9 students       1013
+10 data            971
+# ℹ 5,342 more rows</code></pre>
+</div>
+</div>
+<p>Going back to findings from the original report, a strategy as simple basic word counts resulted in key words consistent with findings from the qualitative analysis of focus-group transcripts and open-ended survey responses:</p>
+<blockquote class="blockquote">
+<p>Educators frequently cited that the <strong>information and resources</strong> provided through the modules improved their understanding of the new standards and the teacher evaluation process.</p>
+</blockquote>
+<p>See also this finding around video clips:</p>
+<blockquote class="blockquote">
+<p>Webinar participants appreciated the useful, updated information presented through a combination of PowerPoint slides and <strong>video clips</strong>.</p>
+</blockquote>
+<p>One notable distinction between word counts and more traditional qualitative analysis is that broader themes like “convenience” often are not immediately apparent in words counts, but rather emerges from responses containing words like “pace”, “format”, “online”, “ease”, and “access”.</p>
+<blockquote class="blockquote">
+<p>A common theme from focus groups and open-ended survey responses was the <strong>convenience</strong> of online professional development. One teacher in a focus group stated, “I liked the format. And the way that it was given, it was at your own pace, which works well for our schedules…”</p>
+</blockquote>
+<p>The <code>count()</code> function can also be used with more than one column to count the frequency a word occurs for a select <code>Resource</code> in our dataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>opd_resource_counts <span class="ot">&lt;-</span> opd_clean <span class="sc">%&gt;%</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Resource, word, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span>(opd_resource_counts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In this case, we see that “information” was the most common word for Online Learning Modules but did not even make the top 5 for Recorded Webinar:</p>
+<p><img src="img/webinar.png" class="img-fluid" style="width:80.0%"></p>
+</section>
+<section id="word-frequencies" class="level4">
+<h4 class="anchored" data-anchor-id="word-frequencies">Word Frequencies</h4>
+<p>One common approach to facilitate comparison across documents or groups of text, in our case responses by Online Resource type, is by looking at the frequency that each word occurs among all words for that document group. This also helps to better gauge how prominent the same word is across different groups.</p>
+<p>For example, let’s create counts for each <code>Resource</code> and <code>word</code> paring, and then create a new column using the <code>mutate()</code> function that calculations the proportion that word makes up among all words.</p>
+<p>To do this a little more efficiently, I’m going to use the %&gt;% operator:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>opd_frequencies <span class="ot">&lt;-</span> opd_clean <span class="sc">%&gt;%</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Resource, word, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Resource) <span class="sc">%&gt;%</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">proportion =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>opd_frequencies</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7,210 × 4
+# Groups:   Resource [10]
+   Resource                                               word      n proportion
+   &lt;chr&gt;                                                  &lt;chr&gt; &lt;int&gt;      &lt;dbl&gt;
+ 1 Online Learning Module (e.g. Call for Change, Underst… info…  1782     0.0238
+ 2 Online Learning Module (e.g. Call for Change, Underst… lear…  1445     0.0193
+ 3 Online Learning Module (e.g. Call for Change, Underst… vide…  1336     0.0179
+ 4 Online Learning Module (e.g. Call for Change, Underst… reso…  1209     0.0162
+ 5 Online Learning Module (e.g. Call for Change, Underst… onli…  1082     0.0145
+ 6 Online Learning Module (e.g. Call for Change, Underst… unde…  1053     0.0141
+ 7 Online Learning Module (e.g. Call for Change, Underst… time   1036     0.0139
+ 8 Online Learning Module (e.g. Call for Change, Underst… exam…  1025     0.0137
+ 9 Online Learning Module (e.g. Call for Change, Underst… stud…   951     0.0127
+10 Online Learning Module (e.g. Call for Change, Underst… data    915     0.0122
+# ℹ 7,200 more rows</code></pre>
+</div>
+</div>
+<p>Using the <code>view()</code> function we can see that “information” makes up about 2.3% of words in responses about the Online Modules, and about 1.7% for Recorded Webinars.</p>
+</section>
+<section id="term-frequency-inverse-document-frequency" class="level4">
+<h4 class="anchored" data-anchor-id="term-frequency-inverse-document-frequency">Term Frequency-Inverse Document Frequency</h4>
+<p>Term frequency-inverse document frequency (tf-idf) is an approach that takes this approach one step further.</p>
+<p>As noted in <a href="https://www.tidytextmining.com/tfidf.html">Tidy Text Mining with R</a>:</p>
+<blockquote class="blockquote">
+<p>The statistic tf-idf is intended to measure how important a word is to a document in a collection (or corpus) of documents, for example, to one novel in a collection of novels or to one website in a collection of websites.</p>
+</blockquote>
+<p>Silge and Robinson note that, “The idea of tf-idf is to find the important words for the content of each document by decreasing the weight for commonly used words and increasing the weight for words that are not used very much in a collection or corpus of document… That is, tf-idf attempts to find the words that are important (i.e., common) in a text, but not too common.”</p>
+<p>The <code>tidytext</code> package has a function called <code>bind_tf_idf()</code> that takes a tidy text dataset as input with one row per token (term), per document. One column (word here) contains the terms/tokens, one column contains the documents (book in this case), and the last necessary column contains the counts, how many times each document contains each term (n in this example).</p>
+<p>Because tf-idf can account through weighting for “too common” words like “and” or “but”, when calculating tf-idf it is not necessary to remove stop words. However, we will need add a column for total words for each <code>Resource</code> type which can be accomplished in a couple of steps.</p>
+<p>First, let’s recycle our <code>opd_teacher</code> data frame and calculate counts for each word again, but this time instead of word counts for the total data set, we’ll calculate word counts for each ‘Resource’.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>opd_words <span class="ot">&lt;-</span> opd_teacher <span class="sc">%&gt;%</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(word, text) <span class="sc">%&gt;%</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Resource, word, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(opd_words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  Resource                                                           word      n
+  &lt;chr&gt;                                                              &lt;chr&gt; &lt;int&gt;
+1 Online Learning Module (e.g. Call for Change, Understanding the S… the   13058
+2 Online Learning Module (e.g. Call for Change, Understanding the S… to     7933
+3 Online Learning Module (e.g. Call for Change, Understanding the S… of     6132
+4 Online Learning Module (e.g. Call for Change, Understanding the S… and    5560
+5 Online Learning Module (e.g. Call for Change, Understanding the S… i      3861
+6 Online Learning Module (e.g. Call for Change, Understanding the S… it     3087</code></pre>
+</div>
+</div>
+<p>Next, let’s calculate the total words per <code>Resource</code> type:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>total_words <span class="ot">&lt;-</span> opd_words <span class="sc">%&gt;%</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Resource) <span class="sc">%&gt;%</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">sum</span>(n))</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>total_words</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 2
+   Resource                                                                total
+   &lt;chr&gt;                                                                   &lt;int&gt;
+ 1 Calendar                                                                  137
+ 2 Document, please specify (i.e. Facilitator's Guide, Crosswalks, Sampl…    500
+ 3 Live Webinar                                                              316
+ 4 Online Learning Module (e.g. Call for Change, Understanding the Stand… 181197
+ 5 Other, please specify                                                    3363
+ 6 Promotional Video                                                         149
+ 7 Recorded Webinar or Presentation (e.g. Strategic Staffing, Standards …   1083
+ 8 Summer Institute/RESA PowerPoint Presentations                            883
+ 9 Website, please specify                                                  1860
+10 Wiki                                                                     1039</code></pre>
+</div>
+</div>
+<p>Now let’s append the <code>total</code> column from <code>total_words</code> to our <code>opd_words</code> data frame:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>opd_totals <span class="ot">&lt;-</span> <span class="fu">left_join</span>(opd_words, total_words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(Resource)`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>opd_totals</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8,833 × 4
+   Resource                                                   word      n  total
+   &lt;chr&gt;                                                      &lt;chr&gt; &lt;int&gt;  &lt;int&gt;
+ 1 Online Learning Module (e.g. Call for Change, Understandi… the   13058 181197
+ 2 Online Learning Module (e.g. Call for Change, Understandi… to     7933 181197
+ 3 Online Learning Module (e.g. Call for Change, Understandi… of     6132 181197
+ 4 Online Learning Module (e.g. Call for Change, Understandi… and    5560 181197
+ 5 Online Learning Module (e.g. Call for Change, Understandi… i      3861 181197
+ 6 Online Learning Module (e.g. Call for Change, Understandi… it     3087 181197
+ 7 Online Learning Module (e.g. Call for Change, Understandi… my     2649 181197
+ 8 Online Learning Module (e.g. Call for Change, Understandi… was    2520 181197
+ 9 Online Learning Module (e.g. Call for Change, Understandi… a      2473 181197
+10 Online Learning Module (e.g. Call for Change, Understandi… in     2378 181197
+# ℹ 8,823 more rows</code></pre>
+</div>
+</div>
+<p>Finally, we’re ready to use the <code>bind_tf_idf()</code> function to calculate a tf-idf statistic for each word and assess it’s relative importance to a given online resource type:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>opd_tf_idf <span class="ot">&lt;-</span> opd_totals <span class="sc">%&gt;%</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_tf_idf</span>(word, Resource, n)</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>opd_tf_idf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8,833 × 7
+   Resource                              word      n  total     tf   idf  tf_idf
+   &lt;chr&gt;                                 &lt;chr&gt; &lt;int&gt;  &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+ 1 Online Learning Module (e.g. Call fo… the   13058 181197 0.0721 0     0      
+ 2 Online Learning Module (e.g. Call fo… to     7933 181197 0.0438 0     0      
+ 3 Online Learning Module (e.g. Call fo… of     6132 181197 0.0338 0     0      
+ 4 Online Learning Module (e.g. Call fo… and    5560 181197 0.0307 0.105 0.00323
+ 5 Online Learning Module (e.g. Call fo… i      3861 181197 0.0213 0     0      
+ 6 Online Learning Module (e.g. Call fo… it     3087 181197 0.0170 0     0      
+ 7 Online Learning Module (e.g. Call fo… my     2649 181197 0.0146 0     0      
+ 8 Online Learning Module (e.g. Call fo… was    2520 181197 0.0139 0     0      
+ 9 Online Learning Module (e.g. Call fo… a      2473 181197 0.0136 0     0      
+10 Online Learning Module (e.g. Call fo… in     2378 181197 0.0131 0.105 0.00138
+# ℹ 8,823 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span>(opd_tf_idf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice that idf and thus tf-idf are zero for these extremely common words (typically stop words). These are all words that appear in teacher responses for all online resource types, so the idf term (which will then be the natural log of 1) is zero. T<strong>he inverse document frequency (and thus tf-idf) is very low (near zero) for words that occur in many of the documents in a collection</strong>; this is how this approach decreases the weight for common words. The inverse document frequency will be a higher number for words that occur in fewer of the documents in the collection.</p>
+<p>On one final note, while it has proved useful in text mining, search engines, etc., its theoretical foundations are considered less than firm by information theory experts…”</p>
+<p>In the next section, we’ll use some data visualization strategies to help us interpret and find patterns in these rather dense output tables.</p>
+</section>
+<section id="comprehension-questions" class="level4">
+<h4 class="anchored" data-anchor-id="comprehension-questions">Comprehension Questions</h4>
+<ol type="1">
+<li>Looking back at the Word Counts section, what other aspects of the online professional development resources to our word counts suggest teachers find valuable or beneficial?</li>
+<li>Instead of using the view() function for <code>opd_resource_counts</code> and searching in the source how, how might you use the <code>filter()</code> function to find return the most common words for Recorded Webinars?</li>
+<li>How many total resources were actually evaluated and which resource received the most feedback? How do you know?</li>
+<li>What are some obvious limitations to tf-idf, at least for this dataset, based on the initial <code>opd_tf_idf</code> data frame we created?</li>
+<li>Calculate word counts, frequencies, and tf-idf for you <code>opd_benefits</code> data frame. For frequencies and tf-idf, group by Role instead of Resource.</li>
+<li>What differences, if any, do you notice between teachers and other roles?</li>
+</ol>
+</section>
+</section>
+<section id="b.-word-search" class="level3">
+<h3 class="anchored" data-anchor-id="b.-word-search">3b. Word Search</h3>
+<p>This section is a really quick aside and primarily meant to introduce the <code>grep</code> package that we’ll be using in future labs.</p>
+<p>A quick word count actually resulted in findings fairly consistent with some of the qualitative findings reported, but also lacked some nuance, unsurprisingly, and left some questions about what some of the more frequent words were in reference to.</p>
+<p>Let’s use our reduced opd_teacher survey data frame that contains the complete teacher responses and use the handy <code>filter()</code>, <code>select()</code> and <code>grepl()</code> function to select just our <code>text</code> column and filter out responses that contain key words of interest. For example, what aspects of “online” made it beneficial.</p>
+<p>We can view all quotes in the source pane, or use the <code>sample_n()</code>, yes from the <code>dplyr</code> package, to select any number of random quotes. In this case 20:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>opd_quotes <span class="ot">&lt;-</span> opd_teacher <span class="sc">%&gt;%</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">'online'</span>, text))</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span>(opd_quotes)</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a><span class="fu">sample_n</span>(opd_quotes, <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 20 × 1
+   text                                                                         
+   &lt;chr&gt;                                                                        
+ 1 Since I am a ELA teacher, I especially loved the online literacy and researc…
+ 2 The most beneficial aspect of this online resource was the handout giving sp…
+ 3 The easy of access and flexibility for completing the module in an independe…
+ 4 That it was online and that we were able to watch as a group.                
+ 5 The tutorial for the online resources.                                       
+ 6 I was able to complete the online module quickly.                            
+ 7 The most beneficial aspect of this online resource was seeing the connection…
+ 8 Learning and using an online journal for note-taking                         
+ 9 The most beneficial aspect of this resource is the opportunity to participat…
+10 It was helpful to see the information online.                                
+11 The shared lesson plans found online                                         
+12 That it was online, that it gave me downloadable .pdf's and that it was conv…
+13 The fact that it could be done online at my  convenience and pace.           
+14 It was online                                                                
+15 knowledge of more online resources                                           
+16 The most benefical aspect of the this online resource was how to help the st…
+17 Having it online.                                                            
+18 The most beneficial/valuable aspects of this online resource were the fresh …
+19 I liked that it was online. I liked the interactive activities and the video…
+20 Creative Commons and citation makers and how to teach students reading onlin…</code></pre>
+</div>
+</div>
+<p>In some cases, we can see that the use of the word “online” was simply repetition of the question prompt, but in other cases we can see that it’s associated with the broader theme of “convenience” as with the quote, “This online resources gave me the opportunity to study on my own time.”</p>
+<p>Note that you can also use regular express operators with <code>grep</code> like the <code>*</code> operator to search for word stems. For example using <code>inform*</code> in our search will return quotes with “inform”, “informative”, “information”, etc.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>opd_quotes <span class="ot">&lt;-</span> opd_teacher <span class="sc">%&gt;%</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text) <span class="sc">%&gt;%</span> </span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">'inform*'</span>, text))</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span>(opd_quotes)</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="fu">sample_n</span>(opd_quotes, <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 20 × 1
+   text                                                                         
+   &lt;chr&gt;                                                                        
+ 1 The short activities to reinforce the information that was just read/learned.
+ 2 Reading the information about teen suicide.                                  
+ 3 Good information.                                                            
+ 4 Reinforced what I was already taught in a previous training.                 
+ 5 The materials and information that were shared were very helpful             
+ 6 Seeing how a master scorer scores was clear and informative although I do no…
+ 7 The information about how you can use the internet and more technology in th…
+ 8 It provided valuable information that is needed to help educate our students…
+ 9 all information about Teaching Standards                                     
+10 Understanding how guided Google searches are and how we get the information …
+11 The information about what formative assessment looks like and how to write …
+12 All information was valuable.                                                
+13 The most valuable aspect of this resource was that it was easy to navigate a…
+14 The information on Suicide Prevention                                        
+15 clear and concise information                                                
+16 It was easy to access and delivered pertinent information in a timely manner.
+17 The information presented was helpful but the interactive activities embedde…
+18 Dr. Anderson was very helpful and informational.                             
+19 all the information provided                                                 
+20 It gave us easy to find places to look for this information                  </code></pre>
+</div>
+</div>
+</section>
+<section id="c.-data-visualization" class="level3">
+<h3 class="anchored" data-anchor-id="c.-data-visualization">3c. Data Visualization</h3>
+<p>The go to package for standard charts and graphs is <a href="https://ggplot2.tidyverse.org"><code>ggplot2</code></a>. Hadley Wickham’s <a href="https://r4ds.had.co.nz/data-visualisation.html">R for Data Science</a> and [ggplot2: Elegant Graphics for Data] are also great introductions to data visualization in R with ggplot2.</p>
+<section id="word-clouds" class="level4">
+<h4 class="anchored" data-anchor-id="word-clouds">Word Clouds</h4>
+<p>The <code>wordcloud2</code> packages is pretty dead simple for generating HTML based word clouds.</p>
+<p>For example, let’s load our installed <code>wordclouds2</code> library, and run the <code>wordcloud2()</code> function on our <code>opd_counts</code> data frame:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wordcloud2)</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="fu">wordcloud2</span>(opd_counts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div class="wordcloud2 html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-89a2b64a732ec1e523de" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-89a2b64a732ec1e523de">{"x":{"word":["information","learning","videos","resources","online","examples","understanding","time","students","data","classroom","beneficial","pace","standards","student","easy","complete","video","taxonomy","understand","access","resource","bloom's","review","module","provided","scoring","teachers","technology","common","helpful","teaching","revised","aspect","sample","assessment","valuable","rubric","responses","teacher","century","samples","21st","explanation","learned","score","types","questions","formative","ability","core","knowledge","ideas","msl","helped","activities","material","ease","response","master","tools","grading","links","grade","assessments","blooms","literacy","web","process","school","enjoyed","content","instruction","constructed","informative","convenience","reading","digital","colleagues","lessons","websites","learn","easily","home","strategies","feedback","explanations","view","search","test","lesson","curriculum","accessible","rubrics","convenient","msls","na","scorer","specific","read","exams","modules","opportunity","scored","practice","plc","skills","rbt","items","info","class","teach","training","discussion","allowed","level","schedule","accessibility","found","real","visual","relevant","actual","importance","copyright","evaluation","practices","explaining","knowing","internet","line","planning","reviewing","availability","engines","reflection","discuss","explained","implement","change","learners","science","reflect","standard","writing","levels","website","peers","breakdown","classrooms","independently","graded","professional","question","section","verbs","collaboration","interactive","aware","expected","future","answers","flexibility","charts","organized","terms","lot","education","plan","subject","sites","msl's","development","objectives","watching","completing","journal","voice","presentation","quick","additional","scores","aspects","materials","plans","2.0","viewing","activity","chart","completed","definitions","insight","essential","follow","expectations","incorporate","nc","improve","visuals","concepts","paced","step","apply","educators","feel","idea","clips","effective","clarification","depth","research","gaining","implementation","behavior","math","methods","written","helping","social","testing","thinking","detailed","studies","team","variety","assess","concise","format","free","hearing","targets","current","exam","learner","descriptive","easier","nice","taught","differences","effectively","independent","purpose","thread","issues","sources","evaluate","overview","children","list","quizzes","answer","benefit","interaction","navigate","scenarios","tool","vocabulary","anytime","developing","difference","documents","life","curricula","enhance","friendly","print","sections","short","topic","watch","gained","giving","based","focus","reference","refresher","setting","aup","dr","transcripts","completion","helps","listening","terminology","criteria","guide","post","action","collection","evidence","providing","share","wiki","laws","listen","local","prepare","site","taking","techniques","computer","excellent","gain","tests","broken","clearer","cognitive","explain","goals","instructional","item","opportunities","plagiarism","provide","refer","behaviors","collaborate","date","discussing","explaination","loved","move","required","times","topics","amount","college","county","graphic","related","shared","sharing","user","4","collect","compare","creating","hear","meet","organization","steps","talking","text","analyze","appreciated","articles","break","comment","constructive","day","discussions","multiple","role","type","breaking","classes","elements","implementing","pre","program","world","evaluated","finding","included","involved","lots","suggestions","utilize","collecting","components","deeper","flexible","growth","introduced","language","set","benefits","deal","extremely","previous","processes","reasoning","received","study","usage","analysis","collegues","comparison","experience","forms","meeting","peer","reminder","specifications","subjects","write","application","comparing","concept","drive","informational","listed","people","personal","relates","student's","success","system","audio","clarity","collaborating","educational","exposure","familiar","increased","introduction","model","pacing","support","accessed","check","daily","description","descriptions","fit","incorporating","individual","papers","roles","schools","searches","upcoming","validity","assessing","categories","definition","detail","meaningful","means","media","practical","staff","stop","suggested","basic","changing","frame","graphics","literacies","performance","progress","revisions","scorer's","scorers","situations","speed","teams","changed","correct","covered","details","discussed","dpi","hands","manner","measures","original","workshop","anderson","awareness","coming","create","district","download","explore","graphs","history","leadership","link","organizers","participate","ready","reasons","reflecting","sit","waste","critical","designing","document","page","preparing","realize","revisit","table","talk","tutorials","address","article","background","chance","entire","expect","implemented","increase","piece","proper","reminded","requirements","reviewed","successful","applicable","convience","copy","defining","design","downloadable","enjoy","environment","evaluating","grader","guidelines","hard","leisure","notes","offered","person","picture","portion","safety","statistics","summative","transcript","words","2","6","acceptable","created","educator","engaging","fellow","makes","presentations","receiving","references","styles","target","21","applied","arts","assessed","bloom","community","connection","connections","develop","diagrams","direction","elementary","form","grades","integrating","interact","outline","paper","plagarism","programs","prompts","quiz","results","session","start","suicide","ted","wealth","1","accessability","approach","broke","call","career","comments","courses","credit","dimensions","driven","freedom","identify","impact","informed","job","key","kids","love","measure","orange","previously","quality","receive","reflections","style","technical","collaborative","connect","dan","developed","drop","engine","extra","goal","google","instructions","kwl","location","middle","option","options","pd","penzu","percentages","printable","profession","reinforce","reliable","sense","simple","tested","tutorial","understandable","understood","answered","applications","checker","choice","connecting","english","evaluative","explainations","fast","handouts","heard","identifying","keeping","objective","prior","project","properly","reach","relate","specifics","structure","teacher's","timeline","verb","viewed","affect","aids","citation","clarify","communication","defined","drag","enhanced","explains","framework","matching","north","perspective","pertinent","play","prepared","proficient","questioning","readily","realizing","refreshing","shown","task","unpacking","utilizing","valid","voicethread","voki","workers","accessable","achievement","alignment","analyzing","carolina","certificate","clarified","correctly","credibility","dealing","determine","direct","effect","ela","everyday","experiences","input","integrate","kinds","management","meyer","pieces","plagerism","policies","presenter","prompt","quickly","recipe","reinforced","sessions","technological","technologies","added","aid","alot","assignments","basis","beginning","books","child","colleague","component","computers","directly","distinguished","essays","evaluations","guiding","indepth","journals","laid","mathematics","meaning","navigation","printed","projects","readers","reason","refresh","return","rubic","save","statements","update","utilized","versus","video's","3","add","administration","benchmark","book","clarifying","comprehension","continue","cr","creative","delivery","designed","difficult","ensure","facilitator","falcon","finally","hours","include","integration","interacting","layout","missed","pages","plc's","principal","relevance","resourses","safe","source","specifically","stuff","tips","told","updated","word","24","accomplished","achieve","addressed","anderson's","applying","appropriately","auditory","building","ceu's","communicate","concrete","consuming","demonstrating","disciplines","documenting","exemplars","fairly","forward","gaps","immediately","improved","including","incorporated","interpret","lecture","legal","measuring","mind","numerous","professionals","purposes","putting","rating","reflective","scenerios","simply","spend","tech","template","top","trends","vast","views","addition","administrators","allowing","benefical","brought","busy","channel","collected","correlation","cte","districts","ethical","exercise","exposed","facilitate","field","flip","fun","independence","individually","insights","involving","journaling","knowledgeable","matter","military","moving","nature","ncdpi","note","obtain","pdf","positive","powerpoint","promote","refreshed","reinforcement","reliability","reminders","spent","takes","threads","track","transition","travel","updates","wonderful","acess","attend","awesome","behavioral","benefited","choose","comfort","completely","comprehend","contained","credible","demonstrated","describing","effectiveness","engaged","ethics","exceptional","finland","focused","forced","formal","forum","gather","greatly","hand","integrated","locations","meant","measurement","modeling","ongoing","outcomes","pause","preparation","remember","resouces","safely","schedules","sitting","situation","survey","trained","unsure","verbal","walk","0","7","adapt","aup's","base","begin","breaks","build","bus","cc","close","concerns","connected","couple","degree","demonstrations","diverse","embedded","enabled","engage","exit","finish","guided","guides","illustrations","improvement","individuals","inform","instructor","instructors","introducing","leave","logical","looked","map","moodle","observation","past","period","pick","posted","practicing","procedures","quizes","rate","rationale","recognize","require","researching","scale","segment","signs","succinct","summary","tasks","timing","true","varied","verbage","wide","wikis","writings","12","academic","accurately","activites","age","ago","align","alternative","animation","applies","assesment","attention","board","bringing","bucket","certificates","ceu","checklist","citing","clip","comfortable","copyrights","coworkers","creativity","critically","crosswalk","determining","domains","encouraging","engagement","enhancing","entries","esteem","excited","fits","games","goanimate","grasp","grow","happening","images","improving","interpretation","interpreting","interventions","introduce","lead","limited","lists","live","master's","memory","method","models","money","observe","observing","organizer","outs","perspectives","pictures","proceed","professor","pyramid","readings","reminding","revision","script","searching","skill","slides","solving","special","statistical","supposed","traditional","vision","visually","wall","acre","advice","aligned","assist","assistance","avaliable","benificial","bubble","bullying","cards","category","ccss","challenging","comparisons","considered","context","convienence","convient","credits","crosswalks","cs","dangers","delivered","demonstrate","differentiating","discipline","distinguish","distractions","diversity","documentation","due","element","emphasis","entry","exercises","expectation","fair","garden","graph","highly","hope","impressed","increasing","insightful","instruct","interviews","issue","knowlege","law","left","literature","lorin","matrix","noted","obtained","offline","outlined","percentage","pertaining","plcs","plenty","portions","possibly","public","pull","realized","regular","relevent","renewal","repeat","replay","resourse","responsibilities","responsible","revisiting","rules","segments","semester","serve","simplicity","space","speaker","spreadsheet","stated","stay","strong","studied","summer","talked","tax","timely","unaware","unit","unknown","updating","version","vidoes","vignettes","vital","weighted","2012","4c's","5","abilities","absolutely","accesible","accompanying","account","active","addressing","animated","animoto","attributes","aups","availablity","balance","bookmarked","bring","bubbl.us","card","ceus","challenge","checking","choices","classrom","click","collaboratively","comprehensive","concentrate","continued","copies","copywrite","creation","cross","curricular","differs","difficulty","dimension","directed","discovering","domain","efficacy","efficient","enable","enlightening","essay","examining","excel","expert","exploring","eyes","factor","faster","figure","finishing","flexability","focusing","formats","front","graduate","infromation","interactions","interpretations","invaluable","length","locate","manageable","meetings","mini","moment","nouns","obtaining","offers","opinion","opinions","organizing","p21","parents","perform","permits","personnel","pertains","physical","pixton","policy","potential","power","presenters","pretty","product","products","professor's","recently","record","relating","relationship","responsibility","revelant","society","speak","ss","strands","strategy","structured","successfully","summarizing","supplemental","surveys","telling","term","texts","today's","total","videoes","voices","wikki","workday","workshops","100","2013","a1","absorb","accesibility","accessing","accountability","accountable","accurate","actively","administer","administrator","administrator's","agree","ahead","aided","analogy","answering","assigned","assignment","bad","benficial","bit","blog","bt","buckets","catch","caused","challenges","choosing","comic","commons","communicating","compared","conduct","confidence","confirmation","confusing","contrast","contrasting","convienent","cool","counties","crucial","cut","decision","decisions","demonstration","desk","differentiation","difficulties","digest","directions","downloaded","downloads","drives","ec","emphasized","encouraged","evaas","exemplar","explinations","extensive","eye","facets","fantastic","features","filling","filter","fingertips","finished","forgotten","foster","fresh","function","gap","gathering","gerunds","glad","global","grader's","guidance","heading","hierarchy","hour","i.e","implimented","influence","insite","intro","involve","involvement","jargon","jobs","laptop","leaning","linked","log","lost","main","meanings","measurable","measured","mentioned","multi","ncscos","neat","openly","organizational","organize","outlines","overwhelming","parent","participating","pay","planned","posts","powerpoints","principles","printouts","progression","prove","rater","ratings","recognizing","refocus","repeated","requirement","reread","responces","respond","result","rubrick","saves","scheduled","scos","select","similar","speakers","straight","stratigies","supporting","tables","taxonimy","tells","tie","trouble","unfamiliar","units","usefulness","validated","virtual","wolfram","wording","wrong","2nd","8","accompany","accuracy","acquiring","actions","addresses","adjust","adjusting","aligning","animate","approaches","asses","assessements","assessible","assisted","attached","attending","availabilty","availibility","beneficail","bigger","cartoon","certification","characteristics","chosen","cited","cites","collective","columns","commentary","communities","competent","concerned","conducting","construct","continuing","contribute","conveinence","conversation","conversations","convinence","covering","curriculums","dealt","death","decided","demo","department","dept","desired","differentiate","disagree","discovery","displayed","earned","easliy","educate","effects","enjoyable","eog","establish","events","exact","existed","exists","expecting","explaing","explanantion","explination","explored","extended","facilitators","factual","faculty","fall","familiarity","families","fashion","files","fill","final","geometry","graders","grid","growing","guess","held","historian","historians","hit","honestly","idk","includes","infomation","informal","instant","instrument","ipads","larger","letting","licenses","listing","logging","major","mandated","mastery","met","minutes","miss","monitoring","narration","navigating","notebook","offering","opposed","outcome","outstanding","owl","participants","partner","pass","passages","pertain","plt","position","precise","principals","printing","proved","quiet","race","range","rated","rational","reaching","reader","realization","recommended","reform","relevancy","remind","remote","representation","resorces","resourceful","retain","rethink","reviews","revisited","rushed","scenario","scheduling","scripts","selection","served","slow","speaking","spoke","stage","stages","started","starting","stories","strips","struggle","studying","subjective","succeed","supported","suppose","systems","talks","teammates","templates","theory","thinkers","ticket","trauma","unclear","undecided","validating","validation","valued","visit","water","10","13","19","20","6th","7th","9","accessiblility","accessiblity","accompanied","accomplish","acquainted","act","activties","admin","administering","administrative","adopted","adopting","advanced","affective","affects","aligns","alongside","alpha","alternate","amazing","analogies","approached","apps","art","assesments","assessibility","attachments","attempt","attended","audible","aural","balancing","bank","baseline","beneifical","blah","blank","block","booklets","boring","built","campus","care","carry","causation","ccs","centered","childhood","chose","chunks","clarifications","clasroom","clears","cohorts","colaboration","colleges","combination","commom","complicated","componets","conducted","confident","confirm","confirmed","contact","continuous","convienience","convienient","convinent","cooperative","correlate","cost","coursework","cover","coverage","creator","critique","crowdsourcing","curiosity","define","depression","desire","detailing","determined","develope","developmental","diagram","dialogue","dimentions","distinctions","eager","earlier","educated","educator's","efficiency","efficiently","email","embrace","encourage","encouragement","enhancement","entertaining","environments","etiquette","examine","exciting","exist","expand","explicit","exploration","express","expressed","factors","fake","family","fear","feed","fix","flash","flow","focuses","footage","formatted","frequent","gathered","geared","globally","grasping","grateful","handy","hardcopy","head","health","highlight","highlighted","hints","historical","homeless","homelessness","honest","http","hyperlinks","identified","illustrating","impacts","improvements","incorporation","increases","indicator","infomative","informaiton","informations","informing","ing","initiative","inline","ins","intended","intent","interruptions","intervention","ipad","kindergarten","lab","laptops","lateral","leaders","lectures","led","legalities","license","light","limit","lingo","literate","lives","load","loop","loose","lose","low","manage","mandatory","mapping","maps","match","matched","menu","meyer's","missing","mls","modeled","modify","modifying","monitor","myths","narrated","necessarily","news","nicely","nomial","nuances","nurse","objects","observations","obvious","occuring","occurred","offer","one's","operate","oral","ordinal","org","other's","ownpace","paste","pdf's","pdfs","people's","percent","permitted","personally","persons","pertained","phases","pitfalls","plagairism","playing","plays","pleased","posting","powerful","prefer","prepares","preschool","prevent","prevention","primary","produce","professionalism","professionally","promoting","proof","ramifications","reasonable","referring","reinforcing","relatable","relation","relationships","relative","relavent","reply","reponses","report","represent","representations","resouce","respect","respectful","restart","retained","revelance","revising","rights","rounded","rows","rubics","saved","saver","saving","scope","sentence","separate","sequence","shanahan","significant","simplification","simplified","slide","socialize","solidify","specs","spreadsheets","stand","state's","statement","stations","staying","straightforward","stress","stronger","summarize","svo","targeted","taxomony","taxonony","technique","technolgy","teh","ties","timeliness","totally","touch","transcipts","typed","understading","undestanding","unnecessary","usc","vague","validate","values","varieties","verification","viable","visualize","visuwords","voicethreads","wait","walked","walkthrough","watched","weaknesses","web2.0","webinar","weblinks","websearches","webtools","week","weekly","weeks","weights","wise","workdays","worker","worksheets","worth","xxx","0,1,2","2000","20th","21th","30","3rd","4cs","4th","5th","8th","90","abou","accessabilty","acheivement","achieved","acquire","acronyms","activitites","adapted","adapting","adding","adequate","administered","advance","advantage","advent","advocate","affecting","affirming","afford","afm","agreed","allotted","aloud","ample","anaylzing","anxiety","appealing","appraisal","approaching","approved","argument","array","articoke","artwork","ascertain","asleep","assessemnt","assimilate","assistant","assisting","assume","atmosphere","attempted","authentic","author","author's","avaiable","avalable","avenues","avoid","awhile","balanced","basics","begins","behave","behaviour","behaviours","benchmarks","benefial","benefiical","benefitical","benefitted","benenficial","benifical","biased","blogs","bookmark","bottom","boundaries","box","boxes","broadened","broader","brt","bubble.us","bubbles","bulleted","button","c3","called","capabilities","capability","careers","careful","carefully","carolina's","categorization","catered","cautious","ce","centry","challenged","chances","channels","checks","child's","children's","circles","citations","clasrooms","classifications","classsroom","closer","closing","coherts","collabrate","colleages","collins","comforts","communicated","comparative","compete","complexity","comprehending","concentration","conclusions","conerning","conference","confused","confusion","conjunction","considerations","consistent","consructive","constitutes","constraints","continual","contributing","contructed","conveniece","convey","convince","coordinators","coping","correlated","correlates","costly","count","cpu's","creates","criticial","crq","curiculum","cycle","dat","deadline","deciding","decipher","decoding","deep","deepening","deeply","definitive","demand","demographic","describe","detectives","determines","developer","develped","devices","devote","diferent","differentiated","digging","digitally","dip","directives","discovered","displaying","displays","disposal","distracted","divided","dk","docs","documnetation","dont","downloading","duties","earn","ed","edition","educating","effectivly","efficiay","efforts","ell","ells","emotional","employment","enchance","encounter","endless","enforced","enforcing","enhances","entail","enter","equally","es","esl","establishing","eval","evaluators","evaulation","event","evidences","evident","exchange","execution","existing","expanding","expansion","expects","experienced","explanatory","explantation","explicitly","favorites","feature","fewer","films","filtering","fine","finnish","flexiblity","forefront","forget","formativie","formulation","formulative","foundation","frank","frequently","fro","frustrating","fulfilled","fundamental","furture","gambling","gleaned","glimpse","gotag","grammar","granted","habits","handle","handout","happen","happened","happy","headed","hold","homework","hunt","ideals","identification","ides","ii","illustrate","illustrated","im","imagine","imformative","impacting","impliment","indepedently","indept","indicators","influences","infor","informally","informaton","initial","initiatives","innovative","inside","inspiring","instructed","instrumental","instruments","insure","intellectual","interfere","intergrate","internal","interprete","interpreted","interuptions","intriguing","inventive","investigate","investigation","irrelevant","jim","judging","la","lack","layed","leader","leading","leads","leaners","learing","learnign","learnng","learns","learnt","leasure","legally","lense","library","linear","linking","lit","located","locating","logically","lunch","maintain","majority","maker","makers","makeup","managing","manipulate","manual","masters","mater","mathematical","matters","maximize","measureable","meets","mention","message","metacognitive","meyers","mine","mistakes","misuse","moderator","modes","modifications","moduel","monetary","moral","motivate","motivated","motivating","motivational","mouth","moved","movies","muddy","multimedia","n.a","names","narrative","narrator","national","ncwiseowl","necessity","net","network","nominal","notecards","notion","noun","nw","object","observed","occur","od","offended","onine","opener","oppurtunity","ore","oriented","originally","outlook","ownership","paid","participant's","participated","participation","passage","passed","patient","paused","pe","pedagogical","penalized","pencil","perceived","perception","performing","periodic","personalized","philosophy","phones","photo","picking","pie","placement","plagirism","plaguerism","podcasts","poor","poorly","population","positively","possibility","postings","practicality","practiced","pratices","preassessment","precision","prezi","printables","priority","privacy","production","productive","prof","protection","protocol","provoking","psychology","push","puzzle","quicker","quit","raising","rates","realign","realistic","reality","recent","recieve","recorded","recording","recovery","redefining","referenced","referred","regard","regularly","regulations","relayed","relook","rely","remain","remembered","reminds","repetitive","reponse","represented","repsonses","rescources","respones","responsibilties","rest","restraints","restrictions","resume","retake","retrieved","ride","ridiculous","rigorous","risk","rtb","rttt","sampling","sat","sc","scene","schoolers","scientists","scripted","security","selections","senerio's","service","services","settings","shed","shift","shifts","shock","shop","single","skip","slowly","snapshot","software","solid","solve","son","sooner","sorting","sound","sov","spaces","span","spark","specialist","specialty","specification","speech","sporadically","spot","st","standardized","stands","stats","stems","stood","stopping","story","strengths","stressed","stressing","submissions","submitted","sucess","sucessful","sucide","suggestion","suited","suits","supplementary","supplements","supports","systematic","taxanomy","taxonmy","taxonomies","taxonomoy","te","teachable","teaches","teachnology","technilogy","tecnology","tedious","teen","tendencies","testimonials","textbook","thes","thoroughness","thoughtful","thr","throughness","thrown","tickets","timeframe","tis","titles","tlc","toolbox","toolkits","tp","tracking","transfer","traumatic","tremendously","ultimately","uncertain","uncomfortable","undersatnding","understandings","understaning","understnding","undestand","universal","university","uploaded","upper","usable","use1","useable","useless","utilization","valuble","vauable","vaulable","verbiage","verses","versions","viedos","violations","voicethread.com","waiting","walking","warning","wast","wasted","webinars","webite","webpages","weed","weight","weightings","wheel","white","wil","wisely","wished","wow","yearbook","zone","0,1","0,1,2,3","0f","1013","14","146","17","1996","2004","2010","2050","21at","21c","21century","21cif.com","31st","404","42","4that","5.56e","60","aa","aaa","aaaabbbbb","abbreviations","abetter","abi","abiliy","abiltity","abiltiy","abiltty","abilty","abole","abreviated","absent","absoltely","absoluterly","abtain","abuse","abused","abut","academics","accademically","acccording","accelerated","accent","accepted","acceptible","acces","accessablitily","accessablitiy","accessablitly","accessbility","accessibel","accessibiility","accessibiity","accessibilitiy","accessibillity","accessibilty","accessil","accessment","acclimatied","accommodate","accommodating","accomodate","accomplioshed","accountablility","accounts","accredited","accsessible","accuractely","accustomed","acdtivities","acessability","acessed","achievement.th","achievements","achieving","achievnment","acknowledge","acquainting","acquired","acspect","actitities","activily","activitries","activity's","acts","ad","adapated","adaptations","adated","additioanl","additiomal","additions","additon","addtion","adept","adequately","adequete","adfdfad","adhd","adhere","adjective","adjunct","adjusted","adjustments","adminstered","adminstrative","admission","adn","adoptions","adpat","ads","advise","aespecially","afasd","affected","affectively","affirmation","afforded","afirmation","afraid","africa","afternoon","afterward","ages","aggravating","agreements","ahowing","aide","aiding","aig","al","alg","algorithms","alld","allignment","alll","alllowed","alloowed","allot","alloted","aloows","alowed","alter","altough","alwasy","amazes","amazinly","ambiguous","amnot","amounts","amusing","anad","analize","analyzed","anatomy","anchors","andersons","andevaluating","andn","ang","animating","animations","anime","another's","ans","answergarden","anymore","anyone's","anytim","aobut","apect","aple","aplications","apllied","appeared","appearence","appendixes","appications","applicability","appliication","appliications","apprciated","approch","appropriateness","apsect","apspect","apt","aquire","aquired","ar","architecture","areana","areat","arena","arise","arose","arrange","arranged","arrangement","arrived","arted","artichoke","artifacts","ascess","asd","asdf","asect","asheville","asia","assement","assements","assessble","assessibilty","assessibllity","assessmentsand","assessor","asset","assibility","assign","assigning","asssessment","assured","asynchronously","athis","ation","atleast","attach","attacking","attain","attemps","attract","attractive","attribute","attributed","aud","auditoria","audtio","aus","australia","authenticity","authored","authorship","availabililty","availablitiy","availalbility","availalble","availale","availbale","availed","availiability","availiable","availible","avalibility","avatar","avenue","average","awake","awarded","awarding","awful","aws","axtual","b2","b4","babies","baby","bachelor","bachelor's","bachelors","backgrounds","backward","backyard","badly","band","bar","barely","barriers","basically","battery","bay","bcr","beacme","beacuse","beautiful","becomming","begining","beginnning","behaving","behavors","beiang","beign","beina","beliefs","belieived","believed","benchamarks","benchmarking","benecial","benedicial","benefecial","beneficially","beneficiasl","beneficiatl","benefiicial","beneificial","betterment","bettr","bettter","bginning","bideos","bility","binder","bing","bird","birds","bla","black","bladeebla","blocked","blogging","blooming","blooms's","bloomstaxonomy","bloom’s","bloon's","blue","bogged","bolt","bonding","booklet","boolean","boolms","borrowed","brains","brainstorm","brakes","brc's","breackdown","breadth","breakdownof","brealing","brevity","bridge","broad","broadcast","browsers","browsing","brush","brushing","bthing","bubbl.com","budge","budget","bulletin","bullets","bullies","bunch","buncombe","buried","burned","business","bust","buzz","caan","caksfpop","calculated","calibrate","calm","calrification","camera","cameras","campbell","candid","capable","captioning","capture","caregivers","cartoons","catagorized","catagory","categorize","categorizing","catogories","causing","caution","cces","ccould","ccsc","ce's","celebrate","cencept","centage","centers","central","centrer","centruy","certifications","certified","chain","changeg","chapel","chapter","charter","charting","chat","cheated","cheathing","cheating","checkers","checklists","chicken","childrens","chosing","chucks","chunk","chunking","cintent","cipa","circula","circumstances","cirricula","cititations","citizens","civic","claqssroom","clarifcation","clarifies","clarrify","clashes","classess","classification","classrooom","cleared","clearifying","clearing","clicking","clock","closely","closure","clouded","clouds","clovis","clue","clusters","cluttering","cmapp","cmplete","cms","coach","code","coded","cognition","cognizant","cohesion","coleages","coleagues","collaberativly","collaborated","collaborations","collborate","colleagueswas","colleauges","colleaugues","collectin","collections","collegue","colleigial","collin's","colloborarttion","colloboration","column","comapre","combat","combined","combining","comforting","comicstrip","command","commentaries","commented","commercial","comming","commiserate","commitments","committee","commomcore","commonsense","commonsense.org","commuinicate","communciation","communications","commut","comon","compairison","comparable","comparisions","compatible","compelled","compensation","competitive","compile","complacent","complelting","complemented","completeing","completetion","complex","composition","comprehendable","comprehensively","comprhehensive","comptetion","conceinence","concentrated","conceptual","conceptualize","concicise","concluded","concord","concretely","condense","condidered","conditions","conducive","conecpts","conectivitiy","confessions","confinence","confirming","conitive","conmmon","connectedness","connectivity","connects","connedting","consise","consist","consisted","consistently","constant","constantly","constent","constitute","constraint","constructing","construction","constuctive","consume","contect","contents","conteplate","continually","continuation","continues","continuim","contnect","contradictory","conveinent","convemient","conveneicne","conveniently","conventional","converted","convesations","conveyed","convienance","convienant","convinience","convinient","convoluted","cooperation","coordinates","coordinator","copied","coplete","copyrighted","copywright","copywrites","copywriting","core's","correlating","correspond","corresponds","corrleate","corrolation","cortwright's","costing","cou","couch","coud","coul","couldnt","coulod","council","counted","county's","coupled","coursed","covenient","coversations","cpompletion","cr's","crazy","creators","crime","critiera","critiqued","crowdsoucing","crs","cuase","cultural","culture","cultures","curiculem","curricua","curriculm","curriculua","currimclum","curriulum","currriculum","customers","customization","customize","cut's","cuts","cxommon","cyberspace","cyberstalking","cycles","cynical","d6","dad","dada","dance","dang","dark","dash","data's","dataa","databank","database","datainformationchange","dates","daunting","david","dbq","ddetails","ddfferent","de","dead","deals","decide","decriptions","decsion","dedicate","deepen","deepened","defines","definintions","definite","definitons","defintion","defitiing","degress","deifferent","delicate","delight","delineation","delve","demands","demographics","demonstarted","demonstations","demonstrates","demontrating","deny","departments","dependant","dependent","depending","depicted","deployment","depths","derived","descri","descripting","descusion","deserved","desiging","designate","designations","designs","desinging","desks","desktop","desription","detasiled","detect","detected","detecting","determing","developement","developments","developoing","deveplment","device","devt","dialog","diaries","didn","didnt","didtricts","diffeences","diffeent","diffent","differed","differencces","differenent","differenet","differents","differientation","differientiate","differing","differnt","differrence","differt","diffferent","dig","digestible","digial","digitical","diificult","dilemas","dime","dimensional","dimwitted","directing","directionsas","disabilities","disability","disappointed","discern","disciplinary","disciplined","discover","discpline","discretion","discusisons","discusses","disruptions","disscuss","disscussion","dissecting","distant","distict","distinction","distinguishing","distinquished","distressed","distributed","disucssions","dive","dividing","diving","do's","doc","documentaion","doen","don'ts","doo","doors","dos","dose","dosen't","dots","doubts","downlaod","downloadables","dpi's","dragging","drawing","drawn","driving","dropouts","dropped","dropping","drops","drug","dsupporting","dug","duration","dy","dynamics","eaisly","earliest","earning","earth","eased","easeof","easibililty","easly","east","eaxamples","economic","editions","edmodo","educatng","edutopia","edxplained","effacy","effcts","effecient","effeciently","efficently","efficiacy","efficiantly","effort","effusive","egregious","eharing","ehtical","einsteins","elaborate","elaboration","electronic","elesson","eliminating","elmos","emails","embedding","embeded","emcompasses","emodules","emotions","emphasised","emphasize","emphasizes","emphasizing","empirical","employ","employees","empowered","empowerring","empty","en","enables","enact","encompassed","encorage","encorporate","endeavors","endured","energize","energizes","energy","engagine","engagment","engin","england","enlighten","enlightened","enlightment","enormous","enriching","enrichment","enrolled","ensured","ensures","ensuring","entailed","entails","enthusiasm","enthusiastic","entirety","entirity","entitled","entrepreneurs","enviornment","environmental","envision","eocs","episode","eplanation","equip","equipped","equivalent","esae","escalate","esp","especaily","espect","esplaining","essenial","essentail","essentially","esssential","established","establising","esy","ethnics","ettiquette","europe","evaluatin","evaluator","evalutate","evaluting","evass","evaulated","everchanging","everthing","everyone's","everythig","everythign","everythin","eveything","evidencace","evidently","evoked","evolution","evolve","evolving","evulation","exaamples","examination","exans","exaplanations","exapmles","excerpts","exchanging","exclusively","execute","executive","exemplified","exercised","exerpt","existence","exlaing","exmaples","expalined","expalnations","expamples","expanation","expectationa","expedient","experiencing","experimenting","experts","explainedm","explaininvg","explainng","explanaitions","explanataion","explanationof","explanaton","explantion","explations","explication","explined","exploanations","expore","expose","exposing","exposition","exposue","expression","expulsion","extensively","external","extreme","eyeopening","f21st","fa","facet","facilator","facilitates","facilitating","facilitator's","facility","facing","fail","failure","failures","falcons","familiarize","family's","fashioned","fat's","faux","fave","favorite","fears","feasable","feasible","fee","feedbacks","feeing","feeling","feelings","felibility","fexibility","fgfbvd","fgjkdsla","fiar","fiction","fields","figuring","file","file's","filgndilfgn","filled","filler","film","filtered","finalize","finder","findings","fingernail","fins","firendly","firm","firmly","flashcards","flawed","fleshed","flexabilty","flexibilty","flexibily","flexoble","flipbooks","flipped","fllexibility","flowed","fluff","fluidity","flxiblity","fo","foe","folks","followup","folowing","food","force","forcing","fore","forensic","foreseeable","forever","forgot","formaitive","formally","formation","formatting","formed","formulas","formulate","formulated","forrum","forst","forthcoming","fortunately","forums","fostered","fosters","foundations","freeback","freely","freezing","frequency","freshmen","friendliness","fromn","frozen","frtom","frustrated","fuel","fulfilling","fuller","functional","functioning","funding","fusage","futheinformation","futher","gains","gallery","gangs","garbage","garner","garrison","gas","gatekeepers","gauge","gauging","ge","generality","generate","generated","generic","geographic","geotracking","germaine","gerund","gettinh","gfood","ggggggggggggg","ggod","ghg","ghghy","gi","gimmicks","givien","givin","glance","gleening","glitch","glossary","god","golden","goo","goodle","goof","goot","government","grad","gradually","graduated","graduating","graphing","grat","ground","grouops","grrade","guards","guests","guideing","guilford","guy","guys","half","handbook","handling","happiness","harder","hardware","harry","hash","hate","havebeen","haveing","headache","headings","heads","hearingabout","heavily","heirachy","heirarchial","helful","hellps","helpfi","helpingme","helpins","helpled","helpso","helpthem","hep","heretofore","highlighting","highlights","highlites","hill","hing","hings","hinted","hire","history.l","hoe","hoew","hole","holes","holistic","homes","hone","honors","hoop","horizontally","horrible","horribly","hots","house","howto","hpyer","hr","hrs","hte","hurts","hw","hwo","hyper","hyperlinked","hypertext","i2st","iadeas","ib","ibeneficial","ican","ict","ideal","ideati","identity","ideos","idependent","idividual","iep","iep's","ignorance","iii","ilke","illustrates","illustrative","imagined","imeediately","immense","impede","impement","impetus","implamented","implemementing","implememting","implementaion","implementations","implementingthe","implemention","implemet","implemewntation","implemtation","implimentation","implimenting","imploement","import","importantly","importat","imporve","imposed","improvemnet","in'depth","in's","ina","inaccessible","inappropriate","inbto","income","incooperating","incooprating","incoorporate","incoporated","incororate","incorparte","incorperate","incorporateds","incorportating","incorrect","increative","incredible","incredibly","incresed","indepdently","indepedenly","independant","independantly","indepently","indepndently","indication","indicative","individual's","individuality","individualized","indpth","inependent","ineresting","infdormation","inferring","inflection","influx","infomational","infomration","infop","informality","informantion","informatiion","informatinal","informatioin","informationg","informativen","informatoin","informs","informtaion","informtion","informton","infusing","inhelping","inherent","initialization","initialy","initiated","innovation","inplementation","inquiry","inquisitor","inroduce","insert","inserted","insighty","insigt","inspirational","instance","instances","instegad","instill","institute","institutes","instructino","instructior","instructor's","instructruction","instructuion","insturctional","insular","insulting","integrity","intel","intelligence","intelligent","intensive","intentional","intentionally","intepreting","interacted","interactie","interactively","interactivity","interacttive","interconnectedness","interdisciplinary","interepret","interface","interfacing","intergrating","interperting","interpet","interplay","interpretative","interpute","interrupted","intertwined","interval","interwoven","intevention","inthe","intigrated","intolerance","intorduction","intricacies","introducting","introductions","intructional","intuitive","invention","invest","invested","investigates","invidual","involves","invormational","ipods","ir","ire","ironically","isa","isciplines","isnt","issued","ites","itmes","itw","ity","iwas","iy","jfk","jhk","jirnal","jounal","journalism","journey","jrotc","jsut","jthe","judge","judged","judgement","jumping","june","junk","justice","justification","justifying","juxtaposed","kdg","keeton","kid","kinda","kindergaten","kit","kiuf","klw","knoledge","knowdedge","knowldege","knowledable","knowledgable","knowledges","knownledge","ko","konowledge","ky","label","labels","labtops","lacking","lacks","lanaguage","languages","lap","larification","laughed","layers","layman's","lea's","leader's","lean","leaned","learining","learner's","learnig","learnings","learnining","learnint","learniung","leg","legalalities","legality","legislation","legitamacy","legitimate","lengthy","lern","leteracy","letter","leveled","levles","lfcip","liberty","libraries","licences","liesure","lieteracy","lieu","likes","likn","liks","limits","lineup","lisa","liscences","lising","listened","litaracy","literal","literarcy","litereacy","lity","livebinder","living","loaded","loading","locally","logged","logical.out","logs","lok","loosely","loren","lorn","losing","loud","lower","lrgh","lthe","luckily","luxury","lwas","m.nkb","mac","magnitude","mail","maintenance","makd","makeing","makeover","male","managable","managed","managemsnt","managment","manangement","maneuver","manipulated","manuals","manuscripts","manuvere","march","mark","marked","markers","marzano's","mass","masse","mast","mastering","materiala","matheamtics","mathmatics","matierials","mc","mde","meaninginful","measurements","meat","mechanics","medium","memo","memorizing","mental","menus","mere","metacognition","metaphor","methodologies","methodology","metrics","michael","midnight","midst","million","minded","minds","mined","mineral","minimum","misconception","misconceptions","misgivings","mission","mistake","misunderstood","mitigate","mitigation","mix","mixed","mixture","mla","mlcs","mmm","mmove","mocule","modality","mode","modelled","moderately","modification","modlue","module's","mold","mome","moments","monster","monumental","moodles","mor","morale","morem","mosl","motion","motivates","motivation","mouse","movement","moves","mre","msl:ce","mu","muddiest","multimodal","multiples","multitude","murky","music","my6","myh","myown","myslef","mystery","myth","naep","nail","narrators","narrow","naster","nay","nces","ncfalcon","nclive","ncwise","nderstanding","neccessary","ned","nedded","neede","neeing","neet","negatively","neglecct","neglected","netsmartz","networing","networking","newfound","newtesting","nformation","night","nights","nking","nomenclature","nonsense","nonw","norm","normal","nost","notations","notecard","notetaking","notice","noting","ns","nuanced","nyc","objectiveness","objectivity","obscene","occured","occurring","ocs","ofd","offerings","offical","office","officer","ofhow","ofquestioning","oftentimes","ofthis","og","ohio","olds","oline","om","omitted","onion.com","onlie","onlline","onlne","ons","onslow","ooportunity","operating","oportunity","opportune","opportunites","opportunitiy","opportunityi","oppose","oppotunity","optimal","optimization","optional","orderly","orgainzation","organiztion","organzied","orientation","orienting","origin","origional","origninal","ork","orther","orts","ot","otuoirut","ouonderstand","outcoming","outine","outn","output","overhaul","overhead","overhwhelming.thank","overlap","overload","overlook","overlooked","overs","overtime","overveiw","overviews","overwhelmed","owon","pacenone","packet","pacr","pagarism","pain","paired","pairs","paperrater","paperrater.com","paradigm","paragraph","parallel","parameters","paramount","paranoia","paraphrase","paraphrasing","paraprofesionals","particapate","partners","partnership","partnerships","passing","passwords","pat","path","paths","pathways","patterns","pbl","pc","pdp","pedagogy","peek","pefer","pegs","peice","pendulum","penzu.com","peoples","pep","percise","perezi","perfect","perfectly","performances","performed","periodically","periods","perpares","perseptives","person's","personalities","personality","personalize","personl","personnell","perspecitive","perspectgive","persue","perticulary","phase","phd","phenomenal","photography","photos","phrase","pictoral","pictorial","pilot","pixon","pjs","placing","plagarisim","plagerisisms","plagerrism","plagorism","plagrisim","plaguarizing","plagurism","plaigiarism","plain","plainly","plannig","played","plcing","pleasant","plentiful","plethera","plt's","pocket","pod","poetry","politics","pontificate","popping","populate","portable","portrayed","porvided","pose","posed","posing","possess","possibilites","possibilities","postassessment","posture","potatoes","potentially","ppt","pratcie","preapare","precautions","precious","preferences","preferred","prents","preparations","prepareb","prerequisite","prerequisites","preschoolers","prescribed","presentaion","presentators","presenter's","presentiations","presentingi","presesnted","prespective","pretain","pretaing","pretest","previoys","primarily","principal's","pring","printer","priorities","problemstha","procedural","procedure","processed","processing","produced","produces","professinal","professionaly","proffesionals","proffessionals","proficiency","proficiently","profiling","profound","progressed","progressive","prohibits","projected","promo","promoted","promts","proposal","prospective","protecting","protocols","provde","provieded","proving","provision","prvided","psychological","pther","ption","published","punished","punishments","pupose","pure","purports","purposefully","purposeof","pursuit","pushing","puzzles","pw","pyschologist","quailty","qualifications","qualittative","quantity","quartered","queries","query","quesitons","questionaires","questionare","quicly","quiz's","quoted","quotes","qustions","raade","raft","raised","rank","ratio","rbt's","rc","reachdone","reached","react","reaction","readable","readimg","readiness","readingcomprehension","reaffirm","reaffirmed","reaffirming","reafieming","realigning","realliked","realm","reasonings","reasource","reassuring","recall","recapped","receipe","recieved","recieving","recommenadtions","recommend","recommendation","recommendations","recommending","reconcile","reconize","recorders","recordings","recovering","reding","redirected","redo","reduced","reduces","redundant","reenforces","refecting","refection","refelcetion","referal","referance","refered","refereed","referencing","referrence","refined","reflecions","reflefction","refreasher","refreshers","refreshment","refuse","refuses","refvised","refvisit","region","registered","regulary","reinenforces","reinforces","reinvent","reinvigorating","reiterate","reivew","relaed","relaized","relations","relavanet","relavant","relax","released","releasted","relelvance","relevanr","reliabilty","reliabity","relics","relies","relieved","relievent","relink","relinks","relisten","remaining","remembering","renew","renewed","repeatative","repeatedly","repetition","replaying","reporting","representative","reqquire","request","requir","requiredarmy","requires","requirment","requiz","rerouces","rersources","reseaching","researched","reseource","reserach","resoiurce","resonse","resoponses","resorcess","resoucres","resourceis","resourcxes","resoure","resoureces","respecting","respective","responded","responding","responsbilities","responsble","responsibiliites","responsiblil","responsive","responsiveness","responss","resposes","resposible","resposnes","respronse","respsonse","ressources","restate","restated","restraint","restrictive","restructuring","resuources","retaught","reteach","retiring","retread","retrieval","retuning","returned","returning","revalue","revamped","reveals","reveiw","reveiwed","reviewable","reviewes","reviisit","revirew","revisied","reviwe","revtew","rewatch","rewatchable","rewatched","rewind","rewinding","rewritten","rich","righjted","ro","road","roadmaps","rolling","rollovers","roo","rote","round","routine","rsources","rsponses","rss","rti","rtt","ruined","runs","rurbric","rusty","rvised","sad","samle","sampes","sampleanswers","sand","sarurday","satisfaction","satisfactorially","satisfy","saturday","savings","savvey","savy","scaffold","scaffolded","scaffolding","scaled","scan","scanerio","scanning","scary","scenarinos","scenario's","scholarly","schooler","schools.wiksipaces","schoring","sciene","scientific","scientist","score's","scoreing","scorign","scorong","scratch","scratched","screen","screens","scroing","scroll","scrore","sdzaf","se","seaches","seamless","secitons","secondary","secrurity","secure","seeking","segregated","seing","sel","selected","selecting","selective","selfpace","seminar","seminars","senarios","senerios","senior","sensitive","sentences","separated","seperately","sequenced","series","server","serves","serving","sets","setup","severe","sfgsf","sghts","shake","shaped","shares","sheer","sheet","sheets","shoould","shotwell","should've","sicussed","sift","sight","sights","significance","siimiliar","silent","silving","simce","similarities","similiarities","simplest","sink","sited","situational","situiations","skim","slight","slowed","smaples","smart","smartboard","smarter","snips","snowball","socila","socioeconomic","soforth","sole","solely","solidifying","solution","solutions","solvers","someone's","somethings","somw","song","soring","sort","sorts","sounds","south","spanish","spanned","spare","sparking","specifice","specificity","specifiying","specs.pdf","spectific","speeches","spelling","spending","spiders","spin","spit","spouces","spreading","sq3r","sq6r","square","ssessments","stack","stadards","staggering","stakeholder","stakeholders","stakeholdr","stale","stance","standads","standard's","standardization","standardize","standardizing","standars","startegies","statewide","stating","statistic","status","stayed","stem","stephen","stimulating","stimulation","stnadards","stopped","store","straegies","strand","stratagies","strategic","strategically","stratgies","streamlined","stressful","strict","strongest","strtegies","struggles","struggling","stuck","studeent","studentreading","students's","studetns","studnet's","studnets","stuent","subjexts","submission","submit","substantial","subtopics","succint","sucesses","suck","sudying","sue","sufferthrough","sufficiantly","sufficient","suggestios","suggestive","suitable","suitble","summaries","summarized","summartive","super","superior","superseded","supervisor","supliment","supp","supplement","supply","supportive","surprised","surprisingly","surrounding","survival","suspicion","sustained","svu","sweet","swift","swings","switching","symptoms","synonyms","sytems","tab","tackle","tactics","tahnk","tale","tangible","targeting","taugt","taxnomony","taxnomy","taxomity","taxomomy","taxonamy","taxonomy's","taylor","tch","teac","teacheing","teachingchannel.org","teachings","teacjer","teahcers","teaher","team's","teaming","teamwork","teaxonomy","techers","techie","teching","techinical","techiniques","techiques","techmiques","technalagie","technogy","technolo","technologically","technolohy","technoloical","technololy","technqiues","ted.com","tedh","tehnology","teirs","teminology","tenets","tereasa","termanology","terminalogy","terminolgy","terminologies","terminonlogy","terrible","testimonies","testimony","testings","texting","tha","thathad","the.news","thebest","thechniques","thedifferent","theis","theme","themes","theories","ther","theses","theu","thi","thier","thn","thnking","thoutht","thre","threader","threading","threats","throughs","througout","throw","ths","thsi","thta","thumbs","thyat","ti","tiered","tiering","tiers","tight","tightly","timed","timelines","timesaver","timetable","timeto","tin","tinmes","tired","tiresome","title","titled","tlw","tme","tne","tobe","todays","toe","toggle","togther","tolerance","tolls","tomore","ton","tons","toold","toolkit","toolsfor","toon","topical","topmost","tops","torture","tossed","tour","touse","tpo","tracing","tracked","tradedously","tragets","train","traing","trainings","trama","tramatic","tranning","transcrips","transform","transforming","transient","transitional","transitioned","transitioning","transitions","translate","translated","translates","transmitted","traveling","travelling","treated","tree","tremendous","trenches","trend","trick","trickled","trip","trips","troubles","trusted","truthful","tte","ttechnology","tuse","tutorial's","tutprials","tv","tweet","twenty","twitter","txonomy","tyhe","tying","typical","typing","u.s","ubrics","udescription","udnerstanding","ultimate","unable","unacceptable","undaerstand","undeerstanding","underatand","undergo","undergoing","underlying","undermines","undersatnd","understadings","understadning","understandign","understandingthis","understandiny","understandng","understands","understanmd","understnading","understranding","undertandin","undertanding","undstanding","unfair","unhelpful","unified","uniform","unimportant","uninformative","unique","unleashing","unlike","unlimited","unmotivating","unorganized","unpack","unravel","unravelling","unrealistic","unstructured","unsuccessful","upbeat","updared","updata","upload","urgency","usages","usefulinformation","usefulnes","user's","users","usin","usuable","usuage","utiizing","utmost","vadeo","validataed","valluable","valuabe","valuabel","valuabl","variables","variation","variations","variious","varioius","variouse","variuos","varoius","varuious","vary","vaulabe","vbideos","vdeos","ve","ven","venture","venue","verbally","verbose","verified","verify","versa","verson","vertically","veteran","vewbs","viability","vice","vide","videol","videosshowing","videothread","vidéos","viewable","viewpoints","vignette's","vinyettes","violated","violating","virtually","visiting","visiual","visualized","viusals","vocab","vocalization","vocie","voiceover","voiceovers","voicetread","voivethread","vokie","vokies","vokis","vs.time","vulnerable","walks","waqs","wars","washington","wasting","wat","watches","wayside","wb","weaknessess","webcasts","weber","weblink","websearch","websires","weekend","weekends","weigh","weighed","wel","welth","wensite","wesite","wether","wha","whatis","whats","whatsoever","wife","wiht","wiki's","wikiis","wikipedia","willbe","william","window","wireless","withen","withthe","wizard","woman","wondering","wong","wont","wordage","worded","workinf","worksheet","worldwide","worries","worrying","worse","writing.it","writting","wrongs","wrote","wrting","ws","wtih","wuhhs","wwas","wwatching","www.copyrightkids.org","www.interventioncentral.org","www.ncpublicschools.org","www.visuwords.com","wxamples","xd","xtranormal","xx","yardstick","year's","yearly","yellow","yhe","yhr","yje","york","youth","ype","yrs","ywa","yyy","yyyyyyy"],"freq":[1885,1520,1385,1286,1139,1105,1092,1082,1013,971,876,762,754,706,608,603,573,570,565,531,516,515,514,498,488,482,461,456,441,439,432,430,411,405,402,394,388,353,349,347,328,323,318,317,316,315,309,305,300,297,297,292,286,277,275,272,264,251,251,249,245,242,242,238,231,226,226,225,224,224,219,216,215,210,207,204,201,200,198,196,196,188,186,181,179,178,176,176,172,171,170,168,167,159,158,153,153,153,153,149,144,143,141,141,140,139,138,136,135,131,130,126,125,124,123,123,123,119,118,118,118,117,116,112,111,111,111,110,109,107,107,107,107,106,106,106,105,105,104,103,103,103,102,102,102,101,101,100,99,99,99,98,98,97,97,97,95,94,93,93,93,92,92,91,90,90,88,87,86,85,83,82,81,81,81,80,80,80,79,79,78,78,77,77,77,76,76,75,75,75,73,73,72,72,71,71,71,70,70,69,68,68,67,67,67,67,66,66,65,65,65,64,64,63,63,63,63,62,62,62,62,61,61,61,61,60,60,60,60,60,60,59,59,59,58,58,58,58,57,57,57,57,57,56,56,55,54,53,53,53,52,52,52,52,52,52,52,51,51,51,51,51,50,50,50,50,50,50,50,50,49,49,48,48,48,48,48,47,47,47,46,46,46,46,45,45,45,44,44,44,44,44,44,43,43,43,43,43,43,43,42,42,42,42,41,41,41,41,41,41,41,41,41,41,41,40,40,40,40,40,40,40,40,40,40,39,39,39,39,39,39,39,39,38,38,38,38,38,38,38,38,38,38,37,37,37,37,37,37,37,37,37,37,37,36,36,36,36,36,36,36,35,35,35,35,35,35,35,34,34,34,34,34,34,34,34,33,33,33,33,33,33,33,33,33,32,32,32,32,32,32,32,32,32,32,32,31,31,31,31,31,31,31,31,31,31,31,31,30,30,30,30,30,30,30,30,30,30,30,29,29,29,29,29,29,29,29,29,29,29,29,29,29,28,28,28,28,28,28,28,28,28,28,28,27,27,27,27,27,27,27,27,27,27,27,27,27,26,26,26,26,26,26,26,26,26,26,26,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,24,24,24,24,24,24,24,24,24,24,23,23,23,23,23,23,23,23,23,23,23,23,23,23,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,21,21,21,21,21,21,21,21,21,21,21,21,21,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-dark","minSize":0,"weightFactor":0.09549071618037135,"backgroundColor":"white","gridSize":0,"minRotation":-0.7853981633974483,"maxRotation":0.7853981633974483,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
+</div>
+</div>
+<p>I use wordclouds pretty sparingly in evaluation reports, but typically include them for open ended items in online Qualtrics survey reports to provide education partners I work with a quick snapshot of the response.</p>
+<p>Once installed, I recommend using <code>?wordclouds2</code> to view the various arguments for cleaning up the default view.</p>
+</section>
+<section id="basic-bar-chart" class="level4">
+<h4 class="anchored" data-anchor-id="basic-bar-chart">Basic Bar Chart</h4>
+<p>The bar chart is the workhorse for data viz and is pretty effective for comparing two or more values. Given the unique aspect of our tidy text data frame, however, we are looking at upwards of over 5,000 values (i.e.&nbsp;words and their counts) to compare with our <code>opd_counts</code> data frame and will need some way to limit the number of words to display.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>opd_counts <span class="sc">%&gt;%</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">500</span>) <span class="sc">%&gt;%</span> <span class="co"># keep rows with word counts greater than 500</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">word =</span> <span class="fu">reorder</span>(word, n)) <span class="sc">%&gt;%</span> <span class="co">#reorder the word variable by n and replace with new variable called word</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(n, word)) <span class="sc">+</span> <span class="co"># create a plot with n on x axis and word on y axis</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="co"># make it a bar plot</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tm-1-case-study-key-R_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="small-multiples" class="level4">
+<h4 class="anchored" data-anchor-id="small-multiples">Small Multiples</h4>
+<p>Word clouds and bar charts are pretty effective for highlighting the most common words in an entire corpus, or in our case, all teacher survey responses, regardless of resource type being reviewed.</p>
+<p>One limitation we ran into earlier when we started looking at word frequencies and tf-idf stats was that it was difficult to easily compare the most common or unique words for each resource type. That is where small multiples come. A small multiple is basically a series of similar graphs or charts using the same scale and axes that make it easier to compare across different document collections of interest, in our case, word counts by resource type.</p>
+<p>Let’s use the example illustrated in Text Mining with R to create a small multiple for our <code>opd_frequencies</code> data set instead of the <code>opd_tf_idf</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forcats)</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>opd_frequencies <span class="sc">%&gt;%</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Resource <span class="sc">!=</span> <span class="st">"Calendar"</span>) <span class="sc">%&gt;%</span> <span class="co"># remove Calendar responses, too few. </span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Resource) <span class="sc">%&gt;%</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(proportion, <span class="at">n =</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(proportion, <span class="fu">fct_reorder</span>(word, proportion), <span class="at">fill =</span> Resource)) <span class="sc">+</span></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Resource, <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">scales =</span> <span class="st">"free"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tm-1-case-study-key-R_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="comprehension-check-3" class="level4">
+<h4 class="anchored" data-anchor-id="comprehension-check-3">Comprehension Check</h4>
+<ol type="1">
+<li>Create a word cloud, bar chart, and/or small multiple using your <code>opd_benefits</code> data.</li>
+</ol>
+<hr>
+</section>
+</section>
+</section>
+<section id="model" class="level2">
+<h2 class="anchored" data-anchor-id="model">4. MODEL</h2>
+<p>As highlighted in <a href="https://datascienceineducation.com/c03.html">Chapter 3 of Data Science in Education Using R</a>, the <strong>Model</strong> step of the data science process entails “using statistical models, from simple to complex, to understand trends and patterns in the data.” The authors note that while descriptive statistics and data visualization during the <strong>Explore</strong> step can help us to identify patterns and relationships in our data, statistical models can be used to help us determine if relationships, patterns and trends are actually meaningful.</p>
+<p>In <a href="https://catalog.lib.ncsu.edu/catalog/NCSU4862134">Learning Analytics Goes to School</a>, the authors describe modeling as simply developing a mathematical summary of a dataset and note that there are two general types to modeling: unsupervised and supervised learning. Unsupervised learning algorithms, which will be the focus in this lab, are used to explore the structure of a dataset, while supervised models “help to quantify relationships between features and a known outcome.”</p>
+<p>We will explore the use of models for text mining in future labs, but if you are interested in looking ahead to see how they might be applied to text as data, I recommend taking a look at <a href="https://www.tidytextmining.com/topicmodeling.html">Chapter 6 Topic Modeling</a> from Text Mining with R: A Tidy Approach. Chris Bail in his Text as Data course also provides a nice introduction to Topic Modeling, including Structural Topic Modeling, which we will explore using the <code>stm</code> package in future labs.</p>
+<p>Finally, if you have not already done so, I ask that at minimum you read Chapter 3 of DSIEUR as well as the section on the Data-Intensive Research Workflow from Chapter 2 of Learning Analytics Goes to school.</p>
+<hr>
+</section>
+<section id="communicate" class="level2">
+<h2 class="anchored" data-anchor-id="communicate">5. COMMUNICATE</h2>
+<p>The final(ish) step in our workflow/process is sharing the results of analysis with wider audience. Krumm et al.&nbsp;(2018) have outline the following 3-step process for communicating with education stakeholders what you have learned through analysis:</p>
+<ol type="1">
+<li><strong>Select</strong>. Communicating what one has learned involves selecting among those analyses that are most important and most useful to an intended audience, as well as selecting a form for displaying that information, such as a graph or table in static or interactive form, i.e.&nbsp;a “data product.”</li>
+<li><strong>Polish</strong>. After creating initial versions of data products, research teams often spend time refining or polishing them, by adding or editing titles, labels, and notations and by working with colors and shapes to highlight key points.</li>
+<li><strong>Narrate</strong>. Writing a narrative to accompany the data products involves, at a minimum, pairing a data product with its related research question, describing how best to interpret the data product, and explaining the ways in which the data product helps answer the research question.</li>
+</ol>
+<p>In this particular walkthrough, our target audience is developers of online professional learning opportunities who are looking to receive feedback on what’s working well and potential areas for improvement. This lets us assume a good deal of prior knowledge on their end about the context of the evaluation, a high level of familiarly with the online professional development resources being assessed, and fairly literate at reading and interpreting data and charts. This also lets us simplify our data products and narrative and reduce the level of detail needed to communicate useful information.</p>
+<p>For summative evaluation, typically at the end of a school year or grant period when the emphasis is on assessing program outcomes and impact, our audience would extend to those less familiar with the program but with a vested interest in program’s success, such as the NC State Board of Education or those directly impacted by the program including NC educators is general. In that case, our data product would need to include much more narrative to provide context and greater detail in charts and graphs in order to help interpret the data presented.</p>
+<section id="a.-select" class="level3">
+<h3 class="anchored" data-anchor-id="a.-select">5a. Select</h3>
+<section id="analyses" class="level4">
+<h4 class="anchored" data-anchor-id="analyses"><strong>Analyses</strong></h4>
+<p>For analyses to present, I’m going to focus primarily on:</p>
+<ol type="1">
+<li><strong>Word Counts</strong>. One of the first things I’ll share with my audience is my analysis of word counts since these are very easy to interpret will provide online PD developers with some instant insight.</li>
+<li><strong>Word Search</strong>. I also think it’s important to include some actual participant responses for select key words in order to provide additional information about how those words are being used on context. I may handpick some select quotes or present a random selection of quotes.</li>
+<li><strong>TF-IDF</strong>. Finally, as a way to potentially help them weed through words unique to specific resources, as well as potentially identify some areas for potential follow-up and to dig deeper, I’ll discuss</li>
+</ol>
+<p>I’ve decided to exclude analyses of just term frequency because I feel like simply counts are easier to quickly interpret while tf-idf provides more nuance. I also want to be careful not to overwhelm my audience.</p>
+</section>
+<section id="data-products" class="level4">
+<h4 class="anchored" data-anchor-id="data-products"><strong>Data Products</strong></h4>
+<p>In terms of “data products” and form, and because this is a simple demonstration for sharing analyses and our first experience in this lab with independently analysis, I’ll prepare my data product as a basic slide show that includes the following charts:</p>
+<ol type="1">
+<li><strong>Word Cloud</strong>. This is really as much decorative as it is a means to communicate key findings. I’ll probably include this on my title slide as a way to immediately engage my audience and provide a preview of findings I’ll share. It’s also a way to include common words that may not make the cut in my bar chart.</li>
+<li><strong>Bar Chart</strong>. I’ll definitely share with them the bar chart I created earlier as a means to focus on the most common words used by teachers across all resources. Also, this is a little less busy than a word cloud and allows them to quickly see the top words in order.</li>
+<li><strong>Quotes</strong>. As noted above, I also feel it’s important to provide some participants responses that help explain how the common words are being used in context.</li>
+<li><strong>Small Multiples</strong>. Although at this point a little skeptical about how meaningful the tf-idf analysis was due to issues such as spelling as well as the limited number of responses for many resources, I think the small multiples chart will help to spark discussion among PD developers about specific aspects of each resource type that teachers’ value.</li>
+</ol>
+</section>
+<section id="sharing-format" class="level4">
+<h4 class="anchored" data-anchor-id="sharing-format">Sharing Format</h4>
+<p>We’ll be using <a href="https://rmarkdown.rstudio.com">R Markdown</a> to create a slide deck or short report that documents our independent analysis. R Markdown files can also be used to create a <a href="https://rmarkdown.rstudio.com/gallery.html">wide range of outputs and formats</a>, including polished PDF or Word documents, websites, web apps, journal articles, online books, interactive tutorials and more. And to make this process even more user-friendly, R Studio now includes <a href="https://rstudio.github.io/visual-markdown-editing/#/">a visual editor</a>! This lets you create R Markdown files like you would with a standard word processing tool.</p>
+<p>An additional advantage of R Markdown compared to the alternative of copying and pasting tables and charts created from an R script to Word or PowerPoint is that you can embed your R code directly in your R Markdown file making it easy to updated your charts as needed and share your R Markdown file with others so they can inspect your code and reproduce your analysis, i.e.&nbsp;<a href="https://vickysteeves.gitlab.io/repro-papers/r-markdown-in-reproducible-research.html">reproducible research</a>.</p>
+</section>
+</section>
+<section id="b.-polish" class="level3">
+<h3 class="anchored" data-anchor-id="b.-polish">5b. Polish</h3>
+<section id="word-cloud" class="level4">
+<h4 class="anchored" data-anchor-id="word-cloud">Word Cloud</h4>
+<p>To make the word cloud a little less busy and a little more useful, I removed the multitude of colors from the default setting, and using some modified code form the <code>?wordclouds2</code> help file, I’ve included an argument in the <code>wordclouds2( )</code> function to use the color black for words that occur more than 1000 times, and gray for the rest.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wordcloud2)</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="fu">wordcloud2</span>(opd_counts,</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="fu">ifelse</span>(opd_counts[, <span class="dv">2</span>] <span class="sc">&gt;</span> <span class="dv">1000</span>, <span class="st">'black'</span>, <span class="st">'gray'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img src="img/cloud-clean.png" class="img-fluid" style="width:70.0%"></p>
+</section>
+<section id="bar-chart" class="level4">
+<h4 class="anchored" data-anchor-id="bar-chart">Bar Chart</h4>
+<p>For my bar chart, I did some minor clean up, including editing the x-axis title, removing the redundant y axis by setting it to <code>NULL</code>, and adding a title. I also used the built-in <code>theme_minimal( )</code> function layer to simplify the look. If this were something for a more formal report, I’d probably finesse it even more, but it gets the point across.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>opd_counts <span class="sc">%&gt;%</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">500</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">word =</span> <span class="fu">reorder</span>(word, n)) <span class="sc">%&gt;%</span></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(n, word)) <span class="sc">+</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span> </span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Word Counts"</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"20 Most Frequently Used Words to Describe the Value of Online Resources"</span>) <span class="sc">+</span> </span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tm-1-case-study-key-R_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="small-multiples-1" class="level4">
+<h4 class="anchored" data-anchor-id="small-multiples-1">Small Multiples</h4>
+<p>Finally, two related issues that I want to clean up a little with respect to tf-idf before sharing with an outside audience are the appearance of stop words and too few responses for the Calendar online learning resources.</p>
+<p>First, I’ll reuse my <code>opd_clean</code> data frame which had my stop words removed to create my new <code>opd_tf_idf</code> data frame.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>opd_resource_counts <span class="ot">&lt;-</span> opd_clean <span class="sc">%&gt;%</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Resource, word)</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>total_words <span class="ot">&lt;-</span> opd_resource_counts <span class="sc">%&gt;%</span></span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Resource) <span class="sc">%&gt;%</span></span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">sum</span>(n))</span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>opd_words <span class="ot">&lt;-</span> <span class="fu">left_join</span>(opd_resource_counts, total_words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(Resource)`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>opd_tf_idf <span class="ot">&lt;-</span> opd_words <span class="sc">%&gt;%</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_tf_idf</span>(word, Resource, n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then I’ll use the <code>filter()</code> function to remove any response pertaining to Calendar and add some labels using the <code>labs()</code> function. Again, if this were a chart destined for a more formal report, I’d also clean up the Resource names to make them more readable and fit properly on each bar plot.</p>
+<p>Finally, with the help of <a href="https://twitter.com/sorayaworldwide">Soraya Campbell</a>, I’ve fixed the pesky issue with the charts not ordering by tf-idf value properly by changing <code>Resource</code> from a character to a factor and using the <code>reorder_within</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>opd_tf_idf <span class="sc">%&gt;%</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Resource <span class="sc">!=</span> <span class="st">"Calendar"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Resource) <span class="sc">%&gt;%</span></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(tf_idf, <span class="at">n =</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Resource=</span><span class="fu">as.factor</span>(Resource),</span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">word=</span><span class="fu">reorder_within</span>(word, tf_idf, Resource)) <span class="sc">%&gt;%</span></span>
+<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(word, tf_idf, <span class="at">fill =</span> Resource)) <span class="sc">+</span></span>
+<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Resource, <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb63-11"><a href="#cb63-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb63-12"><a href="#cb63-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_reordered</span>() <span class="sc">+</span></span>
+<span id="cb63-13"><a href="#cb63-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Words Unique to Each Online Learning Resurcecs"</span>, <span class="at">x =</span> <span class="st">"tf-idf value"</span>, <span class="at">y =</span> <span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="tm-1-case-study-key-R_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
