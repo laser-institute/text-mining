@@ -1,0 +1,1792 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dr.&nbsp;Shiyan Jiang">
+
+<title>Lab 4: Topic Modeling in MOOC-Eds with Python</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="lab-4-case-study-python_files/libs/clipboard/clipboard.min.js"></script>
+<script src="lab-4-case-study-python_files/libs/quarto-html/quarto.js"></script>
+<script src="lab-4-case-study-python_files/libs/quarto-html/popper.min.js"></script>
+<script src="lab-4-case-study-python_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="lab-4-case-study-python_files/libs/quarto-html/anchor.min.js"></script>
+<link href="lab-4-case-study-python_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="lab-4-case-study-python_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="lab-4-case-study-python_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="lab-4-case-study-python_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="lab-4-case-study-python_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> 0. INTRODUCTION</a>
+  <ul class="collapse">
+  <li><a href="#walkthrough-focus" id="toc-walkthrough-focus" class="nav-link" data-scroll-target="#walkthrough-focus"><span class="header-section-number">1.1</span> Walkthrough Focus</a></li>
+  </ul></li>
+  <li><a href="#prepare" id="toc-prepare" class="nav-link" data-scroll-target="#prepare"><span class="header-section-number">2</span> 1. PREPARE</a>
+  <ul class="collapse">
+  <li><a href="#a.-context" id="toc-a.-context" class="nav-link" data-scroll-target="#a.-context"><span class="header-section-number">2.1</span> 1a. Context</a></li>
+  <li><a href="#b.-guiding-questions" id="toc-b.-guiding-questions" class="nav-link" data-scroll-target="#b.-guiding-questions"><span class="header-section-number">2.2</span> 1b. Guiding Questions</a></li>
+  <li><a href="#c.-set-up" id="toc-c.-set-up" class="nav-link" data-scroll-target="#c.-set-up"><span class="header-section-number">2.3</span> 1c. Set Up</a></li>
+  </ul></li>
+  <li><a href="#wrangle" id="toc-wrangle" class="nav-link" data-scroll-target="#wrangle"><span class="header-section-number">3</span> 2. WRANGLE</a>
+  <ul class="collapse">
+  <li><a href="#a.-import-forum-data" id="toc-a.-import-forum-data" class="nav-link" data-scroll-target="#a.-import-forum-data"><span class="header-section-number">3.1</span> 2a. Import Forum Data</a></li>
+  <li><a href="#b.-subset-columns-and-rows" id="toc-b.-subset-columns-and-rows" class="nav-link" data-scroll-target="#b.-subset-columns-and-rows"><span class="header-section-number">3.2</span> 2b. Subset Columns and Rows</a></li>
+  <li><a href="#c.-prepare-data-for-lda-model" id="toc-c.-prepare-data-for-lda-model" class="nav-link" data-scroll-target="#c.-prepare-data-for-lda-model"><span class="header-section-number">3.3</span> 2c. Prepare Data for LDA Model</a></li>
+  </ul></li>
+  <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model"><span class="header-section-number">4</span> 3. MODEL</a>
+  <ul class="collapse">
+  <li><a href="#a.-fitting-a-topic-modeling-with-lda" id="toc-a.-fitting-a-topic-modeling-with-lda" class="nav-link" data-scroll-target="#a.-fitting-a-topic-modeling-with-lda"><span class="header-section-number">4.1</span> 3a. Fitting a Topic Modeling with LDA</a></li>
+  <li><a href="#b.-finding-optimal-k---num_topics" id="toc-b.-finding-optimal-k---num_topics" class="nav-link" data-scroll-target="#b.-finding-optimal-k---num_topics"><span class="header-section-number">4.2</span> 3b. Finding optimal K - num_topics</a></li>
+  </ul></li>
+  <li><a href="#explore" id="toc-explore" class="nav-link" data-scroll-target="#explore"><span class="header-section-number">5</span> 4. EXPLORE</a>
+  <ul class="collapse">
+  <li><a href="#a.-visualizing-topics-by-pyldavis" id="toc-a.-visualizing-topics-by-pyldavis" class="nav-link" data-scroll-target="#a.-visualizing-topics-by-pyldavis"><span class="header-section-number">5.1</span> 4a. Visualizing Topics by pyLDAvis</a></li>
+  <li><a href="#b.-finding-the-dominant-topic-for-each-document" id="toc-b.-finding-the-dominant-topic-for-each-document" class="nav-link" data-scroll-target="#b.-finding-the-dominant-topic-for-each-document"><span class="header-section-number">5.2</span> 4b. Finding the Dominant Topic for Each Document</a></li>
+  <li><a href="#c.-finding-the-dominant-words-for-each-topic" id="toc-c.-finding-the-dominant-words-for-each-topic" class="nav-link" data-scroll-target="#c.-finding-the-dominant-words-for-each-topic"><span class="header-section-number">5.3</span> 4c. Finding the Dominant Words for Each Topic</a></li>
+  <li><a href="#d.-finding-the-dominate-documents-for-each-topic" id="toc-d.-finding-the-dominate-documents-for-each-topic" class="nav-link" data-scroll-target="#d.-finding-the-dominate-documents-for-each-topic"><span class="header-section-number">5.4</span> 4d. Finding the Dominate Documents for Each Topic</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lab 4: Topic Modeling in MOOC-Eds with Python</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr.&nbsp;Shiyan Jiang </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> 0. INTRODUCTION</h2>
+<p>This case study walkthrough extends previous research and evaluation work at the Friday Institute for Educational Innovation at North Carolina State University. In addition to many other areas of inquiry, this work was aimed at understanding and improving peer interaction and discussion in the Friday Institute’s Massively Open Online Courses for Educators (MOOC-Ed) and Online Professional Learning programs. To learn more about these courses and programs, visit: <a href="https://place.fi.ncsu.edu" class="uri">https://place.fi.ncsu.edu</a></p>
+<section id="walkthrough-focus" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="walkthrough-focus"><span class="header-section-number">1.1</span> Walkthrough Focus</h3>
+<p>Our focus will be on identifying “topics” by examining how words cohere into different latent, or hidden, themes based on patterns of co-occurrence of words within documents. With a bit of tongue-in-cheek,&nbsp;<a href="http://journalofdigitalhumanities.org/2-1/dh-contribution-to-topic-modeling/">Meeks and Weingart (2012)</a>&nbsp;describe topic modeling as:&nbsp;</p>
+<blockquote class="blockquote">
+<p><em>…focused on corpora and not individual texts, treating the works themselves as unceremonious ‘buckets of words,’ and providing seductive but obscure results in the forms of easily interpreted (and manipulated) ‘topics’…. To achieve its results, it leverages occult statistical methods like ‘dirichlet priors’ and ‘bayesian models.’</em></p>
+</blockquote>
+<p>That being said, <a href="http://journalofdigitalhumanities.org/2-1/dh-contribution-to-topic-modeling/">Weingart</a> also noted that “a topic model is a”clever and exceptionally versatile little algorithm that can be customized to all sorts of applications” and <a href="https://sicss.io/2020/materials/day3-text-analysis/topic-modeling/rmarkdown/Topic_Modeling.html#running-your-first-topic-model">Bail (2020)</a> add that topic modeling can be “a powerful tool for identifying general trends in a corpus that can then be analyzed in a more granular manner using other techniques.”</p>
+<p>As noted by Krumm and Means (2018), the workflow for topic modelling is not always a linear process and there is often a great deal of iteration that occurs within and between wrangling, exploring, modeling. In this case study, we will primarily explore our data after the modeling process in order to gain some additional insight into the topics generated by our model. Specifically, this walkthrough covers the following concepts and skills:</p>
+<ol type="1">
+<li><strong>Prepare</strong>: Prior to analysis, we’ll take a quick look at some of the related MOOC-Ed research and evaluation work to gain some context for our analysis. This should aid in the interpretation of our results and help guide some decisions as we tidy, model, and visualize our data.</li>
+<li><strong>Wrangle</strong>: In section 2, we again preprocess text such as tokenizing, removing stop words and lemmatizing using the <code>nltk</code> library. Other than these, there are two more essential steps to preprocess the text for topic modelling, which are creating a dictionary by using <code>corpora.Dictionary</code> and a corpus by using <code>doc2bow()</code> function, both steps will use <code>gensim</code> library.</li>
+<li><strong>Model</strong>: We take a look at the most popular topic modeling algorithms: Latent Dirichlet Allocation (LDA) and using <code>gensim</code> library to implement the model. We also use coherence score approach to find the optimal number of topics for the LDA model.</li>
+<li><strong>Explore</strong>: To further explore the results of our topic model, we use <code>pyLDAvis</code> for visualizing and exploring the discovered topics such as finding the dominate topics for each document, finding the dominate words for each topic, and finding the dominate documents for each topic.</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="prepare" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="prepare"><span class="header-section-number">2</span> 1. PREPARE</h2>
+<p>To help us better understand the context, questions, and data sources we’ll be using, this section will focus on the following topics:</p>
+<ol type="a">
+<li><strong>Context</strong>. As context for our analysis, we’ll review several related papers by my colleagues relevant to the analysis of MOOC-Ed discussion forums.</li>
+<li><strong>Questions.</strong> We’ll also examine what insight topic modeling can provide to a question that we asked participants answer in their professional learning teams (PLTs).</li>
+<li><strong>Project Setup.</strong> We will set up a “home’ environment for the files and codes for lab 3 by installling and importing the required libraries for the topic modeling walkthrough.</li>
+</ol>
+<section id="a.-context" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="a.-context"><span class="header-section-number">2.1</span> 1a. Context</h3>
+<section id="participating-in-a-mooc-and-professional-learning-team-how-a-blended-approach-to-professional-development-makes-a-difference" class="level4" data-number="2.1.1">
+<h4 data-number="2.1.1" class="anchored" data-anchor-id="participating-in-a-mooc-and-professional-learning-team-how-a-blended-approach-to-professional-development-makes-a-difference"><span class="header-section-number">2.1.1</span> Participating in a MOOC and Professional Learning Team: How a Blended Approach to Professional Development Makes a Difference</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://place.fi.ncsu.edu/local/catalog/course.php?id=4&amp;ref=1"><img src="img/tsdi.png" title="Our world is rich with data sources, and technology makes data more accessible than ever before! To help ensure students are future ready to use data for making informed decisions, many countries around the world have increased the emphasis on statistics and data analysis in school curriculum–from elementary/primary grades through college. This course allows you to learn, along with colleagues from other schools, an investigation cycle to teach statistics and to help students explore data to make evidence-based claims. To learn more about engaging learners in making inferences and claims supported by data and how to emphasize inferential reasoning in teaching statistics through posing different types of investigative questions, enroll in our Teaching Statistics through Inferential Reasoning MOOC-Ed." class="img-fluid figure-img" alt="Teaching Statistics Through Data Investigations MOOC-Ed"></a></p>
+<figcaption>Teaching Statistics Through Data Investigations MOOC-Ed</figcaption>
+</figure>
+</div>
+<p>Full text: <a href="https://www.learntechlib.org/p/195234/" class="uri">https://www.learntechlib.org/p/195234/</a></p>
+<p><strong>Abstract</strong></p>
+<p>Massive Open Online Courses for Educators (MOOC-Eds) provide opportunities for using research-based learning and teaching practices, along with new technological tools and facilitation approaches for delivering quality online professional development. The Teaching Statistics Through Data Investigations MOOC-Ed was built for preparing teachers in pedagogy for teaching statistics, and it has been offered to participants from around the world. During 2016-2017, professional learning teams (PLTs) were formed from a subset of MOOC-Ed participants. These teams met several times to share and discuss their learning and experiences. This study focused on examining the ways that a blended approach to professional development may result in similar or different patterns of engagement to those who only participate in a large-scale online course. Results show the benefits of a blended learning environment for retention, engagement with course materials, and connectedness within the online community of learners in an online professional development on teaching statistics. The findings suggest the use of self-forming autonomous PLTs for supporting a deeper and more comprehensive experience with self-directed online professional developments such as MOOCs. Other online professional development courses, such as MOOCs, may benefit from purposely suggesting and advertising, and perhaps facilitating, the formation of small face-to-face or virtual PLTs who commit to engage in learning together.</p>
+<p><strong>Data Source &amp; Analysis</strong></p>
+<p>All peer interaction, including peer discussion, take place within discussion forums of MOOC-Eds, which are hosted using the Moodle Learning Management System. To build the dataset you’ll be using for this walkthrough, the research team wrote a query for Moodle’s MySQL database, which records participants’ user-logs of activity in the online forums. This sql query combines separate database tables containing postings and comments including participant IDs, timestamps, discussion text and other attributes or “metadata.”</p>
+<p>For further description of the forums and data retrieval process, see also the following papers:</p>
+<ul>
+<li><p>Kellogg, S., &amp; Edelmann, A. (2015). <a href="https://bera-journals.onlinelibrary.wiley.com/doi/pdfdirect/10.1111/bjet.12312">Massively Open Online Course for Educators (MOOC‐Ed) network dataset</a>.&nbsp;<em>British journal of educational technology</em>,&nbsp;<em>46</em>(5), 977-983.</p></li>
+<li><p>Ezen-Can, A., Boyer, K. E., Kellogg, S., &amp; Booth, S. (2015, March). <a href="https://dl.acm.org/doi/pdf/10.1145/2723576.2723589">Unsupervised modeling for understanding MOOC discussion forums: a learning analytics approach</a>. In&nbsp;<em>Proceedings of the fifth international conference on learning analytics and knowledge</em>&nbsp;(pp.&nbsp;146-150).</p></li>
+<li><p>Kellogg, S., Booth, S., &amp; Oliver, K. (2014). <a href="https://www.erudit.org/en/journals/irrodl/1900-v1-n1-irrodl04945/1065545ar.pdf">A social network perspective on peer supported learning in MOOCs for educators.</a>&nbsp;<em>International Review of Research in Open and Distributed Learning</em>,&nbsp;<em>15</em>(5), 263-289.</p></li>
+</ul>
+<p><strong>Summary of Key Findings</strong></p>
+<p>The following highlight some key findings related to the discussion forums in the papers cited above:</p>
+<ol type="1">
+<li>MOOCs designed specifically for K-12 teachers can provide positive self-directed learning experiences and rich engagement in discussion forums that help form online communities for educators.</li>
+<li>Analysis of discussion forum data in TSDI provided a very clear picture of how enthusiastic many PLT members and leaders were to talk to others in the online community. They posed their questions and shared ideas with others about teaching statistics throughout the units, even though they were also meeting synchronously several times with their colleagues in small group PLTs.</li>
+<li>Findings on knowledge construction demonstrated that over half of the discussions in both courses moved beyond sharing information and statements of agreement and entered a process of dissonance, negotiation and co-construction of knowledge, but seldom moved beyond this phase in which new knowledge was tested or applied. These findings echo similar research on difficulties in promoting knowledge construction in online settings.</li>
+<li>Topic modeling provides more interpretable and cohesive models for discussion forums than other popular unsupervised modeling techniques such as k-means and k-medoids clustering algorithms.</li>
+</ol>
+</section>
+</section>
+<section id="b.-guiding-questions" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="b.-guiding-questions"><span class="header-section-number">2.2</span> 1b. Guiding Questions</h3>
+<p>For the paper, <a href="https://www.learntechlib.org/p/195234/"><em>Participating in a MOOC and Professional Learning Team: How a Blended Approach to Professional Development Makes a Difference</em></a>, the researchers were interested in unpacking how participants who enrolled in the Teaching Statistics through Data Investigations MOOC-Ed might benefit from also being in a smaller group of professionals committed to engaging in the same professional development. The specific research question for this paper was:</p>
+<blockquote class="blockquote">
+<p>What are the similarities and differences between how PLT members and Non-PLT online participants engage and meet course goals in a MOOC-Ed designed for educators in secondary and collegiate settings?</p>
+</blockquote>
+<p>Dr.&nbsp;Hollylynne Lee and the TSDI team also developed a facilitation guide designed specifically for PLT teams to help groups synthesize the ideas in the course and make plans for how to implement new strategies in their classroom in order to impact students’ learning of statistics. One question PLT members were asked to address was:</p>
+<blockquote class="blockquote">
+<p>What ideas or issues emerged in the discussion forums this past week?</p>
+</blockquote>
+<p>For this walkthrough, we will further examine that question through the use of topic modeling.</p>
+<p>One overarching question that Silge and Robinson (2018) identify as a central question to text mining and natural language processing, is:</p>
+<blockquote class="blockquote">
+<p>How do we to <strong>quantify</strong> what a document or collection of documents is about?</p>
+</blockquote>
+</section>
+<section id="c.-set-up" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="c.-set-up"><span class="header-section-number">2.3</span> 1c. Set Up</h3>
+<p>First, let’s load the following libraries that we’ll be needing for this walkthrough:</p>
+<ul>
+<li><p><a href="https://pandas.pydata.org"><code>pandas</code></a>: a powerful and widely-used Python library for data manipulation and analysis. It provides data structures and functions needed to work seamlessly with structured data, such as tables and time series.</p></li>
+<li><p><a href="https://www.google.com/url?sa=t&amp;source=web&amp;rct=j&amp;opi=89978449&amp;url=https://www.nltk.org/&amp;ved=2ahUKEwid7Pn-97-GAxWKMVkFHSOqBuUQFnoECB4QAQ&amp;usg=AOvVaw1cuWsEY8ZUmW75nSDfXo7m"><code>nltk</code></a>: a suite of libraries and programs for symbolic and statistical natural language processing for English written in the Python programming language. It supports classification, tokenization, stemming, tagging, parsing, and semantic reasoning functionalities.</p></li>
+<li><p><a href="https://pypi.org/project/gensim/"><code>gensim</code></a>: a Python library designed for natural language processing (NLP) tasks such as topic modeling, document indexing, and similarity retrieval, particularly with large text corpora. Gensim provides efficient implementations of popular topic modeling algorithms such as Latent Dirichlet Allocation (LDA) and Latent Semantic Analysis (LSA).</p></li>
+<li><p><a href="https://matplotlib.org"><code>matplotlib</code></a>: a comprehensive library for creating static, animated, and interactive visualizations in Python. It is widely used across various scientific and engineering disciplines to create high-quality graphs, charts, and plots.</p></li>
+<li><p><a href="https://seaborn.pydata.org"><code>seaborn</code></a>: a Python data visualization library based on <code>matplotlib</code>. It provides a high-level interface for drawing attractive and informative statistical graphics.</p></li>
+<li><p><a href="https://pypi.org/project/pyLDAvis/"><code>pyLDAvis</code></a>: a Python library used for interactive visualization of topic models. It is designed to help users interpret the topics in a topic model that has been fit to a corpus of text data. The package extracts information from a fitted LDA topic model to inform an interactive web-based visualization.</p></li>
+</ul>
+<div id="7f6f966b" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install pandas nltk gensim matplotlib seaborn pyLDAvis</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Requirement already satisfied: pandas in /opt/anaconda3/lib/python3.11/site-packages (2.1.4)
+Requirement already satisfied: nltk in /opt/anaconda3/lib/python3.11/site-packages (3.8.1)
+Requirement already satisfied: gensim in /opt/anaconda3/lib/python3.11/site-packages (4.3.0)
+Requirement already satisfied: matplotlib in /opt/anaconda3/lib/python3.11/site-packages (3.8.0)
+Requirement already satisfied: seaborn in /opt/anaconda3/lib/python3.11/site-packages (0.12.2)
+Requirement already satisfied: pyLDAvis in /opt/anaconda3/lib/python3.11/site-packages (3.4.1)
+Requirement already satisfied: numpy&lt;2,&gt;=1.23.2 in /opt/anaconda3/lib/python3.11/site-packages (from pandas) (1.26.4)
+Requirement already satisfied: python-dateutil&gt;=2.8.2 in /opt/anaconda3/lib/python3.11/site-packages (from pandas) (2.8.2)
+Requirement already satisfied: pytz&gt;=2020.1 in /opt/anaconda3/lib/python3.11/site-packages (from pandas) (2023.3.post1)
+Requirement already satisfied: tzdata&gt;=2022.1 in /opt/anaconda3/lib/python3.11/site-packages (from pandas) (2023.3)
+Requirement already satisfied: click in /opt/anaconda3/lib/python3.11/site-packages (from nltk) (8.1.7)
+Requirement already satisfied: joblib in /opt/anaconda3/lib/python3.11/site-packages (from nltk) (1.2.0)
+Requirement already satisfied: regex&gt;=2021.8.3 in /opt/anaconda3/lib/python3.11/site-packages (from nltk) (2023.10.3)
+Requirement already satisfied: tqdm in /opt/anaconda3/lib/python3.11/site-packages (from nltk) (4.65.0)
+Requirement already satisfied: scipy&gt;=1.7.0 in /opt/anaconda3/lib/python3.11/site-packages (from gensim) (1.11.4)
+Requirement already satisfied: smart-open&gt;=1.8.1 in /opt/anaconda3/lib/python3.11/site-packages (from gensim) (5.2.1)
+Requirement already satisfied: FuzzyTM&gt;=0.4.0 in /opt/anaconda3/lib/python3.11/site-packages (from gensim) (2.0.9)
+Requirement already satisfied: contourpy&gt;=1.0.1 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (1.2.0)
+Requirement already satisfied: cycler&gt;=0.10 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (0.11.0)
+Requirement already satisfied: fonttools&gt;=4.22.0 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (4.25.0)
+Requirement already satisfied: kiwisolver&gt;=1.0.1 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (1.4.4)
+Requirement already satisfied: packaging&gt;=20.0 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (23.1)
+Requirement already satisfied: pillow&gt;=6.2.0 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (10.2.0)
+Requirement already satisfied: pyparsing&gt;=2.3.1 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (3.0.9)
+Requirement already satisfied: jinja2 in /opt/anaconda3/lib/python3.11/site-packages (from pyLDAvis) (3.1.3)
+Requirement already satisfied: numexpr in /opt/anaconda3/lib/python3.11/site-packages (from pyLDAvis) (2.8.7)
+Requirement already satisfied: funcy in /opt/anaconda3/lib/python3.11/site-packages (from pyLDAvis) (2.0)
+Requirement already satisfied: scikit-learn&gt;=1.0.0 in /opt/anaconda3/lib/python3.11/site-packages (from pyLDAvis) (1.2.2)
+Requirement already satisfied: setuptools in /opt/anaconda3/lib/python3.11/site-packages (from pyLDAvis) (68.2.2)
+Requirement already satisfied: pyfume in /opt/anaconda3/lib/python3.11/site-packages (from FuzzyTM&gt;=0.4.0-&gt;gensim) (0.3.1)
+Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas) (1.16.0)
+Requirement already satisfied: threadpoolctl&gt;=2.0.0 in /opt/anaconda3/lib/python3.11/site-packages (from scikit-learn&gt;=1.0.0-&gt;pyLDAvis) (2.2.0)
+Requirement already satisfied: MarkupSafe&gt;=2.0 in /opt/anaconda3/lib/python3.11/site-packages (from jinja2-&gt;pyLDAvis) (2.1.3)
+Requirement already satisfied: simpful in /opt/anaconda3/lib/python3.11/site-packages (from pyfume-&gt;FuzzyTM&gt;=0.4.0-&gt;gensim) (2.12.0)
+Requirement already satisfied: fst-pso in /opt/anaconda3/lib/python3.11/site-packages (from pyfume-&gt;FuzzyTM&gt;=0.4.0-&gt;gensim) (1.8.1)
+Requirement already satisfied: typing-extensions in /opt/anaconda3/lib/python3.11/site-packages (from pyfume-&gt;FuzzyTM&gt;=0.4.0-&gt;gensim) (4.9.0)
+Requirement already satisfied: miniful in /opt/anaconda3/lib/python3.11/site-packages (from fst-pso-&gt;pyfume-&gt;FuzzyTM&gt;=0.4.0-&gt;gensim) (0.0.6)</code></pre>
+</div>
+</div>
+<div id="4e9e6ad4" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nltk</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gensim</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyLDAvis</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+</section>
+</section>
+<section id="wrangle" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="wrangle"><span class="header-section-number">3</span> 2. WRANGLE</h2>
+<p>Data wrangling involves some combination of cleaning, reshaping, transforming, and merging data (Wickham &amp; Grolemund, 2017). We’ll preprocess the data as follows to get it ready for topic modelling.</p>
+<ol type="a">
+<li><p><strong>Import Data</strong>. We’ll be working with .csv files and use <code>read_csv()</code> function to load data into our working environment.</p></li>
+<li><p><strong>Subset Columns and Rows</strong>. We will filter the dataset and only includes the columns and rows of interests.</p></li>
+<li><p><strong>Prepare Data for LDA Modelling.</strong></p>
+<p><strong>Step 1: Tokenize Text and Remove Stop Words.</strong> Tokenization and stop words removals are often the first steps in preparing the text data for further exploring or modelling, including the LDA topic modelling.</p>
+<p><strong>Step 2: Lemmatization.</strong> It is another crucial step that helps in normalizing the text data, reducing words to their base or root form. In the case of topic modelling, it enhances the model’s ability to identify the underlying topics.</p>
+<p><strong>Step 3: Create a Dictionary.</strong> The dictionary assigns a unique integer ID to each unique word in the dataset. This ID is used to create a numerical representation of the text, which is important for text mining including LDA topic modelling, as they always operate on numerical representations of the text (e.g., the ID) rather than the raw text itself.</p>
+<p><strong>Step 4: Create a Corpus.</strong> Build upon the dictionary, the corpus represents the text data with words count besides the IDs. In the form of a corpus, each document is represented as a list of tuples (word_id, word_count), which is necessary for LDA to perform its computations.</p></li>
+</ol>
+<section id="a.-import-forum-data" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="a.-import-forum-data"><span class="header-section-number">3.1</span> 2a. Import Forum Data</h3>
+<p>To get started, we need to import, or “read”, our data into Python. The function used to import your data will depend on the file format of the data you are trying to import. Let’s read our data into our Environment using the <code>read_csv()</code> function and assign it to a variable name so we can work with it like any other object in Python.</p>
+<div id="07535730" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ts_forum_data <span class="op">=</span> pd.read_csv(<span class="st">"data/ts_forum_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To get an overview, we can display the ts_forum_data data frame. You can find that the data frame includes course information (e.g., course_id, course_name), discussion forum information (e.g., forum_id, discussion_id), and more importantly, the post information (e.g., post_id, post_title, post_content).</p>
+<div id="7fb6eb56" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ts_forum_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div>
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">course_id</th>
+<th data-quarto-table-cell-role="th">course_name</th>
+<th data-quarto-table-cell-role="th">forum_id</th>
+<th data-quarto-table-cell-role="th">forum_name</th>
+<th data-quarto-table-cell-role="th">discussion_id</th>
+<th data-quarto-table-cell-role="th">discussion_name</th>
+<th data-quarto-table-cell-role="th">discussion_creator</th>
+<th data-quarto-table-cell-role="th">discussion_poster</th>
+<th data-quarto-table-cell-role="th">discussion_reference</th>
+<th data-quarto-table-cell-role="th">parent_id</th>
+<th data-quarto-table-cell-role="th">post_date</th>
+<th data-quarto-table-cell-role="th">post_id</th>
+<th data-quarto-table-cell-role="th">post_title</th>
+<th data-quarto-table-cell-role="th">post_content</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>9.0</td>
+<td>Teaching Statistics Through Data Investigatio...</td>
+<td>126.0</td>
+<td>Investigate: Analyze Tasks</td>
+<td>6822.0</td>
+<td>Not much comparison...</td>
+<td>4513.0</td>
+<td>4963.0</td>
+<td>4513.0</td>
+<td>16374.0</td>
+<td>15/10/05 20:48:10</td>
+<td>16597.0</td>
+<td>Re: Not much comparison...</td>
+<td>I also like the Coke vs. Pepsi problem becaus...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>9.0</td>
+<td>Teaching Statistics Through Data Investigatio...</td>
+<td>126.0</td>
+<td>Investigate: Analyze Tasks</td>
+<td>6822.0</td>
+<td>Not much comparison...</td>
+<td>4513.0</td>
+<td>5009.0</td>
+<td>4513.0</td>
+<td>16374.0</td>
+<td>15/10/05 16:13:40</td>
+<td>16480.0</td>
+<td>Re: Not much comparison...</td>
+<td>By far the best activity as a whole was Pepsi...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>9.0</td>
+<td>Teaching Statistics Through Data Investigatio...</td>
+<td>126.0</td>
+<td>Investigate: Analyze Tasks</td>
+<td>6822.0</td>
+<td>Not much comparison...</td>
+<td>4513.0</td>
+<td>4409.0</td>
+<td>4513.0</td>
+<td>16374.0</td>
+<td>15/10/06 05:53:59</td>
+<td>16754.0</td>
+<td>Re: Not much comparison...</td>
+<td>Hello Clark I felt the same way...the Pepsi...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>9.0</td>
+<td>Teaching Statistics Through Data Investigatio...</td>
+<td>126.0</td>
+<td>Investigate: Analyze Tasks</td>
+<td>6822.0</td>
+<td>Not much comparison...</td>
+<td>4513.0</td>
+<td>4854.0</td>
+<td>4513.0</td>
+<td>16374.0</td>
+<td>15/10/09 00:12:00</td>
+<td>17414.0</td>
+<td>Re: Not much comparison...</td>
+<td>I definitely agree: there are not much compar...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>9.0</td>
+<td>Teaching Statistics Through Data Investigatio...</td>
+<td>126.0</td>
+<td>Investigate: Analyze Tasks</td>
+<td>6822.0</td>
+<td>Not much comparison...</td>
+<td>4513.0</td>
+<td>4116.0</td>
+<td>4513.0</td>
+<td>16374.0</td>
+<td>15/10/09 20:41:22</td>
+<td>17568.0</td>
+<td>Re: Not much comparison...</td>
+<td>I agree that the Pepsi vs. Coke experiment wa...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5784</td>
+<td>76.0</td>
+<td>Teaching Statistics Through Inferential Reason...</td>
+<td>950.0</td>
+<td>Discuss With Colleagues</td>
+<td>25295.0</td>
+<td>Summer assignment</td>
+<td>3712.0</td>
+<td>3712.0</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>17/12/03 18:06:41</td>
+<td>66550.0</td>
+<td>Summer assignment</td>
+<td>I give a summer assignment to my students bef...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5785</td>
+<td>76.0</td>
+<td>Teaching Statistics Through Inferential Reason...</td>
+<td>950.0</td>
+<td>Discuss With Colleagues</td>
+<td>25607.0</td>
+<td>Strategies</td>
+<td>9671.0</td>
+<td>9671.0</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>17/12/07 22:53:53</td>
+<td>67158.0</td>
+<td>Strategies</td>
+<td>One strategy that I've implemented in the use...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5786</td>
+<td>76.0</td>
+<td>Teaching Statistics Through Inferential Reason...</td>
+<td>950.0</td>
+<td>Discuss With Colleagues</td>
+<td>25607.0</td>
+<td>Strategies</td>
+<td>9671.0</td>
+<td>16592.0</td>
+<td>9671.0</td>
+<td>67158.0</td>
+<td>17/12/14 19:33:33</td>
+<td>68019.0</td>
+<td>Re: Strategies</td>
+<td>Thank you this is good information.</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5787</td>
+<td>76.0</td>
+<td>Teaching Statistics Through Inferential Reason...</td>
+<td>950.0</td>
+<td>Discuss With Colleagues</td>
+<td>25822.0</td>
+<td>Available information</td>
+<td>14611.0</td>
+<td>14611.0</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>17/12/11 17:56:18</td>
+<td>67531.0</td>
+<td>Available information</td>
+<td>I have enjoyed learning throughout this cours...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5788</td>
+<td>76.0</td>
+<td>Teaching Statistics Through Inferential Reason...</td>
+<td>950.0</td>
+<td>Discuss With Colleagues</td>
+<td>26300.0</td>
+<td>Integrating inferential reasoning into everything</td>
+<td>4537.0</td>
+<td>4537.0</td>
+<td>NaN</td>
+<td>0.0</td>
+<td>17/12/17 00:49:33</td>
+<td>68285.0</td>
+<td>Integrating inferential reasoning into everything</td>
+<td>From this course I learned that inferential re...</td>
+</tr>
+</tbody>
+</table>
+
+<p>5789 rows × 14 columns</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="b.-subset-columns-and-rows" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="b.-subset-columns-and-rows"><span class="header-section-number">3.2</span> 2b. Subset Columns and Rows</h3>
+<p>The post_content will be the text from which we will discover the topics, and post_id as the identifier could be useful, so those two columns will be the columns of interests, so let’s subset column and create a <strong>post_content</strong> data frame. Also, the rows with missing values will not contribute to the topics, so let’s drop it out.</p>
+<div id="a073bd34" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select 'post_id' and 'post_content' columns</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>post_content <span class="op">=</span> ts_forum_data[[<span class="st">'post_id'</span>, <span class="st">'post_content'</span>]]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename the columns to 'id' and 'document'</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>post_content.columns <span class="op">=</span> [<span class="st">'id'</span>, <span class="st">'document'</span>]</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop rows with missing values in the 'document' column</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>post_content.dropna(subset<span class="op">=</span>[<span class="st">'document'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the resulting DataFrame</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(post_content)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           id                                           document
+0     16597.0   I also like the Coke vs. Pepsi problem becaus...
+1     16480.0   By far the best activity as a whole was Pepsi...
+2     16754.0   Hello Clark   I felt the same way...the Pepsi...
+3     17414.0   I definitely agree: there are not much compar...
+4     17568.0   I agree that the Pepsi vs. Coke experiment wa...
+...       ...                                                ...
+5784  66550.0   I give a summer assignment to my students bef...
+5785  67158.0   One strategy that I've implemented in the use...
+5786  68019.0               Thank you this is good information. 
+5787  67531.0   I have enjoyed learning throughout this cours...
+5788  68285.0  From this course I learned that inferential re...
+
+[5787 rows x 2 columns]</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/var/folders/_3/45612wnj07v1x0p_l6mqmjkw0000gn/T/ipykernel_71990/508170866.py:8: SettingWithCopyWarning:
+
+
+A value is trying to be set on a copy of a slice from a DataFrame
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+</code></pre>
+</div>
+</div>
+</section>
+<section id="c.-prepare-data-for-lda-model" class="level3" data-number="3.3">
+<h3 data-number="3.3" class="anchored" data-anchor-id="c.-prepare-data-for-lda-model"><span class="header-section-number">3.3</span> 2c. Prepare Data for LDA Model</h3>
+<p>In this session, we will processing text and transforming our data frames into new data structures required for topic modeling, in the case of using <code>gensim</code> for LDA topic modelling, the needed data structure is the bag of word (BoW) format which will be the <strong>corpus</strong> data frame that we will end with after this session.</p>
+<section id="step-1-tokenize-text-remove-stop-words" class="level4" data-number="3.3.1">
+<h4 data-number="3.3.1" class="anchored" data-anchor-id="step-1-tokenize-text-remove-stop-words"><span class="header-section-number">3.3.1</span> Step 1: Tokenize Text &amp; Remove Stop Words</h4>
+<p>We are already familiar with the tokization process from the last two labs. Tokenization and stop words removals are always the first step for most Natural Language Processing (NLP) models, including LDA. It involves splitting the text into individual words or tokens and remove nonsense ones, which are the basic units for analysis. Let’s tokenize and remove stop wordsour forum text and by using the familiar <code>tokenize()</code> and <code>stopwords</code>:</p>
+<div id="e18e8e0d" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.tokenize <span class="im">import</span> word_tokenize</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.tokenize <span class="im">import</span> RegexpTokenizer</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.corpus <span class="im">import</span> stopwords</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure nltk punkt tokenizer and stopwords are downloaded</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'punkt'</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'stopwords'</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a tokenizer instance with the regular expression of tweets</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>tweet_pattern <span class="op">=</span> <span class="vs">r'\b\w+\b'</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> RegexpTokenizer(tweet_pattern)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Specify stop words</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>stop_words <span class="op">=</span> <span class="bu">set</span>(stopwords.words(<span class="st">'english'</span>))</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Tokenize the 'document' column, remove stop words, and create a new column 'word'</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>post_content[<span class="st">'word'</span>] <span class="op">=</span> post_content[<span class="st">'document'</span>].<span class="bu">apply</span>(</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> x: [token.lower() <span class="cf">for</span> token <span class="kw">in</span> tokenizer.tokenize(<span class="bu">str</span>(x)) <span class="cf">if</span> token.lower() <span class="kw">not</span> <span class="kw">in</span> stop_words]</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Explode the 'word' column to transform each row into individual words</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>post_content_exploded <span class="op">=</span> post_content.explode(<span class="st">'word'</span>)</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the resulting DataFrame</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(post_content_exploded)</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Explode the 'word' column to transform each row into individual words</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>post_content_exploded <span class="op">=</span> post_content.explode(<span class="st">'word'</span>)</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the resulting DataFrame</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(post_content_exploded)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[nltk_data] Downloading package punkt to /Users/minzhuang/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+[nltk_data] Downloading package stopwords to
+[nltk_data]     /Users/minzhuang/nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!
+/var/folders/_3/45612wnj07v1x0p_l6mqmjkw0000gn/T/ipykernel_71990/3185371319.py:17: SettingWithCopyWarning:
+
+
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           id                                           document         word
+0     16597.0   I also like the Coke vs. Pepsi problem becaus...         also
+0     16597.0   I also like the Coke vs. Pepsi problem becaus...         like
+0     16597.0   I also like the Coke vs. Pepsi problem becaus...         coke
+0     16597.0   I also like the Coke vs. Pepsi problem becaus...           vs
+0     16597.0   I also like the Coke vs. Pepsi problem becaus...        pepsi
+...       ...                                                ...          ...
+5788  68285.0  From this course I learned that inferential re...         work
+5788  68285.0  From this course I learned that inferential re...  inferential
+5788  68285.0  From this course I learned that inferential re...    reasoning
+5788  68285.0  From this course I learned that inferential re...   throughout
+5788  68285.0  From this course I learned that inferential re...       course
+
+[267868 rows x 3 columns]
+           id                                           document         word
+0     16597.0   I also like the Coke vs. Pepsi problem becaus...         also
+0     16597.0   I also like the Coke vs. Pepsi problem becaus...         like
+0     16597.0   I also like the Coke vs. Pepsi problem becaus...         coke
+0     16597.0   I also like the Coke vs. Pepsi problem becaus...           vs
+0     16597.0   I also like the Coke vs. Pepsi problem becaus...        pepsi
+...       ...                                                ...          ...
+5788  68285.0  From this course I learned that inferential re...         work
+5788  68285.0  From this course I learned that inferential re...  inferential
+5788  68285.0  From this course I learned that inferential re...    reasoning
+5788  68285.0  From this course I learned that inferential re...   throughout
+5788  68285.0  From this course I learned that inferential re...       course
+
+[267868 rows x 3 columns]</code></pre>
+</div>
+</div>
+<p>Now let’s do a quick word count to see some of the most common words used throughout the forums.</p>
+<div id="85260ac8" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count the occurrences of each word</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>words_count <span class="op">=</span> post_content_exploded[<span class="st">'word'</span>].value_counts().reset_index()</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>words_count.columns <span class="op">=</span> [<span class="st">'word'</span>, <span class="st">'count'</span>]</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the word count of the top 20 words</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Top 20 words and their counts:"</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(words_count.head(<span class="dv">20</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Top 20 words and their counts:
+          word  count
+0     students   6843
+1         data   4371
+2   statistics   3107
+3        would   2693
+4        think   2049
+5       course   1690
+6         like   1526
+7       school   1500
+8          use   1472
+9    questions   1470
+10       class   1426
+11        also   1411
+12        font   1311
+13        span   1267
+14        time   1253
+15         one   1219
+16       style   1178
+17       could   1116
+18      normal   1031
+19      really   1014</code></pre>
+</div>
+</div>
+<p>Terms like “students,” “data,” and “class” are about what we would have expected from a course teaching statistics. The term “agree” and “time” however, are not so intuitive and worth a quick look as well.</p>
+<section id="comprehension-check" class="level5" data-number="3.3.1.1">
+<h5 data-number="3.3.1.1" class="anchored" data-anchor-id="comprehension-check"><span class="header-section-number">3.3.1.1</span> Comprehension Check</h5>
+<p>Use the <code>str.contains()</code> function to filter for rows in our <code>post_content</code> data frame that contain the term “time” and another term or terms of your choosing. After filtering, select a random sample of 10 posts using the <code>sample()</code> function for your terms and answer the following questions:</p>
+<ol type="1">
+<li><p>What, if anything, do these posts have in common?</p></li>
+<li><p>What topics or themes might be apparent, or do you anticipate emerging, from our topic modeling?</p></li>
+</ol>
+<p>Your output should look something like this:</p>
+<div id="f22d6aef" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter to get rows where text contains the word 'time'</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>post_with_time <span class="op">=</span> post_content[post_content[<span class="st">'document'</span>].<span class="bu">str</span>.contains(<span class="st">'time'</span>)]</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Select a random sample of 10 rows</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>time <span class="op">=</span> post_with_time.sample(n<span class="op">=</span><span class="dv">10</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the random sample</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           id                                           document  \
+3879  39597.0   I agree with you Rebecca. I had a project las...   
+4402  49972.0   The Google form is a great idea.  I taught a ...   
+1479  13978.0   In my experience working with teachers and st...   
+5062  67502.0   Yes!  I can't begin to tell you how many time...   
+1731  20891.0   I too wondered about the age  since younger s...   
+559   17316.0   I'm right there with you Sonia and Ronald!  I...   
+2675  34142.0   so much! 1)  I think we need to use good task...   
+256   13055.0   Hello Mario:  Yes  on the Unit 1 there is lin...   
+3711  40969.0   I was thinking this as well  Craig!  My AP st...   
+1114  21640.0   I totally agree with you! All the tools  and ...   
+
+                                                   word  
+3879  [agree, rebecca, project, last, year, algebra,...  
+4402  [google, form, great, idea, taught, class, 50,...  
+1479  [experience, working, teachers, students, prob...  
+5062  [yes, begin, tell, many, times, year, hear, st...  
+1731  [wondered, age, since, younger, students, migh...  
+559   [right, sonia, ronald, creative, comes, making...  
+2675  [much, 1, think, need, use, good, tasks, allow...  
+256   [hello, mario, yes, unit, 1, link, website, ga...  
+3711  [thinking, well, craig, ap, students, think, a...  
+1114  [totally, agree, tools, especially, videos, pr...  </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="step-2-lemmatize" class="level4" data-number="3.3.2">
+<h4 data-number="3.3.2" class="anchored" data-anchor-id="step-2-lemmatize"><span class="header-section-number">3.3.2</span> Step 2: Lemmatize</h4>
+<p>Lemmatization is a crucial step in preparing our text data for topic modeling. It reduces words to their base or root form. For example, the lemma of the words “running”, “runs”, and “ran” is “run”. By grouping similar words under one token, it will make the analysis more efficient, and improve the coherence of the topics identified by the model.</p>
+<p>To lemmatize the word, we will introduce the <code>WordNetLemmatizer</code> class. One important notice here, the lemmatizer expects input that is composed of characters (strings) and can be interpreted as words. If you pass non-string data, such as floats, to the lemmatizer, it may encounter errors because it doesn’t know how to interpret these data types as words.</p>
+<p>If there is a post content like “A class as large as that 300 is impossibly…”, after tokenizing, the ‘300’ will be one of the tokens. Surrounded by quotation marks, the ‘300’ is still string, while after exploding, the 300 will be recognized as integer data type by Python, it is no longer the string.</p>
+<p>Therefore, before applying lemmatization or any other text processing technique, it’s important to ensure that your data consists of strings.</p>
+<div id="dbdd295d" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert float values to strings in the 'word' column</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>post_content_exploded[<span class="st">'word'</span>] <span class="op">=</span> post_content_exploded[<span class="st">'word'</span>].astype(<span class="bu">str</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we can lemmatize using <code>WordNetLemmatizer</code> from <code>nltk</code> library.</p>
+<div id="73bdf039" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.stem <span class="im">import</span> WordNetLemmatizer</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure NLTK resources are downloaded</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'wordnet'</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the WordNetLemmatizer</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>lemmatizer <span class="op">=</span> WordNetLemmatizer()</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply lemmatization to the 'word' column</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>post_content_exploded[<span class="st">'lemmatized_word'</span>] <span class="op">=</span> post_content_exploded[<span class="st">'word'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: lemmatizer.lemmatize(x))</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the resulting DataFrame</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(post_content_exploded)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[nltk_data] Downloading package wordnet to
+[nltk_data]     /Users/minzhuang/nltk_data...
+[nltk_data]   Package wordnet is already up-to-date!</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           id                                           document         word  \
+0     16597.0   I also like the Coke vs. Pepsi problem becaus...         also   
+0     16597.0   I also like the Coke vs. Pepsi problem becaus...         like   
+0     16597.0   I also like the Coke vs. Pepsi problem becaus...         coke   
+0     16597.0   I also like the Coke vs. Pepsi problem becaus...           vs   
+0     16597.0   I also like the Coke vs. Pepsi problem becaus...        pepsi   
+...       ...                                                ...          ...   
+5788  68285.0  From this course I learned that inferential re...         work   
+5788  68285.0  From this course I learned that inferential re...  inferential   
+5788  68285.0  From this course I learned that inferential re...    reasoning   
+5788  68285.0  From this course I learned that inferential re...   throughout   
+5788  68285.0  From this course I learned that inferential re...       course   
+
+     lemmatized_word  
+0               also  
+0               like  
+0               coke  
+0                  v  
+0              pepsi  
+...              ...  
+5788            work  
+5788     inferential  
+5788       reasoning  
+5788      throughout  
+5788          course  
+
+[267868 rows x 4 columns]</code></pre>
+</div>
+</div>
+</section>
+<section id="step-3-create-a-dictionary" class="level4" data-number="3.3.3">
+<h4 data-number="3.3.3" class="anchored" data-anchor-id="step-3-create-a-dictionary"><span class="header-section-number">3.3.3</span> Step 3: <strong>Create a Dictionary</strong></h4>
+<p>The dictionary maps each word in our dataset to a unique integer ID. This is important because LDA modeling operates on numerical representations of the text (e.g., the ID) rather than the raw text itself. And the dictionary helps to track the entire vocabulary, making it easier to manage and manipulate the text data.</p>
+<p>To create the dictionary, we will use the <code>corpora.Dictionary</code> from <code>gensim</code> library. Notice that the input of <code>corpora.Dictionary</code> should be the lists of token list for each document (in our case, the document refers to the post). So let’s convert the lemmatized words back to lists for each post, then create a dictionary.</p>
+<div id="ebe52017" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> gensim <span class="im">import</span> corpora</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the lemmatized words back to lists for each document</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>lemmatized_documents <span class="op">=</span> post_content_exploded.groupby(<span class="st">'document'</span>)[<span class="st">'lemmatized_word'</span>].<span class="bu">apply</span>(<span class="bu">list</span>).tolist()</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a Dictionary</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>dictionary <span class="op">=</span> corpora.Dictionary(lemmatized_documents)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the dictionary</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co"># print(dictionary.token2id)  # This will print the token to id mapping</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="step-4-create-a-corpus" class="level4" data-number="3.3.4">
+<h4 data-number="3.3.4" class="anchored" data-anchor-id="step-4-create-a-corpus"><span class="header-section-number">3.3.4</span> Step 4: Create a Corpus</h4>
+<p>Now we get a dictionary by mapping the words with IDs as one of the numerical representation of text data. The word counts is another important numerical representation which is necessary for LDA to perform its computations.</p>
+<p>The corpus combines the IDs and word count together to represent the text data, which is a list of documents, where each document is represented as a list of tuples (word_id, word_count). This format is known as the bag-of-words (BoW) format.</p>
+<p><strong>Bag-of-Words (BoW)</strong>: The BoW simplifies the text data by representing the number of occurrences of each word in the document without considering the word order. This simplification is suitable for topic modeling and lots of other text mining tasks.</p>
+<p>To create a corpus, we will apply the <code>doc2bow()</code> function on the dictionary that we just created.</p>
+<div id="1696fe6f" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a corpus: BOW representation of each document</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>corpus <span class="op">=</span> [dictionary.doc2bow(doc) <span class="cf">for</span> doc <span class="kw">in</span> lemmatized_documents]</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the corpus</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co"># print(corpus) # This will print the id to count mapping</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>LDA requires the input data in the form of a corpus, where each document is represented as a list of (word_id, word_count) tuples. This input format allows LDA to calculate the distribution of topics in each document and the distribution of words in each topic. As we already get the corpus, we are ready to perform the LDA modelling.</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="model" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="model"><span class="header-section-number">4</span> 3. MODEL</h2>
+<p>In very simple terms, modeling involves developing a mathematical summary of a dataset. These summaries can help us further explore trends and patterns in our data.</p>
+<p>In their book, <em>Learning Analytics Goes to School,</em> Krumm and Means (2018) describe two general types of modeling approaches used in the Data-Intensive Research workflow: unsupervised and supervised machine learning. In distinguishing between the two, they note:</p>
+<blockquote class="blockquote">
+<p><em>Unsupervised learning algorithms can be used to understand the structure of one’s dataset. Supervised models, on the other hand, help to quantify relationships between features and a known outcome. Known outcomes are also commonly referred to as labels or dependent variables.</em></p>
+</blockquote>
+<p>In Section 3 we focus on Topic Modeling, an unsupervised learning approach to automatically identify topics in a collection of documents. In fact, we’ll explore the most popular approach to topic modeling - LDA, as well as strategies for identifying the “right” number of topics:</p>
+<ol type="a">
+<li><strong>Fitting a Topic Modeling with LDA</strong>. In this section we learn to use the <code>LdaModel</code> function for unsupervised classification of our forum discussions to find natural groupings of words, or topics.</li>
+<li><strong>Choosing K.</strong> Finally, we wrap up Section 3 by learning about diagnostic properties like exclusivity, semantic coherence, and held out likelihood for helping to select an appropriate number of topics.</li>
+</ol>
+<section id="a.-fitting-a-topic-modeling-with-lda" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="a.-fitting-a-topic-modeling-with-lda"><span class="header-section-number">4.1</span> 3a. Fitting a Topic Modeling with LDA</h3>
+<p>Before running our first topic model using the <code>LdaModel</code> function, let’s learn some basic principles behind LDA and why LDA is of preferred over other automatic classification or clustering approaches.</p>
+<p>Unlike simple forms of cluster analysis such as k-means clustering, LDA is a <strong>“mixture” model</strong>, which in our context means that:</p>
+<ol type="1">
+<li><strong>Every <u>document</u> contains a mixture of topics.</strong> Unlike algorithms like k-means, LDA treats each document as a mixture of topics, which allows documents to “overlap” each other in terms of content, rather than being separated into discrete groups. So in practice, this means that a discussion forum post could have an estimated topic proportion of 70% for Topic 1 (e.g.&nbsp;be mostly about a Topic 1), but also be partly about Topic 2.</li>
+<li><strong>Every <u>topic</u> contains a mixture of words.</strong>&nbsp;For example, if we specified in our LDA model just 2 topics for our discussion posts, we might find that one topic seems to be about pedagogy while another is about learning. The most common words in the pedagogy topic might be “teacher”, “strategies”, and “instruction”, while the learning topic may be made up of words like “understanding” and “students”. However, words can be shared between topics and words like “statistics” or “assessment” might appear in both equally.</li>
+</ol>
+<p>Similar to k-means other other simple clustering approaches, however, LDA does require us to specify a value of <em>k</em> for the number of topics in our corpus. Selecting <em>k</em> is no trivial matter and can greatly impact your results.</p>
+<p>Since so far we don’t have a have strong rationale about the number of topics that might exist in discussion forums, let’s use the <code>nunique()</code> function from the <code>pandas</code> library to find the number of unique forum names in our course data and run with that:</p>
+<div id="9833f42b" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the number of unique values</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>unique_forum_count <span class="op">=</span> ts_forum_data[<span class="st">'forum_name'</span>].nunique()</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print count of unique values</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(unique_forum_count)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>22</code></pre>
+</div>
+</div>
+<p>Since it looks like there are 22 distinct discussion forums, we’ll use that as our value for the <code>num_topics =</code> argument of the <code>LdaModel</code>. Be patient while this runs, since the default setting of is to perform a large number of iterations.</p>
+<div id="bc95d6d6" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> gensim.models.ldamodel <span class="im">import</span> LdaModel</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Build the LDA model</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>lda_model <span class="op">=</span> LdaModel(corpus, num_topics<span class="op">=</span><span class="dv">22</span>, id2word<span class="op">=</span>dictionary, passes<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the topics</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> idx, topic <span class="kw">in</span> lda_model.print_topics(<span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Topic: </span><span class="sc">{</span>idx<span class="sc">}</span><span class="ss"> </span><span class="ch">\n</span><span class="ss">Words: </span><span class="sc">{</span>topic<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Topic: 0 
+Words: 0.069*"sample" + 0.050*"td" + 0.028*"size" + 0.026*"population" + 0.023*"b" + 0.018*"sampling" + 0.017*"5" + 0.016*"top" + 0.015*"width" + 0.012*"tr"
+Topic: 1 
+Words: 0.027*"v" + 0.024*"student" + 0.021*"coke" + 0.020*"pepsi" + 0.019*"experiment" + 0.013*"task" + 0.013*"activity" + 0.011*"one" + 0.010*"design" + 0.009*"time"
+Topic: 2 
+Words: 0.035*"student" + 0.022*"group" + 0.021*"simulation" + 0.016*"level" + 0.015*"see" + 0.012*"would" + 0.012*"dice" + 0.012*"trial" + 0.012*"result" + 0.011*"technology"
+Topic: 3 
+Words: 0.096*"data" + 0.066*"student" + 0.031*"question" + 0.023*"would" + 0.020*"think" + 0.013*"task" + 0.011*"make" + 0.011*"could" + 0.010*"collect" + 0.010*"also"
+Topic: 4 
+Words: 0.067*"font" + 0.066*"normal" + 0.059*"text" + 0.043*"0px" + 0.030*"style" + 0.029*"255" + 0.029*"51" + 0.027*"color" + 0.025*"none" + 0.025*"spacing"
+Topic: 5 
+Words: 0.036*"student" + 0.032*"statistic" + 0.028*"course" + 0.022*"class" + 0.019*"stats" + 0.016*"ap" + 0.014*"year" + 0.013*"teaching" + 0.010*"teacher" + 0.010*"teach"
+Topic: 6 
+Words: 0.040*"li" + 0.030*"strong" + 0.029*"course" + 0.020*"b" + 0.020*"http" + 0.019*"href" + 0.018*"target" + 0.018*"_blank" + 0.017*"edu" + 0.017*"fi"
+Topic: 7 
+Words: 0.018*"plot" + 0.013*"received" + 0.011*"whisker" + 0.010*"tinker" + 0.010*"tested" + 0.010*"screen" + 0.009*"responsible" + 0.009*"team" + 0.007*"dung" + 0.007*"class"
+Topic: 8 
+Words: 0.050*"task" + 0.031*"student" + 0.025*"activity" + 0.018*"would" + 0.014*"could" + 0.013*"class" + 0.013*"statistical" + 0.012*"time" + 0.008*"regression" + 0.007*"different"
+Topic: 9 
+Words: 0.068*"school" + 0.034*"statistic" + 0.030*"level" + 0.028*"student" + 0.028*"high" + 0.019*"teacher" + 0.019*"middle" + 0.018*"grade" + 0.016*"math" + 0.014*"would"
+Topic: 10 
+Words: 0.030*"student" + 0.029*"use" + 0.024*"data" + 0.016*"great" + 0.015*"like" + 0.014*"using" + 0.013*"tool" + 0.013*"would" + 0.012*"technology" + 0.011*"video"
+Topic: 11 
+Words: 0.114*"thanks" + 0.087*"thank" + 0.082*"resource" + 0.058*"sharing" + 0.031*"link" + 0.020*"great" + 0.015*"idea" + 0.015*"much" + 0.013*"yes" + 0.013*"mooc"
+Topic: 12 
+Words: 0.038*"coaster" + 0.030*"r" + 0.022*"chart" + 0.020*"roller" + 0.017*"steel" + 0.016*"pie" + 0.015*"height" + 0.014*"img" + 0.012*"n" + 0.010*"difference"
+Topic: 13 
+Words: 0.020*"science" + 0.012*"statistic" + 0.011*"conclusion" + 0.010*"math" + 0.008*"language" + 0.008*"girl" + 0.007*"one" + 0.007*"boy" + 0.006*"art" + 0.006*"data"
+Topic: 14 
+Words: 0.038*"student" + 0.020*"understanding" + 0.018*"concept" + 0.016*"problem" + 0.015*"think" + 0.014*"mean" + 0.014*"test" + 0.014*"use" + 0.012*"agree" + 0.012*"understand"
+Topic: 15 
+Words: 0.070*"http" + 0.045*"www" + 0.042*"com" + 0.034*"quot" + 0.028*"org" + 0.028*"href" + 0.017*"_blank" + 0.016*"target" + 0.016*"amp" + 0.015*"youtube"
+Topic: 16 
+Words: 0.065*"style" + 0.049*"0" + 0.041*"span" + 0.037*"font" + 0.036*"margin" + 0.034*"color" + 0.032*"right" + 0.028*"border" + 0.027*"align" + 0.023*"td"
+Topic: 17 
+Words: 0.046*"locus" + 0.044*"item" + 0.027*"assessment" + 0.021*"score" + 0.013*"website" + 0.012*"vehicle" + 0.011*"img" + 0.011*"resource" + 0.011*"statisticseducation" + 0.010*"development"
+Topic: 18 
+Words: 0.049*"div" + 0.029*"http" + 0.027*"statistic" + 0.023*"education" + 0.021*"href" + 0.019*"mathematics" + 0.019*"online" + 0.017*"course" + 0.017*"edu" + 0.016*"ncsu"
+Topic: 19 
+Words: 0.027*"data" + 0.022*"plot" + 0.016*"mean" + 0.015*"student" + 0.013*"graph" + 0.011*"result" + 0.010*"box" + 0.009*"median" + 0.008*"would" + 0.008*"one"
+Topic: 20 
+Words: 0.041*"student" + 0.041*"question" + 0.026*"would" + 0.025*"statistic" + 0.020*"answer" + 0.019*"think" + 0.013*"feel" + 0.013*"need" + 0.013*"like" + 0.012*"well"
+Topic: 21 
+Words: 0.109*"span" + 0.061*"value" + 0.058*"p" + 0.043*"line" + 0.041*"height" + 0.040*"style" + 0.040*"1" + 0.016*"6" + 0.015*"42857" + 0.015*"34"</code></pre>
+</div>
+</div>
+<p>Notice that the <code>passes</code> parameter specifies the number of times the entire corpus will be used to update the LDA model’s parameters and improve the quality of the topic distributions during training. This is part of the process known as “epochs” in other machine learning contexts. If not specified, the default value for <code>passes</code> is typically 1, here we choose 15. Increasing the number of passes can lead to a more accurate and stable model because the model has more opportunities to refine its parameters. However, more passes also mean longer training times.</p>
+</section>
+<section id="b.-finding-optimal-k---num_topics" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="b.-finding-optimal-k---num_topics"><span class="header-section-number">4.2</span> 3b. Finding optimal K - num_topics</h3>
+<p>As alluded to earlier, selecting the number of topics for your model is a non-trivial decision and can dramatically impact your results. Bail (2018) notes that</p>
+<blockquote class="blockquote">
+<p><em>The results of topic models should not be over-interpreted unless the researcher has strong theoretical apriori about the number of topics in a given corpus, or if the researcher has carefully validated the results of a topic model using both the quantitative and qualitative techniques described above.</em></p>
+</blockquote>
+<p>There are several approaches to estimating a value for K and we’ll take a quick look at coherence score approach. The coherence score measures the degree of semantic similarity between high scoring words in the topic. The idea is to find a number of topics that maximizes the coherence score. The <code>gensim</code> library provides <code>CoherenceModel</code> that we can use to compute the coherence scores.</p>
+<section id="coherence-score-approach" class="level4" data-number="4.2.1">
+<h4 data-number="4.2.1" class="anchored" data-anchor-id="coherence-score-approach"><span class="header-section-number">4.2.1</span> <strong>Coherence Score Approach</strong></h4>
+<div id="50e1f521" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from gensim.models import CoherenceModel</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co"># def compute_coherence_values(dictionary, corpus, texts, start=2, limit=40, step=6):</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     coherence_values = []</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     model_list = []</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     for num_topics in range(start, limit, step):</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co">#         model = LdaModel(corpus=corpus, id2word=dictionary, num_topics=num_topics, passes=15)</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="co">#         model_list.append(model)</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co">#         coherencemodel = CoherenceModel(model=model, texts=texts, dictionary=dictionary, coherence='c_v')</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co">#         coherence_values.append(coherencemodel.get_coherence())</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="co">#     return model_list, coherence_values</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="co"># # Compute coherence scores</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="co"># model_list, coherence_values = compute_coherence_values(dictionary, corpus, post_content_exploded['lemmatized_word'], start=2, limit=40, step=2)</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="co"># # Plot coherence scores</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a><span class="co"># x = range(2, 40, 2)</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.plot(x, coherence_values)</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.xlabel("Num Topics")</span></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.ylabel("Coherence score")</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.legend("coherence_values", loc='best')</span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.show()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice that the <code>CoherenceModel</code> will take a while to run. The output looks like this:</p>
+<p><img src="img/coherencemodel-output.png" class="img-fluid"></p>
+<p>As a general rule of thumb and overly simplistic heuristic, we’re looking for an inflection point in our plot which indicates an optimal number of topics to select for a value of K. Let’s select the model with highest coherence value, and print out the topics identified the optimal model.</p>
+<div id="3d5a0362" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># # Select the model with highest coherence value</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># optimal_model = model_list[coherence_values.index(max(coherence_values))]</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># optimal_num_topics = x[coherence_values.index(max(coherence_values))]</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># print(f"Optimal number of topics: {optimal_num_topics}")</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co"># # Print the topics of the optimal model</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co"># topics = optimal_model.print_topics(num_words=10)</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co"># for topic in topics:</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     print(topic)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The optimal number of topics is 4. In the next session, we will explore the lda model with 4 topics.</p>
+<div id="01512cca" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> gensim.models.ldamodel <span class="im">import</span> LdaModel</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Build the optimal LDA model</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>optimal_model <span class="op">=</span> LdaModel(corpus, num_topics<span class="op">=</span><span class="dv">4</span>, id2word<span class="op">=</span>dictionary, passes<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the topics</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> idx, topic <span class="kw">in</span> lda_model.print_topics(<span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Topic: </span><span class="sc">{</span>idx<span class="sc">}</span><span class="ss"> </span><span class="ch">\n</span><span class="ss">Words: </span><span class="sc">{</span>topic<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Topic: 0 
+Words: 0.069*"sample" + 0.050*"td" + 0.028*"size" + 0.026*"population" + 0.023*"b" + 0.018*"sampling" + 0.017*"5" + 0.016*"top" + 0.015*"width" + 0.012*"tr"
+Topic: 1 
+Words: 0.027*"v" + 0.024*"student" + 0.021*"coke" + 0.020*"pepsi" + 0.019*"experiment" + 0.013*"task" + 0.013*"activity" + 0.011*"one" + 0.010*"design" + 0.009*"time"
+Topic: 2 
+Words: 0.035*"student" + 0.022*"group" + 0.021*"simulation" + 0.016*"level" + 0.015*"see" + 0.012*"would" + 0.012*"dice" + 0.012*"trial" + 0.012*"result" + 0.011*"technology"
+Topic: 3 
+Words: 0.096*"data" + 0.066*"student" + 0.031*"question" + 0.023*"would" + 0.020*"think" + 0.013*"task" + 0.011*"make" + 0.011*"could" + 0.010*"collect" + 0.010*"also"
+Topic: 4 
+Words: 0.067*"font" + 0.066*"normal" + 0.059*"text" + 0.043*"0px" + 0.030*"style" + 0.029*"255" + 0.029*"51" + 0.027*"color" + 0.025*"none" + 0.025*"spacing"
+Topic: 5 
+Words: 0.036*"student" + 0.032*"statistic" + 0.028*"course" + 0.022*"class" + 0.019*"stats" + 0.016*"ap" + 0.014*"year" + 0.013*"teaching" + 0.010*"teacher" + 0.010*"teach"
+Topic: 6 
+Words: 0.040*"li" + 0.030*"strong" + 0.029*"course" + 0.020*"b" + 0.020*"http" + 0.019*"href" + 0.018*"target" + 0.018*"_blank" + 0.017*"edu" + 0.017*"fi"
+Topic: 7 
+Words: 0.018*"plot" + 0.013*"received" + 0.011*"whisker" + 0.010*"tinker" + 0.010*"tested" + 0.010*"screen" + 0.009*"responsible" + 0.009*"team" + 0.007*"dung" + 0.007*"class"
+Topic: 8 
+Words: 0.050*"task" + 0.031*"student" + 0.025*"activity" + 0.018*"would" + 0.014*"could" + 0.013*"class" + 0.013*"statistical" + 0.012*"time" + 0.008*"regression" + 0.007*"different"
+Topic: 9 
+Words: 0.068*"school" + 0.034*"statistic" + 0.030*"level" + 0.028*"student" + 0.028*"high" + 0.019*"teacher" + 0.019*"middle" + 0.018*"grade" + 0.016*"math" + 0.014*"would"
+Topic: 10 
+Words: 0.030*"student" + 0.029*"use" + 0.024*"data" + 0.016*"great" + 0.015*"like" + 0.014*"using" + 0.013*"tool" + 0.013*"would" + 0.012*"technology" + 0.011*"video"
+Topic: 11 
+Words: 0.114*"thanks" + 0.087*"thank" + 0.082*"resource" + 0.058*"sharing" + 0.031*"link" + 0.020*"great" + 0.015*"idea" + 0.015*"much" + 0.013*"yes" + 0.013*"mooc"
+Topic: 12 
+Words: 0.038*"coaster" + 0.030*"r" + 0.022*"chart" + 0.020*"roller" + 0.017*"steel" + 0.016*"pie" + 0.015*"height" + 0.014*"img" + 0.012*"n" + 0.010*"difference"
+Topic: 13 
+Words: 0.020*"science" + 0.012*"statistic" + 0.011*"conclusion" + 0.010*"math" + 0.008*"language" + 0.008*"girl" + 0.007*"one" + 0.007*"boy" + 0.006*"art" + 0.006*"data"
+Topic: 14 
+Words: 0.038*"student" + 0.020*"understanding" + 0.018*"concept" + 0.016*"problem" + 0.015*"think" + 0.014*"mean" + 0.014*"test" + 0.014*"use" + 0.012*"agree" + 0.012*"understand"
+Topic: 15 
+Words: 0.070*"http" + 0.045*"www" + 0.042*"com" + 0.034*"quot" + 0.028*"org" + 0.028*"href" + 0.017*"_blank" + 0.016*"target" + 0.016*"amp" + 0.015*"youtube"
+Topic: 16 
+Words: 0.065*"style" + 0.049*"0" + 0.041*"span" + 0.037*"font" + 0.036*"margin" + 0.034*"color" + 0.032*"right" + 0.028*"border" + 0.027*"align" + 0.023*"td"
+Topic: 17 
+Words: 0.046*"locus" + 0.044*"item" + 0.027*"assessment" + 0.021*"score" + 0.013*"website" + 0.012*"vehicle" + 0.011*"img" + 0.011*"resource" + 0.011*"statisticseducation" + 0.010*"development"
+Topic: 18 
+Words: 0.049*"div" + 0.029*"http" + 0.027*"statistic" + 0.023*"education" + 0.021*"href" + 0.019*"mathematics" + 0.019*"online" + 0.017*"course" + 0.017*"edu" + 0.016*"ncsu"
+Topic: 19 
+Words: 0.027*"data" + 0.022*"plot" + 0.016*"mean" + 0.015*"student" + 0.013*"graph" + 0.011*"result" + 0.010*"box" + 0.009*"median" + 0.008*"would" + 0.008*"one"
+Topic: 20 
+Words: 0.041*"student" + 0.041*"question" + 0.026*"would" + 0.025*"statistic" + 0.020*"answer" + 0.019*"think" + 0.013*"feel" + 0.013*"need" + 0.013*"like" + 0.012*"well"
+Topic: 21 
+Words: 0.109*"span" + 0.061*"value" + 0.058*"p" + 0.043*"line" + 0.041*"height" + 0.040*"style" + 0.040*"1" + 0.016*"6" + 0.015*"42857" + 0.015*"34"</code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="explore" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="explore"><span class="header-section-number">5</span> 4. EXPLORE</h2>
+<p>Silge and Robinson (2018) note that fitting at topic model is the “easy part.” The hard part is making sense of the model results and that the rest of the analysis involves exploring and interpreting the model using a variety of approaches which we’ll walkthrough in in this section.</p>
+<p>Bail (2018) cautions, however, that:</p>
+<blockquote class="blockquote">
+<p><em>…post-hoc interpretation of topic models is rather dangerous… and can quickly come to resemble the process of “reading tea leaves,” or finding meaning in patterns that are in fact quite arbitrary or even random.</em></p>
+</blockquote>
+<section id="a.-visualizing-topics-by-pyldavis" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="a.-visualizing-topics-by-pyldavis"><span class="header-section-number">5.1</span> 4a. Visualizing Topics by pyLDAvis</h3>
+<p>Visualization is always a good way to explore the modelling results. The <code>pyLDAvis</code> is primarily designed for visualizing the results of LDA topic modeling, it provides an interactive dashboard that helps users interpret the topics discovered by LDA.</p>
+<p>Let’s use to <code>pyLDAvis</code> to create one.</p>
+<div id="9ac449d3" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyLDAvis</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyLDAvis.gensim</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare the visualization</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>vis <span class="op">=</span> pyLDAvis.gensim.prepare(optimal_model, corpus, dictionary)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the visualization</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>pyLDAvis.display(vis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.4.0/pyLDAvis/js/ldavis.v1.0.0.css">
+
+
+<div id="ldavis_el7199053952452964061193311" style="background-color:white;"></div>
+<script type="text/javascript">
+
+var ldavis_el7199053952452964061193311_data = {"mdsDat": {"x": [0.15736451281720562, 0.17052618487983892, -0.013652472340288452, -0.3142382253567561], "y": [0.11925559572754563, 0.047406274596430195, -0.2635591987940621, 0.09689732847008634], "topics": [1, 2, 3, 4], "cluster": [1, 1, 1, 1], "Freq": [44.2606870776406, 32.04890463733124, 12.919175230513202, 10.771233054514976]}, "tinfo": {"Term": ["font", "span", "style", "normal", "text", "http", "0px", "course", "statistic", "href", "color", "height", "data", "li", "line", "rgb", "strong", "_blank", "target", "255", "51", "b", "size", "student", "edu", "none", "ncsu", "div", "spacing", "align", "collect", "dice", "coke", "pepsi", "sampling", "variable", "car", "interpretation", "decision", "tv", "variability", "faithful", "pose", "posing", "trial", "television", "graphical", "collection", "exercise", "gather", "roll", "relate", "outcome", "analyze", "visual", "variation", "square", "transportation", "measurement", "posed", "experiment", "collecting", "distribution", "random", "hypothesis", "graph", "value", "collected", "conclusion", "data", "task", "sample", "result", "context", "compare", "question", "could", "difference", "number", "simulation", "student", "would", "different", "think", "set", "make", "activity", "group", "mean", "example", "like", "one", "also", "time", "answer", "see", "way", "statistical", "interesting", "really", "using", "use", "good", "agree", "get", "school", "class", "algebra", "calculus", "exam", "senior", "ti", "professor", "exposed", "discipline", "pas", "geometry", "curriculum", "career", "sharing", "calc", "math", "service", "undergraduate", "spss", "creative", "implementing", "training", "copy", "junior", "integrated", "fivethirtyeight", "bear", "comfort", "laptop", "afraid", "wealth", "college", "stats", "teach", "core", "year", "ap", "thanks", "elementary", "ago", "major", "confident", "taught", "statistic", "gapminder", "teaching", "science", "feel", "course", "resource", "thank", "teacher", "future", "basic", "school", "high", "class", "grade", "assessment", "use", "concept", "know", "student", "need", "level", "learn", "like", "great", "get", "many", "time", "well", "would", "also", "really", "think", "one", "way", "href", "_blank", "edu", "ncsu", "fi", "page", "php", "em", "tsdi", "mod", "facebook", "certificate", "http", "hirise", "smile", "valign", "162", "join", "ced", "strong", "mailto", "www", "h6", "contact", "techsupport", "december", "catalog", "2017", "earn", "org", "com", "target", "li", "youtube", "ul", "div", "please", "id", "hollylynne", "b", "pdf", "place", "td", "forum", "view", "education", "course", "unit", "check", "online", "statistic", "resource", "learning", "data", "teaching", "font", "style", "normal", "text", "0px", "color", "rgb", "255", "51", "none", "spacing", "align", "family", "arial", "margin", "sans", "serif", "white", "indent", "border", "quot", "letter", "variant", "webkit", "transform", "auto", "stroke", "orphan", "widow", "14px", "height", "span", "0", "line", "space", "width", "background", "size", "1", "weight", "word"], "Freq": [1207.0, 1153.0, 1079.0, 960.0, 940.0, 1004.0, 762.0, 1797.0, 2979.0, 672.0, 604.0, 589.0, 4174.0, 636.0, 550.0, 465.0, 503.0, 484.0, 512.0, 423.0, 411.0, 657.0, 560.0, 7066.0, 425.0, 382.0, 396.0, 476.0, 357.0, 351.0, 317.3718585106892, 159.0304052071916, 159.29034252593246, 152.88834570916796, 170.2044111810795, 209.13806100850402, 111.70471223857126, 139.11524259238766, 105.50859632315003, 96.38902405711221, 100.44745813969077, 89.31899260987367, 175.7597794664595, 88.90392517410483, 152.53132353405672, 80.18576994250655, 79.02736293222661, 186.62980521903646, 76.24664920097061, 75.48289613448172, 71.93792555549464, 73.0033883771482, 70.85640384410739, 294.8324372953353, 70.27643431543478, 68.2683691852043, 68.08679400351815, 62.605453956287505, 68.40583245319134, 62.95890825602602, 240.53605439976727, 143.4885468524438, 164.94187091855335, 103.2195385787006, 169.7273924547479, 374.3538232960954, 349.9968973812016, 135.57571699148392, 194.67931852222492, 3742.906587898837, 1085.5053098014753, 503.74900018398836, 493.2141476830603, 258.09237521641, 147.52427627355956, 1950.0270467302928, 913.3430804932385, 254.5226779498785, 330.21701038159335, 272.15941053410916, 4727.573719251187, 1877.0620768486958, 604.4943172578419, 1419.9013305103517, 476.0655446169408, 725.8443699503549, 633.0304743356318, 475.31740876895964, 381.13620945627304, 361.37837841351427, 892.248200231499, 796.7746709114665, 800.591207184442, 798.2172243445638, 487.0606185353858, 590.6924226980152, 587.0806562472048, 558.4126603084469, 368.3595718343058, 559.2820349079716, 510.5184398563531, 641.3655280864447, 427.9430629543476, 449.2095048829458, 480.3701828035761, 551.3941732735079, 538.2126059506318, 180.8590090761433, 121.06843059277854, 91.14491298462251, 74.5478827619924, 57.94055860504901, 48.11181517867672, 44.31186429454051, 39.99252196110578, 38.67139293457863, 36.416916381805386, 233.24927818169243, 37.75153495963288, 171.60420245829118, 28.501503028303254, 672.2210946389368, 26.273933120826058, 31.964859750089488, 25.866897965734765, 24.147153822620137, 23.07888329956548, 47.656868255529254, 21.452329244318967, 20.58313641500542, 19.89987902348933, 23.148917032284213, 34.46890174676607, 27.044126785262176, 18.561565123125593, 24.630336607824486, 18.77879212241322, 361.6442216367825, 718.7721444964454, 734.7424140369507, 105.35200147714994, 703.9502382844188, 493.71631833435123, 319.5281184929856, 124.1009436885824, 62.90787162264391, 96.67617369680931, 100.77922597886115, 192.61200364016327, 2258.0590417964777, 202.63895527262108, 735.2776986212411, 195.89718784985868, 416.0409684280982, 1247.4618148309405, 583.9399941567123, 237.09870990930926, 692.9068256002461, 136.33227639250734, 138.6111635613584, 960.0079966003722, 372.90302740087725, 929.4468846937849, 277.9337878954291, 226.71069103522998, 738.6376387810951, 315.38340076224245, 413.70878266537073, 2220.470950527873, 460.16320945788823, 474.6851724110702, 280.99420454909966, 582.9260316327434, 439.7577533450077, 440.26317552567866, 425.4236397018766, 520.5489072680033, 376.02119002781194, 660.7310651231218, 483.79788275895515, 415.67774245850427, 512.9449079142275, 450.25272919483524, 377.71603134488277, 672.0913972648965, 483.8002964303545, 424.59253774951856, 395.28114259306676, 342.5470016210206, 228.58317411346974, 188.97109836130903, 162.8613172681898, 161.89146227492137, 103.84860444524006, 97.06150492759653, 95.05481364570674, 995.6527106578299, 74.5133029368922, 60.388516525765965, 59.95544655552311, 58.92976173000394, 55.38522809015599, 53.45564224624044, 496.04550534709097, 49.166961965833515, 348.4070954812176, 41.8411315593124, 41.82915421111775, 40.28157849519178, 39.50988355091434, 36.46046198093843, 36.67914829600804, 36.39778334548187, 314.1884764258869, 343.6805510683237, 495.49972824832696, 611.4449064659061, 86.72853021041827, 141.1551554881022, 424.30192288595674, 158.10836064716807, 182.48073734303483, 96.842834727358, 475.6473199458354, 89.50542984341905, 226.91238842787106, 306.39508628191993, 113.94281376783236, 157.33563838240977, 180.0451256599034, 528.2522844320042, 266.8986666723667, 126.61923944923835, 151.47232155599835, 388.38173881767887, 184.97769818805938, 173.86457226899836, 211.38763412473534, 169.6012164456219, 1207.017496619244, 1078.5219824727187, 959.5572382231607, 940.0694143745594, 761.3313370985624, 604.1239366068701, 464.83212849387485, 422.5272786438129, 410.9319707864249, 381.5714146808154, 357.1410174661515, 350.52493523469536, 338.34886103379273, 261.04370951095336, 277.1566502376501, 249.76561567684726, 240.14711144815493, 238.10366734696976, 231.4559577622394, 234.84556627887147, 198.9510999437707, 193.9613005170628, 189.01281549618255, 181.6350165414761, 182.87795540245986, 178.36921688653575, 169.20380069287663, 167.69084699809807, 167.69084699809807, 143.37439693004376, 582.8318757079312, 1125.0133856511445, 355.68763712923953, 456.3339097242798, 206.06583025909308, 336.8583178850046, 240.0888547770431, 336.15767930448357, 353.720077178986, 212.24893751747504, 216.12332860031023], "Total": [1207.0, 1153.0, 1079.0, 960.0, 940.0, 1004.0, 762.0, 1797.0, 2979.0, 672.0, 604.0, 589.0, 4174.0, 636.0, 550.0, 465.0, 503.0, 484.0, 512.0, 423.0, 411.0, 657.0, 560.0, 7066.0, 425.0, 382.0, 396.0, 476.0, 357.0, 351.0, 318.1957675948686, 159.82731996925222, 160.09083576687297, 153.68920356682665, 171.10700536880333, 210.38039423276814, 112.51996813155117, 140.15865249419414, 106.32882220411567, 97.17867880903881, 101.29558018510791, 90.10849339490365, 177.3944154326147, 89.7310797488117, 153.9829355536486, 80.98132725239665, 79.82766638463958, 188.5337021931774, 77.04946910512324, 76.28802029514172, 72.73322926862706, 73.8325370490822, 71.66425458452484, 298.2511062605218, 71.09804128831601, 69.0857548138877, 68.91381569233111, 63.41312822065105, 69.31381314157721, 63.8410345706528, 246.07278730766208, 146.09456559280628, 168.2199779667872, 104.82662095023883, 173.37808828270724, 389.62159159595603, 363.8079158523552, 138.3802461944558, 200.51233482478483, 4174.335328707908, 1166.0235801612678, 534.7928451573839, 523.8368447438265, 270.82719027115763, 151.48983943767539, 2327.8129772529237, 1057.1084746384206, 271.8977580384276, 360.72114254337134, 295.60500031404433, 7066.551561590876, 2578.8909730015566, 733.6269886849199, 1953.346153268004, 573.9408400030746, 947.454397619477, 829.0852560933321, 596.653507482756, 463.3637360770995, 441.3376799735157, 1495.719977791907, 1290.7069670142962, 1316.892476314971, 1363.4352664323815, 694.6873932247911, 938.3784003742659, 982.0643956114639, 917.4620309341084, 478.4636340241339, 984.3970677060402, 842.184028325687, 1422.5145048358124, 642.3701839598004, 799.7014988690541, 964.398182906444, 1536.9083707076709, 1652.8637856280493, 181.86342504431667, 121.86419926044232, 91.9827891812307, 75.36473914219235, 58.73927830248259, 48.994735301830524, 45.17035561943953, 40.829882895745556, 39.48473210272985, 37.211358246046615, 238.43088988973344, 38.60210960122341, 176.10051278699967, 29.29229732894617, 690.9307563951785, 27.076736765875523, 32.94690922987895, 26.66442380018633, 24.97027793617082, 23.878802820068387, 49.33802397636081, 22.27843092482023, 21.391907317034033, 20.69692203006516, 24.08390832455839, 35.9024701823417, 28.178212590453786, 19.358242424956927, 25.693272082794902, 19.594738118870158, 377.96479543819845, 758.7744295262, 805.0078112602179, 111.53764079305786, 781.5563539094395, 549.6564967587207, 351.54872132026077, 133.89709436965686, 66.88434839572807, 105.17813618742954, 110.09785171786979, 219.65903764262185, 2979.8689870822986, 232.49468743149558, 932.2488335396441, 228.10137841101852, 522.9502772005733, 1797.3503356021263, 787.0600853952693, 290.15156274856656, 964.8941498840358, 158.17733057214855, 162.45848219186473, 1536.9083707076709, 533.7134905763877, 1652.8637856280493, 381.1383052713088, 304.3500468442613, 1422.5145048358124, 475.19154714241114, 703.0678222022724, 7066.551561590876, 830.3049490300082, 881.1728576675237, 424.35519713778206, 1495.719977791907, 932.6729897334933, 964.398182906444, 906.0660922577285, 1363.4352664323815, 733.8132311935768, 2578.8909730015566, 1316.892476314971, 984.3970677060402, 1953.346153268004, 1290.7069670142962, 982.0643956114639, 672.9561496609206, 484.57078346134665, 425.35431546445983, 396.0375201791298, 343.3044697987018, 229.36021685100218, 189.7283055355616, 163.61728954645085, 162.64637806090616, 104.60445203998205, 97.82638149994088, 95.81339218144059, 1004.9116789233091, 75.26788212550652, 61.14438194111739, 60.71536186419971, 59.684689912283865, 56.15964683923128, 54.2100156044845, 503.6470538024253, 49.92193524548898, 354.4682834843213, 42.59832824341948, 42.598758339584485, 41.0364046682228, 40.275333339574765, 37.22151184835423, 37.4458579803462, 37.18292821367318, 320.97468621954437, 352.34254811561146, 512.0036831037141, 636.4612476347472, 89.07923918010175, 148.7039146673727, 476.8890953918325, 172.81103076554334, 202.00575498293045, 104.62812865068656, 657.4477607567176, 97.78564424490165, 297.2571748067722, 439.59234307986776, 132.40302842835638, 199.77529993739088, 289.2156964227353, 1797.3503356021263, 638.0223808340227, 170.34373735103685, 265.7213849917631, 2979.8689870822986, 787.0600853952693, 694.4693915635959, 4174.335328707908, 932.2488335396441, 1207.7799108763559, 1079.3025008889588, 960.3257812462549, 940.8493681679942, 762.0933051361147, 604.899964527051, 465.5944175841565, 423.2895767251773, 411.6941081610118, 382.347246286801, 357.903138259966, 351.30724640682524, 339.12966406394105, 261.80574773430226, 277.9786494292084, 250.527704358858, 240.90929726010307, 238.88282213407706, 232.22013365079104, 235.62624772442766, 199.71375129589407, 194.73001793759215, 189.77490091734506, 182.3975963875767, 183.64659604169145, 179.13246593377335, 169.96732240117942, 168.4530560631202, 168.45305628661603, 144.1390858364956, 589.9571508400834, 1153.5828726269967, 374.63254399625157, 550.70306162679, 214.39754390409936, 398.8741954391882, 285.2864922967208, 560.9070395745646, 720.4305778450309, 272.49662013691585, 309.3644183161853], "Category": ["Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic3", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4", "Topic4"], "logprob": [30.0, 29.0, 28.0, 27.0, 26.0, 25.0, 24.0, 23.0, 22.0, 21.0, 20.0, 19.0, 18.0, 17.0, 16.0, 15.0, 14.0, 13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, -5.9231, -6.6141, -6.6124, -6.6535, -6.5462, -6.3402, -6.9673, -6.7479, -7.0244, -7.1148, -7.0735, -7.191, -6.5141, -7.1956, -6.6558, -7.2988, -7.3134, -6.454, -7.3492, -7.3593, -7.4074, -7.3927, -7.4225, -5.9968, -7.4307, -7.4597, -7.4624, -7.5463, -7.4577, -7.5407, -6.2003, -6.7169, -6.5776, -7.0463, -6.549, -5.758, -5.8253, -6.7736, -6.4118, -3.4556, -4.6934, -5.4611, -5.4822, -6.1299, -6.6892, -4.1076, -4.8661, -6.1438, -5.8834, -6.0768, -3.222, -4.1457, -5.2788, -4.4248, -5.5176, -5.0958, -5.2327, -5.5192, -5.74, -5.7933, -4.8894, -5.0026, -4.9978, -5.0008, -5.4948, -5.3019, -5.308, -5.3581, -5.7741, -5.3565, -5.4477, -5.2196, -5.6242, -5.5757, -5.5086, -5.3707, -5.3949, -6.1626, -6.564, -6.8479, -7.0489, -7.3009, -7.4868, -7.5691, -7.6716, -7.7052, -7.7653, -5.9082, -7.7293, -6.2152, -8.0104, -4.8498, -8.0918, -7.8957, -8.1074, -8.1762, -8.2214, -7.4963, -8.2945, -8.3359, -8.3696, -8.2184, -7.8203, -8.0629, -8.4392, -8.1564, -8.4276, -5.4697, -4.7828, -4.7608, -6.703, -4.8036, -5.1584, -5.5935, -6.5392, -7.2187, -6.789, -6.7474, -6.0997, -3.6381, -6.0489, -4.7601, -6.0828, -5.3296, -4.2315, -4.9905, -5.8919, -4.8194, -6.4452, -6.4287, -4.4934, -5.439, -4.5258, -5.733, -5.9367, -4.7555, -5.6066, -5.3352, -3.6549, -5.2288, -5.1977, -5.722, -4.9923, -5.2741, -5.273, -5.3073, -5.1055, -5.4307, -4.867, -5.1787, -5.3304, -5.1202, -5.2505, -5.4262, -3.9414, -4.2701, -4.4007, -4.4722, -4.6154, -5.0199, -5.2102, -5.3589, -5.3649, -5.8089, -5.8764, -5.8973, -3.5484, -6.1408, -6.351, -6.3582, -6.3754, -6.4375, -6.4729, -4.2451, -6.5566, -4.5984, -6.7179, -6.7182, -6.7559, -6.7752, -6.8556, -6.8496, -6.8573, -4.7018, -4.6121, -4.2462, -4.036, -5.989, -5.5019, -4.4013, -5.3885, -5.2451, -5.8787, -4.2871, -5.9575, -5.0272, -4.7269, -5.7161, -5.3934, -5.2586, -4.1822, -4.8649, -5.6106, -5.4314, -4.4898, -5.2316, -5.2935, -5.0981, -5.3183, -3.1741, -3.2866, -3.4035, -3.424, -3.6349, -3.8662, -4.1283, -4.2237, -4.2515, -4.3257, -4.3918, -4.4105, -4.4459, -4.7053, -4.6454, -4.7494, -4.7887, -4.7973, -4.8256, -4.811, -4.9769, -5.0023, -5.0281, -5.068, -5.0611, -5.0861, -5.1389, -5.1478, -5.1478, -5.3045, -3.9021, -3.2444, -4.3959, -4.1467, -4.9418, -4.4503, -4.7889, -4.4524, -4.4015, -4.9122, -4.8941], "loglift": [30.0, 29.0, 28.0, 27.0, 26.0, 25.0, 24.0, 23.0, 22.0, 21.0, 20.0, 19.0, 18.0, 17.0, 16.0, 15.0, 14.0, 13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.8125, 0.8101, 0.8101, 0.8098, 0.8098, 0.8092, 0.8078, 0.8076, 0.8073, 0.8069, 0.8067, 0.8063, 0.8058, 0.8058, 0.8056, 0.8052, 0.805, 0.8049, 0.8046, 0.8045, 0.8041, 0.8038, 0.8037, 0.8035, 0.8035, 0.8032, 0.803, 0.8023, 0.8019, 0.8012, 0.7923, 0.7971, 0.7954, 0.7996, 0.7938, 0.7751, 0.7764, 0.7946, 0.7856, 0.706, 0.7435, 0.7553, 0.7548, 0.7669, 0.7885, 0.638, 0.6689, 0.749, 0.7267, 0.7324, 0.4131, 0.4974, 0.6215, 0.4961, 0.6281, 0.5486, 0.5453, 0.5877, 0.6197, 0.6152, 0.2985, 0.3327, 0.3174, 0.2797, 0.46, 0.3522, 0.3006, 0.3186, 0.5536, 0.2497, 0.3145, 0.0185, 0.4089, 0.2383, 0.1181, -0.21, -0.3069, 1.1324, 1.1314, 1.1288, 1.127, 1.1242, 1.1197, 1.1187, 1.1172, 1.1171, 1.1163, 1.1159, 1.1156, 1.112, 1.1105, 1.1105, 1.1078, 1.1076, 1.1075, 1.1044, 1.1038, 1.1032, 1.1001, 1.0994, 1.0986, 1.0983, 1.0972, 1.0968, 1.0959, 1.0957, 1.0954, 1.0938, 1.0837, 1.0466, 1.0809, 1.0333, 1.0306, 1.0424, 1.0619, 1.0766, 1.0536, 1.0495, 1.0065, 0.8605, 1.0005, 0.9006, 0.9857, 0.9092, 0.7727, 0.8394, 0.936, 0.8068, 0.9893, 0.9792, 0.6673, 0.7794, 0.5622, 0.8221, 0.8434, 0.4825, 0.728, 0.6076, -0.0197, 0.5477, 0.5193, 0.7257, 0.1956, 0.3861, 0.3538, 0.3819, 0.175, 0.4693, -0.2239, 0.1365, 0.2758, -0.1992, 0.0848, 0.1824, 2.0452, 2.0449, 2.0447, 2.0445, 2.0442, 2.0431, 2.0425, 2.0418, 2.0418, 2.0392, 2.0386, 2.0385, 2.0372, 2.0364, 2.034, 2.0339, 2.0337, 2.0326, 2.0324, 2.0312, 2.0312, 2.0292, 2.0285, 2.0282, 2.0279, 2.0273, 2.0258, 2.0258, 2.0251, 2.0251, 2.0216, 2.0137, 2.0064, 2.0197, 1.9944, 1.9296, 1.9575, 1.9448, 1.9691, 1.7228, 1.958, 1.7764, 1.6855, 1.8963, 1.8076, 1.5725, 0.822, 1.175, 1.7498, 1.4844, 0.0088, 0.5984, 0.6616, -0.9366, 0.3423, 2.2277, 2.2276, 2.2275, 2.2275, 2.2273, 2.227, 2.2267, 2.2265, 2.2264, 2.2263, 2.2262, 2.2261, 2.226, 2.2254, 2.2253, 2.2252, 2.2251, 2.225, 2.225, 2.225, 2.2245, 2.2243, 2.2243, 2.2241, 2.2241, 2.224, 2.2238, 2.2238, 2.2238, 2.223, 2.2161, 2.2032, 2.1764, 2.0403, 2.1887, 2.0593, 2.0558, 1.7163, 1.5169, 1.9784, 1.8696]}, "token.table": {"Topic": [3, 4, 4, 1, 2, 3, 4, 4, 3, 3, 4, 4, 3, 1, 2, 3, 4, 1, 2, 1, 2, 1, 2, 4, 2, 4, 1, 2, 3, 4, 1, 2, 1, 2, 4, 1, 2, 4, 4, 1, 2, 3, 4, 4, 1, 2, 3, 4, 1, 2, 4, 1, 2, 1, 2, 4, 2, 2, 1, 2, 3, 3, 3, 1, 2, 3, 1, 2, 3, 4, 1, 1, 1, 3, 1, 3, 1, 2, 1, 2, 4, 4, 2, 3, 4, 1, 2, 1, 2, 1, 2, 4, 1, 4, 1, 2, 3, 1, 2, 3, 4, 2, 2, 3, 1, 2, 3, 4, 1, 2, 3, 4, 2, 1, 2, 3, 1, 2, 3, 4, 3, 1, 1, 1, 2, 3, 1, 2, 3, 4, 2, 1, 2, 4, 2, 3, 4, 3, 3, 1, 2, 3, 4, 1, 2, 4, 3, 2, 1, 2, 3, 4, 1, 1, 2, 4, 2, 3, 1, 4, 1, 2, 3, 3, 2, 4, 2, 3, 1, 2, 3, 4, 1, 2, 1, 2, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 1, 2, 4, 1, 1, 2, 3, 1, 2, 3, 4, 3, 1, 3, 4, 1, 2, 4, 3, 1, 2, 3, 3, 3, 4, 1, 4, 3, 4, 2, 4, 2, 1, 2, 4, 1, 3, 2, 1, 2, 4, 2, 1, 2, 3, 4, 1, 2, 3, 4, 4, 1, 2, 4, 3, 4, 1, 2, 3, 4, 1, 2, 4, 3, 1, 2, 1, 2, 3, 4, 1, 2, 3, 4, 4, 1, 2, 4, 1, 2, 3, 4, 1, 3, 3, 1, 2, 3, 4, 4, 4, 1, 2, 1, 2, 3, 4, 1, 2, 3, 4, 3, 4, 4, 1, 3, 2, 3, 4, 1, 3, 1, 2, 3, 2, 3, 4, 1, 2, 1, 1, 2, 1, 2, 3, 4, 4, 1, 3, 1, 2, 4, 1, 1, 2, 3, 4, 1, 2, 4, 4, 1, 1, 3, 4, 1, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 2, 4, 2, 1, 2, 3, 4, 1, 2, 4, 1, 2, 1, 3, 4, 3, 2, 4, 4, 3, 4, 2, 1, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 4, 4, 1, 3, 4, 1, 2, 3, 4, 4, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 3, 1, 4, 1, 2, 3, 4, 1, 2, 4, 1, 2, 3, 4, 2, 1, 2, 3, 4, 2, 3, 4, 1, 1, 4, 3, 1, 3, 4, 2, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 3, 1, 2, 3, 4, 1, 1, 2, 4, 1, 1, 2, 3, 4, 1, 1, 2, 3, 4, 2, 4, 1, 4, 1, 2, 3, 4, 4, 4, 3, 4, 1, 2, 4, 1, 2, 3, 4, 3, 4, 1, 2, 4, 3, 4], "Freq": [0.04804708050184797, 0.9502644810365487, 0.998565392021231, 0.1998804665270264, 0.15268646748592296, 0.1554625850765761, 0.4913728135456066, 0.9920973146882052, 0.9885282153046263, 0.9880932630631615, 0.9993158897806611, 0.9983140196877913, 0.9988220844491088, 0.763492047829568, 0.20745755486048295, 0.026535268644945494, 0.0024122971495404997, 0.03892069475532602, 0.9730173688831505, 0.044853543047921975, 0.9419244040063615, 0.5614594953679345, 0.4364128371568132, 0.0025009331642224255, 0.9952523436523519, 0.9991254196719033, 0.6082501148775785, 0.36753190462015983, 0.01670599566455272, 0.007593634392978509, 0.9890994326851483, 0.010058638298493034, 0.7010347456275396, 0.27062532274738693, 0.02735043155425719, 0.10006249416559342, 0.8987431294146027, 0.001819318075738062, 0.9969223451307876, 0.059142425593943684, 0.7458517005458454, 0.1675702058495071, 0.026285522486197192, 0.9936780531219169, 0.15818747314660675, 0.0015210333956404494, 0.724011896324854, 0.11559853806867416, 0.04556822825834656, 0.11216794648208384, 0.8412595986156288, 0.141574633036623, 0.8556032170474172, 0.02785323669711843, 0.9470100477020266, 0.9973421987979876, 0.990021358664234, 0.9929085058147767, 0.9953788812760482, 0.9844021581347894, 0.9671826374669883, 0.9776791135181965, 0.9915106629363432, 0.11740965832389179, 0.14089158998867016, 0.7455513303567128, 0.3254956667802923, 0.5620547852024006, 0.02480543185500369, 0.08712151675903734, 0.9931861448430348, 0.9962420380261279, 0.9827992342844151, 0.014452929915947281, 0.9788180649961243, 0.013689763146798942, 0.9918651032927476, 0.005304091461458543, 0.03968623581095576, 0.9577611575710657, 0.0026457490540637172, 0.9985122093241406, 0.005676294307049614, 0.9763226208125336, 0.01702888292114884, 0.03548841136711347, 0.9581871069120637, 0.976963211192054, 0.019803308334974068, 0.33039308241934773, 0.6628905793763983, 0.006313243613108555, 0.9725087495011132, 0.024936121782079823, 0.08174546423542273, 0.9173657653086329, 0.9859442302329245, 0.9526369923997853, 0.029539131547280165, 0.01107717433023006, 0.007384782886820041, 0.9426157556097929, 0.9413862374479705, 0.053793499282741165, 0.8636767388628568, 0.12676087952642148, 0.0037839068515349693, 0.005675860277302454, 0.011683865735037591, 0.6937990748377084, 0.2937657670523737, 0.000556374558811314, 0.9611426857702164, 0.008388174875012777, 0.9772223729389885, 0.012582262312519165, 0.8966696983489776, 0.04096460550832892, 0.05054696936992633, 0.011738395730456826, 0.9931637228858334, 0.9969074969768362, 0.9948236636301517, 0.937852528978781, 0.022067118328912495, 0.04045638360300624, 0.8233066794376176, 0.14857686764685482, 0.021809448461923644, 0.005452362115480911, 0.979674619742002, 0.9808585281860936, 0.005944597140521779, 0.011889194281043559, 0.002096923602705483, 0.8890956075471247, 0.1090400273406851, 0.9681862545393027, 0.9991670110033491, 0.013830507989280625, 0.33193219174273497, 0.6223728595176281, 0.031118642975881405, 0.06721579764198034, 0.9260843230672846, 0.007468421960220037, 0.9962272352258005, 0.9893155101081536, 0.8179677747471353, 0.1563428710735522, 0.011329193556054506, 0.013595032267265408, 0.9863792818132026, 0.9793850130151952, 0.004063838228278819, 0.016255352913115275, 0.9740901836306142, 0.9915525701015387, 0.9876982362800626, 0.9966689317283431, 0.20269613502727826, 0.7954867185976203, 0.0019122276889365873, 0.9991131202023663, 0.9549945004792628, 0.999354260764455, 0.1359485520358762, 0.8610074962272158, 0.12011835027986918, 0.859794507266432, 0.006322018435782588, 0.006322018435782588, 0.12473403293804222, 0.8731382305662956, 0.9831163491966544, 0.9674465458090257, 0.4977197266728619, 0.4562430827834567, 0.04458739218111055, 0.001036916097235129, 0.666282481172545, 0.3222440972026094, 0.004670204307284194, 0.007783673845473656, 0.26237194901944105, 0.7293940182740462, 0.007871158470583232, 0.9599057343512013, 0.033365707343758336, 0.005133185745193589, 0.98963183540088, 0.43530798518783365, 0.4717623484794256, 0.09220809538461501, 0.796106943213986, 0.04022435081502245, 0.1575453740255046, 0.005028043851877806, 0.9859541848684659, 0.008475191787878377, 0.003390076715151351, 0.9882073624666188, 0.28854432709521094, 0.6988768441981408, 0.011241986769943283, 0.9964409504035223, 0.05734595540776336, 0.009557659234627227, 0.927092945758841, 0.9985791798449241, 0.9911318784424346, 0.008956010949781035, 0.9805160599233337, 0.017303224586882358, 0.900964430520205, 0.09405672626309833, 0.9631973668575287, 0.9947457886979522, 0.966327262138168, 0.7691284641738058, 0.22154243805006363, 0.008360092001889193, 0.9917332788695143, 0.9793508879685264, 0.9816796458947836, 0.40394395964589214, 0.5888478848359132, 0.00853402731646251, 0.9814940624725789, 0.214442996371395, 0.6621811206633186, 0.09661717418930983, 0.025921680880058733, 0.25919068887216257, 0.4766228778704767, 0.25055099924309043, 0.014399482715120142, 0.9962511278675786, 0.45621014821552647, 0.5390542796078982, 0.004539404459855985, 0.9599956042424143, 0.03927968920795476, 0.5963683130827983, 0.3897788413982863, 0.013371486840421484, 0.0006685743420210742, 0.1470847097902889, 0.023606187991034023, 0.8280324403008857, 0.9815324618135214, 0.0760614352943452, 0.9222449029439356, 0.7662637925625851, 0.19737097687218103, 0.034830172389208415, 0.001055459769369952, 0.40394404241306947, 0.46906070498785385, 0.12250761942035714, 0.004414688988120977, 0.9964794079285659, 0.021709845539747166, 0.9726010801806729, 0.005789292143932577, 0.8222482044572541, 0.15754361922671797, 0.004316263540458026, 0.017265054161832105, 0.9810454355051326, 0.994221545754563, 0.9973802477637459, 0.4335756403964168, 0.5540133182843103, 0.012043767788789355, 0.0012043767788789356, 0.9990918038767813, 0.999660759658215, 0.9148340950387248, 0.08316673591261135, 0.617491049764491, 0.348646138511946, 0.020143999114023547, 0.013171076343784626, 0.07150346593515222, 0.35375398936338465, 0.5682643871688413, 0.0037633403123764324, 0.9782702919607382, 0.018693062903708372, 0.9973104906867916, 0.9907310194130132, 0.9984294710915965, 0.9877235559945375, 0.9203804985381832, 0.08181159987006073, 0.9955156019366905, 0.9961613237755655, 0.1311995245374696, 0.10428680155542457, 0.7636485146155282, 0.08101334699515865, 0.9142934875167905, 0.005786667642511333, 0.9921394626250544, 0.0056371560376423544, 0.9868261130743107, 0.9918525470677692, 0.9796970981534548, 0.8376961633323375, 0.15078530939982074, 0.0030071144324750575, 0.008162167745289443, 0.9964261284400162, 0.9825748370625632, 0.009539561524879255, 0.5678602855884656, 0.4225937009030441, 0.00914265218299855, 0.9887239815621024, 0.017787714381385586, 0.7420017999092273, 0.23505194003973812, 0.005082204108967311, 0.94113273044223, 0.05154276617026412, 0.005726974018918235, 0.9987233146238291, 0.9899189232212005, 0.9424209851791829, 0.022438594885218644, 0.03365789232782796, 0.9935303328673347, 0.9978936287297707, 0.358511938968939, 0.6246306014703837, 0.011711823777569696, 0.0045545981357215486, 0.08768031188291098, 0.8592670564525275, 0.013152046782436647, 0.03945614034730994, 0.6298098930711573, 0.28346773529091, 0.08631912240061547, 0.9951603475797324, 0.9962255617759687, 0.9602338799100592, 0.8293537710218531, 0.13241782898668242, 0.019165738405967195, 0.019165738405967195, 0.005678575173767599, 0.9767149298880271, 0.017035725521302798, 0.9201468165661376, 0.07780653228316604, 0.397570335664071, 0.0017828266173276726, 0.599029743422098, 0.9812839396721773, 0.03731386029113479, 0.9608319024967207, 0.9974765846861338, 0.02427220502696698, 0.9752225234049233, 0.9750820117034861, 0.9867397316031536, 0.10772285674018948, 0.757751434639713, 0.1302070667139985, 0.004027022681876242, 0.6081995561515234, 0.3160893750608276, 0.03923868104203377, 0.03596879095519762, 0.04876284513581175, 0.9475806933148283, 0.0039537442002009525, 0.9943087742542874, 0.003971034844541304, 0.9848166414462435, 0.009927587111353262, 0.6690675018488929, 0.314156060512805, 0.006226516514668207, 0.010471868683760167, 0.9997197255739613, 0.9667899203368234, 0.031249775202806414, 0.93137053013096, 0.0008576155894391898, 0.060890706850182476, 0.006860924715513518, 0.09560271330226949, 0.8786344603494292, 0.02276255078625464, 0.0045525101572509285, 0.6960994767472647, 0.3025530405470137, 0.06708009443469184, 0.9130346186944167, 0.01987558353620499, 0.0012422239710128118, 0.18343981049244878, 0.7182134953178927, 0.08394703192027318, 0.014509363541775611, 0.023598849586615702, 0.7884161111892064, 0.18235474680566677, 0.005363374906049023, 0.9747442624030521, 0.9878820552133194, 0.9990972325680061, 0.01723237315227833, 0.8168144874179929, 0.1619843076314163, 0.003446474630455666, 0.08249212197697346, 0.9102578976769484, 0.005689111860480928, 0.7269576862371779, 0.26262626270399453, 0.0071671884558595, 0.00358359422792975, 0.9874142426695197, 0.5852863129234425, 0.38212301883848815, 0.0161357128876137, 0.016869154382505233, 0.9728804709122139, 0.020268343144004455, 0.9964791286327754, 0.9934851310407911, 0.9936165942666672, 0.006494226106318086, 0.9960258687060088, 0.9878710142648165, 0.9481929262951474, 0.047073407688411575, 0.9712595429430991, 0.14106088235079156, 0.4357213921502228, 0.4184806176406816, 0.004702029411693052, 0.45061051948569386, 0.5195026113883429, 0.021089415888566016, 0.009138746885045273, 0.6067557479282752, 0.3170328467648718, 0.05936944695971383, 0.01662344514871987, 0.9882177781333209, 0.962046136846679, 0.008246109744400106, 0.027487032481333686, 0.0027487032481333684, 0.9872099040970952, 0.9934385794940528, 0.004753294638727526, 0.9959167365463014, 0.9842839552551369, 0.14516309077793166, 0.05506186201921546, 0.7858829397288025, 0.010011247639857357, 0.9845559558544905, 0.5977204780288522, 0.38490347648195256, 0.008146105322369366, 0.009164368487665536, 0.9696480700450183, 0.9978201665183578, 0.22018621724501763, 0.7779913009323957, 0.45924492183366045, 0.5123919602654491, 0.025892146928307266, 0.0027254891503481335, 0.9963043716321236, 0.9973104893636054, 0.15543748056134263, 0.8448779185350398, 0.13899465308273407, 0.1616216896310861, 0.698205699206292, 0.7278322424834309, 0.2563117273742929, 0.010857380282118308, 0.005040926559554929, 0.9817521516431881, 0.01692676123522738, 0.0934033734545758, 0.9007667796167311, 0.005117993066004154, 0.9766585435704281, 0.022451920541848924], "Term": ["0", "0", "0px", "1", "1", "1", "1", "14px", "162", "2017", "255", "51", "_blank", "activity", "activity", "activity", "activity", "afraid", "afraid", "ago", "ago", "agree", "agree", "agree", "algebra", "align", "also", "also", "also", "also", "analyze", "analyze", "answer", "answer", "answer", "ap", "ap", "ap", "arial", "assessment", "assessment", "assessment", "assessment", "auto", "b", "b", "b", "b", "background", "background", "background", "basic", "basic", "bear", "bear", "border", "calc", "calculus", "car", "career", "catalog", "ced", "certificate", "check", "check", "check", "class", "class", "class", "class", "coke", "collect", "collected", "collected", "collecting", "collecting", "collection", "collection", "college", "college", "college", "color", "com", "com", "com", "comfort", "comfort", "compare", "compare", "concept", "concept", "concept", "conclusion", "conclusion", "confident", "confident", "contact", "context", "context", "context", "context", "copy", "core", "core", "could", "could", "could", "could", "course", "course", "course", "course", "creative", "curriculum", "curriculum", "curriculum", "data", "data", "data", "data", "december", "decision", "dice", "difference", "difference", "difference", "different", "different", "different", "different", "discipline", "distribution", "distribution", "distribution", "div", "div", "div", "earn", "edu", "education", "education", "education", "education", "elementary", "elementary", "elementary", "em", "exam", "example", "example", "example", "example", "exercise", "experiment", "experiment", "experiment", "exposed", "facebook", "faithful", "family", "feel", "feel", "feel", "fi", "fivethirtyeight", "font", "forum", "forum", "future", "future", "future", "future", "gapminder", "gapminder", "gather", "geometry", "get", "get", "get", "get", "good", "good", "good", "good", "grade", "grade", "grade", "graph", "graph", "graph", "graphical", "great", "great", "great", "group", "group", "group", "group", "h6", "height", "height", "height", "high", "high", "high", "hirise", "hollylynne", "hollylynne", "hollylynne", "href", "http", "http", "hypothesis", "hypothesis", "id", "id", "implementing", "indent", "integrated", "interesting", "interesting", "interesting", "interpretation", "join", "junior", "know", "know", "know", "laptop", "learn", "learn", "learn", "learn", "learning", "learning", "learning", "learning", "letter", "level", "level", "level", "li", "li", "like", "like", "like", "like", "line", "line", "line", "mailto", "major", "major", "make", "make", "make", "make", "many", "many", "many", "many", "margin", "math", "math", "math", "mean", "mean", "mean", "mean", "measurement", "mod", "ncsu", "need", "need", "need", "need", "none", "normal", "number", "number", "one", "one", "one", "one", "online", "online", "online", "online", "org", "org", "orphan", "outcome", "page", "pas", "pdf", "pdf", "pepsi", "php", "place", "place", "place", "please", "please", "please", "pose", "pose", "posed", "posing", "professor", "question", "question", "question", "question", "quot", "random", "random", "really", "really", "really", "relate", "resource", "resource", "resource", "resource", "result", "result", "result", "rgb", "roll", "sample", "sample", "sample", "sampling", "sans", "school", "school", "school", "school", "science", "science", "science", "science", "see", "see", "see", "senior", "serif", "service", "set", "set", "set", "set", "sharing", "sharing", "sharing", "simulation", "simulation", "size", "size", "size", "smile", "space", "space", "spacing", "span", "span", "spss", "square", "statistic", "statistic", "statistic", "statistic", "statistical", "statistical", "statistical", "statistical", "stats", "stats", "stats", "stroke", "strong", "strong", "strong", "student", "student", "student", "student", "style", "target", "target", "task", "task", "task", "task", "taught", "taught", "taught", "taught", "td", "td", "teach", "teach", "teach", "teach", "teacher", "teacher", "teacher", "teacher", "teaching", "teaching", "teaching", "teaching", "techsupport", "television", "text", "thank", "thank", "thank", "thank", "thanks", "thanks", "thanks", "think", "think", "think", "think", "ti", "time", "time", "time", "time", "training", "training", "transform", "transportation", "trial", "trial", "tsdi", "tv", "ul", "ul", "undergraduate", "unit", "unit", "unit", "unit", "use", "use", "use", "use", "using", "using", "using", "using", "valign", "value", "value", "value", "value", "variability", "variable", "variable", "variant", "variation", "view", "view", "view", "view", "visual", "way", "way", "way", "way", "wealth", "webkit", "weight", "weight", "well", "well", "well", "well", "white", "widow", "width", "width", "word", "word", "word", "would", "would", "would", "would", "www", "www", "year", "year", "year", "youtube", "youtube"]}, "R": 30, "lambda.step": 0.01, "plot.opts": {"xlab": "PC1", "ylab": "PC2"}, "topic.order": [3, 2, 1, 4]};
+
+function LDAvis_load_lib(url, callback){
+  var s = document.createElement('script');
+  s.src = url;
+  s.async = true;
+  s.onreadystatechange = s.onload = callback;
+  s.onerror = function(){console.warn("failed to load library " + url);};
+  document.getElementsByTagName("head")[0].appendChild(s);
+}
+
+if(typeof(LDAvis) !== "undefined"){
+   // already loaded: just create the visualization
+   !function(LDAvis){
+       new LDAvis("#" + "ldavis_el7199053952452964061193311", ldavis_el7199053952452964061193311_data);
+   }(LDAvis);
+}else if(typeof define === "function" && define.amd){
+   // require.js is available: use it to load d3/LDAvis
+   require.config({paths: {d3: "https://d3js.org/d3.v5"}});
+   require(["d3"], function(d3){
+      window.d3 = d3;
+      LDAvis_load_lib("https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.4.0/pyLDAvis/js/ldavis.v3.0.0.js", function(){
+        new LDAvis("#" + "ldavis_el7199053952452964061193311", ldavis_el7199053952452964061193311_data);
+      });
+    });
+}else{
+    // require.js not available: dynamically load d3 & LDAvis
+    LDAvis_load_lib("https://d3js.org/d3.v5.js", function(){
+         LDAvis_load_lib("https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.4.0/pyLDAvis/js/ldavis.v3.0.0.js", function(){
+                 new LDAvis("#" + "ldavis_el7199053952452964061193311", ldavis_el7199053952452964061193311_data);
+            })
+         });
+}
+</script>
+</div>
+</div>
+</section>
+<section id="b.-finding-the-dominant-topic-for-each-document" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="b.-finding-the-dominant-topic-for-each-document"><span class="header-section-number">5.2</span> 4b. Finding the Dominant Topic for Each Document</h3>
+<p>One of the practical applications of topic modeling is to determine the main topic of a given document. Let’s explore it by using <code>get_document_topics</code> function from <code>gensim</code> and visualize the first 10 document with its dominant topics:</p>
+<div id="50d23b94" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the topic distribution for the first 10 documents</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>topic_dist_first_10 <span class="op">=</span> [optimal_model.get_document_topics(doc, minimum_probability<span class="op">=</span><span class="fl">0.0</span>) <span class="cf">for</span> doc <span class="kw">in</span> corpus[:<span class="dv">10</span>]]</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate over the first 10 documents</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, doc_topic_dist <span class="kw">in</span> <span class="bu">enumerate</span>(topic_dist_first_10):</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract topic ids and their probabilities</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    doc_topics, doc_probs <span class="op">=</span> <span class="bu">zip</span>(<span class="op">*</span>doc_topic_dist)</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Plot the topic probabilities for the document</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>    plt.bar(doc_topics, doc_probs, color<span class="op">=</span><span class="st">'skyblue'</span>)</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Topic ID'</span>)</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Probability'</span>)</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f'Topic Distribution for Post </span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>    plt.xticks(doc_topics)</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab-4-case-study-python_files/figure-html/cell-20-output-1.png" width="812" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab-4-case-study-python_files/figure-html/cell-20-output-2.png" width="812" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab-4-case-study-python_files/figure-html/cell-20-output-3.png" width="812" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab-4-case-study-python_files/figure-html/cell-20-output-4.png" width="812" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab-4-case-study-python_files/figure-html/cell-20-output-5.png" width="812" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab-4-case-study-python_files/figure-html/cell-20-output-6.png" width="812" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab-4-case-study-python_files/figure-html/cell-20-output-7.png" width="812" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab-4-case-study-python_files/figure-html/cell-20-output-8.png" width="812" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab-4-case-study-python_files/figure-html/cell-20-output-9.png" width="812" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab-4-case-study-python_files/figure-html/cell-20-output-10.png" width="812" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="c.-finding-the-dominant-words-for-each-topic" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="c.-finding-the-dominant-words-for-each-topic"><span class="header-section-number">5.3</span> 4c. Finding the Dominant Words for Each Topic</h3>
+<p>By merely knowing the dominant topic ID for a document from last session, obviously, it’s not very easy to interpret what the topics exactly are, so let’s examine the top 5 terms for each topic and then look at this information visually:</p>
+<div id="ced30ec4" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the top 5 terms for each topic from the LDA model</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>topics <span class="op">=</span> optimal_model.show_topics(formatted<span class="op">=</span><span class="va">False</span>, num_words<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>topics_dict <span class="op">=</span> {topic_num: [(word, <span class="bu">round</span>(weight, <span class="dv">4</span>)) <span class="cf">for</span> word, weight <span class="kw">in</span> words] <span class="cf">for</span> topic_num, words <span class="kw">in</span> topics}</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the dictionary to a DataFrame for easier visualization</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>topics_df <span class="op">=</span> pd.DataFrame(topics_dict).T</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>topics_df.columns <span class="op">=</span> [<span class="ss">f'Term </span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>)]</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>topics_df[<span class="st">'Topic'</span>] <span class="op">=</span> topics_df.index</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>topics_df <span class="op">=</span> topics_df.melt(id_vars<span class="op">=</span><span class="st">'Topic'</span>, var_name<span class="op">=</span><span class="st">'Term Rank'</span>, value_name<span class="op">=</span><span class="st">'Term and Weight'</span>)</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Split 'Term and Weight' column into separate 'Term' and 'Weight' columns</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>topics_df[[<span class="st">'Term'</span>, <span class="st">'Weight'</span>]] <span class="op">=</span> pd.DataFrame(topics_df[<span class="st">'Term and Weight'</span>].tolist(), index<span class="op">=</span>topics_df.index)</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop the 'Term and Weight' column as it's no longer needed</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>topics_df.drop(columns<span class="op">=</span>[<span class="st">'Term and Weight'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the DataFrame</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(topics_df.head(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Topic Term Rank       Term  Weight
+0      0    Term 1       http  0.0288
+1      1    Term 1  statistic  0.0263
+2      2    Term 1    student  0.0399
+3      3    Term 1       font  0.0418
+4      0    Term 2       href  0.0194
+5      1    Term 2    student  0.0259
+6      2    Term 2       data  0.0316
+7      3    Term 2       span  0.0390
+8      0    Term 3         li  0.0177
+9      1    Term 3     course  0.0145</code></pre>
+</div>
+</div>
+<p>From the data frame generated, we can visualize now:</p>
+<div id="5a55c22b" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the FacetGrid</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> sns.FacetGrid(topics_df, col<span class="op">=</span><span class="st">"Topic"</span>, col_wrap<span class="op">=</span><span class="dv">4</span>, sharex<span class="op">=</span><span class="va">False</span>, sharey<span class="op">=</span><span class="va">False</span>, height<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Map the bar plot to each subplot</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>g.map_dataframe(sns.barplot, x<span class="op">=</span><span class="st">'Weight'</span>, y<span class="op">=</span><span class="st">'Term'</span>, palette<span class="op">=</span><span class="st">'husl'</span>, orient<span class="op">=</span><span class="st">'h'</span>)</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Customize the plot</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>g.set_titles(col_template<span class="op">=</span><span class="st">'Topic </span><span class="sc">{col_name}</span><span class="st">'</span>)</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>g.set_axis_labels(<span class="st">"Weight"</span>, <span class="st">"Term"</span>)</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: DeprecationWarning:
+
+is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, pd.CategoricalDtype) instead
+
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: DeprecationWarning:
+
+is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, pd.CategoricalDtype) instead
+
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: DeprecationWarning:
+
+is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, pd.CategoricalDtype) instead
+
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: DeprecationWarning:
+
+is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, pd.CategoricalDtype) instead
+
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: DeprecationWarning:
+
+is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, pd.CategoricalDtype) instead
+
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: DeprecationWarning:
+
+is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, pd.CategoricalDtype) instead
+
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: DeprecationWarning:
+
+is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, pd.CategoricalDtype) instead
+
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: DeprecationWarning:
+
+is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, pd.CategoricalDtype) instead
+
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: DeprecationWarning:
+
+is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, pd.CategoricalDtype) instead
+
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: DeprecationWarning:
+
+is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, pd.CategoricalDtype) instead
+
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: DeprecationWarning:
+
+is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, pd.CategoricalDtype) instead
+
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: DeprecationWarning:
+
+is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, pd.CategoricalDtype) instead
+
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: DeprecationWarning:
+
+is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, pd.CategoricalDtype) instead
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab-4-case-study-python_files/figure-html/cell-22-output-2.png" width="1525" height="371" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="d.-finding-the-dominate-documents-for-each-topic" class="level3" data-number="5.4">
+<h3 data-number="5.4" class="anchored" data-anchor-id="d.-finding-the-dominate-documents-for-each-topic"><span class="header-section-number">5.4</span> 4d. Finding the Dominate Documents for Each Topic</h3>
+<p>Now that we have a sense of the most common words associated with each topic, let’s further explore the dominate documents for each topic:</p>
+<div id="4d38142f" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize a list to store topic distributions for each document</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>topic_distributions <span class="op">=</span> [optimal_model.get_document_topics(doc, minimum_probability<span class="op">=</span><span class="fl">0.0</span>) <span class="cf">for</span> doc <span class="kw">in</span> corpus]</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify the dominant topics for each document</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>dominant_topics <span class="op">=</span> [(<span class="bu">sorted</span>(topic_distribution, key<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="dv">1</span>], reverse<span class="op">=</span><span class="va">True</span>)[<span class="dv">0</span>], i)</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>                   <span class="cf">for</span> i, topic_distribution <span class="kw">in</span> <span class="bu">enumerate</span>(topic_distributions)]</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create DataFrame from the list of dominant topics</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>df_dominant_topic <span class="op">=</span> pd.DataFrame(dominant_topics, columns<span class="op">=</span>[<span class="st">'Dominant_Topic'</span>, <span class="st">'Document_No'</span>])</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>df_dominant_topic[<span class="st">'Topic_ID'</span>] <span class="op">=</span> df_dominant_topic[<span class="st">'Dominant_Topic'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: x[<span class="dv">0</span>])</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>df_dominant_topic[<span class="st">'Topic_Probability'</span>] <span class="op">=</span> df_dominant_topic[<span class="st">'Dominant_Topic'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: x[<span class="dv">1</span>])</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure the original DataFrame has a unique identifier for each document</span></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>post_content_exploded[<span class="st">'Document_No'</span>] <span class="op">=</span> post_content_exploded.index</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge with the original DataFrame to get the text of the dominant documents</span></span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>df_dominant_topic <span class="op">=</span> df_dominant_topic.merge(post_content_exploded[[<span class="st">'Document_No'</span>, <span class="st">'document'</span>]], on<span class="op">=</span><span class="st">'Document_No'</span>, how<span class="op">=</span><span class="st">'left'</span>)</span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a function to get the top N unique documents for each topic</span></span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_top_n_documents_grouped(df, n<span class="op">=</span><span class="dv">3</span>):</span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sort by Topic_Probability within each group and take the top N unique documents</span></span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>    top_n_docs <span class="op">=</span> df.groupby(<span class="st">'Topic_ID'</span>).<span class="bu">apply</span>(<span class="kw">lambda</span> group: group.nlargest(n, <span class="st">'Topic_Probability'</span>).drop_duplicates(subset<span class="op">=</span><span class="st">'document'</span>))</span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> top_n_docs</span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the top 3 unique documents for each topic</span></span>
+<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a>top_n_docs_unique <span class="op">=</span> get_top_n_documents_grouped(df_dominant_topic, n<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-28"><a href="#cb36-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the first three dominant documents for each topic</span></span>
+<span id="cb36-29"><a href="#cb36-29" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> topic <span class="kw">in</span> top_n_docs_unique[<span class="st">'Topic_ID'</span>].unique():</span>
+<span id="cb36-30"><a href="#cb36-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Topic </span><span class="sc">{</span>topic<span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb36-31"><a href="#cb36-31" aria-hidden="true" tabindex="-1"></a>    top_docs <span class="op">=</span> top_n_docs_unique[top_n_docs_unique[<span class="st">'Topic_ID'</span>] <span class="op">==</span> topic].nlargest(<span class="dv">3</span>, <span class="st">'Topic_Probability'</span>)</span>
+<span id="cb36-32"><a href="#cb36-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _, row <span class="kw">in</span> top_docs.iterrows():</span>
+<span id="cb36-33"><a href="#cb36-33" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Document No: </span><span class="sc">{</span>row[<span class="st">'Document_No'</span>]<span class="sc">}</span><span class="ss"> - Probability: </span><span class="sc">{</span>row[<span class="st">'Topic_Probability'</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb36-34"><a href="#cb36-34" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(row[<span class="st">'document'</span>])</span>
+<span id="cb36-35"><a href="#cb36-35" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Topic 0:
+Document No: 3438 - Probability: 0.9995913505554199
+ I am one of those people that has not been exposed to p-value.  In 6th grade  students would be lost with the definitions I saw when I googled p-value. 
+
+Topic 1:
+Document No: 5123 - Probability: 0.9951699376106262
+ I find that when students are working with technology in general  they are more receptive and in their element. This is a great way to get students excited about learning.  
+
+Topic 2:
+Document No: 2044 - Probability: 0.9962772727012634
+ I completely agree that statistics education is important because it can enhance student's critical thinking and problem solving skills. I also agree that statistics should be integrated into every grade level and into many non-mathematics courses. However  as a classroom teacher  I don't have a lot of influence on what happens in other grades or other classes. So the most important thing for me is enhancing my student's critical thinking and problem solving skills through statistics education. 
+
+Topic 3:
+Document No: 2353 - Probability: 0.9984350204467773
+ I would like to develop a course website for my institution.  Ideally  I'd eventually want two  one for students  and one for instructors.  Does anyone have an example of a nice useful course website for an introductory statistics class?  Assume I have no tech support and will be doing it all in wordpress. 
+</code></pre>
+</div>
+</div>
+<section id="takeaway" class="level4" data-number="5.4.1">
+<h4 data-number="5.4.1" class="anchored" data-anchor-id="takeaway"><span class="header-section-number">5.4.1</span> Takeaway</h4>
+<p>In addition to some useful Python packages and functions for the actual process of topic modeling, hopefully there are two main lessons I’m hoping you take away from this walkthrough:</p>
+<ol type="1">
+<li><strong>Topic modeling requires a lot of decisions.</strong> Beyond deciding on a value for K, there are a number of key decisions that you have to make that can dramatically affect your results. For example, to stem or not to stem? What qualifies as a document? What flavor or topic modeling is best suited to your data and research questions? How many iterations to run?</li>
+<li><strong>Topic modeling is as much art as (data) science.</strong> As Bail (2018) noted, the term “topic” is somewhat ambitious, and topic models do not produce highly nuanced classification of texts. Once you’ve fit your model, interpreting your model requires some mental gymnastics and ideally some knowledge of the context from which the data came to help with interpretation of your topics. Moreover, the quantitative approaches for making the decisions highlighted above are imperfect and a good deal of human judgment required.</li>
+</ol>
+<section id="comprehension-check-1" class="level5" data-number="5.4.1.1">
+<h5 data-number="5.4.1.1" class="anchored" data-anchor-id="comprehension-check-1"><span class="header-section-number">5.4.1.1</span> Comprehension Check</h5>
+<p>Using the LDA model with a different value for K, use the approaches demonstrated in Section 4 to explore and interpret your topics and terms and revisit the following question:</p>
+<ol type="1">
+<li>Now that you have a little more context, how might you revise your initial interpretation of some of the latent topics or latent themes from your model?</li>
+</ol>
+</section>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

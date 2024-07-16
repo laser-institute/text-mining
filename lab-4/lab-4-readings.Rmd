@@ -1,5 +1,5 @@
 ---
-title: 'Lab 4 Readings: Text Classification'
+title: 'Lab 4 Readings: Topic Modeling'
 author: "Dr. Shiyan Jiang"
 date: "`r format(Sys.Date(),'%B %e, %Y')`"
 output:
@@ -18,54 +18,79 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Overview
 
-These readings will allow us to build a basic understanding of text
-classification and its application in educational research. The readings
-are
-[here](https://github.com/laser-institute/essential-readings/tree/main/text%20mining/lab%204).
+Our primary goal is to build a basic understanding of topic modeling and
+how it has been applied to gain insight into text data, and specifically
+its applications in educational contexts. Many of the introductory
+readings come from the Journal of Digital Humanities (Vol. 2, No. 1
+Winter 2012). The entire issue on Topic Modeling contains many good
+reads and is worth checking out in its entirety. The Digital Humanities
+Contribution to Topic Modeling article provides a nice overview of the
+entire issue. The readings are
+[here](https://github.com/laser-institute/essential-readings/tree/main/text%20mining/lab%203).
 
 ## Readings
 
 ##### Required
 
-1.  [Text preprocessing for
-    classification](https://www.youtube.com/watch?v=nxhCyeRR75Q) and
-    [Feature extraction](https://www.youtube.com/watch?v=7YacOe4XwhY).
-    These two videos by Andre provides a concise introduction on
-    preparing texts for classification and turning texts into features
-    for building machine learning models.
+1.  [Topic Modeling: A Basic
+    Introduction](http://journalofdigitalhumanities.org/2-1/topic-modeling-a-basic-introduction-by-megan-r-brett/). Great
+    layman's introduction to the topic of topic modeling by Megan Brett.
 
-2.  [Classification](https://smltar.com/mlclassification.html). This
-    chapter from Supervised Machine Learning for Text Analysis in R by
-    Emil Hvitfeldt And Julia Silge walks you through building a text
-    classification model for predicting whether a complaint is about
-    "Credit reporting, credit repair services, or other personal
-    consumer reports" or not.
+2.  [LDA Topic Models](https://youtu.be/3mHy4OSyRf0). An engaging video
+    and introduction to the subject by Andrius Knispelis.
 
-3.  [Machine Learning
-    ---Fundamentals](https://towardsdatascience.com/machine-learning-basics-part-1-a36d38c7916).
-    This blog is a nice introduction to Machine Learning. You will learn
-    more about Machine Learning in another course. The core idea in
-    Machine Learning is to generate patterns using training data and
-    make predictions based on generated patterns.
+3.  [The "Secret" Recipe for Topic Modeling
+    Themes](http://www.matthewjockers.net/2013/04/12/secret-recipe-for-topic-modeling-themes/). Matthew
+    Jocker's blog post highlights the importance of preprocessing text
+    and provides some very practical guidelines for topic modeling. 
 
 ##### Choose One (or more if interested)
 
-1.  Exploring the relationship between social presence and learners'
-    prestige in MOOC discussion forums using automated content analysis
-    and social network analysis. The application of text classification
-    in MOOC data analysis. 
+1.  Probabilistic Topic Models. Article by David Blei explains some of
+    the basic concepts of topic modeling, including some underlying math
+    and some great visuals. 
 
-2.  Design and application of automatic feedback scaffolding in forums
-    to promote learning. Leveraging text classification models for
-    real-time support. 
+2.  [Introduction to Topic Models](https://youtu.be/IUAHUEy1V0Q). In
+    this video, Duke Professor Chris Bail provides an introduction to
+    topic modeling, including example applications and R code. 
 
-3.  Predicting Math Identity Through Language and Click-Stream Patterns
-    in a Blended Learning Mathematics Program for Elementary Students.
-    The application of text classification for predicting math identity.
-    Buidling computational models of identity is a very promising
-    research direction.
+3.  [Finding structure in xkcd comics with Latent Dirichlet
+    Allocation](https://projects.cpsievert.me/615/xkcd/). Quick intro
+    and fun example of applying to LDA to a favorite comic of mine
 
-4.  Analyzing collaborative learning processes automatically: Exploiting
-    the advances of computational linguistics in computer-supported
-    collaborative learning. Issues of validity and reliability in using
-    text classification for collaborative learning process analysis.
+4.  [The LDA Buffet is Now
+    Open](http://www.matthewjockers.net/2011/09/29/the-lda-buffet-is-now-open-or-latent-dirichlet-allocation-for-english-majors/). Short,
+    whimsical blog post by Matthew Jocker explaining LDA for English
+    Marjors
+
+5.  [Topic Modeling and Figurative
+    Language](http://journalofdigitalhumanities.org/2-1/topic-modeling-and-figurative-language-by-lisa-m-rhody/). Lisa M.
+    Rhody explores the productive failure of topic modeling. 
+
+6.  [Training and Validating Big Models on Big
+    Data](https://vimeo.com/53080123). Video of David Mimno's
+    presentation provides an accessible introduction to the math behind
+    topic modeling. 
+
+7.  ["Twitter Archeology" of Learning Analytics and Knowledge
+    Conferences](https://dl.acm.org/doi/pdf/10.1145/2723576.2723584?casa_token=Fznv8hpSQ_gAAAAA:FVC4vgtnmEOIDYQ5gDhNPTj_qYMQuAISz8PI_F-pR6zEChM-0HfD2lEN-IuRFxiZYYxLcjBsavq8). Paper
+    exploring the conference tweets through multiple methods including:
+    topic modeling, and descriptive, network, and hashtag analysis.
+
+8.  [Computer-Assisted Reading and Discovery for Student Generated Text
+    in Massive Open Online
+    Courses](https://scholar.harvard.edu/files/dtingley/files/educationwriteup.pdf). This
+    paper introduces the Structural Topic Model with applications to
+    self-reported students' motivations, identifying discussion themes,
+    and patterns of feedback in course evaluations.
+
+9.  [Unsupervised Modeling for Understanding MOOC Discussion
+    Forums](http://learndialogue.org/pdf/LearnDialogue-EzenCan-LAKmooc-2015.pdf). Paper
+    exploring three different approaches to text classification: manual
+    coding, LDA, and the k-medoids clustering algorithm
+
+10. [Using a Learner-Topic Model for Mining Learner Interests in Open
+    Learning
+    Environments](https://www.jstor.org/stable/26388396?seq=1#metadata_info_tab_contents). A
+    study that applies topic modeling to automatically discover learner
+    interests in open learning environments.
