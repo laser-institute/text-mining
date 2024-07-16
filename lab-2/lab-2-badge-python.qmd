@@ -14,7 +14,7 @@ To earn a badge for each lab, you are required to respond to a set of prompts fo
 
 -   In Part I, you will reflect on your understanding of key concepts and begin to think about potential next steps for your own study.
 
--   In Part II, you will create a simple data product in R that demonstrates your ability to apply a data analysis technique introduced in this learning lab.
+-   In Part II, you will create a simple data product in Python that demonstrates your ability to apply a data analysis technique introduced in this learning lab.
 
 ### Part I: Reflect and Plan
 
@@ -58,4 +58,4 @@ I highly recommend creating a new Python script in your lab-2 folder to complete
 
 ### Knit & Submit
 
-Congratulations, you've completed your Intro to text mining Badge! Complete the following steps in the orientation to submit your work for review.
+Congratulations, you've completed your Sentiment Analysis Badge! Complete the following steps in the orientation to submit your work for review.
