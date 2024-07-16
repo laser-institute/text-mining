@@ -376,7 +376,7 @@ print(opd_tidy.head())
 opd_clean = opd_tidy.copy()
 ```
 
-This code uses the **`stopwords.words('english')`** to get a list of English stop words and then removes these stop words from the 'word' column.
+This code uses the `stopwords.words('english')` to get a list of English stop words and then removes these stop words from the 'word' column.
 
 #### Comprehension Check
 

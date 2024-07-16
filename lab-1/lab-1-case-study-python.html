@@ -219,7 +219,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><a href="https://pandas.pydata.org"><code>pandas</code></a>: a powerful and widely-used Python library for data manipulation and analysis. It provides data structures and functions needed to work seamlessly with structured data, such as tables and time series.</p></li>
 <li><p><a href="https://www.google.com/url?sa=t&amp;source=web&amp;rct=j&amp;opi=89978449&amp;url=https://www.nltk.org/&amp;ved=2ahUKEwid7Pn-97-GAxWKMVkFHSOqBuUQFnoECB4QAQ&amp;usg=AOvVaw1cuWsEY8ZUmW75nSDfXo7m"><code>nltk</code></a>: a suite of libraries and programs for symbolic and statistical natural language processing for English written in the Python programming language. It supports classification, tokenization, stemming, tagging, parsing, and semantic reasoning functionalities.</p></li>
 </ul>
-<div id="e64bc6b1" class="cell" data-execution_count="1">
+<div id="1714a58f" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install pandas </span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install nltk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -236,7 +236,7 @@ Requirement already satisfied: regex&gt;=2021.8.3 in /opt/anaconda3/lib/python3.
 Requirement already satisfied: tqdm in /opt/anaconda3/lib/python3.11/site-packages (from nltk) (4.65.0)</code></pre>
 </div>
 </div>
-<div id="fa9c76da" class="cell" data-execution_count="2">
+<div id="767680c8" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nltk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -255,7 +255,7 @@ Requirement already satisfied: tqdm in /opt/anaconda3/lib/python3.11/site-packag
 <h3 data-number="3.1" class="anchored" data-anchor-id="a.-read-view-write-data-reading-text-files"><span class="header-section-number">3.1</span> a. Read, View, Write Data: <strong>Reading Text Files</strong></h3>
 <p>To read text from a file, we can use the built-in <code>open()</code> function and various file reading methods, such as <code>read()</code>, <code>readline()</code>, or <code>readlines()</code>.</p>
 <p>When working with structured document in Python, a tidy way to go is the use of the <code>pandas</code> library, which is a powerful data manipulation and analysis library in Python. Ensure you have the library installed before running the following code:</p>
-<div id="918d30d9" class="cell" data-execution_count="4">
+<div id="bdb27738" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>opd_sentences <span class="op">=</span> [<span class="st">"levels of questioning and revised blooms"</span>, </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"None, really."</span>,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Understanding the change"</span>,</span>
@@ -304,7 +304,7 @@ Requirement already satisfied: tqdm in /opt/anaconda3/lib/python3.11/site-packag
 </div>
 </div>
 </div>
-<div id="d7a2a0a2" class="cell" data-execution_count="5">
+<div id="e86c0fa6" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find the number of characters for each string in df['text']</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'text'</span>].<span class="bu">str</span>.<span class="bu">len</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
@@ -316,7 +316,7 @@ Requirement already satisfied: tqdm in /opt/anaconda3/lib/python3.11/site-packag
 Name: text, dtype: int64</code></pre>
 </div>
 </div>
-<div id="a238e533" class="cell" data-execution_count="6">
+<div id="2bdf9d36" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find the number of tokens for each string in df['text']</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'text'</span>].<span class="bu">str</span>.split().<span class="bu">str</span>.<span class="bu">len</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
@@ -328,7 +328,7 @@ Name: text, dtype: int64</code></pre>
 Name: text, dtype: int64</code></pre>
 </div>
 </div>
-<div id="3248581f" class="cell" data-execution_count="7">
+<div id="83719653" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find which entries contain the word 'Understanding'</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'text'</span>].<span class="bu">str</span>.contains(<span class="st">'Understanding'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
@@ -341,7 +341,7 @@ Name: text, dtype: bool</code></pre>
 </div>
 </div>
 <p>You can use the following Python code to read the CSV file and display the first 4 rows along with the column names:</p>
-<div id="625f24ca" class="cell" data-execution_count="8">
+<div id="230d6ced" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Specify the file path</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>csv_file_path <span class="op">=</span> <span class="st">'data/opd_survey.csv'</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -479,7 +479,7 @@ Index(['RecordedDate', 'ResponseId', 'Role', 'Q14', 'Q16', 'Resource',
       dtype='object')</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/var/folders/_3/45612wnj07v1x0p_l6mqmjkw0000gn/T/ipykernel_72227/2926459993.py:5: DtypeWarning:
+<pre><code>/var/folders/_3/45612wnj07v1x0p_l6mqmjkw0000gn/T/ipykernel_76615/2926459993.py:5: DtypeWarning:
 
 Columns (18) have mixed types. Specify dtype option on import or set low_memory=False.
 </code></pre>
@@ -489,11 +489,11 @@ Columns (18) have mixed types. Specify dtype option on import or set low_memory=
 <section id="b.-writing-to-text-files" class="level3" data-number="3.2">
 <h3 data-number="3.2" class="anchored" data-anchor-id="b.-writing-to-text-files"><span class="header-section-number">3.2</span> <strong>b. Writing to Text Files</strong></h3>
 <p>To write text to a file, use the <code>open()</code> function with the appropriate mode (‘w’ for write, ‘a’ for append) and then write the content using methods like <code>write()</code>.</p>
-<div id="657545eb" class="cell" data-execution_count="9">
+<div id="89d63b02" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'data/output.txt'</span>, <span class="st">'w'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">file</span>.write(<span class="st">'This is a sample text.'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="2cb6e70e" class="cell" data-execution_count="10">
+<div id="d6c76cb9" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>opd_survey.to_csv(<span class="st">"data/opd_survey_copy.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"DataFrame has been written to opd_survey_copy.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -504,7 +504,7 @@ Columns (18) have mixed types. Specify dtype option on import or set low_memory=
 <section id="c.-subset-columns" class="level3" data-number="3.3">
 <h3 data-number="3.3" class="anchored" data-anchor-id="c.-subset-columns"><span class="header-section-number">3.3</span> c.&nbsp;Subset Columns</h3>
 <p>To begin, let’s select Role, Resources (named as Resource…6 in the data frame), and Q21 columns and store as new data frame since those respectively pertain to educator role, OPD resource they are evaluating, and, as illustrated by the second row,</p>
-<div id="8cd85e62" class="cell" data-execution_count="11">
+<div id="9631ab63" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset the DataFrame to select specific columns</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>selected_columns <span class="op">=</span> [<span class="st">'Role'</span>, <span class="st">'Resource'</span>, <span class="st">'Q21'</span>]</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>opd_survey <span class="op">=</span> opd_survey[selected_columns]</span>
@@ -541,7 +541,7 @@ Columns (18) have mixed types. Specify dtype option on import or set low_memory=
 <section id="d.-rename-columns" class="level3" data-number="3.4">
 <h3 data-number="3.4" class="anchored" data-anchor-id="d.-rename-columns"><span class="header-section-number">3.4</span> d.&nbsp;Rename Columns</h3>
 <p>Notice that Q21 is not a terribly informative variable name. Let’s now take our <code>opd_selected</code> data frame and use the <code>rename()</code> function to change the name from Q21 to “text” and save it as <code>opd_renamed</code>.</p>
-<div id="3edd7aba" class="cell" data-execution_count="12">
+<div id="b0ceabc7" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename the 'Q21' column to 'text'</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>opd_selected.rename(columns<span class="op">=</span>{<span class="st">'Q21'</span>: <span class="st">'text'</span>}, inplace<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>opd_renamed <span class="op">=</span> opd_selected.copy()</span>
@@ -577,7 +577,7 @@ Columns (18) have mixed types. Specify dtype option on import or set low_memory=
 <section id="e.-subset-rows" class="level3" data-number="3.5">
 <h3 data-number="3.5" class="anchored" data-anchor-id="e.-subset-rows"><span class="header-section-number">3.5</span> e. Subset Rows</h3>
 <p>Now let’s deal with the legacy rows that Qualtrics outputs by default, which are effectively 3 sets of headers. The <code>opd_renamed.iloc[2:]</code> line is used to select all rows starting from the third row (index 2) onward, effectively removing the first two rows from the DataFrame.</p>
-<div id="896f52c7" class="cell" data-execution_count="13">
+<div id="bd03b553" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove the first two rows from the opd_renamed DataFrame</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>opd_sliced <span class="op">=</span> opd_renamed.iloc[<span class="dv">2</span>:].copy()</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -607,7 +607,7 @@ Columns (18) have mixed types. Specify dtype option on import or set low_memory=
 </div>
 </div>
 <p>Now let’s take our <code>opd_sliced</code> and remove any rows that are missing data, as indicated by an <code>NA</code>.</p>
-<div id="66564008" class="cell" data-execution_count="14">
+<div id="e4aceec4" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows with missing data from the copied DataFrame</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>opd_sliced.dropna(inplace<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -638,12 +638,12 @@ Columns (18) have mixed types. Specify dtype option on import or set low_memory=
 </div>
 <p>The <code>opd_sliced.dropna(inplace=True)</code> line removes any row containing at least one NaN value in any column. The <code>inplace=True</code> parameter modifies the DataFrame in place, without the need to assign it back to a variable.</p>
 <p>This will give you a DataFrame (<code>opd_sliced</code>) without any rows that have missing data.</p>
-<div id="5b57fdca" class="cell" data-execution_count="15">
+<div id="ac439eb2" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>opd_complete <span class="op">=</span> opd_sliced.copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Finally, since we are only interested in the feedback from teachers, let’s also filter our dataset for only participants who indicated their <code>Role</code> as “Teacher”.</p>
 <p>To filter the DataFrame <code>opd_complete</code> for rows where the ‘Role’ column is equal to “Teacher,” you can use boolean indexing. Here’s how you can achieve that:</p>
-<div id="9819f764" class="cell" data-execution_count="16">
+<div id="73b76ca6" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter the DataFrame for rows where 'Role' is equal to "Teacher"</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>opd_teacher <span class="op">=</span> opd_complete[opd_complete[<span class="st">'Role'</span>] <span class="op">==</span> <span class="st">'Teacher'</span>]</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -666,7 +666,7 @@ Columns (18) have mixed types. Specify dtype option on import or set low_memory=
 </div>
 </div>
 <p>That was a lot of code we just wrote to end up with <code>opd_teacher</code>. Let’s review:</p>
-<div id="7d7f55ad" class="cell" data-execution_count="17">
+<div id="9efbb93b" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset the DataFrame to select specific columns</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>selected_columns <span class="op">=</span> [<span class="st">'Role'</span>, <span class="st">'Resource'</span>, <span class="st">'Q21'</span>]</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>opd_survey <span class="op">=</span> opd_survey[selected_columns]</span>
@@ -711,7 +711,7 @@ Columns (18) have mixed types. Specify dtype option on import or set low_memory=
 <section id="f.-tokenization" class="level3" data-number="3.6">
 <h3 data-number="3.6" class="anchored" data-anchor-id="f.-tokenization"><span class="header-section-number">3.6</span> <strong>f.&nbsp;Tokenization</strong></h3>
 <p>Tokenization involves breaking text into individual units, such as words or sentences. The <code>nltk</code> library provides powerful tools for tokenization.</p>
-<div id="2e70dec3" class="cell" data-execution_count="18">
+<div id="c0b5bcd3" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.tokenize <span class="im">import</span> word_tokenize</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the NLTK data for tokenization</span></span>
@@ -733,7 +733,7 @@ Columns (18) have mixed types. Specify dtype option on import or set low_memory=
 <p>In order to tidy our text, we need to break the text into individual tokens (a process called tokenization) and transform it to a tidy data structure.</p>
 <p>After all the work we did prepping our data, this is going to feel a little anticlimactic.</p>
 <p>Let’s go ahead and tidy our text and save it as <code>opd_tidy</code>:</p>
-<div id="33442363" class="cell" data-execution_count="19">
+<div id="3424a98f" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#from nltk.tokenize import word_tokenize</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.tokenize <span class="im">import</span> RegexpTokenizer</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -769,7 +769,7 @@ Columns (18) have mixed types. Specify dtype option on import or set low_memory=
 <h4 data-number="3.6.2" class="anchored" data-anchor-id="remove-stop-words"><span class="header-section-number">3.6.2</span> Remove Stop Words</h4>
 <p>One final step in tidying our text is to remove words that don’t add much value to our analysis (at least when using this approach) such as “and”, “the”, “of”, “to” etc. The <code>nltk</code> library provides a list of common stop words. .</p>
 <p>Let’s take a look at these common stop words so we know what we’re getting rid of from our <code>opd_tidy</code> dataset.</p>
-<div id="c8fd53fe" class="cell" data-execution_count="20">
+<div id="2634bdd1" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.corpus <span class="im">import</span> stopwords</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the NLTK data for stop words</span></span>
@@ -781,7 +781,7 @@ Columns (18) have mixed types. Specify dtype option on import or set low_memory=
 <span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the stop words being removed</span></span>
 <span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Stop words being removed:"</span>, stop_words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Stop words being removed: {'who', 'own', 'ma', 'will', 've', 'needn', 'those', 'these', 's', "couldn't", 'or', 'didn', "weren't", 'our', 'haven', 'in', 'this', 'were', 'aren', 'you', "you've", 'down', 'don', 'had', 'isn', "you'll", 'up', 'her', 'there', "should've", 'their', "shouldn't", 'hasn', 'shan', 'an', 'off', 'further', 'yours', 'all', 'which', "you're", 'y', 'he', 'yourself', "shan't", 'between', 'more', 'm', 'both', 'do', 'hers', 'theirs', 'to', 'out', 'your', 'any', "you'd", 'such', 'couldn', 'themselves', 'each', 'here', 'then', 'but', "didn't", 'his', 'other', "isn't", 'its', 'and', 'before', 'been', 'that', 'mightn', "aren't", "wasn't", 'ours', 'doing', "mustn't", 'as', 'doesn', 'hadn', 'with', 'under', 'same', 'has', 'how', 'ourselves', 'during', "that'll", 'by', "haven't", 'is', 'she', 'itself', 'we', 'the', 'are', 'nor', 'again', 'myself', 'ain', 'be', 'having', 'than', 'at', 're', 'from', 'against', 'it', "mightn't", 'am', 'wouldn', 'most', 'what', 'no', 'does', 'into', 'shouldn', "she's", 'not', 'few', 'won', 'i', 'a', 'now', 'on', 'above', 'have', 'some', 'did', 'because', "hadn't", 'yourselves', 'about', 'just', 'was', 'of', 'once', 'should', 'until', 'after', 'my', "won't", 'too', "needn't", 'him', 'them', 'where', 'o', 'when', 'd', 'whom', 'me', 'himself', 'can', 'while', 'herself', 'for', "hasn't", "wouldn't", 'weren', 'll', 'below', "it's", 'they', 't', 'wasn', "don't", "doesn't", 'why', 'so', 'mustn', 'being', 'only', 'over', 'very', 'through', 'if'}</code></pre>
+<pre><code>Stop words being removed: {"shan't", 'while', 'which', 'mightn', 'theirs', 'on', 'his', 'do', 'into', 'couldn', 'their', 'wasn', 'if', 'this', 'having', 'who', 'to', 'down', 've', 'few', 'don', 'so', "hasn't", "hadn't", 'there', 'we', 'shan', 's', 'am', 'how', 'didn', 'most', 'about', 'are', 'ma', 'the', 'being', 'those', 'herself', 'once', 'd', 'just', 'has', 'out', 'at', 'yourself', 'yours', 'between', 'very', 'wouldn', "shouldn't", "she's", "wouldn't", 'mustn', 'an', 'against', 'himself', 'with', 'now', 'aren', 'needn', 'where', 'off', "you'll", 'be', 'been', "couldn't", 'but', "should've", 'such', 'had', 'same', 'ain', 'her', 'its', 'under', 're', 'your', 'or', 'won', 'below', 'too', 'weren', 'they', 'more', 'no', 'by', 'hadn', 'further', 'yourselves', 'haven', 'whom', 'does', 'all', 'ourselves', "needn't", "weren't", 'y', 'my', 'before', 'shouldn', 'each', 'hers', 'in', 'you', 'nor', 'any', 'some', 'them', 'i', 'when', 'itself', 'after', 't', "don't", 'themselves', "won't", "mustn't", "that'll", 'above', "doesn't", "you'd", 'as', 'hasn', "mightn't", 'did', "it's", 'doing', 'these', 'should', "isn't", 'until', 'm', 'why', 'through', 'will', 'not', 'only', 'own', "haven't", 'our', 'from', 'here', 'isn', 'can', 'over', 'and', 'o', 'she', 'have', "wasn't", "didn't", "aren't", "you're", 'than', 'both', 'him', 'for', 'it', 'he', 'were', 'myself', "you've", 'that', 'other', 'ours', 'doesn', 'is', 'what', 'then', 'up', 'was', 'a', 'because', 'me', 'of', 'again', 'll', 'during'}</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>[nltk_data] Downloading package stopwords to
@@ -790,7 +790,7 @@ Columns (18) have mixed types. Specify dtype option on import or set low_memory=
 </div>
 </div>
 <p>Let’s remove rows from our <code>opd_tidy</code> data frame that contain matches in the <code>word</code> column with those in the <code>stop_words</code> dataset and save it as <code>opd_clean</code> since we were done cleaning our data at this point.</p>
-<div id="416df9bc" class="cell" data-execution_count="21">
+<div id="153588c5" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove stop words from the 'word' column</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>opd_teacher[<span class="st">'word'</span>] <span class="op">=</span> opd_teacher[<span class="st">'word'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: [token <span class="cf">for</span> token <span class="kw">in</span> x <span class="cf">if</span> token <span class="kw">not</span> <span class="kw">in</span> stop_words])</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -813,7 +813,7 @@ Columns (18) have mixed types. Specify dtype option on import or set low_memory=
 7  Teacher  Online Learning Module (e.g. Call for Change, ...           none</code></pre>
 </div>
 </div>
-<p>This code uses the <strong><code>stopwords.words('english')</code></strong> to get a list of English stop words and then removes these stop words from the ‘word’ column.</p>
+<p>This code uses the <code>stopwords.words('english')</code> to get a list of English stop words and then removes these stop words from the ‘word’ column.</p>
 </section>
 <section id="comprehension-check" class="level4" data-number="3.6.3">
 <h4 data-number="3.6.3" class="anchored" data-anchor-id="comprehension-check"><span class="header-section-number">3.6.3</span> Comprehension Check</h4>
@@ -842,7 +842,7 @@ Columns (18) have mixed types. Specify dtype option on import or set low_memory=
 <p>As highlighted in <a href="https://tedunderwood.com/2013/02/20/wordcounts-are-amazing/">Word Counts are Amazing</a>, one simple but powerful approach to text analysis is counting the frequency in which words occur in a given collection of documents, or corpus.</p>
 <p>Now that we have our original survey data in a tidy text format, we can use the <code>count()</code> function from the <code>pandas</code> package to find the most common words used by teachers when asked, “What was the most beneficial/valuable aspect of this online resource?”</p>
 <p>Let’s print out the word count of the top 10 words after preprocessing the text, using the <code>value_counts</code> method in pandas. Here’s the code to achieve that:</p>
-<div id="666ebc80" class="cell" data-execution_count="22">
+<div id="d6bdb79d" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count the occurrences of each word across all the resources</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>words_count <span class="op">=</span> opd_clean[<span class="st">'word'</span>].value_counts().reset_index()</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>words_count.columns <span class="op">=</span> [<span class="st">'word'</span>, <span class="st">'count'</span>]</span>
@@ -879,7 +879,7 @@ Columns (18) have mixed types. Specify dtype option on import or set low_memory=
 <p>A common theme from focus groups and open-ended survey responses was the <strong>convenience</strong> of online professional development. One teacher in a focus group stated, “I liked the format. And the way that it was given, it was at your own pace, which works well for our schedules…”</p>
 </blockquote>
 <p>To show the word count of the ‘word’ column based on each ‘Resource’ column, you can group the DataFrame by the ‘Resource’ column and then apply the <code>value_counts</code> function. Here’s the code for that:</p>
-<div id="f908f90e" class="cell" data-execution_count="23">
+<div id="be3a5a5f" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by 'Resource' and count the occurrences of each word</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>resource_word_counts <span class="op">=</span> opd_clean.groupby([<span class="st">'Resource'</span>, <span class="st">'word'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'word_count'</span>)</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -908,7 +908,7 @@ Columns (18) have mixed types. Specify dtype option on import or set low_memory=
 <h4 data-number="4.1.2" class="anchored" data-anchor-id="word-frequencies"><span class="header-section-number">4.1.2</span> Word Frequencies</h4>
 <p>One common approach to facilitate comparison across documents or groups of text, in our case responses by Online Resource type, is by looking at the frequency that each word occurs among all words for that document group. This also helps to better gauge how prominent the same word is across different groups.</p>
 <p>To show the proportion of each word group by resource, you can calculate the proportion by dividing the word count by the total number of words in each resource group:</p>
-<div id="6cd9e970" class="cell" data-execution_count="24">
+<div id="1b3ec67e" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by 'Resource' and count the occurrences of each word</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>resource_word_counts <span class="op">=</span> opd_clean.groupby([<span class="st">'Resource'</span>, <span class="st">'word'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'word_count'</span>)</span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -955,7 +955,7 @@ Columns (18) have mixed types. Specify dtype option on import or set low_memory=
 <li><p><a href="https://scikit-learn.org/stable/api/sklearn.feature_extraction.html#module-sklearn.feature_extraction"><code>sklearn.feature_extraction</code></a>: a module that can be used to extract features in a format supported by machine learning algorithms from datasets consisting of formats such as text and image.</p></li>
 <li><p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html"><code>TfidfVectorizer()</code></a>: itcan directly convert a collection of raw documents to a matrix of TF-IDF features.</p></li>
 </ul>
-<div id="9683b302" class="cell" data-execution_count="25">
+<div id="1abd71cb" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install scikit<span class="op">-</span>learn</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.feature_extraction.text <span class="im">import</span> TfidfVectorizer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -968,7 +968,7 @@ Requirement already satisfied: threadpoolctl&gt;=2.0.0 in /opt/anaconda3/lib/pyt
 </div>
 <p>Because tf-idf can account through weighting for “too common” words like “and” or “but”, when calculating tf-idf it is not necessary to remove stop words. So in this case, we will use original text in <code>opd_teacher</code>.</p>
 <p>Now, we’re ready to use the <code>TfidfVectorizer()</code> function to calculate a tf-idf statistic for each word and assess it’s relative importance to a given online resource type:</p>
-<div id="a1c46c0d" class="cell" data-execution_count="26">
+<div id="d4b6b59e" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the TF-IDF Vectorizer</span></span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>vectorizer <span class="op">=</span> TfidfVectorizer()</span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1055,7 +1055,7 @@ The information and the interesting format              0.0   0.0   0.0
 </div>
 </div>
 <p>To make the TF-IDF DataFrame easy to read, let’s display the individual words in rows rather than in columns (the below code block will run a while, the output would be like below figure):</p>
-<div id="81284a77" class="cell" data-execution_count="27">
+<div id="912ad208" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Reshape the DataFrame for visualization using pd.melt</span></span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="co">#tfidf_df = pd.melt(tfidf_df, id_vars=['text'], var_name='word', value_name='tf-idf')</span></span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="co">#print(tfidf_df)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1078,7 +1078,7 @@ The information and the interesting format              0.0   0.0   0.0
 <h3 data-number="4.2" class="anchored" data-anchor-id="b.-word-search"><span class="header-section-number">4.2</span> b. Word Search</h3>
 <p>A quick word count actually resulted in findings fairly consistent with some of the qualitative findings reported, but also lacked some nuance, unsurprisingly, and left some questions about what some of the more frequent words were in reference to.</p>
 <p>Let’s use our reduced opd_teacher survey data frame that contains the complete teacher responses and use the handy string filter function to select just our <code>text</code> column and filter out responses that contain key words of interest. For example, what aspects of “online” made it beneficial.</p>
-<div id="96f2bb1d" class="cell" data-execution_count="28">
+<div id="06d3c04e" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows containing the word 'online' in the 'text' column</span></span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>opd_quotes <span class="op">=</span> opd_teacher[opd_teacher[<span class="st">'text'</span>].<span class="bu">str</span>.contains(<span class="st">'online'</span>)]</span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1128,7 +1128,7 @@ The information and the interesting format              0.0   0.0   0.0
 </div>
 </div>
 <p>We can view all quotes in the source pane, or use the sample function to select any number of random quotes. In this case 20:</p>
-<div id="13e3dc47" class="cell" data-execution_count="29">
+<div id="43580bdd" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Randomly sample 20 rows from the DataFrame</span></span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>sampled_opd_quotes <span class="op">=</span> opd_quotes.sample(n<span class="op">=</span><span class="dv">20</span>, random_state<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1204,7 +1204,7 @@ The information and the interesting format              0.0   0.0   0.0
 </div>
 <p>In some cases, we can see that the use of the word “online” was simply repetition of the question prompt, but in other cases we can see that it’s associated with the broader theme of “convenience” as with the quote, “This online resources gave me the opportunity to study on my own time.”</p>
 <p>Note that you can also use regular express operators with <code>grep</code> like the <code>*</code> operator to search for word stems. For example using <code>inform*</code> in our search will return quotes with “inform”, “informative”, “information”, etc.</p>
-<div id="09425f9f" class="cell" data-execution_count="30">
+<div id="77ac5a2b" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select 'text' column and filter rows containing 'inform*'</span></span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>opd_quotes <span class="op">=</span> opd_teacher[opd_teacher[<span class="st">'text'</span>].<span class="bu">str</span>.contains(<span class="vs">r'\binform\w*'</span>, case<span class="op">=</span><span class="va">False</span>, regex<span class="op">=</span><span class="va">True</span>)][[<span class="st">'text'</span>]]</span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1248,7 +1248,7 @@ The information and the interesting format              0.0   0.0   0.0
 <li><p><a href="https://matplotlib.org"><code>Matplotlib</code></a>: a comprehensive library for creating static, animated, and interactive visualizations in Python.</p></li>
 <li><p><a href="https://matplotlib.org/3.5.3/api/_as_gen/matplotlib.pyplot.html"><code>matplotlib.pyplot</code></a> : a module of collection of functions that make <code>matplotlib</code> work like MATLAB. Each <code>pyplot</code> function makes some change to a figure: e.g., creates a figure, creates a plotting area in a figure, plots some lines in a plotting area, decorates the plot with labels, etc.</p></li>
 </ul>
-<div id="2979b216" class="cell" data-execution_count="31">
+<div id="ce9530a7" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install wordcloud</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install matplotlib</span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1281,7 +1281,7 @@ Requirement already satisfied: python-dateutil&gt;=2.7 in /opt/anaconda3/lib/pyt
 Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site-packages (from python-dateutil&gt;=2.7-&gt;matplotlib) (1.16.0)</code></pre>
 </div>
 </div>
-<div id="c810189c" class="cell" data-execution_count="32">
+<div id="e0117d63" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a word cloud</span></span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>wordcloud <span class="op">=</span> WordCloud(width<span class="op">=</span><span class="dv">800</span>, height<span class="op">=</span><span class="dv">500</span>, background_color<span class="op">=</span><span class="st">'white'</span>).generate_from_frequencies(<span class="bu">dict</span>(<span class="bu">zip</span>(words_count[<span class="st">'word'</span>], words_count[<span class="st">'count'</span>])))</span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1302,7 +1302,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <section id="basic-bar-chart" class="level4" data-number="4.3.2">
 <h4 data-number="4.3.2" class="anchored" data-anchor-id="basic-bar-chart"><span class="header-section-number">4.3.2</span> Basic Bar Chart</h4>
 <p>The bar chart is the workhorse for data viz and is pretty effective for comparing two or more values. Given the unique aspect of our tidy text data frame, however, we are looking at upwards of over 5,000 values (i.e.&nbsp;words and their counts) to compare with our <code>opd_counts</code> data frame and will need some way to limit the number of words to display.</p>
-<div id="f7aaa7b3" class="cell" data-execution_count="33">
+<div id="72cb5471" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows with word counts greater than 500</span></span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>opd_filtered <span class="op">=</span> words_count[words_count[<span class="st">'count'</span>] <span class="op">&gt;</span> <span class="dv">500</span>]</span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1334,7 +1334,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <ul>
 <li><a href="https://seaborn.pydata.org"><code>Seaborn</code></a>: a data visualization library build on built upon <code>matplotlib</code> and integrates closely with <code>pandas</code> data structures. It includes a variety of plotting functions for visualizing univariate and bivariate data, as well as specialized plots for categorical data, timeseries data, and more. It also provides functions for customizing the appearance of plots, such as controlling colors, styles, and axes labels.</li>
 </ul>
-<div id="7af74d77" class="cell" data-execution_count="34">
+<div id="be4000ae" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows with Resource equal to "Calendar"</span></span>
@@ -1417,7 +1417,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <section id="word-cloud" class="level4" data-number="6.2.1">
 <h4 data-number="6.2.1" class="anchored" data-anchor-id="word-cloud"><span class="header-section-number">6.2.1</span> Word Cloud</h4>
 <p>To make the word cloud a little less busy and a little more useful, I removed the multitude of colors from the default setting, and I’ve defined a function that use the color black for words that occur more than 1000 times, and gray for the rest.</p>
-<div id="b813e953" class="cell" data-execution_count="35">
+<div id="e118b28f" class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> wordcloud <span class="im">import</span> WordCloud</span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1452,7 +1452,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <section id="bar-chart" class="level4" data-number="6.2.2">
 <h4 data-number="6.2.2" class="anchored" data-anchor-id="bar-chart"><span class="header-section-number">6.2.2</span> Bar Chart</h4>
 <p>For my bar chart, I did some minor clean up, including editing the x-axis title, removing the redundant y axis, and adding a title. If this were something for a more formal report, I’d probably finesse it even more, but it gets the point across.</p>
-<div id="66ed4b3c" class="cell" data-execution_count="36">
+<div id="51f3ef83" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows with word counts greater than 500</span></span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>opd_filtered <span class="op">=</span> words_count[words_count[<span class="st">'count'</span>] <span class="op">&gt;</span> <span class="dv">500</span>]</span>
 <span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1478,7 +1478,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <section id="small-multiples-1" class="level4" data-number="6.2.3">
 <h4 data-number="6.2.3" class="anchored" data-anchor-id="small-multiples-1"><span class="header-section-number">6.2.3</span> Small Multiples</h4>
 <p>Finally, one related issue that I want to clean up a little with respect to tf-idf before sharing with an outside audience is too few responses for the Calendar online learning resources. Therefore, I remove any response pertaining to Calendar. Again, if this were a chart destined for a more formal report, I’d also clean up the Resource names to make them more readable and fit properly on each bar plot.</p>
-<div id="3b6a8615" class="cell" data-execution_count="37">
+<div id="47df7fe7" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows with Resource equal to "Calendar"</span></span>
