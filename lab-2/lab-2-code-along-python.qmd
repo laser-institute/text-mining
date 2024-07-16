@@ -8,9 +8,10 @@ format:
     chalkboard: 
       buttons: false
     preview-links: auto
+    theme: [default, css/laser.scss]
     logo: img/LASERLogoB.png
-    width: 1820
-    height: 1050
+    width: 1920
+    height: 1080
     margin: 0.05
     footer: <a href=https://www.go.ncsu.edu/laser-institute>go.ncsu.edu/laser-institute
 highlight-style: a11y
@@ -95,6 +96,8 @@ import nltk
 import matplotlib.pyplot as plt
 ```
 
+## Get Sentiment Values
+
 ```{python}
 #| echo: true
 
@@ -141,11 +144,11 @@ import matplotlib.pyplot as plt
 
 # Example dataset
 data = {
-    'timestamp': ['2024-06-01', '2024-06-02', '2024-06-03'],
+    'timestamp': ['2021-02-10', '2021-02-11', '2021-02-12'],
     'text': [
-        "This is a positive tweet!",
-        "Feeling neutral today.",
-        "Not a good experience."
+        "What common core equation do they use to arrive at this prediction. Can't wait to rub it in their face when that are wrong AGAIN!",
+        "I can't help but think that the dumbing down of the American demographic is a direct result of 'common core'; 'no child left behind' as ways of allowing 'good enough for govt work' to be passed off to the next person 'responsible.' Now the passed off own false entitlement",
+        "I just got an 'explainer' on how to read my child's report card. Now, if I can get an explainer on how to do second-grade common core math, I'll really be in good shape. #hopeful."
     ]
 }
 # Create DataFrame
@@ -178,6 +181,7 @@ plt.grid(True)
 plt.xticks(rotation=45)
 plt.tight_layout()
 plt.show()
+
 ```
 
 ## Your Turn

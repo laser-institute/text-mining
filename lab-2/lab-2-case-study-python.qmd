@@ -8,7 +8,7 @@ editor: visual
 jupyter: python3
 ---
 
-## 0. INTRODUCTION
+## INTRODUCTION
 
 In this lab, our case study walkthrough is guided by my colleague Josh Rosenberg's article, **Advancing new methods for understanding public sentiment about educational reforms: The case of Twitter and the Next Generation Science Standards.** We will focus on conducting a very simplistic "replication study" by comparing the sentiment of tweets about the [Next Generation Science Standards](https://www.nextgenscience.org) (NGSS) and [Common Core State Standards](http://www.corestandards.org) (CCSS) in order to better understand public reaction to these two curriculum reform efforts. I highly recommend you watch the quick 3-minute overview of this work at <https://stanford.app.box.com/s/i5ixkj2b8dyy8q5j9o5ww4nafznb497x>
 
@@ -26,7 +26,7 @@ Our Lab 2 walkthrough will cover the following topics:
 
 ------------------------------------------------------------------------
 
-## 1. PREPARE
+## PREPARE
 
 To help us better understand the context, questions, and data sources that we will be using in Lab 2, this section will focus on the following topics:
 
@@ -34,7 +34,7 @@ a.  **Context**. We take a quick look at the Rosenberg et al. (2021) article, *A
 b.  **Questions.** We'll formulate some basic questions that we'll use to guide our analysis, attempting to replicate some of the findings by Rosenberg et al.
 c.  **Set up.** We will set up a "home' environment for the files and codes for lab 2.
 
-### 1a. Some Context
+### a. Some Context
 
 #### **Twitter (Now known as X) and the Next Generation Science Standards**
 
@@ -61,7 +61,7 @@ Note that the authors also used the `lme4` package in R to run a mixed effects m
 3.  Differences between the context of the tweets were small, but those that did not include the #NGSSchat hashtag became more positive over time than those posts that did not include the hashtag.
 4.  Individuals posted more tweets during #NGSSchat chats, the sentiment of their posts was more positive, suggesting that while the context of individual tweets has a small effect (with posts not including the hashtag becoming more positive over time), the effect upon individuals of being involved in the #NGSSchat was positive.
 
-### 1b. Guiding Questions
+### b. Guiding Questions
 
 The Rosenberg et al. study was guided by the following five research questions:
 
@@ -82,7 +82,7 @@ And just to reiterate from Lab 1, one overarching question we'll explore through
 
 > How do we to **quantify** what a document or collection of documents is about?
 
-### 1c. Set Up
+### c. Set Up
 
 Before wrangling data, we will firstly install and import the necessary libraries.
 
@@ -107,7 +107,7 @@ import seaborn
 
 ------------------------------------------------------------------------
 
-## 2. WRANGLE
+## WRANGLE
 
 In general, data wrangling involves some combination of cleaning, reshaping, transforming, and merging data (Wickham & Grolemund, 2017). The importance of data wrangling is difficult to overstate, as it involves the initial steps of going from raw data to a dataset that can be explored and modeled (Krumm et al, 2018).
 
@@ -115,7 +115,7 @@ a.  **Import Data**. In this section, we will import and read data from excel to
 b.  **Tidy Tweets**. We revisit the `tokenize` module within `nltk` library to both "tidy" and tokenize our tweets in order to create our DataFrame for analysis.
 c.  **Get Sentiments**. We are going to learn how to conduct sentiment analysis by using the [`nltk.sentiment.vader`](https://www.nltk.org/_modules/nltk/sentiment/vader.html), an English-language sentiment analysis module within `nltk` library. VADER-**V**alence **A**ware **D**ictionary and s**E**ntiment **R**easoner created by [Hutto and Gilbert (2014)](https://ojs.aaai.org/index.php/icwsm/article/view/14550), is specifically designed for social media sentiment analysis. It calculates the sentiment of texts by referring to a lexicon of words that have been assigned sentiment scores as well as by using a handful of simple rules.
 
-### 2a. Import Data
+### a. Import Data
 
 First, we'll use the `read_excel()` function within `pandas` library to read in the data stored in the data folder of our Python project.
 
@@ -124,7 +124,7 @@ ngss_tweets = pd.read_excel('data/ngss_tweets.xlsx')
 csss_tweets = pd.read_excel('data/csss_tweets.xlsx')
 ```
 
-### 2b. Tidy Text {data-link="2b. Tidy Text"}
+### b. Tidy Text {data-link="2b. Tidy Text"}
 
 Now that we have the data needed to answer our questions, we still have a little bit of work to do to get it ready for analysis. This section will revisit some familiar functions from Lab 1 and introduce a couple new functions.
 
@@ -272,7 +272,7 @@ print(tweets)
 
 So far, the tweets DataFrame specifically the '**clean_text**' is ready to be added for the sentiment values.
 
-### 2c. Get Sentiment Values {data-link="2c. Add Sentiment Values"}
+### c. Get Sentiment Values {data-link="2c. Add Sentiment Values"}
 
 Now that we have our tweets nice and tidy, we're almost ready to begin exploring public sentiment around the CCSS and NGSS standards. For this part of our workflow we will introduce `SentimentIntensityAnalyzer` within `nltk.sentiment.vader` module from `nltk` library for sentiment analysis.
 
@@ -337,14 +337,14 @@ As shown in the `sentiment_value` column, each tweet has 4 values, and for the p
 
 ------------------------------------------------------------------------
 
-## 3. EXPLORE
+## EXPLORE
 
 Now that we have our tweets sentiments, we're ready for a little data exploration. As highlighted in Lab 1, calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. One goal in this phase is explore questions that drove the original analysis and develop new questions and hypotheses to test in later stages. Topics addressed in Section 3 include:
 
 a.  **Time Series**. We take a quick look at the date range of our tweets and compare number of postings by standards.
 b.  **Sentiment Summaries**. We put together some basic summaries of our sentiment values in order to compare public sentiment.
 
-### 3a. Time Series
+### a. Time Series
 
 Before we dig into sentiment, let's use the handy `pyplot` module built into `matplotlib` library to take a very quick look at how far back our tidied `tweets` data set goes. And in the 3b. Sentiment Summaries, we will reuse the time series manipulation on sentiment values.
 
@@ -411,7 +411,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-### 3b. Sentiment Summaries
+### b. Sentiment Summaries
 
 Since our primary goals is to compare public sentiment around the NGSS and CCSS state standards, in this section we put together some basic numerical summaries to see whether tweets are generally more positive or negative for each standard, and the sentiments over time for each standard as well as differences between these two standards.
 
@@ -583,7 +583,7 @@ Plot the sentiment by day towards CSSS standards.
 csss_data = tweets[tweets['standards'] == 'csss']
 
 # Resample CSSS data by day and calculate the mean compound score
-csss_sentiment_over_time = csss_data.resample('M', on='created_at')['compound'].mean().reset_index()
+csss_sentiment_over_time = csss_data.resample('D', on='created_at')['compound'].mean().reset_index()
 
 # Plot CSSS sentiment over time
 plt.figure(figsize=(12, 6))
@@ -598,7 +598,7 @@ plt.show()
 
 ------------------------------------------------------------------------
 
-## 4. MODEL
+## MODEL
 
 As highlighted in [Chapter 3 of Data Science in Education Using R](https://datascienceineducation.com/c03.html), the **Model** step of the data science process entails "using statistical models, from simple to complex, to understand trends and patterns in the data." The authors note that while descriptive statistics and data visualization during the **Explore** step can help us to identify patterns and relationships in our data, statistical models can be used to help us determine if relationships, patterns and trends are actually meaningful.
 
@@ -622,7 +622,7 @@ Collectively, the authors found that:
 
 ------------------------------------------------------------------------
 
-## 5. COMMUNICATE
+## COMMUNICATE
 
 The final(ish) step in our workflow/process is sharing the results of analysis with wider audience. Krumm et al. (2018) outlined the following 3-step process for communicating with education stakeholders what you have learned through analysis:
 
@@ -630,7 +630,7 @@ The final(ish) step in our workflow/process is sharing the results of analysis w
 2.  **Polish**. After creating initial versions of data products, research teams often spend time refining or polishing them, by adding or editing titles, labels, and notations and by working with colors and shapes to highlight key points.
 3.  **Narrate**. Writing a narrative to accompany the data products involves, at a minimum, pairing a data product with its related research question, describing how best to interpret the data product, and explaining the ways in which the data product helps answer the research question.
 
-### 5a. Select
+### a. Select
 
 Remember that the questions of interest that we want to focus on for our selection, polishing, and narration include:
 
@@ -643,11 +643,11 @@ To address questions 1 and 2, I'm going to focus my analyses, data products and 
 2.  **Data Products**. I know these are shunned in the world of data viz, but I think a **pie chart** will actually be an effective way to quickly communicate the proportion of positive and negative tweets among the NGSS Standard. And to answear the question 2 illustrating the sentiment difference between the two standards, I'll create stacked bars showing the percentage of positive and negative words among all tweets for the NGSS and CCSS. Additionally, I'll plot the sentiment over time to further compare the sentiment trends and patterns between the NGSS and CCSS.
 3.  **Format**. Similar to Lab 1, I'll be using [Quarto Markdown](https://quarto.org/docs/get-started/hello/vscode.html#:~:text=qmd%20files%20contain%20a%20combination,you%20see%20on%20the%20right.) to create a slide deck or short report that documents our independent analysis. Quarto Markdown files can also be used to create a wide range of outputs and formats, including polished PDF or Word documents, websites, web apps, journal articles, online books, interactive tutorials and more.
 
-### 5b. Polish
+### b. Polish
 
 #### NGSS Sentiment
 
-I want to replicate as closely as possible the approach that Rosenberg et al. used in their analysis. To do that, I'll retrieve some results from [3b. Sentiment Summaries].
+I want to replicate as closely as possible the approach that Rosenberg et al. used in their analysis. To do that, I'll retrieve some results from [b. Sentiment Summaries].
 
 To create a pie chart showing the percentage of positive tweets and negative ones for the NGSS, first I need to pull out the sentiment counts.
 
@@ -741,7 +741,7 @@ plt.show()
 
 And finished! You can see the average sentiment value of the NGSS is always more positive (the higher, the more positive) than the CSSS with time going by.
 
-### 5c. Narrate
+### c. Narrate
 
 With our "data products" cleanup complete, we can start pulling together a quick presentation to share with the class. We've already seen what a more formal journal article looks like in the PREPARE section of this walkthrough. For your Independent Analysis for Lab 2, you'll be creating either a simple report or slide deck to share out some key findings from our analysis.
 
