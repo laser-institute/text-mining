@@ -8,7 +8,7 @@
 <link href="lab-1-code-along-python_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="lab-1-code-along-python_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="lab-1-code-along-python_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.5.54">
+  <meta name="generator" content="quarto-1.4.553">
 
   <title>Text Mining Basics with Python</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -41,7 +41,7 @@
     }
     @media print {
     pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
     }
     pre.numberSource code
       { counter-reset: source-line 0; }
@@ -440,7 +440,8 @@
 <li>Small Multiples</li>
 </ul></li>
 </ol>
-</div></div>
+</div>
+</div>
 </section>
 <section>
 <section id="setting-up-python-environment" class="title-slide slide level1 center">
@@ -455,19 +456,16 @@
 <section id="section" class="slide level2">
 <h2></h2>
 <h3 id="how-to-install-and-import-library">How to install and import library?</h3>
-<div id="2a1845b1" class="cell" data-execution_count="1">
+<div id="597f45f7" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="op">!</span>pip install pandas</span>
 <span id="cb1-2"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Requirement already satisfied: pandas in /cloud/project/r-reticulate/lib/python3.11/site-packages (2.2.2)
-Requirement already satisfied: numpy&gt;=1.23.2 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from pandas) (1.26.4)
-Requirement already satisfied: python-dateutil&gt;=2.8.2 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from pandas) (2.9.0.post0)
-Requirement already satisfied: pytz&gt;=2020.1 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from pandas) (2024.1)
-Requirement already satisfied: tzdata&gt;=2022.7 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from pandas) (2024.1)
-Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas) (1.16.0)
-
-[notice] A new release of pip is available: 24.0 -&gt; 24.1.2
-[notice] To update, run: pip install --upgrade pip</code></pre>
+<pre><code>Requirement already satisfied: pandas in /opt/anaconda3/lib/python3.11/site-packages (2.1.4)
+Requirement already satisfied: numpy&lt;2,&gt;=1.23.2 in /opt/anaconda3/lib/python3.11/site-packages (from pandas) (1.26.4)
+Requirement already satisfied: python-dateutil&gt;=2.8.2 in /opt/anaconda3/lib/python3.11/site-packages (from pandas) (2.8.2)
+Requirement already satisfied: pytz&gt;=2020.1 in /opt/anaconda3/lib/python3.11/site-packages (from pandas) (2023.3.post1)
+Requirement already satisfied: tzdata&gt;=2022.1 in /opt/anaconda3/lib/python3.11/site-packages (from pandas) (2023.3)
+Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas) (1.16.0)</code></pre>
 </div>
 </div>
 <p><code>pip</code> is Python’s library installer and manager.</p>
@@ -493,37 +491,34 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 <section id="your-turn" class="slide level2">
 <h2>Your Turn</h2>
 <p>Install and import all the necessary libraries. Notice that <code>import matplotlib.pyplot</code> and use <code>plt</code> as its alias, and <code>import seaborn</code> and use <code>sns</code> as its alias.</p>
-<div id="66af4394" class="cell" data-execution_count="2">
+<div id="046be7a3" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="543a4129" class="cell" data-results="hide" data-execution_count="3">
+<div id="5032b571" class="cell" data-results="hide" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
-<pre><code>Requirement already satisfied: nltk in /cloud/project/r-reticulate/lib/python3.11/site-packages (3.8.1)
-Requirement already satisfied: matplotlib in /cloud/project/r-reticulate/lib/python3.11/site-packages (3.9.0)
-Requirement already satisfied: seaborn in /cloud/project/r-reticulate/lib/python3.11/site-packages (0.13.2)
-Requirement already satisfied: scikit-learn in /cloud/project/r-reticulate/lib/python3.11/site-packages (1.5.0)
-Requirement already satisfied: click in /cloud/project/r-reticulate/lib/python3.11/site-packages (from nltk) (8.1.7)
-Requirement already satisfied: joblib in /cloud/project/r-reticulate/lib/python3.11/site-packages (from nltk) (1.4.2)
-Requirement already satisfied: regex&gt;=2021.8.3 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from nltk) (2024.5.15)
-Requirement already satisfied: tqdm in /cloud/project/r-reticulate/lib/python3.11/site-packages (from nltk) (4.66.2)
-Requirement already satisfied: contourpy&gt;=1.0.1 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (1.2.1)
-Requirement already satisfied: cycler&gt;=0.10 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (0.12.1)
-Requirement already satisfied: fonttools&gt;=4.22.0 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (4.53.0)
-Requirement already satisfied: kiwisolver&gt;=1.3.1 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (1.4.5)
-Requirement already satisfied: numpy&gt;=1.23 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (1.26.4)
-Requirement already satisfied: packaging&gt;=20.0 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (24.0)
-Requirement already satisfied: pillow&gt;=8 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (10.3.0)
-Requirement already satisfied: pyparsing&gt;=2.3.1 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (3.1.2)
-Requirement already satisfied: python-dateutil&gt;=2.7 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (2.9.0.post0)
-Requirement already satisfied: pandas&gt;=1.2 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from seaborn) (2.2.2)
-Requirement already satisfied: scipy&gt;=1.6.0 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from scikit-learn) (1.12.0)
-Requirement already satisfied: threadpoolctl&gt;=3.1.0 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from scikit-learn) (3.5.0)
-Requirement already satisfied: pytz&gt;=2020.1 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from pandas&gt;=1.2-&gt;seaborn) (2024.1)
-Requirement already satisfied: tzdata&gt;=2022.7 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from pandas&gt;=1.2-&gt;seaborn) (2024.1)
-Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from python-dateutil&gt;=2.7-&gt;matplotlib) (1.16.0)
-
-[notice] A new release of pip is available: 24.0 -&gt; 24.1.2
-[notice] To update, run: pip install --upgrade pip</code></pre>
+<pre><code>Requirement already satisfied: nltk in /opt/anaconda3/lib/python3.11/site-packages (3.8.1)
+Requirement already satisfied: matplotlib in /opt/anaconda3/lib/python3.11/site-packages (3.8.0)
+Requirement already satisfied: seaborn in /opt/anaconda3/lib/python3.11/site-packages (0.12.2)
+Requirement already satisfied: scikit-learn in /opt/anaconda3/lib/python3.11/site-packages (1.2.2)
+Requirement already satisfied: click in /opt/anaconda3/lib/python3.11/site-packages (from nltk) (8.1.7)
+Requirement already satisfied: joblib in /opt/anaconda3/lib/python3.11/site-packages (from nltk) (1.2.0)
+Requirement already satisfied: regex&gt;=2021.8.3 in /opt/anaconda3/lib/python3.11/site-packages (from nltk) (2023.10.3)
+Requirement already satisfied: tqdm in /opt/anaconda3/lib/python3.11/site-packages (from nltk) (4.65.0)
+Requirement already satisfied: contourpy&gt;=1.0.1 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (1.2.0)
+Requirement already satisfied: cycler&gt;=0.10 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (0.11.0)
+Requirement already satisfied: fonttools&gt;=4.22.0 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (4.25.0)
+Requirement already satisfied: kiwisolver&gt;=1.0.1 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (1.4.4)
+Requirement already satisfied: numpy&lt;2,&gt;=1.21 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (1.26.4)
+Requirement already satisfied: packaging&gt;=20.0 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (23.1)
+Requirement already satisfied: pillow&gt;=6.2.0 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (10.2.0)
+Requirement already satisfied: pyparsing&gt;=2.3.1 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (3.0.9)
+Requirement already satisfied: python-dateutil&gt;=2.7 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (2.8.2)
+Requirement already satisfied: pandas&gt;=0.25 in /opt/anaconda3/lib/python3.11/site-packages (from seaborn) (2.1.4)
+Requirement already satisfied: scipy&gt;=1.3.2 in /opt/anaconda3/lib/python3.11/site-packages (from scikit-learn) (1.11.4)
+Requirement already satisfied: threadpoolctl&gt;=2.0.0 in /opt/anaconda3/lib/python3.11/site-packages (from scikit-learn) (2.2.0)
+Requirement already satisfied: pytz&gt;=2020.1 in /opt/anaconda3/lib/python3.11/site-packages (from pandas&gt;=0.25-&gt;seaborn) (2023.3.post1)
+Requirement already satisfied: tzdata&gt;=2022.1 in /opt/anaconda3/lib/python3.11/site-packages (from pandas&gt;=0.25-&gt;seaborn) (2023.3)
+Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site-packages (from python-dateutil&gt;=2.7-&gt;matplotlib) (1.16.0)</code></pre>
 </div>
 </div>
 </section></section>
@@ -535,10 +530,11 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 <section id="read-data" class="slide level2">
 <h2>Read Data</h2>
 <h3 id="how-to-read-data-into-python-environment">How to read data into Python environment?</h3>
-<div id="af85f7ea" class="cell" data-execution_count="4">
+<div id="b4a10ad1" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a>opd_survey <span class="op">=</span> pd.read_csv(<span class="st">'data/opd_survey.csv'</span>, low_memory<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb5-2"><a href=""></a>opd_survey</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -554,7 +550,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
     }
 </style>
 
-<table class="dataframe caption-top" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header" style="text-align: right;">
 <th data-quarto-table-cell-role="th"></th>
@@ -829,6 +825,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 </div>
 </div>
 </div>
+</div>
 <ul>
 <li><p><code>pd.read_csv(‘&lt;file_path&gt;’)</code>: you can use the read_csv() function from pandas to read the csv file into your Python environment.</p></li>
 <li><p><code>=</code>: you can use the = to assign the data to a DataFrame and give it a name (i.e., opd_survey).</p></li>
@@ -853,7 +850,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 <section id="your-turn-1" class="slide level2">
 <h2>Your Turn</h2>
 <p>Read the CSV file called <code>opd_survey_copy</code> within the data folder and create a DataFrame corresponding to its name.</p>
-<div id="04c948c5" class="cell" data-execution_count="5">
+<div id="55be9eff" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -868,10 +865,11 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 <section id="section-1" class="slide level2">
 <h2></h2>
 <h3 id="how-to-subset-columns">How to subset columns?</h3>
-<div id="c93a37cc" class="cell" data-execution_count="6">
+<div id="746e303a" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href=""></a>opd_selected <span class="op">=</span> opd_survey[[<span class="st">'Role'</span>, <span class="st">'Resource'</span>, <span class="st">'Q21'</span>]]</span>
 <span id="cb7-2"><a href=""></a>opd_selected</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -887,7 +885,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
     }
 </style>
 
-<table class="dataframe caption-top" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header" style="text-align: right;">
 <th data-quarto-table-cell-role="th"></th>
@@ -970,6 +968,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 </div>
 </div>
 </div>
+</div>
 <ul>
 <li><code>df[['&lt;column_name1&gt;', '&lt;column_name2&gt;', ...]]</code>: Select columns by names.</li>
 <li><code>df.iloc[:, [&lt;index1&gt;, &lt;index2&gt;, ...]]</code>: Select columns by positional index.</li>
@@ -979,7 +978,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 <section id="your-turn-2" class="slide level2">
 <h2>Your Turn</h2>
 <p>Select these three columns <code>Role</code>, <code>Resource</code>, <code>Q21</code> using the index approach.</p>
-<div id="17df85c5" class="cell" data-execution_count="7">
+<div id="5e9a1805" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -994,10 +993,11 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 <section id="section-2" class="slide level2">
 <h2></h2>
 <h3 id="how-to-rename-a-column">How to rename a column?</h3>
-<div id="0431595a" class="cell" data-execution_count="8">
+<div id="caae7ae0" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href=""></a>opd_renamed <span class="op">=</span> opd_selected.rename(columns <span class="op">=</span> {<span class="st">'Q21'</span>:<span class="st">'text'</span>})</span>
 <span id="cb9-2"><a href=""></a>opd_renamed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1013,7 +1013,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
     }
 </style>
 
-<table class="dataframe caption-top" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header" style="text-align: right;">
 <th data-quarto-table-cell-role="th"></th>
@@ -1096,6 +1096,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 </div>
 </div>
 </div>
+</div>
 <ul>
 <li><code>df.rename(columns={'&lt;old_name&gt;': '&lt;new_name&gt;'}, inplace=True)</code>: Rename columns.</li>
 <li><code>df.columns = ['&lt;new_name1&gt;', '&lt;new_name2&gt;', ...]</code>: Directly assign new column names.</li>
@@ -1104,7 +1105,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 <section id="your-turn-3" class="slide level2">
 <h2>Your Turn</h2>
 <p>Rename the <code>Role</code> as <code>role</code> and <code>Resource</code> as <code>resource</code>.</p>
-<div id="316626ac" class="cell" data-execution_count="9">
+<div id="9de7a6c7" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -1120,11 +1121,12 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 <section id="section-3" class="slide level2">
 <h2></h2>
 <h3 id="how-to-subset-rows">How to subset rows?</h3>
-<div id="d781f18a" class="cell" data-execution_count="10">
+<div id="69ccf47c" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href=""></a>opd_sliced <span class="op">=</span> opd_renamed.iloc[<span class="dv">2</span>:]</span>
 <span id="cb11-2"><a href=""></a>opd_teacher <span class="op">=</span> opd_sliced[opd_sliced[<span class="st">'Role'</span>] <span class="op">==</span> <span class="st">'Teacher'</span>]</span>
 <span id="cb11-3"><a href=""></a>opd_teacher</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1140,7 +1142,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
     }
 </style>
 
-<table class="dataframe caption-top" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header" style="text-align: right;">
 <th data-quarto-table-cell-role="th"></th>
@@ -1223,6 +1225,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 </div>
 </div>
 </div>
+</div>
 <ul>
 <li><code>df.iloc[[&lt;index1&gt;, &lt;index2&gt;, ...]]</code>: Select rows based on integer indices.</li>
 <li><code>df[df['&lt;column&gt;'] == &lt;condition&gt;]</code>: Select rows based on conditions.</li>
@@ -1231,7 +1234,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 <section id="your-turn-4" class="slide level2">
 <h2>Your Turn</h2>
 <p>Subset the first 10 rows of <code>opd_teacher</code> and save it into a new DataFrame called <code>opd_teacher_first10</code>.</p>
-<div id="102211ba" class="cell" data-execution_count="11">
+<div id="26153ae9" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section></section>
@@ -1301,7 +1304,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 </section>
 <section id="word-tokenizing-a-single-document-with-regexptokenizer" class="slide level2">
 <h2>Word Tokenizing a Single Document with RegexpTokenizer</h2>
-<div id="38127720" class="cell" data-execution_count="12">
+<div id="1f0f2032" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href=""></a><span class="co"># Import RegexpTokenizer</span></span>
 <span id="cb13-2"><a href=""></a><span class="im">from</span> nltk.tokenize <span class="im">import</span> RegexpTokenizer</span>
 <span id="cb13-3"><a href=""></a></span>
@@ -1326,7 +1329,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 </section>
 <section id="word-tokenizing-multiple-documents-with-apply-lambda" class="slide level2">
 <h2>Word Tokenizing Multiple Documents with Apply &amp; Lambda</h2>
-<div id="6be26429" class="cell" data-execution_count="13">
+<div id="dd1836f7" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href=""></a><span class="co"># Import RegexpTokenizer</span></span>
 <span id="cb15-2"><a href=""></a><span class="im">from</span> nltk.tokenize <span class="im">import</span> RegexpTokenizer</span>
 <span id="cb15-3"><a href=""></a></span>
@@ -1366,7 +1369,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 </section>
 <section id="apply" class="slide level2">
 <h2>Apply</h2>
-<div id="ef82aca1" class="cell" data-execution_count="14">
+<div id="8a38ef25" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href=""></a><span class="co"># Tokenize each document in the 'text' column</span></span>
 <span id="cb17-2"><a href=""></a>corpus[<span class="st">'tokens'</span>] <span class="op">=</span> corpus[<span class="st">'text'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: tokenizer.tokenize(x.lower()))</span>
 <span id="cb17-3"><a href=""></a></span>
@@ -1395,7 +1398,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 </section>
 <section id="lambda" class="slide level2">
 <h2>Lambda</h2>
-<div id="f9b5cbd6" class="cell" data-execution_count="15">
+<div id="03ae3e9b" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href=""></a><span class="co"># Tokenize each document in the 'text' column</span></span>
 <span id="cb19-2"><a href=""></a>corpus[<span class="st">'tokens'</span>] <span class="op">=</span> corpus[<span class="st">'text'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: tokenizer.tokenize(x.lower()))</span>
 <span id="cb19-3"><a href=""></a></span>
@@ -1421,7 +1424,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 </section>
 <section id="exploding-tokenized-results" class="slide level2">
 <h2>Exploding Tokenized Results</h2>
-<div id="240f53c6" class="cell" data-execution_count="16">
+<div id="08a90ffa" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href=""></a><span class="co"># Explode the 'word' column to transform each row into individual words</span></span>
 <span id="cb21-2"><a href=""></a>corpus_exploded <span class="op">=</span> corpus.explode(<span class="st">'tokens'</span>)</span>
 <span id="cb21-3"><a href=""></a></span>
@@ -1481,7 +1484,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 <section id="your-turn-5" class="slide level2">
 <h2>Your Turn</h2>
 <p>Tokenize the <code>text</code> column of <code>opd_teacher</code> DataFrame and explode the tokenized results into a <code>word</code> column.</p>
-<div id="cbbdde18" class="cell" data-execution_count="17">
+<div id="8cf12e9e" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -1493,7 +1496,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 <section id="section-4" class="slide level2">
 <h2></h2>
 <h3 id="how-to-remove-stop-words">How to remove stop words?</h3>
-<div id="7cff18e0" class="cell" data-execution_count="18">
+<div id="9d249902" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href=""></a><span class="co"># Import stopwords</span></span>
 <span id="cb24-2"><a href=""></a><span class="im">from</span> nltk.corpus <span class="im">import</span> stopwords</span>
 <span id="cb24-3"><a href=""></a></span>
@@ -1542,7 +1545,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 <section id="your-turn-6" class="slide level2">
 <h2>Your Turn</h2>
 <p>Remove stop words from the <code>word</code> column in the <code>opd_teacher</code> DataFrame.</p>
-<div id="82bbe2b8" class="cell" data-execution_count="19">
+<div id="4d726c7e" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -1554,7 +1557,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 <section id="section-5" class="slide level2">
 <h2></h2>
 <h3 id="how-to-lemmatize">How to lemmatize?</h3>
-<div id="9fb62d3f" class="cell" data-execution_count="20">
+<div id="9ffc59d4" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href=""></a><span class="co"># Import WordNetLemmatizer</span></span>
 <span id="cb27-2"><a href=""></a><span class="im">from</span> nltk.stem <span class="im">import</span> WordNetLemmatizer</span>
 <span id="cb27-3"><a href=""></a></span>
@@ -1604,7 +1607,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 <section id="your-turn-7" class="slide level2">
 <h2>Your Turn</h2>
 <p>Lemmatize the <code>word</code> column and save it into a new column called <code>lemmatized_word</code> in the <code>opd_teacher</code> DataFrame.</p>
-<div id="6356cb2d" class="cell" data-execution_count="21">
+<div id="650c7493" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section></section>
@@ -1617,7 +1620,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 <h2>Word Counts</h2>
 <h3 id="how-to-count-the-words">How to count the words?</h3>
 <p>Using <code>value_counts()</code>:</p>
-<div id="d61475f3" class="cell columns column-output-location" data-execution_count="22">
+<div id="ef8b7019" class="cell columns column-output-location" data-execution_count="22">
 <div class="column">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href=""></a>word_counts <span class="op">=</span> corpus_clean[<span class="st">'tokens'</span>].value_counts().reset_index()</span>
 <span id="cb30-2"><a href=""></a>word_counts.columns <span class="op">=</span> [<span class="st">'word'</span>, <span class="st">'count'</span>]</span>
@@ -1636,12 +1639,13 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 8  accessibility      1
 9  affordability      1</code></pre>
 </div>
-</div></div>
+</div>
+</div>
 </section>
 <section id="your-turn-8" class="slide level2">
 <h2>Your Turn</h2>
 <p>Count the <code>word</code> column in the <code>opd_teacher</code> DataFrame.</p>
-<div id="d12771d9" class="cell" data-execution_count="23">
+<div id="c4ebe2ee" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -1654,7 +1658,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 <h2>Word Frequencies in the Whole Corpus</h2>
 <h3 id="how-to-calculate-it">How to calculate it?</h3>
 <p>Using <code>len()</code>:</p>
-<div id="c593b07c" class="cell columns column-output-location" data-execution_count="24">
+<div id="7cddf6f7" class="cell columns column-output-location" data-execution_count="24">
 <div class="column">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href=""></a><span class="co"># Calculate the total number of the words in the corpus</span></span>
 <span id="cb33-2"><a href=""></a>total_words <span class="op">=</span> <span class="bu">len</span>(corpus_exploded[<span class="st">'tokens'</span>])</span>
@@ -1678,13 +1682,14 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 8  accessibility      1   0.045455
 9  affordability      1   0.045455</code></pre>
 </div>
-</div></div>
+</div>
+</div>
 </section>
 <section id="word-frequencies-in-the-documents" class="slide level2">
 <h2>Word Frequencies in the Documents</h2>
 <h3 id="how-to-calculate-it-1">How to calculate it?</h3>
 <p>Using <code>size()</code> and <code>sum()</code> after <code>groupby()</code>:</p>
-<div id="9139c282" class="cell columns column-output-location" data-execution_count="25">
+<div id="f8e75f91" class="cell columns column-output-location" data-execution_count="25">
 <div class="column">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href=""></a><span class="co"># Group by the document and count the occurrences of each word</span></span>
 <span id="cb35-2"><a href=""></a>word_counts_bydocument <span class="op">=</span> corpus_clean.groupby([<span class="st">'document_id'</span>, <span class="st">'tokens'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'count'</span>)</span>
@@ -1719,12 +1724,13 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 10            3  affordability      1            3   0.333333
 11            3    information      1            3   0.333333</code></pre>
 </div>
-</div></div>
+</div>
+</div>
 </section>
 <section id="your-turn-9" class="slide level2">
 <h2>Your Turn</h2>
 <p>Calculate the word frequencies based on <code>resource</code> in the <code>opd_teacher</code> DataFrame.</p>
-<div id="1739cdae" class="cell" data-execution_count="26">
+<div id="aa1531df" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -1750,7 +1756,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 <h2></h2>
 <h3 id="how-to-calculate-tf-idf">How to calculate TF-IDF?</h3>
 <p>Using <code>TfidfVectorizer</code> from <code>scikit-learn</code> library</p>
-<div id="2aae2920" class="cell columns column-output-location" data-execution_count="27">
+<div id="e1b159ee" class="cell columns column-output-location" data-execution_count="27">
 <div class="column">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href=""></a><span class="co"># Import TfidfVectorizer</span></span>
 <span id="cb38-2"><a href=""></a><span class="im">from</span> sklearn.feature_extraction.text <span class="im">import</span> TfidfVectorizer</span>
@@ -1790,12 +1796,13 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 1  0.314319  0.413292  0.000000  0.000000            2  
 2  0.387376  0.000000  0.000000  0.000000            3  </code></pre>
 </div>
-</div></div>
+</div>
+</div>
 </section>
 <section id="your-turn-10" class="slide level2">
 <h2>Your Turn</h2>
 <p>Calculate the <code>TF-IDF</code> for the text in the <code>opd_teacher</code> DataFrame.</p>
-<div id="c8f55f42" class="cell" data-execution_count="28">
+<div id="7b2a310f" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section></section>
@@ -1819,7 +1826,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 </section>
 <section id="word-clouds-from-word-counts" class="slide level2">
 <h2>Word Clouds from Word Counts</h2>
-<div id="61a9c5b2" class="cell columns column-output-location" data-execution_count="29">
+<div id="3b66a30b" class="cell columns column-output-location" data-execution_count="29">
 <div class="column">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href=""></a><span class="co"># Import WordCloud and Matplotlib</span></span>
 <span id="cb41-2"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -1843,12 +1850,13 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 </figure>
 </div>
 </div>
-</div></div>
+</div>
+</div>
 </section>
 <section id="your-turn-11" class="slide level2">
 <h2>Your Turn</h2>
 <p>Create a word cloud based on the word counts for the <code>opd_teacher</code> DataFrame.</p>
-<div id="744f6943" class="cell" data-execution_count="30">
+<div id="840b99e1" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -1861,7 +1869,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 <h2>Bar Chart based on Word Counts</h2>
 <h3 id="how-to-create-a-bar-chart">How to create a bar chart?</h3>
 <p>Using <code>barh()</code> from matplotlib</p>
-<div id="1d2a0eb8" class="cell columns column-output-location" data-execution_count="31">
+<div id="b9eb0a43" class="cell columns column-output-location" data-execution_count="31">
 <div class="column">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href=""></a><span class="co"># Import Matplotlib</span></span>
 <span id="cb43-2"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -1882,12 +1890,13 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 </figure>
 </div>
 </div>
-</div></div>
+</div>
+</div>
 </section>
 <section id="your-turn-12" class="slide level2">
 <h2>Your Turn</h2>
 <p>Create a bar chart that filters rows with word counts greater than 500 based on the word counts for the <code>opd_teacher</code> DataFrame.</p>
-<div id="29d83c98" class="cell" data-execution_count="32">
+<div id="ae1626ed" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -1900,7 +1909,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 <h2>Small Multiples based on Word Frequencies</h2>
 <h3 id="how-to-create-small-multiples">How to create small multiples?</h3>
 <p>Using <code>catplot()</code> from seaborn</p>
-<div id="69494659" class="cell" data-execution_count="33">
+<div id="e5117b6b" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href=""></a><span class="co"># Import seaborn</span></span>
 <span id="cb45-2"><a href=""></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb45-3"><a href=""></a></span>
@@ -1911,7 +1920,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lab-1-code-along-python_files/figure-revealjs/cell-34-output-1.png" width="1447" height="470"></p>
+<p><img data-src="lab-1-code-along-python_files/figure-revealjs/cell-34-output-1.png" width="1429" height="467"></p>
 </figure>
 </div>
 </div>
@@ -1920,7 +1929,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 <section id="your-turn-13" class="slide level2">
 <h2>Your Turn</h2>
 <p>Create a small supplies that displays the top 5 words for each resources from the <code>opd_teacher</code> DataFrame.</p>
-<div id="c1cf3afe" class="cell" data-execution_count="34">
+<div id="00f90486" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br>
@@ -2181,7 +2190,18 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
         }
         return false;
       }
-      const onCopySuccess = function(e) {
+      const clipboard = new window.ClipboardJS('.code-copy-button', {
+        text: function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+      });
+      clipboard.on('success', function(e) {
         // button target
         const button = e.trigger;
         // don't keep focus
@@ -2213,29 +2233,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
         }, 1000);
         // clear code selection
         e.clearSelection();
-      }
-      const getTextToCopy = function(trigger) {
-          const codeEl = trigger.previousElementSibling.cloneNode(true);
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
-            }
-          }
-          return codeEl.innerText;
-      }
-      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-        text: getTextToCopy
       });
-      clipboard.on('success', onCopySuccess);
-      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-        // For code content inside modals, clipBoardJS needs to be initialized with a container option
-        // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-          text: getTextToCopy,
-          container: window.document.getElementById('quarto-embedded-source-code-modal')
-        });
-        clipboardModal.on('success', onCopySuccess);
-      }
         var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
         var mailtoRegex = new RegExp(/^mailto:/);
           var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -2243,7 +2241,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
             return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
         }
         // Inspect non-navigation links and adorn them if external
-     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
         for (var i=0; i<links.length; i++) {
           const link = links[i];
           if (!isInternal(link.href)) {

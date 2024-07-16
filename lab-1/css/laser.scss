@@ -3,7 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300&display=swap');
 // fonts
 $font-family-sans-serif: 'Open Sans','Roboto', sans-serif !default;
-$presentation-font-size-root: 50px;
+$presentation-font-size-root: 42px;
 
 
 // colors
@@ -49,9 +49,14 @@ section.has-dark-background code{
 // code blocks
 
 pre, code, .sourceCode {
-  font-size: 2.5rem;
+  font-size: 1.8rem;
   background-color: #d3d3d3;
+  color: #555555;
+  font-family: 'Courier New', Courier, monospace; // Monospace font for better alignment of code
+  padding: 5px; // Adds space around the text inside the code block
+  border: 1px solid #ccc; // Adds a light grey border
 }
+
 
 section.slide h2 {
   color: white  !important;
