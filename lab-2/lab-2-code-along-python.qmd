@@ -1,0 +1,197 @@
+---
+title: "Sentiment Analysis with Python"
+subtitle: "Lab 2: Code-Along"
+format:
+  revealjs: 
+    slide-number: c/t
+    progress: true
+    chalkboard: 
+      buttons: false
+    preview-links: auto
+    logo: img/LASERLogoB.png
+    width: 1820
+    height: 1050
+    margin: 0.05
+    footer: <a href=https://www.go.ncsu.edu/laser-institute>go.ncsu.edu/laser-institute
+highlight-style: a11y
+editor: visual
+jupyter: python3
+---
+
+## Agenda
+
+1.  Sentiment Analysis
+
+2.  Python Sentiment Library - VADER
+
+3.  Perform Sentiment Analysis with VADER Library
+
+    -   Import and Preprocess Data (Lab 1.2; Lab 1.3)
+
+    -   Get Sentiment Values
+
+    -   Sentiment Value Summaries and Visualization
+
+        -   Sentiment Counts (Lab 1.4)
+
+        -   Single Sentiment Value (Lab 1.4)
+
+        -   Sentiment Over Time
+
+# Sentiment Analysis
+
+## What is sentiment analysis?
+
+Sentiment analysis is a natural language processing (NLP) technique used to determine the sentiment or opinion expressed in a piece of text. It involves analyzing the text to classify its polarity as positive, negative, or neutral. This analysis can be applied to various forms of text, such as product reviews, social media posts, customer feedback, user experience and more.
+
+# Python Sentiment Library - VADER
+
+## VADER
+
+**VADER** (Valence Aware Dictionary and sEntiment Reasoner) is a lexicon and rule-based sentiment analysis tool specifically designed for analyzing sentiments in social media texts.
+
+-   Lexicon-based: VADER uses a lexicon (dictionary) that maps words to sentiment scores (positive, negative, neutral). Each word in the lexicon is rated based on its sentiment polarity.
+
+-   Rule-based: It incorporates rules to handle intensifiers, degree modifiers, negations, and punctuation in sentiment scoring.
+
+## VADER - Sentiment Scores
+
+VADER produces sentiment scores with 4 values for each text input:
+
+-   pos: the probability of the sentiment to be positive
+
+-   neu: the probability of the sentiment to be neutral
+
+-   neg: The probability of the sentiment to be negative
+
+-   compound: the normalized compound score which calculates the sum of all lexicon ratings and takes values from -1 to 1
+
+## VADER - Sentiment Scores
+
+The compound score is particularly useful when we need a single measure of sentiment. The typical threshold values for the compound score are as follows:
+
+-   positive: compound score \>=0.05
+
+-   neutral: compound score between -0.05 and 0.05
+
+-   negative: compound score \<=-0.05
+
+For the purpose of dividing the sentiment into only two categories, the threshold values for the compound score can also be as follows:
+
+-   positive: compound score \> 0
+
+-   negative: compound score \<= 0
+
+# Perform Sentiment Analysis with VADER
+
+## Get Sentiment Values
+
+```{python}
+#| echo: false
+
+!pip install nltk matplotlib
+import pandas as pd
+import nltk
+import matplotlib.pyplot as plt
+```
+
+```{python}
+#| echo: true
+
+# Import SentimentIntensityAnalyzer
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+# Ensure vader_lexicon is downloaded
+nltk.download('vader_lexicon')
+
+# Initialize VADER sentiment analyzer
+analyzer = SentimentIntensityAnalyzer()
+
+# Example text
+text = "VADER is a great tool for sentiment analysis!"
+
+# Get sentiment scores
+scores = analyzer.polarity_scores(text)
+# Display sentiment scores
+print(scores)
+```
+
+## Your Turn
+
+Replace the text with what you are interested, and use VADER to get the sentiment value.
+
+```{python}
+#| echo: true
+# YOUR CODE IS HERE
+
+```
+
+## Sentiment Over Time
+
+### How to display the sentiment over time?
+
+```{python}
+#| echo: true
+#| output-location: column
+
+# Import needed libraries
+import pandas as pd
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+import matplotlib.pyplot as plt
+
+# Example dataset
+data = {
+    'timestamp': ['2024-06-01', '2024-06-02', '2024-06-03'],
+    'text': [
+        "This is a positive tweet!",
+        "Feeling neutral today.",
+        "Not a good experience."
+    ]
+}
+# Create DataFrame
+df = pd.DataFrame(data)
+
+# Convert timestamp to datetime
+df['timestamp'] = pd.to_datetime(df['timestamp'])
+
+# Get sentiment values
+analyzer = SentimentIntensityAnalyzer()
+
+# Define a function to get sentiment scores
+def get_sentiment_scores(text):
+    scores = analyzer.polarity_scores(text)
+    return scores['compound']  # Using compound score for overall sentiment
+
+# Apply sentiment analysis to each row
+df['compound_score'] = df['text'].apply(get_sentiment_scores)
+
+# Resample by time unit and calculate the mean sentiment score (example: daily sentiment average)
+sentiment_daily = df.set_index('timestamp').resample('D')['compound_score'].mean()
+
+# Plot sentiment over time 
+plt.figure(figsize=(10, 6))
+plt.plot(sentiment_daily.index, sentiment_daily, marker='o', linestyle='-', color='b')
+plt.title('Sentiment Analysis Over Day')
+plt.xlabel('Date')
+plt.ylabel('Average Sentiment Score')
+plt.grid(True)
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+```
+
+## Your Turn
+
+Instead of sentiment over days, display sentiment over month.
+
+```{python}
+#| echo: true
+# YOUR CODE IS HERE
+
+```
+
+\
+\
+
+\
+\
