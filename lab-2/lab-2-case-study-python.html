@@ -1,0 +1,1631 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.557">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dr.&nbsp;Shiyan Jiang">
+
+<title>Lab 2: Sentiment Analysis with Python</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="lab-2-case-study-python_files/libs/clipboard/clipboard.min.js"></script>
+<script src="lab-2-case-study-python_files/libs/quarto-html/quarto.js"></script>
+<script src="lab-2-case-study-python_files/libs/quarto-html/popper.min.js"></script>
+<script src="lab-2-case-study-python_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="lab-2-case-study-python_files/libs/quarto-html/anchor.min.js"></script>
+<link href="lab-2-case-study-python_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="lab-2-case-study-python_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="lab-2-case-study-python_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="lab-2-case-study-python_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="lab-2-case-study-python_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> 0. INTRODUCTION</a>
+  <ul class="collapse">
+  <li><a href="#walkthrough-focus" id="toc-walkthrough-focus" class="nav-link" data-scroll-target="#walkthrough-focus"><span class="header-section-number">1.1</span> Walkthrough Focus</a></li>
+  </ul></li>
+  <li><a href="#prepare" id="toc-prepare" class="nav-link" data-scroll-target="#prepare"><span class="header-section-number">2</span> 1. PREPARE</a>
+  <ul class="collapse">
+  <li><a href="#a.-some-context" id="toc-a.-some-context" class="nav-link" data-scroll-target="#a.-some-context"><span class="header-section-number">2.1</span> 1a. Some Context</a></li>
+  <li><a href="#b.-guiding-questions" id="toc-b.-guiding-questions" class="nav-link" data-scroll-target="#b.-guiding-questions"><span class="header-section-number">2.2</span> 1b. Guiding Questions</a></li>
+  <li><a href="#c.-set-up" id="toc-c.-set-up" class="nav-link" data-scroll-target="#c.-set-up"><span class="header-section-number">2.3</span> 1c. Set Up</a></li>
+  </ul></li>
+  <li><a href="#wrangle" id="toc-wrangle" class="nav-link" data-scroll-target="#wrangle"><span class="header-section-number">3</span> 2. WRANGLE</a>
+  <ul class="collapse">
+  <li><a href="#a.-import-data" id="toc-a.-import-data" class="nav-link" data-scroll-target="#a.-import-data"><span class="header-section-number">3.1</span> 2a. Import Data</a></li>
+  <li><a href="#b.-tidy-text" id="toc-b.-tidy-text" class="nav-link" data-scroll-target="#b.-tidy-text"><span class="header-section-number">3.2</span> 2b. Tidy Text</a></li>
+  <li><a href="#c.-get-sentiment-values" id="toc-c.-get-sentiment-values" class="nav-link" data-scroll-target="#c.-get-sentiment-values"><span class="header-section-number">3.3</span> 2c. Get Sentiment Values</a></li>
+  </ul></li>
+  <li><a href="#explore" id="toc-explore" class="nav-link" data-scroll-target="#explore"><span class="header-section-number">4</span> 3. EXPLORE</a>
+  <ul class="collapse">
+  <li><a href="#a.-time-series" id="toc-a.-time-series" class="nav-link" data-scroll-target="#a.-time-series"><span class="header-section-number">4.1</span> 3a. Time Series</a></li>
+  <li><a href="#b.-sentiment-summaries" id="toc-b.-sentiment-summaries" class="nav-link" data-scroll-target="#b.-sentiment-summaries"><span class="header-section-number">4.2</span> 3b. Sentiment Summaries</a></li>
+  </ul></li>
+  <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model"><span class="header-section-number">5</span> 4. MODEL</a></li>
+  <li><a href="#communicate" id="toc-communicate" class="nav-link" data-scroll-target="#communicate"><span class="header-section-number">6</span> 5. COMMUNICATE</a>
+  <ul class="collapse">
+  <li><a href="#a.-select" id="toc-a.-select" class="nav-link" data-scroll-target="#a.-select"><span class="header-section-number">6.1</span> 5a. Select</a></li>
+  <li><a href="#b.-polish" id="toc-b.-polish" class="nav-link" data-scroll-target="#b.-polish"><span class="header-section-number">6.2</span> 5b. Polish</a></li>
+  <li><a href="#c.-narrate" id="toc-c.-narrate" class="nav-link" data-scroll-target="#c.-narrate"><span class="header-section-number">6.3</span> 5c. Narrate</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lab 2: Sentiment Analysis with Python</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr.&nbsp;Shiyan Jiang </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> 0. INTRODUCTION</h2>
+<p>In this lab, our case study walkthrough is guided by my colleague Josh Rosenberg’s article, <strong>Advancing new methods for understanding public sentiment about educational reforms: The case of Twitter and the Next Generation Science Standards.</strong> We will focus on conducting a very simplistic “replication study” by comparing the sentiment of tweets about the <a href="https://www.nextgenscience.org">Next Generation Science Standards</a> (NGSS) and <a href="http://www.corestandards.org">Common Core State Standards</a> (CCSS) in order to better understand public reaction to these two curriculum reform efforts. I highly recommend you watch the quick 3-minute overview of this work at <a href="https://stanford.app.box.com/s/i5ixkj2b8dyy8q5j9o5ww4nafznb497x" class="uri">https://stanford.app.box.com/s/i5ixkj2b8dyy8q5j9o5ww4nafznb497x</a></p>
+<section id="walkthrough-focus" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="walkthrough-focus"><span class="header-section-number">1.1</span> Walkthrough Focus</h3>
+<p>For Lab 2, our focus will be on analyzing data from NGSS and CSSS posts and using sentiment lexicons to help gauge public opinion about those posts.</p>
+<p>Our Lab 2 walkthrough will cover the following topics:</p>
+<ol type="1">
+<li><strong>Prepare</strong>: Prior to analysis, it’s critical to understand the context and data sources you’re working with so you can formulate useful and answerable questions. We’ll take a quick look at Dr.&nbsp;Rosenberg’s study as well as our datasets of interest .</li>
+<li><strong>Wrangle</strong>: In section 2 we revisit tidying and tokenizing text from Lab 1, and learn some new functions for get sentiment values to our tweets VADER sentiment lexicons.</li>
+<li><strong>Explore</strong>: In section 3, we use simple summary statistics and basic data visualization to compare sentiment between NGSS and CCSS tweets.</li>
+<li><strong>Model</strong>: While we won’t leverage modeling approaches until Lab 3, we will examine the mixed effects model used by Rosenberg et al.&nbsp;to analyze the sentiment of tweets.</li>
+<li><strong>Communicate:</strong> Finally, we’ll create a basic presentation, report, or other data product for sharing findings and insights from our analysis.</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="prepare" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="prepare"><span class="header-section-number">2</span> 1. PREPARE</h2>
+<p>To help us better understand the context, questions, and data sources that we will be using in Lab 2, this section will focus on the following topics:</p>
+<ol type="a">
+<li><strong>Context</strong>. We take a quick look at the Rosenberg et al.&nbsp;(2021) article, <em>Advancing new methods for understanding public sentiment about educational reforms</em>, including the purpose of the study, questions explored, and findings.</li>
+<li><strong>Questions.</strong> We’ll formulate some basic questions that we’ll use to guide our analysis, attempting to replicate some of the findings by Rosenberg et al.</li>
+<li><strong>Set up.</strong> We will set up a “home’ environment for the files and codes for lab 2.</li>
+</ol>
+<section id="a.-some-context" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="a.-some-context"><span class="header-section-number">2.1</span> 1a. Some Context</h3>
+<section id="twitter-now-known-as-x-and-the-next-generation-science-standards" class="level4" data-number="2.1.1">
+<h4 data-number="2.1.1" class="anchored" data-anchor-id="twitter-now-known-as-x-and-the-next-generation-science-standards"><span class="header-section-number">2.1.1</span> <strong>Twitter (Now known as X) and the Next Generation Science Standards</strong></h4>
+<p><img src="img/rosenberg.png" class="img-fluid"></p>
+<p><a href="https://osf.io/xymsd/.">Full Paper (Preprint)</a></p>
+<p><strong>Abstract</strong></p>
+<p>While the Next Generation Science Standards (NGSS) are a long-standing and widespread standards-based educational reform effort, they have received less public attention, and no studies have explored the sentiment of the views of multiple stakeholders toward them. To establish how public sentiment about this reform might be similar to or different from past efforts, we applied a suite of data science techniques to posts about the standards on Twitter from 2010-2020 (N = 571,378) from 87,719 users. Applying data science techniques to identify teachers and to estimate tweet sentiment, we found that the public sentiment towards the NGSS is overwhelmingly positive—33 times more so than for the CCSS. Mixed effects models indicated that sentiment became more positive over time and that teachers, in particular, showed a more positive sentiment towards the NGSS. We discuss implications for educational reform efforts and the use of data science methods for understanding their implementation.</p>
+<p><strong>Data Source &amp; Analysis</strong></p>
+<p>Similar to what we’ll be learning in this walkthrough, Rosenberg et al.&nbsp;used publicly accessible data from Twitter collected using the Full-Archive Twitter API and the <code>rtweet</code> package in R. Specifically, the authors accessed tweets and user information from the hashtag-based #NGSSchat online community, all tweets that included any of the following phrases, with “/” indicating an additional phrase featuring the respective plural form: “ngss”, “next generation science standard/s”, “next gen science standard/s”.</p>
+<p>Unlike this walkthrough, however, the authors determined Tweet sentiment using the Java version of SentiStrength to assign tweets to two 5-point scales of sentiment, one for positivity and one for negativity, because SentiStrength is a validated measure for sentiment in short informal texts (Thelwall et al., 2011). In addition, we used this tool because Wang and Fikis (2019) used it to explore the sentiment of CCSS-related posts. We’ll be using the AFINN sentiment lexicon which also assigns words in a tweet to two 5-point scales, in addition to explore some other sentiment lexicons.</p>
+<p>Note that the authors also used the <code>lme4</code> package in R to run a mixed effects model to determine if sentiment changes over time and differs between teachers and non-teacher. We will not attempt replicated that aspect of the analysis, but if you are interested in a guided walkthrough of how modeling can be used to understand changes in Twitter word use, see <a href="https://www.tidytextmining.com/twitter.html#changes-in-word-use">Chapter 7 of Text Mining with R</a>.</p>
+<p><strong>Summary of Key Findings</strong></p>
+<ol type="1">
+<li>Contrasting with sentiment about CSSS, sentiment about the NGSS science education reform effort is overwhelmingly positive, with approximately 9 positive tweets for every negative tweet.</li>
+<li>Teachers were more positive than non-teachers, and sentiment became substantially more positive over the ten years of NGSS-related posts.</li>
+<li>Differences between the context of the tweets were small, but those that did not include the #NGSSchat hashtag became more positive over time than those posts that did not include the hashtag.</li>
+<li>Individuals posted more tweets during #NGSSchat chats, the sentiment of their posts was more positive, suggesting that while the context of individual tweets has a small effect (with posts not including the hashtag becoming more positive over time), the effect upon individuals of being involved in the #NGSSchat was positive.</li>
+</ol>
+</section>
+</section>
+<section id="b.-guiding-questions" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="b.-guiding-questions"><span class="header-section-number">2.2</span> 1b. Guiding Questions</h3>
+<p>The Rosenberg et al.&nbsp;study was guided by the following five research questions:</p>
+<ol type="1">
+<li>What is the public sentiment expressed toward the NGSS?</li>
+<li>How does sentiment for teachers differ from non-teachers?</li>
+<li>How do tweets posted to #NGSSchat differ from those without the hashtag?</li>
+<li>How does participation in #NGSSchat relate to the public sentiment individuals express?</li>
+<li>How does public sentiment vary over time?</li>
+</ol>
+<p>For this walkthrough, we’ll use a similar approach used by the authors to gauge public sentiment around the NGSS, by compare how much more positive or negative NGSS tweets are relative to CSSS tweets.</p>
+<p>Our (very) specific questions of interest for this walkthrough are:</p>
+<ol type="1">
+<li><strong>What is the public sentiment expressed toward the NGSS?</strong></li>
+<li><strong>How does sentiment for NGSS compare to sentiment for CCSS?</strong></li>
+</ol>
+<p>And just to reiterate from Lab 1, one overarching question we’ll explore throughout this lab, and that Silge and Robinson (2018) identify as a central question to text mining and natural language processing, is:</p>
+<blockquote class="blockquote">
+<p>How do we to <strong>quantify</strong> what a document or collection of documents is about?</p>
+</blockquote>
+</section>
+<section id="c.-set-up" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="c.-set-up"><span class="header-section-number">2.3</span> 1c. Set Up</h3>
+<p>Before wrangling data, we will firstly install and import the necessary libraries.</p>
+<ul>
+<li><p><a href="https://pandas.pydata.org"><code>pandas</code></a>: a powerful and widely-used Python library for data manipulation and analysis. It provides data structures and functions needed to work seamlessly with structured data, such as tables and time series.</p></li>
+<li><p><a href="https://www.google.com/url?sa=t&amp;source=web&amp;rct=j&amp;opi=89978449&amp;url=https://www.nltk.org/&amp;ved=2ahUKEwid7Pn-97-GAxWKMVkFHSOqBuUQFnoECB4QAQ&amp;usg=AOvVaw1cuWsEY8ZUmW75nSDfXo7m"><code>nltk</code></a>: a suite of libraries and programs for symbolic and statistical natural language processing for English written in the Python programming language. It supports classification, tokenization, stemming, tagging, parsing, and semantic reasoning functionalities.</p></li>
+<li><p><a href="https://matplotlib.org"><code>matplotlib</code></a>: a comprehensive library for creating static, animated, and interactive visualizations in Python. It is widely used across various scientific and engineering disciplines to create high-quality graphs, charts, and plots.</p></li>
+<li><p><a href="https://seaborn.pydata.org"><code>seaborn</code></a>: a Python data visualization library based on <code>matplotlib</code>. It provides a high-level interface for drawing attractive and informative statistical graphics.</p></li>
+</ul>
+<div id="207e763a" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install pandas nltk matplotlib seaborn</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Requirement already satisfied: pandas in /cloud/project/r-reticulate/lib/python3.11/site-packages (2.2.2)
+Requirement already satisfied: nltk in /cloud/project/r-reticulate/lib/python3.11/site-packages (3.8.1)
+Requirement already satisfied: matplotlib in /cloud/project/r-reticulate/lib/python3.11/site-packages (3.9.0)
+Requirement already satisfied: seaborn in /cloud/project/r-reticulate/lib/python3.11/site-packages (0.13.2)
+Requirement already satisfied: numpy&gt;=1.23.2 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from pandas) (1.26.4)
+Requirement already satisfied: python-dateutil&gt;=2.8.2 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from pandas) (2.9.0.post0)
+Requirement already satisfied: pytz&gt;=2020.1 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from pandas) (2024.1)
+Requirement already satisfied: tzdata&gt;=2022.7 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from pandas) (2024.1)
+Requirement already satisfied: click in /cloud/project/r-reticulate/lib/python3.11/site-packages (from nltk) (8.1.7)
+Requirement already satisfied: joblib in /cloud/project/r-reticulate/lib/python3.11/site-packages (from nltk) (1.4.2)
+Requirement already satisfied: regex&gt;=2021.8.3 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from nltk) (2024.5.15)
+Requirement already satisfied: tqdm in /cloud/project/r-reticulate/lib/python3.11/site-packages (from nltk) (4.66.2)
+Requirement already satisfied: contourpy&gt;=1.0.1 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (1.2.1)
+Requirement already satisfied: cycler&gt;=0.10 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (0.12.1)
+Requirement already satisfied: fonttools&gt;=4.22.0 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (4.53.0)
+Requirement already satisfied: kiwisolver&gt;=1.3.1 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (1.4.5)
+Requirement already satisfied: packaging&gt;=20.0 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (24.0)
+Requirement already satisfied: pillow&gt;=8 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (10.3.0)
+Requirement already satisfied: pyparsing&gt;=2.3.1 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (3.1.2)
+Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas) (1.16.0)
+
+[notice] A new release of pip is available: 24.0 -&gt; 24.1.2
+[notice] To update, run: pip install --upgrade pip</code></pre>
+</div>
+</div>
+<div id="4f835abe" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nltk</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+</section>
+</section>
+<section id="wrangle" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="wrangle"><span class="header-section-number">3</span> 2. WRANGLE</h2>
+<p>In general, data wrangling involves some combination of cleaning, reshaping, transforming, and merging data (Wickham &amp; Grolemund, 2017). The importance of data wrangling is difficult to overstate, as it involves the initial steps of going from raw data to a dataset that can be explored and modeled (Krumm et al, 2018).</p>
+<ol type="a">
+<li><strong>Import Data</strong>. In this section, we will import and read data from excel to Python environment.</li>
+<li><strong>Tidy Tweets</strong>. We revisit the <code>tokenize</code> module within <code>nltk</code> library to both “tidy” and tokenize our tweets in order to create our DataFrame for analysis.</li>
+<li><strong>Get Sentiments</strong>. We are going to learn how to conduct sentiment analysis by using the <a href="https://www.nltk.org/_modules/nltk/sentiment/vader.html"><code>nltk.sentiment.vader</code></a>, an English-language sentiment analysis module within <code>nltk</code> library. VADER-<strong>V</strong>alence <strong>A</strong>ware <strong>D</strong>ictionary and s<strong>E</strong>ntiment <strong>R</strong>easoner created by <a href="https://ojs.aaai.org/index.php/icwsm/article/view/14550">Hutto and Gilbert (2014)</a>, is specifically designed for social media sentiment analysis. It calculates the sentiment of texts by referring to a lexicon of words that have been assigned sentiment scores as well as by using a handful of simple rules.</li>
+</ol>
+<section id="a.-import-data" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="a.-import-data"><span class="header-section-number">3.1</span> 2a. Import Data</h3>
+<p>First, we’ll use the <code>read_excel()</code> function within <code>pandas</code> library to read in the data stored in the data folder of our Python project.</p>
+<div id="a55116ab" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ngss_tweets <span class="op">=</span> pd.read_excel(<span class="st">'data/ngss_tweets.xlsx'</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>csss_tweets <span class="op">=</span> pd.read_excel(<span class="st">'data/csss_tweets.xlsx'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="b.-tidy-text" class="level3" data-link="2b. Tidy Text" data-number="3.2">
+<h3 data-link="2b. Tidy Text" data-number="3.2" class="anchored" data-anchor-id="b.-tidy-text"><span class="header-section-number">3.2</span> 2b. Tidy Text</h3>
+<p>Now that we have the data needed to answer our questions, we still have a little bit of work to do to get it ready for analysis. This section will revisit some familiar functions from Lab 1 and introduce a couple new functions.</p>
+<section id="subset-rows-columns" class="level4" data-number="3.2.1">
+<h4 data-number="3.2.1" class="anchored" data-anchor-id="subset-rows-columns"><span class="header-section-number">3.2.1</span> Subset Rows &amp; Columns</h4>
+<p>As you are probably already aware, we have way more data than we’ll need for analysis and will need to pare it down quite a bit.</p>
+<p>First, to filter the rows containing only tweets in the English language, you can use the <code>langid</code> library.</p>
+<div id="bf99d1be" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install langid</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> langid</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Requirement already satisfied: langid in /cloud/project/r-reticulate/lib/python3.11/site-packages (1.1.6)
+Requirement already satisfied: numpy in /cloud/project/r-reticulate/lib/python3.11/site-packages (from langid) (1.26.4)
+
+[notice] A new release of pip is available: 24.0 -&gt; 24.1.2
+[notice] To update, run: pip install --upgrade pip</code></pre>
+</div>
+</div>
+<div id="1037c316" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter ngss tweets in English</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ngss_text <span class="op">=</span> ngss_tweets[ngss_tweets[<span class="st">'text'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="bu">isinstance</span>(x, <span class="bu">str</span>) <span class="kw">and</span> <span class="bu">len</span>(x.strip()) <span class="op">&gt;</span> <span class="dv">0</span> <span class="kw">and</span> langid.classify(x)[<span class="dv">0</span>] <span class="op">==</span> <span class="st">'en'</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now let’s select the following columns from our new <code>ngss_text</code> DataFrame:</p>
+<ol type="1">
+<li><code>screen_name</code> of the user who created the tweet</li>
+<li><code>created_at</code> timestamp for examining changes in sentiment over time</li>
+<li><code>text</code> containing the tweet which is our primary data source of interest</li>
+</ol>
+<div id="5c820579" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset columns for ngss_text DataFrame</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ngss_text <span class="op">=</span> ngss_text[[<span class="st">'screen_name'</span>, <span class="st">'created_at'</span>, <span class="st">'text'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="add-reorder-columns" class="level4" data-number="3.2.2">
+<h4 data-number="3.2.2" class="anchored" data-anchor-id="add-reorder-columns"><span class="header-section-number">3.2.2</span> Add &amp; Reorder Columns</h4>
+<p>Since we are interested in comparing the sentiment of NGSS tweets with CSSS tweets, it would be helpful if we had a column for quickly identifying the set of state standards, with which each tweet is associated.</p>
+<p>We’ll use the <code>assign()</code> function to create a new variable called <code>standards</code> to label each tweets as “ngss”:</p>
+<div id="44a9d489" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a new column 'standards' with the value 'ngss'</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>ngss_text <span class="op">=</span> ngss_text.assign(standards<span class="op">=</span><span class="st">'ngss'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And just because it bothers me, I’m going to move the <code>standards</code> column to the first position so I can quickly see which standards the tweet is from:</p>
+<div id="7febd9ae" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Relocate the 'standards' column to the first position</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>columns <span class="op">=</span> [<span class="st">'standards'</span>] <span class="op">+</span> [col <span class="cf">for</span> col <span class="kw">in</span> ngss_text <span class="cf">if</span> col <span class="op">!=</span> <span class="st">'standards'</span>]</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>ngss_text <span class="op">=</span> ngss_text[columns]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that you could also have used indexing subset to reorder columns like so:</p>
+<div id="d2b2ba77" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset columns to achieve reorder purpose</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>ngss_text <span class="op">=</span> ngss_text[[<span class="st">'standards'</span>, <span class="st">'screen_name'</span>, <span class="st">'created_at'</span>, <span class="st">'text'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally, let’s put all the code together on wrangling the <code>ngss_text</code> DataFrame:</p>
+<div id="9f21ed51" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter ngss tweets in English</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>ngss_text <span class="op">=</span> ngss_tweets[ngss_tweets[<span class="st">'text'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="bu">isinstance</span>(x, <span class="bu">str</span>) <span class="kw">and</span> <span class="bu">len</span>(x.strip()) <span class="op">&gt;</span> <span class="dv">0</span> <span class="kw">and</span> langid.classify(x)[<span class="dv">0</span>] <span class="op">==</span> <span class="st">'en'</span>)]</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a new column 'standards' with the value 'ngss'</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>ngss_text <span class="op">=</span> ngss_text.assign(standards<span class="op">=</span><span class="st">'ngss'</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset columns of interests</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>ngss_text <span class="op">=</span> ngss_text[[<span class="st">'standards'</span>, <span class="st">'screen_name'</span>, <span class="st">'created_at'</span>, <span class="st">'text'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="comprehension-check" class="level5" data-number="3.2.2.1">
+<h5 data-number="3.2.2.1" class="anchored" data-anchor-id="comprehension-check"><span class="header-section-number">3.2.2.1</span> Comprehension Check</h5>
+<p><strong>WARNING:</strong> You will not be able to progress to the next section until you have completed the following task:</p>
+<ol type="1">
+<li>Create a new <code>ccss_text</code> DataFrame for our <code>ccss_tweets</code> Common Core tweets by modifying code above.</li>
+</ol>
+<div id="705aa4cb" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter csss tweets in English</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>csss_text <span class="op">=</span> csss_tweets[csss_tweets[<span class="st">'text'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="bu">isinstance</span>(x, <span class="bu">str</span>) <span class="kw">and</span> <span class="bu">len</span>(x.strip()) <span class="op">&gt;</span> <span class="dv">0</span> <span class="kw">and</span> langid.classify(x)[<span class="dv">0</span>] <span class="op">==</span> <span class="st">'en'</span>)]</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a new column 'standards' with the value 'csss'</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>csss_text <span class="op">=</span> csss_text.assign(standards<span class="op">=</span><span class="st">'csss'</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset columns of interests</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>csss_text <span class="op">=</span> csss_text[[<span class="st">'standards'</span>, <span class="st">'screen_name'</span>, <span class="st">'created_at'</span>, <span class="st">'text'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="combine-data-frames" class="level4" data-number="3.2.3">
+<h4 data-number="3.2.3" class="anchored" data-anchor-id="combine-data-frames"><span class="header-section-number">3.2.3</span> Combine Data Frames</h4>
+<p>Finally, let’s combine our <code>ccss_text</code> and <code>ngss_text</code> into a single DataFrame by using the <code>concat()</code> function from <code>pandas</code> library to simply supplying the DataFrames that you want to combine as arguments:</p>
+<div id="9e1f26ff" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine the two DataFrames row-wise</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>tweets <span class="op">=</span> pd.concat([ngss_text, csss_text], ignore_index<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And let’s take a quick look at both the <code>head()</code> and the <code>tail()</code> of this new <code>tweets</code> DataFrame to make sure it contains both “ngss” and “ccss” standards:</p>
+<pre class="{r}"><code>tweets.head()
+tweets.tail()</code></pre>
+</section>
+<section id="preprocess-text" class="level4" data-number="3.2.4">
+<h4 data-number="3.2.4" class="anchored" data-anchor-id="preprocess-text"><span class="header-section-number">3.2.4</span> Preprocess Text</h4>
+<p>We have a few remaining steps to clean our text before integrating it into the sentiment analysis function, which we will introduce later. We will create a <code>preprocess_text</code> function to accomplish this:</p>
+<ol type="1">
+<li><p><strong>Tokenize the Tweets</strong>: Use the <code>tokenize( )</code> function to split each tweet into individual tokens. This makes it easier to remove stop words.</p></li>
+<li><p><strong>Remove Stop Words</strong>: Eliminate stop words from the tokenized tweets to ensure that the remaining words are more indicative of the sentiment being expressed.</p></li>
+<li><p><strong>Rejoin Tokens</strong>: Combine the tokens back into a sentence called ‘<strong>clean_text</strong>’.</p></li>
+</ol>
+<div id="a36633be" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.tokenize <span class="im">import</span> word_tokenize</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.tokenize <span class="im">import</span> RegexpTokenizer</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.corpus <span class="im">import</span> stopwords</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure nltk punkt tokenizer is downloaded</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'punkt'</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a tokenizer instance with the regular expression of tweets</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>tweet_pattern <span class="op">=</span> <span class="vs">r'\b\w+\b'</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> RegexpTokenizer(tweet_pattern)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Create preprocess_text function</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> preprocess_text(text):</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Tokenize the text</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    tokens <span class="op">=</span> tokenizer.tokenize(text.lower())</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Remove stop words</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    filtered_tokens <span class="op">=</span> [token <span class="cf">for</span> token <span class="kw">in</span> tokens <span class="cf">if</span> token <span class="kw">not</span> <span class="kw">in</span> stopwords.words(<span class="st">'english'</span>)]</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Join the tokens back into a sentence</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    processed_text <span class="op">=</span> <span class="st">' '</span>.join(filtered_tokens)</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> processed_text</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the function to the 'text' column</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>tweets[<span class="st">'clean_text'</span>] <span class="op">=</span> tweets[<span class="st">'text'</span>].<span class="bu">apply</span>(preprocess_text)</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the DataFrame</span></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tweets)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[nltk_data] Downloading package punkt to /home/r1592218/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     standards   screen_name          created_at  \
+0         ngss      loyr2662 2021-02-27 17:33:27   
+1         ngss      loyr2662 2021-02-20 20:02:37   
+2         ngss  Furlow_teach 2021-02-27 17:03:23   
+3         ngss  Furlow_teach 2021-02-27 14:41:01   
+4         ngss    TdiShelton 2021-02-27 14:17:34   
+...        ...           ...                 ...   
+1444      csss      ctwittnc 2021-02-19 23:44:18   
+1445      csss   the_rbeagle 2021-02-19 23:27:06   
+1446      csss         silea 2021-02-19 23:11:21   
+1447      csss  JodyCoyote12 2021-02-19 22:58:25   
+1448      csss    Ryan_Hawes 2021-02-19 22:41:01   
+
+                                                   text  \
+0     Switching gears for a bit for the "Crosscuttin...   
+1     Was just introduced to the Engineering Habits ...   
+2     @IBchemmilam @chemmastercorey I’m familiar w/ ...   
+3     @IBchemmilam @chemmastercorey How well does th...   
+4     I am so honored and appreciative to have an op...   
+...                                                 ...   
+1444  @winningatmylife I’ll bet none of these except...   
+1445  @dmarush @electronlove @MontgomeryJen @TheReal...   
+1446  @LizerReal I don’t think that’s in Common Core...   
+1447  @CarlaRK3 @NedLamont Fully fund public schools...   
+1448  I just got an "explainer" on how to read my ch...   
+
+                                             clean_text  
+0     switching gears bit crosscutting concepts sess...  
+1     introduced engineering habits mind know ngss s...  
+2     ibchemmilam chemmastercorey familiar w would l...  
+3           ibchemmilam chemmastercorey well align ngss  
+4     honored appreciative opportunity learn ky educ...  
+...                                                 ...  
+1444  winningatmylife bet none exceptional people st...  
+1445  dmarush electronlove montgomeryjen therealhoar...  
+1446          lizerreal think common core middle school  
+1447  carlark3 nedlamont fully fund public schools i...  
+1448  got explainer read child report card get expla...  
+
+[1449 rows x 5 columns]</code></pre>
+</div>
+</div>
+<p>So far, the tweets DataFrame specifically the ‘<strong>clean_text</strong>’ is ready to be added for the sentiment values.</p>
+</section>
+</section>
+<section id="c.-get-sentiment-values" class="level3" data-link="2c. Add Sentiment Values" data-number="3.3">
+<h3 data-link="2c. Add Sentiment Values" data-number="3.3" class="anchored" data-anchor-id="c.-get-sentiment-values"><span class="header-section-number">3.3</span> 2c. Get Sentiment Values</h3>
+<p>Now that we have our tweets nice and tidy, we’re almost ready to begin exploring public sentiment around the CCSS and NGSS standards. For this part of our workflow we will introduce <code>SentimentIntensityAnalyzer</code> within <code>nltk.sentiment.vader</code> module from <code>nltk</code> library for sentiment analysis.</p>
+<p>By putting the text as the input argument of <code>SentimentIntensityAnalyzer</code>, the function will return the sentiment value for the text. The text could either be on word level, or on sentence level. In our case, we will work on sentence level, in other words, we will use <code>SentimentIntensityAnalyzer</code> to return the sentiment values for each tweet.</p>
+<p>For each sentiment value returned, it actually includes 4 values such as:</p>
+<ul>
+<li><p><strong>pos</strong>: the probability of the sentiment to be <strong>positive</strong></p></li>
+<li><p><strong>neu</strong>: the probability of the sentiment to be <strong>neutral</strong></p></li>
+<li><p><strong>neg</strong>: The probability of the sentiment to be <strong>negative</strong></p></li>
+<li><p><strong>compound</strong>: the normalized compound score which calculates the sum of all lexicon ratings and takes values from -1 to 1</p></li>
+</ul>
+<p>The <strong>compound score</strong> is particularly useful when we need a single measure of sentiment. The typical threshold values for the compound score are as follows:</p>
+<ul>
+<li><p><strong>positive</strong>: compound score <strong>&gt;=0.05</strong></p></li>
+<li><p><strong>neutral</strong>: compound score between <strong>-0.05 and 0.05</strong></p></li>
+<li><p><strong>negative</strong>: compound score <strong>&lt;=-0.05</strong></p></li>
+</ul>
+<p>For the purpose of dividing the sentiment into only two categories, the threshold values for the compound score can also be as follows:</p>
+<ul>
+<li><p><strong>positive</strong>: compound score <strong>&gt; 0</strong></p></li>
+<li><p><strong>negative</strong>: compound score <strong>&lt;= 0</strong></p></li>
+</ul>
+<section id="get-sentiments" class="level4" data-number="3.3.1">
+<h4 data-number="3.3.1" class="anchored" data-anchor-id="get-sentiments"><span class="header-section-number">3.3.1</span> Get Sentiments</h4>
+<p>Let’s take a quick look at sentiment values of each tweet towards the CCSS and NGSS standards returned by using the <code>SentimentIntensityAnalyzer</code>.</p>
+<div id="4e24005c" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.sentiment.vader <span class="im">import</span> SentimentIntensityAnalyzer</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure vader_lexicon is downloaded</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'vader_lexicon'</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize nltk sentiment analyzer</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>analyzer <span class="op">=</span> SentimentIntensityAnalyzer()</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Get sentiment values of tweets['clean_text']</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>tweets[<span class="st">'sentiment_value'</span>] <span class="op">=</span> tweets[<span class="st">'clean_text'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> txt: analyzer.polarity_scores(txt))</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Separate the sentiment_value into four columns</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>tweets[<span class="st">'negative'</span>] <span class="op">=</span> tweets[<span class="st">'sentiment_value'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> txt: txt[<span class="st">'neg'</span>])</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>tweets[<span class="st">'neutral'</span>] <span class="op">=</span> tweets[<span class="st">'sentiment_value'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> txt: txt[<span class="st">'neu'</span>])</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>tweets[<span class="st">'positive'</span>] <span class="op">=</span> tweets[<span class="st">'sentiment_value'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> txt: txt[<span class="st">'pos'</span>])</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>tweets[<span class="st">'compound'</span>] <span class="op">=</span> tweets[<span class="st">'sentiment_value'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> txt: txt[<span class="st">'compound'</span>])</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the DataFrame with sentiment values</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>tweets</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[nltk_data] Downloading package vader_lexicon to
+[nltk_data]     /home/r1592218/nltk_data...
+[nltk_data]   Package vader_lexicon is already up-to-date!</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">standards</th>
+<th data-quarto-table-cell-role="th">screen_name</th>
+<th data-quarto-table-cell-role="th">created_at</th>
+<th data-quarto-table-cell-role="th">text</th>
+<th data-quarto-table-cell-role="th">clean_text</th>
+<th data-quarto-table-cell-role="th">sentiment_value</th>
+<th data-quarto-table-cell-role="th">negative</th>
+<th data-quarto-table-cell-role="th">neutral</th>
+<th data-quarto-table-cell-role="th">positive</th>
+<th data-quarto-table-cell-role="th">compound</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>ngss</td>
+<td>loyr2662</td>
+<td>2021-02-27 17:33:27</td>
+<td>Switching gears for a bit for the "Crosscuttin...</td>
+<td>switching gears bit crosscutting concepts sess...</td>
+<td>{'neg': 0.0, 'neu': 0.725, 'pos': 0.275, 'comp...</td>
+<td>0.000</td>
+<td>0.725</td>
+<td>0.275</td>
+<td>0.5859</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>ngss</td>
+<td>loyr2662</td>
+<td>2021-02-20 20:02:37</td>
+<td>Was just introduced to the Engineering Habits ...</td>
+<td>introduced engineering habits mind know ngss s...</td>
+<td>{'neg': 0.0, 'neu': 1.0, 'pos': 0.0, 'compound...</td>
+<td>0.000</td>
+<td>1.000</td>
+<td>0.000</td>
+<td>0.0000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>ngss</td>
+<td>Furlow_teach</td>
+<td>2021-02-27 17:03:23</td>
+<td>@IBchemmilam @chemmastercorey I’m familiar w/ ...</td>
+<td>ibchemmilam chemmastercorey familiar w would l...</td>
+<td>{'neg': 0.038, 'neu': 0.655, 'pos': 0.307, 'co...</td>
+<td>0.038</td>
+<td>0.655</td>
+<td>0.307</td>
+<td>0.8935</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>ngss</td>
+<td>Furlow_teach</td>
+<td>2021-02-27 14:41:01</td>
+<td>@IBchemmilam @chemmastercorey How well does th...</td>
+<td>ibchemmilam chemmastercorey well align ngss</td>
+<td>{'neg': 0.0, 'neu': 0.656, 'pos': 0.344, 'comp...</td>
+<td>0.000</td>
+<td>0.656</td>
+<td>0.344</td>
+<td>0.2732</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>ngss</td>
+<td>TdiShelton</td>
+<td>2021-02-27 14:17:34</td>
+<td>I am so honored and appreciative to have an op...</td>
+<td>honored appreciative opportunity learn ky educ...</td>
+<td>{'neg': 0.0, 'neu': 0.532, 'pos': 0.468, 'comp...</td>
+<td>0.000</td>
+<td>0.532</td>
+<td>0.468</td>
+<td>0.9493</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1444</td>
+<td>csss</td>
+<td>ctwittnc</td>
+<td>2021-02-19 23:44:18</td>
+<td>@winningatmylife I’ll bet none of these except...</td>
+<td>winningatmylife bet none exceptional people st...</td>
+<td>{'neg': 0.069, 'neu': 0.931, 'pos': 0.0, 'comp...</td>
+<td>0.069</td>
+<td>0.931</td>
+<td>0.000</td>
+<td>-0.1027</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1445</td>
+<td>csss</td>
+<td>the_rbeagle</td>
+<td>2021-02-19 23:27:06</td>
+<td>@dmarush @electronlove @MontgomeryJen @TheReal...</td>
+<td>dmarush electronlove montgomeryjen therealhoar...</td>
+<td>{'neg': 0.1, 'neu': 0.631, 'pos': 0.269, 'comp...</td>
+<td>0.100</td>
+<td>0.631</td>
+<td>0.269</td>
+<td>0.6249</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1446</td>
+<td>csss</td>
+<td>silea</td>
+<td>2021-02-19 23:11:21</td>
+<td>@LizerReal I don’t think that’s in Common Core...</td>
+<td>lizerreal think common core middle school</td>
+<td>{'neg': 0.0, 'neu': 1.0, 'pos': 0.0, 'compound...</td>
+<td>0.000</td>
+<td>1.000</td>
+<td>0.000</td>
+<td>0.0000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1447</td>
+<td>csss</td>
+<td>JodyCoyote12</td>
+<td>2021-02-19 22:58:25</td>
+<td>@CarlaRK3 @NedLamont Fully fund public schools...</td>
+<td>carlark3 nedlamont fully fund public schools i...</td>
+<td>{'neg': 0.0, 'neu': 0.776, 'pos': 0.224, 'comp...</td>
+<td>0.000</td>
+<td>0.776</td>
+<td>0.224</td>
+<td>0.6705</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1448</td>
+<td>csss</td>
+<td>Ryan_Hawes</td>
+<td>2021-02-19 22:41:01</td>
+<td>I just got an "explainer" on how to read my ch...</td>
+<td>got explainer read child report card get expla...</td>
+<td>{'neg': 0.0, 'neu': 0.689, 'pos': 0.311, 'comp...</td>
+<td>0.000</td>
+<td>0.689</td>
+<td>0.311</td>
+<td>0.7755</td>
+</tr>
+</tbody>
+</table>
+
+<p>1449 rows × 10 columns</p>
+</div>
+</div>
+</div>
+<p>As shown in the <code>sentiment_value</code> column, each tweet has 4 values, and for the purpose to easy read, we separate the 4 values into 4 columns.</p>
+<p>✅ Comprehension Check</p>
+<ol type="1">
+<li>How were these sentiment lexicons put together and validated? Hint: take a look at Chapter 2 from Text Mining with R.</li>
+<li>Why should we be cautious when using and interpreting them?</li>
+</ol>
+<hr>
+</section>
+</section>
+</section>
+<section id="explore" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="explore"><span class="header-section-number">4</span> 3. EXPLORE</h2>
+<p>Now that we have our tweets sentiments, we’re ready for a little data exploration. As highlighted in Lab 1, calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. One goal in this phase is explore questions that drove the original analysis and develop new questions and hypotheses to test in later stages. Topics addressed in Section 3 include:</p>
+<ol type="a">
+<li><strong>Time Series</strong>. We take a quick look at the date range of our tweets and compare number of postings by standards.</li>
+<li><strong>Sentiment Summaries</strong>. We put together some basic summaries of our sentiment values in order to compare public sentiment.</li>
+</ol>
+<section id="a.-time-series" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="a.-time-series"><span class="header-section-number">4.1</span> 3a. Time Series</h3>
+<p>Before we dig into sentiment, let’s use the handy <code>pyplot</code> module built into <code>matplotlib</code> library to take a very quick look at how far back our tidied <code>tweets</code> data set goes. And in the 3b. Sentiment Summaries, we will reuse the time series manipulation on sentiment values.</p>
+<div id="61770322" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert 'created_at' to datetime format</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>tweets[<span class="st">'created_at'</span>] <span class="op">=</span> pd.to_datetime(tweets[<span class="st">'created_at'</span>])</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the index to 'created_at' for resampling</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>tweets.set_index(<span class="st">'created_at'</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Resample the tweets by day and count the number of tweets per day</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>tweets_by_day <span class="op">=</span> tweets.resample(<span class="st">'D'</span>).size().reset_index(name<span class="op">=</span><span class="st">'count'</span>)</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Reset the index to remove the datetime index</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>tweets.reset_index(inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x<span class="op">=</span><span class="st">'created_at'</span>, y<span class="op">=</span><span class="st">'count'</span>, data<span class="op">=</span>tweets_by_day, marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Date'</span>)</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Number of Tweets'</span>)</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Number of Tweets by Day'</span>)</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab-2-case-study-python_files/figure-html/cell-16-output-1.png" width="950" height="566" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Notice that this effectively creates a time series plot for us. I’ve included the <code>resample('D')</code> for the purpose of setting to “days”.</p>
+<section id="comprehension-check-1" class="level5" data-number="4.1.0.1">
+<h5 data-number="4.1.0.1" class="anchored" data-anchor-id="comprehension-check-1"><span class="header-section-number">4.1.0.1</span> Comprehension Check</h5>
+<ol type="1">
+<li>Use the <code>group_by</code> function to compare the number of tweets over time by NGSS and CSSS standards.</li>
+<li>Which set of standards is Twitter users talking about the most?</li>
+</ol>
+<p>Your line graph should look something like this:</p>
+<div id="b64729d2" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert 'created_at' to datetime format</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>tweets[<span class="st">'created_at'</span>] <span class="op">=</span> pd.to_datetime(tweets[<span class="st">'created_at'</span>])</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the index to 'created_at' for resampling</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>tweets.set_index(<span class="st">'created_at'</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by 'standards' and resample to count tweets per day</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>tweets_by_day_by_standards <span class="op">=</span> tweets.groupby(<span class="st">'standards'</span>).resample(<span class="st">'D'</span>).size().unstack(level<span class="op">=</span><span class="dv">0</span>, fill_value<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Reset the index to remove the datetime index</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>tweets.reset_index(inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> standard <span class="kw">in</span> tweets_by_day_by_standards.columns:</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    sns.lineplot(data<span class="op">=</span>tweets_by_day_by_standards, x<span class="op">=</span>tweets_by_day_by_standards.index, y<span class="op">=</span>standard, label<span class="op">=</span>standard)</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Date'</span>)</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Number of Tweets'</span>)</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Number of Tweets by Day for Each Standard'</span>)</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>plt.legend(title<span class="op">=</span><span class="st">'Standards'</span>)</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab-2-case-study-python_files/figure-html/cell-17-output-1.png" width="1142" height="566" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="b.-sentiment-summaries" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="b.-sentiment-summaries"><span class="header-section-number">4.2</span> 3b. Sentiment Summaries</h3>
+<p>Since our primary goals is to compare public sentiment around the NGSS and CCSS state standards, in this section we put together some basic numerical summaries to see whether tweets are generally more positive or negative for each standard, and the sentiments over time for each standard as well as differences between these two standards.</p>
+<p>Notice that for the followings, we primarily focus on the compound scores obtained by the <code>SentimentIntensityAnalyzer</code>. In the <strong>sentiment count</strong> section, we will use the typical threshold on compound score to revise the sentiment value into sentiment categories: “positive”, “neutral”, and “negative”, and count these three categories separately for the NGSS and CCSS state standards.</p>
+<p>In the <strong>sentiment value</strong> section, we will summarize a single sentiment value separately for the NGSS and CCSS state standards. The single sentiment value are calculated in two different ways. The first way is built on the sentiment counts obtained by the last section, using the formula: ratio = positive/negative; the second way is to aggregate and normarlize the compound scores separately for the NGSS and CCSS state standards.</p>
+<p>In the <strong>sentiment over time</strong> session, we will plot the compound scores by days of tweets separately for the NGSS and CCSS state standards.</p>
+<section id="sentiment-counts" class="level4" data-number="4.2.1">
+<h4 data-number="4.2.1" class="anchored" data-anchor-id="sentiment-counts"><span class="header-section-number">4.2.1</span> Sentiment Counts</h4>
+<p>First, we create a <code>get_sentiment()</code> function to revise the sentiment value into sentiment categories: “positive”, “neutral”, and “negative”. Then use <code>groupby()</code> and <code>size()</code> to count these three sentiment categories separately for NGSS and CCSS state standards.</p>
+<div id="2e91e7fd" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to calculate sentiment category based on compound score</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_sentiment(compound):</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> compound <span class="op">&gt;=</span> <span class="fl">0.05</span>:</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'positive'</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> compound <span class="op">&lt;=</span> <span class="op">-</span><span class="fl">0.05</span>:</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'negative'</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'neutral'</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the get_sentiment function</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>tweets[<span class="st">'sentiment_category'</span>] <span class="op">=</span> tweets[<span class="st">'compound'</span>].<span class="bu">apply</span>(get_sentiment)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by 'standards' and 'sentiment_category' to get counts</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>sentiment3_counts <span class="op">=</span> tweets.groupby([<span class="st">'standards'</span>, <span class="st">'sentiment_category'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'count'</span>)</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Pivot the table to get a clearer view</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>sentiment3_counts_pivot <span class="op">=</span> sentiment3_counts.pivot(index<span class="op">=</span><span class="st">'standards'</span>, columns<span class="op">=</span><span class="st">'sentiment_category'</span>, values<span class="op">=</span><span class="st">'count'</span>).fillna(<span class="dv">0</span>).reset_index()</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the sentiment counts</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sentiment3_counts_pivot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>sentiment_category standards  negative  neutral  positive
+0                       csss       399      330       398
+1                       ngss        21       77       224</code></pre>
+</div>
+</div>
+<p>Looks like CCSS have comparable negative tweets with positive ones, while NGSS skews much more positive. So far, the NGSS sentiment is pretty consistent with Rosenberg et al.&nbsp;findings, while the CCSS is not, which is because the results involving with the neutral sentiments. Let’s twick the <code>get_sentiment()</code> function to generate only positive and negative sentiments.</p>
+<div id="ad4fb452" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to calculate sentiment category based on compound score</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_sentiment(compound):</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> compound <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'positive'</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'negative'</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the get_sentiment function</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>tweets[<span class="st">'sentiment_category'</span>] <span class="op">=</span> tweets[<span class="st">'compound'</span>].<span class="bu">apply</span>(get_sentiment)</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by 'standards' and 'sentiment_category' to get counts</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>sentiment2_counts <span class="op">=</span> tweets.groupby([<span class="st">'standards'</span>, <span class="st">'sentiment_category'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'count'</span>)</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Pivot the table to get a clearer view</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>sentiment2_counts_pivot <span class="op">=</span> sentiment2_counts.pivot(index<span class="op">=</span><span class="st">'standards'</span>, columns<span class="op">=</span><span class="st">'sentiment_category'</span>, values<span class="op">=</span><span class="st">'count'</span>).fillna(<span class="dv">0</span>).reset_index()</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the sentiment counts</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sentiment2_counts_pivot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>sentiment_category standards  negative  positive
+0                       csss       722       405
+1                       ngss        96       226</code></pre>
+</div>
+</div>
+<p>So for now, it looks like CCSS have far more negative tweets than positive, while NGSS skews much more positive, which is pretty consistent with Rosenberg et al.&nbsp;findings!!!</p>
+</section>
+<section id="single-sentiment-value" class="level4" data-number="4.2.2">
+<h4 data-number="4.2.2" class="anchored" data-anchor-id="single-sentiment-value"><span class="header-section-number">4.2.2</span> Single Sentiment Value</h4>
+<p>In the previous session, sentiment counts offered some insights into general sentiment patterns by comparing the number of negative and positive tweets for both the NGSS and CCSS state standards. However, it is not straightforward to directly compare sentiment between NGSS and CCSS, therefore, it is more effective to calculate a single sentiment value for each.</p>
+<p><strong>Approach 1: Ratio = positive/negative</strong></p>
+<div id="5ed6eb76" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a column ratio by dividing positive counts by negative </span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>sentiment2_counts_pivot[<span class="st">'ratio'</span>] <span class="op">=</span> sentiment2_counts_pivot[<span class="st">'positive'</span>]<span class="op">/</span>sentiment2_counts_pivot[<span class="st">'negative'</span>]</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the pivot DataFrame</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>sentiment2_counts_pivot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">sentiment_category</th>
+<th data-quarto-table-cell-role="th">standards</th>
+<th data-quarto-table-cell-role="th">negative</th>
+<th data-quarto-table-cell-role="th">positive</th>
+<th data-quarto-table-cell-role="th">ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>csss</td>
+<td>722</td>
+<td>405</td>
+<td>0.560942</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>ngss</td>
+<td>96</td>
+<td>226</td>
+<td>2.354167</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Notice that the formula for calculating single sentiment value is positive/negative. If the resulting number is above 1, the sentiment is more positive; if it is below 1, the sentiment is more negative. Additionally, the further the value is from 1 (including infinity where the negative count is 0), the more positive the sentiment. Conversely, the closer the value is to 0, the more negative the sentiment.</p>
+<p>From the ’ratio” column, you can see that for NGSS, the result is 2.35, and CSSS is 0.56, which indicates the skewed positive sentiment towards NGSS, and the negative sentiment towards CSSS.</p>
+<p><strong>Approach 2: Aggregated</strong> <strong>compound score with normalization</strong></p>
+<div id="692b0fec" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the sum of absolute compound scores for normalization</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>tweets[<span class="st">'abs_compound'</span>] <span class="op">=</span> tweets[<span class="st">'compound'</span>].<span class="bu">abs</span>()</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>abs_sum_per_standard <span class="op">=</span> tweets.groupby(<span class="st">'standards'</span>)[<span class="st">'abs_compound'</span>].<span class="bu">sum</span>().reset_index(name<span class="op">=</span><span class="st">'abs_sum'</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Sum the compound scores for each standard</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>aggregated_compound <span class="op">=</span> tweets.groupby(<span class="st">'standards'</span>)[<span class="st">'compound'</span>].<span class="bu">sum</span>().reset_index(name<span class="op">=</span><span class="st">'compound_value'</span>)</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge the two DataFrames to normalize the compound values</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>aggregated_compound <span class="op">=</span> pd.merge(aggregated_compound, abs_sum_per_standard, on<span class="op">=</span><span class="st">'standards'</span>)</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Normalize the compound values</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>aggregated_compound[<span class="st">'normalized_compound'</span>] <span class="op">=</span> aggregated_compound[<span class="st">'compound_value'</span>] <span class="op">/</span> aggregated_compound[<span class="st">'abs_sum'</span>]</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop the intermediate columns used for normalization</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>aggregated_compound <span class="op">=</span> aggregated_compound[[<span class="st">'standards'</span>, <span class="st">'normalized_compound'</span>]]</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the result</span></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(aggregated_compound)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  standards  normalized_compound
+0      csss             0.006504
+1      ngss             0.896936</code></pre>
+</div>
+</div>
+<p>Again, CCSS is overall negative as the ‘normalized_compound’ is approaching 0 while NGSS is overall positive as the ‘normalized_compound’ is 0.89 which is close to 1!</p>
+</section>
+<section id="sentiment-value-over-time" class="level4" data-number="4.2.3">
+<h4 data-number="4.2.3" class="anchored" data-anchor-id="sentiment-value-over-time"><span class="header-section-number">4.2.3</span> Sentiment Value Over Time</h4>
+<p>Another approach to summary the sentiment is to have a look at the sentiment over time, which is valuable for identifying trends and patterns in how sentiment evolves. In this session, we will plot compound sentiment value by days for the overall, and for NGSS and CSSS separately. To achieve this, we will follow these steps:</p>
+<ol type="1">
+<li><p><strong>Convert the date column to a datetime format</strong> for functions to easily capture the different part of datetime (day, week, month or year), and support further group or resample data.</p></li>
+<li><p><strong>Resample the data by a time period</strong> (e.g., by day, week, or month) to calculate the average sentiment scores over these periods.</p></li>
+<li><p><strong>Plot the compound sentiment value over time</strong>.</p></li>
+</ol>
+<p><strong>Overall</strong></p>
+<div id="b9d6c85c" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert 'created_at' to datetime format</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>tweets[<span class="st">'created_at'</span>] <span class="op">=</span> pd.to_datetime(tweets[<span class="st">'created_at'</span>])</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the date as the index</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>tweets.set_index(<span class="st">'created_at'</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Resample by day and calculate the mean compound score</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>sentiment_over_time <span class="op">=</span> tweets.resample(<span class="st">'D'</span>)[<span class="st">'compound'</span>].mean().reset_index()</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Reset the index to remove the datetime index</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>tweets.reset_index(inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the sentiment over time</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>sentiment_over_time, x<span class="op">=</span><span class="st">'created_at'</span>, y<span class="op">=</span><span class="st">'compound'</span>, marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Date'</span>)</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Average Sentiment Score'</span>)</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Average Sentiment Score Over Time'</span>)</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab-2-case-study-python_files/figure-html/cell-22-output-1.png" width="1142" height="566" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>NGSS</strong></p>
+<div id="f113e8f9" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter the Data by 'ngss' standards</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>ngss_data <span class="op">=</span> tweets[tweets[<span class="st">'standards'</span>] <span class="op">==</span> <span class="st">'ngss'</span>]</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Resample NGSS data by day and calculate the mean compound score</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>ngss_sentiment_over_time <span class="op">=</span> ngss_data.resample(<span class="st">'D'</span>, on<span class="op">=</span><span class="st">'created_at'</span>)[<span class="st">'compound'</span>].mean().reset_index()</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot NGSS sentiment over time</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>ngss_sentiment_over_time, x<span class="op">=</span><span class="st">'created_at'</span>, y<span class="op">=</span><span class="st">'compound'</span>, marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Date'</span>)</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Average Sentiment Score'</span>)</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Average Sentiment Score Over Time for NGSS'</span>)</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab-2-case-study-python_files/figure-html/cell-23-output-1.png" width="1142" height="566" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>CSSS</strong></p>
+<section id="comprehension-check-2" class="level5" data-number="4.2.3.1">
+<h5 data-number="4.2.3.1" class="anchored" data-anchor-id="comprehension-check-2"><span class="header-section-number">4.2.3.1</span> Comprehension Check</h5>
+<p>Plot the sentiment by day towards CSSS standards.</p>
+<div id="ce7aeb7f" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter the Data by 'csss' standards</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>csss_data <span class="op">=</span> tweets[tweets[<span class="st">'standards'</span>] <span class="op">==</span> <span class="st">'csss'</span>]</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Resample CSSS data by day and calculate the mean compound score</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>csss_sentiment_over_time <span class="op">=</span> csss_data.resample(<span class="st">'M'</span>, on<span class="op">=</span><span class="st">'created_at'</span>)[<span class="st">'compound'</span>].mean().reset_index()</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot CSSS sentiment over time</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>csss_sentiment_over_time, x<span class="op">=</span><span class="st">'created_at'</span>, y<span class="op">=</span><span class="st">'compound'</span>, marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Date'</span>)</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Average Sentiment Score'</span>)</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Average Sentiment Score Over Time for CSSS'</span>)</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/tmp/ipykernel_2109/2454628159.py:5: FutureWarning: 'M' is deprecated and will be removed in a future version, please use 'ME' instead.
+  csss_sentiment_over_time = csss_data.resample('M', on='created_at')['compound'].mean().reset_index()</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab-2-case-study-python_files/figure-html/cell-24-output-2.png" width="1142" height="566" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+</section>
+<section id="model" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="model"><span class="header-section-number">5</span> 4. MODEL</h2>
+<p>As highlighted in <a href="https://datascienceineducation.com/c03.html">Chapter 3 of Data Science in Education Using R</a>, the <strong>Model</strong> step of the data science process entails “using statistical models, from simple to complex, to understand trends and patterns in the data.” The authors note that while descriptive statistics and data visualization during the <strong>Explore</strong> step can help us to identify patterns and relationships in our data, statistical models can be used to help us determine if relationships, patterns and trends are actually meaningful.</p>
+<p>Recall from the PREPARE section, that the Rosenberg et al.&nbsp;study was guided by the following questions:</p>
+<ol type="1">
+<li>What is the public sentiment expressed toward the NGSS?</li>
+<li>How does sentiment for teachers differ from non-teachers?</li>
+<li>How do tweets posted to #NGSSchat differ from those without the hashtag?</li>
+<li>How does participation in #NGSSchat relate to the public sentiment individuals express?</li>
+<li>How does public sentiment vary over time?</li>
+</ol>
+<p>The Rosenberg et al.&nbsp;study used the -5 to 5 sentiment score from the SentiStrength lexicon to answer RQ #1. To address the remaining questions the authors used a mixed effects model (also known as multi-level or hierarchical linear models via the lme4 package in R.</p>
+<p>Collectively, the authors found that:</p>
+<ol type="1">
+<li>The SentiStrength scale indicated an overall neutral sentiment for tweets about the Next Generation Science Standards.</li>
+<li>Teachers were more positive in their posts than other participants.</li>
+<li>Posts including #NGSSchat that were posted outside of chats were slightly more positive relative to those that did not include the #NGSSchat hashtag.</li>
+<li>The effect upon individuals of being involved in the #NGSSchat was positive, suggesting that there is an impact on individuals—not tweets—of participating in a community focused on the NGSS.</li>
+<li>Posts about the NGSS became substantially more positive over time.</li>
+</ol>
+<hr>
+</section>
+<section id="communicate" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="communicate"><span class="header-section-number">6</span> 5. COMMUNICATE</h2>
+<p>The final(ish) step in our workflow/process is sharing the results of analysis with wider audience. Krumm et al.&nbsp;(2018) outlined the following 3-step process for communicating with education stakeholders what you have learned through analysis:</p>
+<ol type="1">
+<li><strong>Select</strong>. Communicating what one has learned involves selecting among those analyses that are most important and most useful to an intended audience, as well as selecting a form for displaying that information, such as a graph or table in static or interactive form, i.e.&nbsp;a “data product.”</li>
+<li><strong>Polish</strong>. After creating initial versions of data products, research teams often spend time refining or polishing them, by adding or editing titles, labels, and notations and by working with colors and shapes to highlight key points.</li>
+<li><strong>Narrate</strong>. Writing a narrative to accompany the data products involves, at a minimum, pairing a data product with its related research question, describing how best to interpret the data product, and explaining the ways in which the data product helps answer the research question.</li>
+</ol>
+<section id="a.-select" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="a.-select"><span class="header-section-number">6.1</span> 5a. Select</h3>
+<p>Remember that the questions of interest that we want to focus on for our selection, polishing, and narration include:</p>
+<ol type="1">
+<li>What is the public sentiment expressed toward the NGSS?</li>
+<li>How does sentiment for NGSS compare to sentiment for CCSS?</li>
+</ol>
+<p>To address questions 1 and 2, I’m going to focus my analyses, data products and sharing format on the following:</p>
+<ol type="1">
+<li><strong>Analyses</strong>. For RQ1, I want to try and replicate as closely as possible the analysis by Rosenberg et al., so I will clean up my analysis and only use the compound sentiment value generated by <code>SentimentIntensityAnalyzer</code> using VADER Lexicon for the entire tweet and label it positive or negative based on that score. I also want to highlight the conclusion that NGSS tweets contain more positive tweets than negative for answering the question 1, so I’ll also polish my previous analyses and calculate percentages of positive and negative words for the tweets.</li>
+<li><strong>Data Products</strong>. I know these are shunned in the world of data viz, but I think a <strong>pie chart</strong> will actually be an effective way to quickly communicate the proportion of positive and negative tweets among the NGSS Standard. And to answear the question 2 illustrating the sentiment difference between the two standards, I’ll create stacked bars showing the percentage of positive and negative words among all tweets for the NGSS and CCSS. Additionally, I’ll plot the sentiment over time to further compare the sentiment trends and patterns between the NGSS and CCSS.</li>
+<li><strong>Format</strong>. Similar to Lab 1, I’ll be using <a href="https://quarto.org/docs/get-started/hello/vscode.html#:~:text=qmd%20files%20contain%20a%20combination,you%20see%20on%20the%20right.">Quarto Markdown</a> to create a slide deck or short report that documents our independent analysis. Quarto Markdown files can also be used to create a wide range of outputs and formats, including polished PDF or Word documents, websites, web apps, journal articles, online books, interactive tutorials and more.</li>
+</ol>
+</section>
+<section id="b.-polish" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="b.-polish"><span class="header-section-number">6.2</span> 5b. Polish</h3>
+<section id="ngss-sentiment" class="level4" data-number="6.2.1">
+<h4 data-number="6.2.1" class="anchored" data-anchor-id="ngss-sentiment"><span class="header-section-number">6.2.1</span> NGSS Sentiment</h4>
+<p>I want to replicate as closely as possible the approach that Rosenberg et al.&nbsp;used in their analysis. To do that, I’ll retrieve some results from <a href="#b.-sentiment-summaries">3b. Sentiment Summaries</a>.</p>
+<p>To create a pie chart showing the percentage of positive tweets and negative ones for the NGSS, first I need to pull out the sentiment counts.</p>
+<div id="21497118" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the sentiment counts</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sentiment2_counts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  standards sentiment_category  count
+0      csss           negative    722
+1      csss           positive    405
+2      ngss           negative     96
+3      ngss           positive    226</code></pre>
+</div>
+</div>
+<p>As we only care about the NGSS, so I fill the CSSS out from sentiment2_counts DataFrame. Then create a pie plot for the NGSS sentiment with percentage.</p>
+<div id="e8f85906" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter the DataFrame for NGSS standards</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>ngss_sentiment_counts <span class="op">=</span> sentiment2_counts[sentiment2_counts[<span class="st">'standards'</span>] <span class="op">==</span> <span class="st">'ngss'</span>].set_index(<span class="st">'sentiment_category'</span>)[<span class="st">'count'</span>]</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the pie chart using plot() from pandas</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>ngss_sentiment_counts.plot(</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    kind<span class="op">=</span><span class="st">'pie'</span>,</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    ylabel <span class="op">=</span> <span class="st">''</span>, </span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    autopct<span class="op">=</span><span class="st">'</span><span class="sc">%1.1f%%</span><span class="st">'</span>, </span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    startangle<span class="op">=</span><span class="dv">140</span>, </span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>    figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>), </span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'NGSS Sentiment Distribution'</span>, </span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab-2-case-study-python_files/figure-html/cell-26-output-1.png" width="658" height="631" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="ngss-vs-ccss-sentiment-percentage" class="level4" data-number="6.2.2">
+<h4 data-number="6.2.2" class="anchored" data-anchor-id="ngss-vs-ccss-sentiment-percentage"><span class="header-section-number">6.2.2</span> NGSS vs CCSS (sentiment percentage)</h4>
+<p>To address question 2, I want to compare the percentage of positive and negative tweets for the NGSS and CCSS standards.</p>
+<p>First, I’ll add a new column ‘percentage’ to the sentiment2_counts DataFrame. To make the data format easy for plot implementation, I create a percentage pivot table.</p>
+<div id="29f2f941" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the total counts for each standard</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>total_counts <span class="op">=</span> sentiment2_counts.groupby(<span class="st">'standards'</span>)[<span class="st">'count'</span>].<span class="bu">sum</span>().reset_index()</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>total_counts <span class="op">=</span> total_counts.rename(columns<span class="op">=</span>{<span class="st">'count'</span>: <span class="st">'total'</span>})</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge the total counts back to the original dataframe</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>sentiment2_percentage <span class="op">=</span> sentiment2_counts.merge(total_counts, on<span class="op">=</span><span class="st">'standards'</span>)</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the percentage</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>sentiment2_percentage[<span class="st">'percentage'</span>] <span class="op">=</span> (sentiment2_percentage[<span class="st">'count'</span>] <span class="op">/</span> sentiment2_percentage[<span class="st">'total'</span>]) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Pivot the percentage table to get a clearer view</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>sentiment2_percentage_pivot <span class="op">=</span> sentiment2_percentage.pivot(index<span class="op">=</span><span class="st">'standards'</span>, columns<span class="op">=</span><span class="st">'sentiment_category'</span>, values<span class="op">=</span><span class="st">'percentage'</span>).fillna(<span class="dv">0</span>).reset_index()</span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Displacy the percentage pivot table</span></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>sentiment2_percentage_pivot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">sentiment_category</th>
+<th data-quarto-table-cell-role="th">standards</th>
+<th data-quarto-table-cell-role="th">negative</th>
+<th data-quarto-table-cell-role="th">positive</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>csss</td>
+<td>64.063886</td>
+<td>35.936114</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>ngss</td>
+<td>29.813665</td>
+<td>70.186335</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Finally, I use the sentiment2_percentage_pivot DataFrame to generate a stacked bar chart to display the sentiment percentage for the NGSS and CSSS.</p>
+<div id="5ef6ca8a" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot a stacked bar chart using plot() from pandas</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>sentiment2_percentage_pivot.plot( </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> <span class="st">'standards'</span>,  </span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  kind <span class="op">=</span> <span class="st">'barh'</span>,  </span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  stacked <span class="op">=</span> <span class="va">True</span>,  </span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  title <span class="op">=</span> <span class="st">'Sentiment Percentage Distribution for NGSS and CSSS'</span>,  </span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  mark_right <span class="op">=</span> <span class="va">True</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab-2-case-study-python_files/figure-html/cell-28-output-1.png" width="598" height="431" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As you can see, the chart above clearly illustrates that there are more positive tweets towards the NGSS than the CCSS.</p>
+</section>
+<section id="ngss-vs-ccss-sentiment-over-time" class="level4" data-number="6.2.3">
+<h4 data-number="6.2.3" class="anchored" data-anchor-id="ngss-vs-ccss-sentiment-over-time"><span class="header-section-number">6.2.3</span> NGSS vs CCSS (sentiment over time)</h4>
+<p>To continue address the question 2, I’ll put the sentiment by days for the NGSS and CSSS in one plot.</p>
+<div id="e162bf54" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert 'created_at' to datetime format</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>tweets[<span class="st">'created_at'</span>] <span class="op">=</span> pd.to_datetime(tweets[<span class="st">'created_at'</span>])</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the date as the index</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>tweets.set_index(<span class="st">'created_at'</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Resample by day and calculate the mean compound score for each standard</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>sentiment_over_time <span class="op">=</span> tweets.groupby([<span class="st">'standards'</span>, pd.Grouper(freq<span class="op">=</span><span class="st">'D'</span>)])[<span class="st">'compound'</span>].mean().reset_index()</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Reset the index to remove the datetime index</span></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>tweets.reset_index(inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the sentiment over time for each standard</span></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>sentiment_over_time, x<span class="op">=</span><span class="st">'created_at'</span>, y<span class="op">=</span><span class="st">'compound'</span>, hue<span class="op">=</span><span class="st">'standards'</span>, marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Date'</span>)</span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Average Sentiment Score'</span>)</span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Average Sentiment Score Over Time by Standards'</span>)</span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab-2-case-study-python_files/figure-html/cell-29-output-1.png" width="1142" height="566" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>And finished! You can see the average sentiment value of the NGSS is always more positive (the higher, the more positive) than the CSSS with time going by.</p>
+</section>
+</section>
+<section id="c.-narrate" class="level3" data-number="6.3">
+<h3 data-number="6.3" class="anchored" data-anchor-id="c.-narrate"><span class="header-section-number">6.3</span> 5c. Narrate</h3>
+<p>With our “data products” cleanup complete, we can start pulling together a quick presentation to share with the class. We’ve already seen what a more formal journal article looks like in the PREPARE section of this walkthrough. For your Independent Analysis for Lab 2, you’ll be creating either a simple report or slide deck to share out some key findings from our analysis.</p>
+<p>Regardless of whether you plan to talk us through your analysis and findings with a presentation or walk us through them with a brief written report, your assignment should address the following questions:</p>
+<ol type="1">
+<li><strong>Purpose</strong>. What question or questions are guiding your analysis? What did you hope to learn by answering these questions and why should your audience care about your findings?</li>
+<li><strong>Methods</strong>. What data did you selected for analysis? What steps did you take to prepare your data for analysis and what techniques did you use to analyze your data? These should be fairly explicit with your embedded code.</li>
+<li><strong>Findings</strong>. What did you ultimately find? How do your “data products” help to illustrate these findings? What conclusions can you draw from your analysis?</li>
+<li><strong>Discussion</strong>. What were some of the strengths and weaknesses of your analysis? How might your audience use this information? How might you revisit or improve upon this analysis in the future?</li>
+</ol>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
