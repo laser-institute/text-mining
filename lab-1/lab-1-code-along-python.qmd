@@ -1,0 +1,817 @@
+---
+title: "Text Mining Basics with Python"
+subtitle: "Lab 1: Code-Along"
+format:
+  revealjs: 
+    slide-number: c/t
+    progress: true
+    chalkboard: 
+      buttons: false
+    preview-links: auto
+    logo: img/LASERLogoB.png
+    width: 1800
+    height: 1030
+    margin: 0.06
+    footer: <a href=https://www.go.ncsu.edu/laser-institute>go.ncsu.edu/laser-institute
+highlight-style: a11y
+editor: visual
+jupyter: python3
+---
+
+## Agenda
+
+::: columns
+::: {.column width="40%"}
+1.  Setting Up Python Environment
+
+    -   Install and Import Library
+
+2.  Importing and Subsetting Data
+
+    -   Read Data
+    -   Subset Columns
+    -   Rename Columns
+    -   Subset Rows
+
+3.  Preprocessing Data
+
+    -   Tokenize
+    -   Remove Stop Words
+    -   Lemmatize
+:::
+
+::: {.column width="60%"}
+4.  Exploring Data
+
+    -   Word Counts
+    -   Word Frequencies
+    -   Term Frequency-Inverse Document Frequency
+
+5.  Visualizing Data
+
+    -   Word Clouds
+    -   Bar Chart
+    -   Small Multiples
+:::
+:::
+
+# Setting Up Python Environment
+
+## Install and Import Library
+
+### What is a library?
+
+A library is a collection of pre-written code that adds functionality to Python, ensuring common functionalities do not need to be rewritten from scratch.
+
+## 
+
+### How to install and import library?
+
+```{python}
+#| echo: true
+
+!pip install pandas
+import pandas as pd
+```
+
+`pip` is Python's library installer and manager.
+
+-   `pip install <library_name>`: Install libraries using this command in the terminal.
+-   `!pip install <library_name>`: In Quarto Markdown (.qmd) files, add an exclamation mark (!) before `pip` to install libraries.
+-   `import <library_name>`: Load libraries into the Python environment after installation.
+-   `import <library_name> as <alias>`: Use aliases for commonly used libraries with long names.
+
+Note that **\< \>** is not part of the command, it is just used to highlight the part that you need to adapt to your data.
+
+## Necessary Libraries for Text Mining
+
+-   [pandas](https://pandas.pydata.org/): a library for data manipulation and analysis. 
+
+-   [nltk](https://www.nltk.org/): a ibrary for symbolic and statistical natural language processing for English written in the Python programming language. 
+
+-   [matplotlib](https://matplotlib.org/): a library for creating static, animated, and interactive visualizations in Python.
+
+-   [seaborn](https://seaborn.pydata.org/): a data visualization library based on matplotlib that provides a high-level interface for drawing attractive and informative statistical graphics.
+
+-   [scikit-learn](https://scikit-learn.org/stable/): a library that implements a range of machine learning, pre-processing, cross-validation, and visualization algorithms using a unified interface. 
+
+-   [gensim](https://pypi.org/project/gensim/): a library designed for natural language processing (NLP) tasks such as topic modeling, document indexing, and similarity retrieval, particularly with large text corpora.
+
+## Your Turn
+
+Install and import all the necessary libraries. Notice that `import matplotlib.pyplot` and use `plt` as its alias, and `import seaborn` and use `sns` as its alias.
+
+```{python}
+#| echo: true
+# YOUR CODE IS HERE
+
+```
+
+```{python}
+#| echo: false
+#| results: "hide"
+
+!pip install nltk matplotlib seaborn scikit-learn
+import nltk
+import matplotlib.pyplot as plt
+import seaborn as sns
+```
+
+# Importing and Subsetting Data
+
+## Read Data
+
+### How to read data into Python environment?
+
+```{python}
+#| echo: true
+
+opd_survey = pd.read_csv('data/opd_survey.csv', low_memory=False)
+opd_survey
+```
+
+-   `pd.read_csv(‘<file_path>’)`: you can use the read_csv() function from pandas to read the csv file into your Python environment.
+
+-   `=`: you can use the = to assign the data to a DataFrame and give it a name (i.e., opd_survey).
+
+### Important Terminology
+
+-   DataFrame and Series are two fundamental data structures in pandas.   
+    -   A Series is a one-dimensional labeled array capable of holding data of any type (integer, string, float, Python objects, etc.).
+
+    -   A DataFrame is a two-dimensional, size-mutable, potentially heterogeneous tabular data structure with labeled axes (rows and columns). It is similar in concept to a spreadsheet or SQL table, but with additional powerful capabilities for data manipulation and analysis.
+
+## Read Data
+
+### How to read other data file types?
+
+-   `pd.read_excel('<file_path>')`
+-   `pd.read_json('<file_path>')`
+
+## Your Turn
+
+Read the CSV file called `opd_survey_copy` within the data folder and create a DataFrame corresponding to its name.
+
+```{python}
+#| echo: true
+# YOUR CODE IS HERE
+
+```
+
+## Subset Columns
+
+### Why subset columns?
+
+-   Focus on relevant data
+-   Privacy and ethical considerations
+
+## 
+
+### How to subset columns?
+
+```{python}
+#| echo: true
+
+opd_selected = opd_survey[['Role', 'Resource', 'Q21']]
+opd_selected
+```
+
+-   `df[['<column_name1>', '<column_name2>', ...]]`: Select columns by names.
+-   `df.iloc[:, [<index1>, <index2>, ...]]`: Select columns by positional index.
+-   `df.drop(columns=['<column_name1>', '<column_name2>'])`: Drop unwanted columns.
+
+## Your Turn
+
+Select these three columns `Role`, `Resource`, `Q21` using the index approach.
+
+```{python}
+#| echo: true
+# YOUR CODE IS HERE
+
+```
+
+## Rename Columns
+
+### Why rename columns?
+
+-   Clarity and readability
+-   Consistency across datasets
+
+## 
+
+### How to rename a column?
+
+```{python}
+#| echo: true
+
+opd_renamed = opd_selected.rename(columns = {'Q21':'text'})
+opd_renamed
+```
+
+-   `df.rename(columns={'<old_name>': '<new_name>'}, inplace=True)`: Rename columns.
+-   `df.columns = ['<new_name1>', '<new_name2>', ...]`: Directly assign new column names.
+
+## Your Turn
+
+Rename the `Role` as `role` and `Resource` as `resource`.
+
+```{python}
+#| echo: true
+# YOUR CODE IS HERE
+
+```
+
+## Subset Rows
+
+### Why subset rows?
+
+-   Filtering data to meet specific conditions
+-   Exploratory analysis with small dataset portions
+-   Preparing data for modeling
+
+## 
+
+### How to subset rows?
+
+```{python}
+#| echo: true
+
+opd_sliced = opd_renamed.iloc[2:]
+opd_teacher = opd_sliced[opd_sliced['Role'] == 'Teacher']
+opd_teacher
+```
+
+-   `df.iloc[[<index1>, <index2>, ...]]`: Select rows based on integer indices.
+-   `df[df['<column>'] == <condition>]`: Select rows based on conditions.
+
+## Your Turn
+
+Subset the first 10 rows of `opd_teacher` and save it into a new DataFrame called `opd_teacher_first10`.
+
+```{python}
+#| echo: true
+# YOUR CODE IS HERE
+
+```
+
+# Preprocessing Data
+
+## Tokenize
+
+### What is tokenization and why is it needed?
+
+Tokenization is the process of breaking down a text into smaller units called tokens, which helps in preparing text for further analysis and modelling by providing a structured representation of linguistic units.
+
+### Important Terminology
+
+-   **Token**: a single, indivisible unit of text that can be considered as a meaningful component for processing
+
+    -   words, punctuation marks, numbers, and other entities that are treated as discrete elements
+
+-   **Document**: a unit of text that is being analyzed or processed as a whole
+
+    -   a single piece of text, such as an email, a news article, a research paper, etc.
+
+    -   a collection of related texts or a segment of a larger corpus
+
+-   **Corpus**: a collection of documents
+
+## Types of Tokenization
+
+-   Word Tokenization
+
+    **Example:** "Hello, world!" → \["Hello", ",", "world", "!"\]
+
+-   Sentence Tokenization
+
+    **Example:** "Hello world! How are you?" → \["Hello world!", "How are you?"\]
+
+-   Subword Tokenization
+
+    **Example:** "tokenization" →\["token", "ization"\]
+
+-   Character Tokenization
+
+    **Example:** "Hello" → \["H", "e", "l", "l", "o"\]
+
+-   N-gram Tokenization
+
+    **Example:** "Hello world" with N=2 → \["Hello world"\]
+
+## How to tokenize?
+
+-   Tokenization Module from NLTK
+
+    -   work_tokenize
+
+    -   RegexpTokenizer
+
+    -   WhitespaceTokenizer
+
+    -   …
+
+-   Tokenization Module from Spacy 
+
+-   Tokenization Module from BERT
+
+-   …
+
+How to choose the right tokenization method?
+
+-   Text Characteristics
+
+-   Task Requirements
+
+-   Performance Considerations
+
+-   …
+
+## RegexpTokenizer
+
+RegexpTokenizer uses **regular expressions** to specify the pattern for tokens, allowing you to precisely control what constitutes a token. This flexibility is particularly useful when you need to handle specific tokenization requirements, such as ignoring punctuation, extracting specific patterns like hashtags or mentions in social media texts, or working with languages that don't use whitespace to separate words.
+
+## Word Tokenizing a Single Document with RegexpTokenizer
+
+```{python}
+#| echo: true
+
+# Import RegexpTokenizer
+from nltk.tokenize import RegexpTokenizer
+
+# Define a regex pattern to match words, here the pattern = r'\w+' means alphanumeric sequences
+pattern = r'\w+'
+
+# Initiate a RegexpTokenizer
+tokenizer = RegexpTokenizer(pattern)
+
+# Example Text
+text = "This is the first document."
+
+# Tokenize the text 
+tokens = tokenizer.tokenize(text)
+
+#Display the tokens
+print(tokens)
+```
+
+## Word Tokenizing Multiple Documents with Apply & Lambda
+
+```{python}
+#| echo: true
+
+# Import RegexpTokenizer
+from nltk.tokenize import RegexpTokenizer
+
+# Define a regex pattern to match words, here the example pattern = r'\w+' meaning alphanumeric sequences
+pattern = r'\w+'
+
+# Initiate a RegexpTokenizer
+tokenizer = RegexpTokenizer(pattern)
+
+# Example Corpus
+corpus = pd.DataFrame({
+    'document_id': [1, 2, 3],
+    'text': [
+        "This is the first document.",
+        "And here's the second one with more text.",
+        "Finally, the third document completes the set."
+    ]
+})
+
+# Tokenize each document in the 'text' column
+corpus['tokens'] = corpus['text'].apply(lambda x: tokenizer.tokenize(x.lower()))
+
+# Display the DataFrame with tokenized documents
+print(corpus)
+```
+
+## Apply
+
+```{python}
+#| echo: true
+
+# Tokenize each document in the 'text' column
+corpus['tokens'] = corpus['text'].apply(lambda x: tokenizer.tokenize(x.lower()))
+
+# Display the DataFrame with token lists
+print(corpus)
+```
+
+DataFrame.apply(func, axis=0, raw=False, result_type=None, args=(), \*\*kwds)
+
+-   **func:** The function to apply to each column (axis=0) or row (axis=1).
+
+-   **axis:** Axis along which the function is applied (0 for columns, 1 for rows).
+
+-   **raw:** Whether to pass the data as ndarray (True) or Series (False).
+
+-   **result_type:** Defines whether the result should be 'expand', 'reduce', or 'broadcast'.
+
+-   \*\*args, **kwds:** Additional arguments and keywords to pass to the function.
+
+## Lambda
+
+```{python}
+#| echo: true
+
+# Tokenize each document in the 'text' column
+corpus['tokens'] = corpus['text'].apply(lambda x: tokenizer.tokenize(x.lower()))
+
+# Display the DataFrame with token lists
+print(corpus)
+```
+
+lambda arguments: expression
+
+-   **arguments:** The parameters that the lambda function accepts.
+
+**expression:** A single expression that is evaluated and returned.
+
+## Exploding Tokenized Results
+
+```{python}
+#| echo: true
+
+# Explode the 'word' column to transform each row into individual words
+corpus_exploded = corpus.explode('tokens')
+
+# Display the DataFrame with token into separate rows
+print(corpus_exploded)
+```
+
+## Your Turn
+
+Tokenize the `text` column of `opd_teacher` DataFrame and explode the tokenized results into a `word` column.
+
+```{python}
+#| echo: true
+# YOUR CODE IS HERE
+
+```
+
+## Remove Stop Words
+
+### Why remove stop words?
+
+Stop words like "and", "the", "is", "in", "to" do not carry important meaning, removing them helps reduce the noise of analysis.
+
+## 
+
+### How to remove stop words?
+
+```{python}
+#| echo: true
+
+# Import stopwords
+from nltk.corpus import stopwords
+
+# Download the NLTK data for stop words
+nltk.download('stopwords')
+
+# Get a list of English stop words
+stop_words = set(stopwords.words('english'))
+
+# Remove stop words from the tokens obtained from tokenization
+corpus['tokens'] = corpus['tokens'].apply(lambda tokens: [token for token in tokens if token not in stop_words])
+
+corpus_exploded = corpus_exploded.dropna(subset=['tokens'])
+
+# Display the DataFrame with exploded tokens and stop words removed
+print(corpus_exploded)
+
+# Display the DataFrame with token into separate rows
+print(corpus_exploded)
+```
+
+## Your Turn
+
+Remove stop words from the `word` column in the `opd_teacher` DataFrame.
+
+```{python}
+#| echo: true
+# YOUR CODE IS HERE
+
+```
+
+## Lemmatize
+
+### Why lemmatize?
+
+Lemmatization is the process of reducing a word to its base or root form, called a lemma. For example, the words "running", "runs", and "ran" are all reduced to their lemma "run". Lemmatization makes it easier to compare and analyze texts by ensuring that different forms of a word are treated as a single entity. It helps to improve the accuracy by identifying the true meaning of words and their relationships.
+
+## 
+
+### How to lemmatize?
+
+```{python}
+#| echo: true
+
+# Import WordNetLemmatizer
+from nltk.stem import WordNetLemmatizer
+
+# Ensure NLTK resources are downloaded
+nltk.download('wordnet')
+
+# Initialize the WordNetLemmatizer 
+lemmatizer = WordNetLemmatizer()
+
+# Lemmatize
+# Apply lemmatization to each token in the list of tokens
+corpus_exploded['tokens'] = corpus_exploded['tokens'].apply(lambda x: lemmatizer.lemmatize(x))
+
+# Display the resulting DataFrame
+print(corpus_exploded)
+```
+
+## Your Turn
+
+Lemmatize the `word` column and save it into a new column called `lemmatized_word` in the `opd_teacher` DataFrame.
+
+```{python}
+#| echo: true
+# YOUR CODE IS HERE
+
+```
+
+# Exploring Data
+
+## Word Counts
+
+### How to count the words?
+
+Using `value_counts()`:
+
+```{python}
+#| echo: true
+#| output-location: column
+
+word_counts = corpus_exploded['tokens'].value_counts().reset_index()
+word_counts.columns = ['word', 'count']
+print(word_counts)
+```
+
+## Your Turn
+
+Count the `word` column in the `opd_teacher` DataFrame.
+
+```{python}
+#| echo: true
+# YOUR CODE IS HERE
+
+```
+
+## Word Frequencies
+
+### What is word frequency and why is it needed?
+
+Word frequencies are the relative counts of words in a unit of texts, usually expressed as a proportion or percentage of the total number of words within the unit of texts. It normalizes the word counts, making them comparable across different texts of varying lengths.
+
+## Word Frequencies in the Whole Corpus
+
+### How to calculate it?
+
+Using `len()`:
+
+```{python}
+#| echo: true
+#| output-location: column
+
+# Calculate the total number of the words in the corpus
+total_words = len(corpus_exploded['tokens'])
+
+# Calculate the percentage
+word_counts['frequency'] = word_counts['count'] / total_words
+
+# Display the DataFrame with word frequencies
+print(word_counts)
+```
+
+## Word Frequencies in the Documents
+
+### How to calculate it?
+
+Using `size()` and `sum()` after `groupby()`:
+
+```{python}
+#| echo: true
+#| output-location: column
+
+# Group by the document and count the occurrences of each word
+word_counts_bydocument = corpus_exploded.groupby(['document_id', 'tokens']).size().reset_index(name='count')
+
+# Calculate the total number of words in each document
+total_words = word_counts_bydocument.groupby('document_id')['count'].sum().reset_index(name='total_words')
+
+# Merge occurrence of each word and total words of document into one DataFrame, then calculate the percentage
+word_counts_bydocument = pd.merge(word_counts_bydocument, total_words, on='document_id')
+
+# Calculate the frequency of each word
+word_counts_bydocument['frequency'] = word_counts_bydocument['count'] / word_counts_bydocument['total_words']
+
+# Copy the result to a new DataFrame
+word_frequencies = word_counts_bydocument.copy()
+
+# Display the DataFrame with word frequencies
+print(word_frequencies)
+```
+
+## Your Turn
+
+Calculate the word frequencies based on `resource` in the `opd_teacher` DataFrame.
+
+```{python}
+#| echo: true
+# YOUR CODE IS HERE
+
+```
+
+## Term Frequency-Inverse Document Frequency (TF-IDF)
+
+### What is TF-IDF?
+
+TF-IDF is a statistical measure that evaluates how important a word is to a document within a collection or corpus through giving higher weight to words that are frequent in a document but rare across documents.
+
+## TF-IDF
+
+### TF-IDF(t,d,D) = TF(t,d) × IDF(t,D)
+
+Where:
+
+-   t: term
+
+-   d: document
+
+-   D: corpus 
+
+-   TF(t,d) = count of t in d / number of words in d
+
+-   IDF(t,D) = log(number of d in D / number of documents containing t + 1​)\
+
+## 
+
+### How to calculate TF-IDF?
+
+Using `TfidfVectorizer` from `scikit-learn` library
+
+```{python}
+#| echo: true
+#| output-location: column
+
+# Import TfidfVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+# Initiate a TfidfVectorizer
+vectorizer = TfidfVectorizer()
+
+# Fit and transform to get TF-IDF values
+tfidf_matrix = vectorizer.fit_transform(corpus['text'])
+
+# Reorganize the result and display 
+# Extract feature names (terms) 
+feature_names = vectorizer.get_feature_names_out() 
+
+# Convert sparse matrix to DataFrame 
+tfidf_df = pd.DataFrame(tfidf_matrix.toarray(), columns=feature_names) 
+
+# Add 'document_id' column from original corpus 
+tfidf_df['document_id'] = corpus['document_id'] 
+
+# Display the TF-IDF DataFrame 
+print(tfidf_df)
+```
+
+## Your Turn
+
+Calculate the `TF-IDF` for the text in the `opd_teacher` DataFrame.
+
+```{python}
+#| echo: true
+# YOUR CODE IS HERE
+
+```
+
+# Visualizing Data
+
+## Word Clouds
+
+### What is word clouds used for?
+
+Explicitly visualize the word and its importance (counts, frequencies, tf-idf scores, etc.) that is indicated by the size of the word.
+
+## 
+
+### How to create word clouds?
+
+-   Using `WordCloud` and `generate()` if from the raw text
+
+-   Using `WordCloud` and `generate_from_frequencies` if from word counts, word frequencies, tf-idf, and other word importance metrics.
+
+## Word Clouds from Word Counts
+
+```{python}
+#| echo: true
+
+# Import WordCloud and Matplotlib
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud
+
+# Generate a word cloud with custom coloring function
+wordcloud = WordCloud(width=800, height=500, background_color='white').generate_from_frequencies(dict(zip(word_counts['word'], word_counts['count'])))
+
+# Display the word cloud using imshow()
+plt.figure(figsize=(10, 5))
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis('off')
+plt.show()
+
+# Note: plt.imshow() is used primarily to display images, including arrays of data that can represent images such as heatmaps, plots, or in this case, a word cloud generated by the WordCloud library.
+```
+
+## Your Turn
+
+Create a word cloud based on the word counts for the `opd_teacher` DataFrame.
+
+```{python}
+#| echo: true
+# YOUR CODE IS HERE
+
+```
+
+## Bar Chart
+
+### What is bar chart used for?
+
+A bar chart is a graphical representation of categorical data using rectangular bars where the lengths or heights of the bars correspond to the values they represent. It is commonly used to compare the values of different categories or to show changes over time for a single category.
+
+## Bar Chart based on Word Counts
+
+### How to create a bar chart?
+
+Using `barh()` from matplotlib
+
+```{python}
+#| echo: true
+
+# Import Matplotlib
+import matplotlib.pyplot as plt
+
+# Create a bar chart using barh()
+plt.figure(figsize=(10, 6))
+plt.barh(word_counts['word'], word_counts['count'], color='skyblue')
+plt.xlabel('Count')
+plt.ylabel('Word')
+plt.title('The Bar Chart of Word Counts')
+plt.gca().invert_yaxis()  # Invert y-axis to display words in descending order
+plt.show()
+```
+
+## Your Turn
+
+Create a bar chart that filters rows with word counts greater than 500 based on the word counts for the `opd_teacher` DataFrame.
+
+```{python}
+#| echo: true
+# YOUR CODE IS HERE
+
+```
+
+## Small Multiples
+
+### What is small multiples used for?
+
+"Small multiples" refers to a series of small, similar visualizations or charts that are displayed together, typically arranged in a grid. Each visualization in the grid shows a subset of the data or a related aspect of the data, making it easier to compare different categories or trends.
+
+## Small Multiples based on Word Frequencies
+
+### How to create small multiples?
+
+Using `catplot()` from seaborn
+
+```{python}
+#| echo: true
+
+# Import seaborn
+import seaborn as sns
+
+# Create a catplot
+plot = sns.catplot(data=word_frequencies, kind='bar', x='frequency', y = 'tokens', col='document_id', col_wrap=3)
+plot.set_titles(col_template="{col_name}", size=10)
+plt.show()
+```
+
+## Your Turn
+
+Create a small supplies that displays the top 5 words for each resources from the `opd_teacher` DataFrame.
+
+```{python}
+#| echo: true
+# YOUR CODE IS HERE
+
+```
+
+\
+\
+\
+
+\
+\
