@@ -1,0 +1,51 @@
+---
+title: "Lab 3 Readings: LLM"
+author: "LASER Institute"
+date: today
+format: html
+html:
+    toc: true
+    toc-depth: 4
+    toc-location: right
+theme:
+  light: simplex
+  dark: cyborg
+editor: visual
+#bibliography: lit/references.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+
+Our primary goal is to build a basic understanding of LLM and how it has been applied to gain insight into text data, and specifically its applications in educational contexts.
+
+## Readings
+
+##### Required
+
+1.  Xiao, Z., Yuan, X., Liao, Q. V., Abdelghani, R., & Oudeyer, P. Y. (2023, March). Supporting qualitative analysis with large language models: Combining codebook with GPT-3 for deductive coding. In *Companion proceedings of the 28th international conference on intelligent user interfaces* (pp. 75-78).
+
+2.  Xiao, Z., Yuan, X., Liao, Q. V., Abdelghani, R., & Oudeyer, P. Y. (2023, March). Supporting qualitative analysis with large language models: Combining codebook with GPT-3 for deductive coding. In *Companion proceedings of the 28th international conference on intelligent user interfaces* (pp. 75-78).
+
+3.  Gao, J., Guo, Y., Lim, G., Zhang, T., Zhang, Z., Li, T. J. J., & Perrault, S. T. (2024, May). CollabCoder: a lower-barrier, rigorous workflow for inductive collaborative qualitative analysis with large language models. In *Proceedings of the CHI Conference on Human Factors in Computing Systems* (pp. 1-29).
+
+4.  Baker, S. ChatGPT for Education Research: Exploring the Potential of Large Language Models for Qualitative Codebook Development.
+
+5.  Barany, A., Nasiar, N., Porter, C., Zambrano, A. F., Andres, A. L., Bright, D., ... & Baker, R. S. (2024, July). ChatGPT for Education Research: Exploring the Potential of Large Language Models for Qualitative Codebook Development. In *International Conference on Artificial Intelligence in Education* (pp. 134-149). Cham: Springer Nature Switzerland.
+
+6.  Tai, R. H., Bentley, L. R., Xia, X., Sitt, J. M., Fankhauser, S. C., Chicas-Mosier, A. M., & Monteith, B. G. (2024). An examination of the use of large language models to aid analysis of textual data. *International Journal of Qualitative Methods*, *23*, 16094069241231168.
+
+7.  Xiao, Z., Yuan, X., Liao, Q. V., Abdelghani, R., & Oudeyer, P. Y. (2023, March). Supporting qualitative analysis with large language models: Combining codebook with GPT-3 for deductive coding. In Companion proceedings of the 28th international conference on intelligent user interfaces (pp. 75-78).
+
+8.  Gao, J., Guo, Y., Lim, G., Zhang, T., Zhang, Z., Li, T. J. J., & Perrault, S. T. (2024, May). CollabCoder: a lower-barrier, rigorous workflow for inductive collaborative qualitative analysis with large language models. In Proceedings of the CHI Conference on Human Factors in Computing Systems (pp. 1-29).
+
+9.  Barany, A., Nasiar, N., Porter, C., Zambrano, A. F., Andres, A. L., Bright, D., ... & Baker, R. S. (2024, July). ChatGPT for Education Research: Exploring the Potential of Large Language Models for Qualitative Codebook Development. In International Conference on Artificial Intelligence in Education (pp. 134-149). Cham: Springer Nature Switzerland.
+
+10. Tai, R. H., Bentley, L. R., Xia, X., Sitt, J. M., Fankhauser, S. C., Chicas-Mosier, A. M., & Monteith, B. G. (2024). An examination of the use of large language models to aid analysis of textual data. International Journal of Qualitative Methods, 23, 16094069241231168.
+
+11. Dunivin, Z. O. (2024). Scalable Qualitative Coding with LLMs: Chain-of-Thought Reasoning Matches Human Performance in Some Hermeneutic Tasks. *arXiv preprint arXiv:2401.15170*.
+
+##### 
