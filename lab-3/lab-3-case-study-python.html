@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.54">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Assessing High School Students’ Machine Learning Literacy</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Demo_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Demo_files/libs/quarto-html/quarto.js"></script>
+<script src="Demo_files/libs/quarto-html/popper.min.js"></script>
+<script src="Demo_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Demo_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Demo_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Demo_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Demo_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Demo_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Demo_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Assessing High School Students’ Machine Learning Literacy</h1>
+<p class="subtitle lead">TM Lab 4: Case Study</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="background" class="level2">
+<h2 class="anchored" data-anchor-id="background">Background</h2>
+<p>The rapid advancement of artificial intelligence (AI) and machine learning (ML) technologies has significantly transformed various sectors, from healthcare and finance to education and entertainment. This transformation underscores the necessity of integrating machine learning literacy into educational curricula, particularly at the high school level, to prepare students for a future where AI plays a central role. Efforts have been developed to create K-12 AI and ML curricula. Meanwhile, assessing ML literacy among high school students is becoming increasingly crucial, serving as a key metric to understand how well students grasp these complex subjects.</p>
+</section>
+<section id="research-question" class="level2">
+<h2 class="anchored" data-anchor-id="research-question">Research question</h2>
+<p>What are high school students’ machine learning literacy before and after participating an AI curriculum?</p>
+</section>
+<section id="install-package" class="level2">
+<h2 class="anchored" data-anchor-id="install-package">Install package</h2>
+<p>The <strong><code>openai</code></strong> package is the official Python client for the OpenAI API, which provides access to OpenAI’s models like GPT (Generative Pre-trained Transformer). Developers use this package to integrate OpenAI’s AI models into their applications for tasks such as text classification.</p>
+<p><strong><code>backoff</code></strong> is a library that helps in adding retrying logic to Python applications. It’s particularly useful when making requests to web services that might be temporarily unavailable or overloaded. By using <strong><code>backoff</code></strong>, we can automatically retry failed requests using a variety of backoff strategies (e.g., fixed delay, exponential backoff) to gracefully handle intermittent failures and improve the robustness of our applications.</p>
+<div id="b24d34df" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!pip install openai</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#!pip install backoff</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now let’s set up a connection to OpenAI’s GPT service using the openai library.</p>
+<div id="39566931" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> openai</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> openai <span class="im">import</span> OpenAI</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>gpt_key <span class="op">=</span> <span class="st">"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"</span> <span class="co">#use your own key</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>client <span class="op">=</span> OpenAI(api_key<span class="op">=</span>gpt_key)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The following code imports the popular data manipulation library <strong><code>pandas</code></strong> under the alias <strong><code>pd</code></strong>, which is a common convention. <strong><code>pandas</code></strong> is commonly used for data analysis and manipulation tasks.</p>
+<p>Also, it imports the <strong><code>tqdm</code></strong> library and specifically imports the <strong><code>tqdm</code></strong> function from it. <strong><code>tqdm</code></strong> is used to create progress bars in Python, which are useful for tracking the progress of iterative tasks such as loops or data processing operations.</p>
+<div id="6469df96" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> backoff</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next, let’s define a function named <strong><code>completions_with_backoff</code></strong> that is decorated with the <strong><code>@backoff.on_exception</code></strong> decorator. This decorator is from the <strong><code>backoff</code></strong> library and configures a backoff strategy for retrying a function in case it raises a specified exception.</p>
+<div id="643f169c" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="at">@backoff.on_exception</span>(backoff.expo, openai.RateLimitError)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> completions_with_backoff(<span class="op">**</span>kwargs):</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''This function will automatically try the api call again if it fails.'''</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> client.chat.completions.create(<span class="op">**</span>kwargs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, let’s sets up some variables related to the OpenAI GPT model.</p>
+<div id="c91163d6" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>gpt_org <span class="op">=</span> <span class="st">"org-pF1Od41p8zEN8oeGTSxATXei"</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>gpt_host <span class="op">=</span> <span class="st">"https://api.openai.com/v1"</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>gpt_model <span class="op">=</span> <span class="st">"gpt-3.5-turbo"</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> gpt_model</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>MAX_TOKENS <span class="op">=</span> <span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="load-data" class="level2">
+<h2 class="anchored" data-anchor-id="load-data">Load data</h2>
+<p>Next, let’s read the dataset and do some initialization.</p>
+<div id="04e7d67c" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>DATA_FILENAME <span class="op">=</span> <span class="st">'ml literacy.csv'</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(DATA_FILENAME, encoding<span class="op">=</span><span class="st">'utf-8'</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>token_usage <span class="op">=</span> <span class="dv">0</span> <span class="co">#This initializes a variable token_usage to keep track of the total number of tokens used during the process.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="zero-shot" class="level2">
+<h2 class="anchored" data-anchor-id="zero-shot">Zero shot</h2>
+<p>The following loop iterates over each row in the DataFrame df using df.iterrows(). The tqdm function is used to display a progress bar for the loop.</p>
+<div id="80adecb7" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>responses <span class="op">=</span> [] <span class="co">#This initializes an empty list to store responses generated from the OpenAI GPT model.</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, row <span class="kw">in</span> tqdm(df.iterrows(), total<span class="op">=</span><span class="bu">len</span>(df)):</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    value <span class="op">=</span> <span class="bu">str</span>(row[<span class="st">'response'</span>]) <span class="co">#Retrieves the value of the 'response' column from the current row and converts it to a string.</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Constructs a prompt by combining a prefix and the 'response' value from the row.</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    prefix <span class="op">=</span> <span class="st">"Based on the student's response provided in:"</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    postfix <span class="op">=</span> <span class="st">"evaluate and return only the student's machine learning literacy level. The assessment should categorize the student into one of the following three levels: novice, intermediate, or advanced."</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    prompt <span class="op">=</span> <span class="st">' '</span>.join([prefix, value, postfix])</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Creates a list of messages containing the prompt.</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    messages <span class="op">=</span> [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: prompt}] </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Attempts to generate a completion using the completions_with_backoff function, passing the GPT model, messages, and maximum tokens as arguments.</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        completion <span class="op">=</span> completions_with_backoff(</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>            model<span class="op">=</span>model,</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>            messages<span class="op">=</span>messages,</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>            max_tokens<span class="op">=</span>MAX_TOKENS</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> openai.APIError <span class="im">as</span> e:</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">'ERROR: while getting accessing API.'</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'Failed on item </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">.'</span>)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(e)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Prompt:"</span>, prompt)</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> e</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Retrieves the response from the completion and appends it to the responses list.</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> completion.choices[<span class="dv">0</span>].message.content</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    responses.append(response)</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Updates the token_usage counter with the total tokens used in the completion.</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    token_usage <span class="op">+=</span> completion.usage.total_tokens</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Need to wait to not exceed rate limit</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    time.sleep(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  0%|          | 0/9 [00:00&lt;?, ?it/s] 11%|█         | 1/9 [00:06&lt;00:49,  6.24s/it] 22%|██▏       | 2/9 [00:12&lt;00:42,  6.08s/it] 33%|███▎      | 3/9 [00:18&lt;00:37,  6.19s/it] 44%|████▍     | 4/9 [00:24&lt;00:31,  6.23s/it] 56%|█████▌    | 5/9 [00:31&lt;00:24,  6.22s/it] 67%|██████▋   | 6/9 [00:37&lt;00:18,  6.25s/it] 78%|███████▊  | 7/9 [00:43&lt;00:12,  6.25s/it] 89%|████████▉ | 8/9 [00:50&lt;00:06,  6.31s/it]100%|██████████| 9/9 [00:56&lt;00:00,  6.40s/it]100%|██████████| 9/9 [00:56&lt;00:00,  6.29s/it]</code></pre>
+</div>
+</div>
+<p>Now, we can write text classification results in a new csv file.</p>
+<div id="8bd8a7b0" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"literacy_llm"</span>] <span class="op">=</span> responses <span class="co">#Adds a new column named 'literacy_llm' to the DataFrame df and populates it with the responses generated by the GPT model.</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#df.to_csv("modified.csv") #Writes the modified DataFrame df to a new CSV file named 'modified.csv'.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Look at the outcomes of text classification using large language models. Firstly, rather than producing concise assessments of machine learning literacy (i.e., novice, intermediate, and advanced), these models tend to generate extended narratives. Secondly, the accuracy of the results is often questionable. Lastly, there is a noticeable inconsistency, as the model yields varied outcomes upon each execution.</p>
+<p>To address these issues, we can use more advanced models as well as changing prompts. For example, we can edit the prompt as follows.</p>
+<div id="ccbdcb95" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>responses <span class="op">=</span> [] <span class="co">#This initializes an empty list to store responses generated from the OpenAI GPT model.</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, row <span class="kw">in</span> tqdm(df.iterrows(), total<span class="op">=</span><span class="bu">len</span>(df)):</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    value <span class="op">=</span> <span class="bu">str</span>(row[<span class="st">'response'</span>]) <span class="co">#Retrieves the value of the 'response' column from the current row and converts it to a string.</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Constructs a prompt by combining a prefix and the 'response' value from the row.</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    prefix <span class="op">=</span> <span class="st">"Based on the student's response provided in:"</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    postfix <span class="op">=</span> <span class="st">"evaluate and return only the student's machine learning literacy level. The assessment should categorize the student into one of the following three levels: novice, intermediate, or advanced. Do not provide any additional commentary or explanation—only specify the level."</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    prompt <span class="op">=</span> <span class="st">' '</span>.join([prefix, value, postfix])</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Creates a list of messages containing the prompt.</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    messages <span class="op">=</span> [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: prompt}] </span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Attempts to generate a completion using the completions_with_backoff function, passing the GPT model, messages, and maximum tokens as arguments.</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>        completion <span class="op">=</span> completions_with_backoff(</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>            model<span class="op">=</span>model,</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>            messages<span class="op">=</span>messages,</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>            max_tokens<span class="op">=</span>MAX_TOKENS</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> openai.APIError <span class="im">as</span> e:</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">'ERROR: while getting accessing API.'</span>)</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'Failed on item </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">.'</span>)</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(e)</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Prompt:"</span>, prompt)</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> e</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Retrieves the response from the completion and appends it to the responses list.</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> completion.choices[<span class="dv">0</span>].message.content</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    responses.append(response)</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Updates the token_usage counter with the total tokens used in the completion.</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>    token_usage <span class="op">+=</span> completion.usage.total_tokens</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Need to wait to not exceed rate limit</span></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    time.sleep(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  0%|          | 0/9 [00:00&lt;?, ?it/s] 11%|█         | 1/9 [00:05&lt;00:43,  5.50s/it] 22%|██▏       | 2/9 [00:10&lt;00:37,  5.41s/it] 33%|███▎      | 3/9 [00:16&lt;00:32,  5.40s/it] 44%|████▍     | 4/9 [00:21&lt;00:26,  5.39s/it] 56%|█████▌    | 5/9 [00:27&lt;00:21,  5.40s/it] 67%|██████▋   | 6/9 [00:32&lt;00:16,  5.43s/it] 78%|███████▊  | 7/9 [00:38&lt;00:10,  5.47s/it] 89%|████████▉ | 8/9 [00:43&lt;00:05,  5.44s/it]100%|██████████| 9/9 [00:49&lt;00:00,  5.52s/it]100%|██████████| 9/9 [00:49&lt;00:00,  5.46s/it]</code></pre>
+</div>
+</div>
+<p>Now, let’s take a look at the result.</p>
+<div id="668f6e5a" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"literacy_llm"</span>] <span class="op">=</span> responses</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The result now only contains the three levels of machine learning literacy. However, the issues of accuracy remain a challenge that needs to be addressed. To improve the accuracy of these classifications, several strategies could be implemented.</p>
+<p>First, we can provide a definition of the three levels of machine learning literacy directly within the prompt, clearly outlining the characteristics and knowledge expected at the novice, intermediate, and advanced levels. This contextual guidance can assist the model in making more informed and precise assessments by directly comparing the content of the student’s response against these definitions.</p>
+<p>Second, instead of zero-shot, we can employ few-shot learning techniques by providing the model with a few examples of text classified into each of the three levels of machine learning literacy before it makes a prediction. This approach can help the model better understand the context and criteria for each category.</p>
+<p>Third, employing a “chain of thought” prompting strategy can be beneficial. This method involves guiding the model to break down its reasoning process into intermediate steps before arriving at a final classification. By explicitly asking the model to first identify key concepts or skills demonstrated in the student’s response and then match these to the criteria defined for novice, intermediate, and advanced levels, we can enhance the model’s accuracy in determining the appropriate literacy level. This approach not only aims to improve the precision of the classification but also adds a layer of transparency to how the model reaches its conclusion.</p>
+<p>Fourth, leveraging an “assertion” approach can refine the model’s decision-making process. This involves structuring the prompt to encourage the model to make a direct assertion about the student’s machine learning literacy level based on evidence found in the response. By prompting the model to state its conclusion as an assertion and then justify it with specific examples or reasoning from the student’s text, the process becomes more focused and deliberate, potentially increasing the accuracy and reliability of the classification.</p>
+</section>
+<section id="add-definition-coding-book" class="level2">
+<h2 class="anchored" data-anchor-id="add-definition-coding-book">Add definition (coding book)</h2>
+<p>Let’s experiment with the first strategy and look at the result.</p>
+<div id="4fcb8aef" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>responses <span class="op">=</span> [] <span class="co">#This initializes an empty list to store responses generated from the OpenAI GPT model.</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, row <span class="kw">in</span> tqdm(df.iterrows(), total<span class="op">=</span><span class="bu">len</span>(df)):</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    value <span class="op">=</span> <span class="bu">str</span>(row[<span class="st">'response'</span>]) <span class="co">#Retrieves the value of the 'response' column from the current row and converts it to a string.</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Constructs a prompt by combining a prefix and the 'response' value from the row.</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    prefix <span class="op">=</span> <span class="st">"Based on the student's response provided in:"</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    postfix <span class="op">=</span> <span class="st">"evaluate and return only the student's machine learning literacy level. The assessment should categorize the student into one of the following three levels: novice, intermediate, or advanced. Consider the following definitions for each level to guide your assessment: Novice: The student tends to oversimplify or inaccurately describe machine learning concepts, indicating a lack of depth in their understanding. Intermediate: The student demonstrates a foundational understanding of machine learning operations, showing they grasp the basics but may not delve into complexities; Advanced: The student exhibits a thorough and detailed knowledge of machine learning processes, reflecting a deep understanding that spans beyond foundational concepts. Do not provide any additional commentary or explanation—only specify the level."</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    prompt <span class="op">=</span> <span class="st">' '</span>.join([prefix, value, postfix])</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Creates a list of messages containing the prompt.</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    messages <span class="op">=</span> [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: prompt}] </span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Attempts to generate a completion using the completions_with_backoff function, passing the GPT model, messages, and maximum tokens as arguments.</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>        completion <span class="op">=</span> completions_with_backoff(</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>            model<span class="op">=</span>model,</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>            messages<span class="op">=</span>messages,</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>            max_tokens<span class="op">=</span>MAX_TOKENS</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> openai.APIError <span class="im">as</span> e:</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">'ERROR: while getting accessing API.'</span>)</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'Failed on item </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">.'</span>)</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(e)</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Prompt:"</span>, prompt)</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> e</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Retrieves the response from the completion and appends it to the responses list.</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> completion.choices[<span class="dv">0</span>].message.content</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    responses.append(response)</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Updates the token_usage counter with the total tokens used in the completion.</span></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>    token_usage <span class="op">+=</span> completion.usage.total_tokens</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Need to wait to not exceed rate limit</span></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>    time.sleep(<span class="dv">5</span>)</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"literacy_llm_definition"</span>] <span class="op">=</span> responses</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  0%|          | 0/9 [00:00&lt;?, ?it/s] 11%|█         | 1/9 [00:05&lt;00:44,  5.61s/it] 22%|██▏       | 2/9 [00:11&lt;00:38,  5.55s/it] 33%|███▎      | 3/9 [00:16&lt;00:32,  5.46s/it] 44%|████▍     | 4/9 [00:21&lt;00:26,  5.38s/it] 56%|█████▌    | 5/9 [00:27&lt;00:21,  5.37s/it] 67%|██████▋   | 6/9 [00:32&lt;00:16,  5.43s/it] 78%|███████▊  | 7/9 [00:38&lt;00:10,  5.45s/it] 89%|████████▉ | 8/9 [00:43&lt;00:05,  5.43s/it]100%|██████████| 9/9 [00:49&lt;00:00,  5.48s/it]100%|██████████| 9/9 [00:49&lt;00:00,  5.46s/it]</code></pre>
+</div>
+</div>
+</section>
+<section id="one-shot-and-chain-of-thought" class="level2">
+<h2 class="anchored" data-anchor-id="one-shot-and-chain-of-thought">One shot and chain of thought</h2>
+<p>Adding definition does not result in better accuracy. This could be due to several factors, including the model’s inherent limitations in interpreting and applying nuanced definitions to varied responses, or the possibility that the definitions themselves are not distinct enough for the model to differentiate clearly between levels. Let’s experiment with the second and third strategy and look at the result.</p>
+<div id="f2491204" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>responses <span class="op">=</span> [] <span class="co">#This initializes an empty list to store responses generated from the OpenAI GPT model.</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, row <span class="kw">in</span> tqdm(df.iterrows(), total<span class="op">=</span><span class="bu">len</span>(df)):</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    value <span class="op">=</span> <span class="bu">str</span>(row[<span class="st">'response'</span>]) <span class="co">#Retrieves the value of the 'response' column from the current row and converts it to a string.</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Constructs a prompt by combining a prefix and the 'response' value from the row.</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    prefix <span class="op">=</span> <span class="st">"Based on the student's response provided in:"</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Define the base instructions</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    instructions <span class="op">=</span> (</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Evaluate and return only the student's machine learning literacy level. "</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"The assessment should categorize the student into one of the following three levels: "</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"novice, intermediate, or advanced."</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Define the example and chain of thought for novice level</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    novice_example <span class="op">=</span> (</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Novice: 'Machine learning is kind of intelligence where computers learn on their own.'"</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    chain_of_thought <span class="op">=</span> (</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Chain of Thought: In this example, the student's description of machine learning "</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">"focuses on a broad, generalized understanding without delving into specifics about how "</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"machine learning algorithms work or are applied. The emphasis on 'intelligence' and "</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">"'learning on their own' suggests a lack of detailed knowledge about the processes and "</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>        <span class="st">"techniques involved in machine learning, which is characteristic of a novice level of understanding."</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Define the reminder</span></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>    reminder <span class="op">=</span> (</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Remember, your task is to specify the literacy level as either "</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>        <span class="st">"novice, intermediate, or advanced without adding any additional commentary or explanation."</span></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Combine all parts into the final postfix message</span></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>    postfix <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>instructions<span class="sc">}</span><span class="ss"> To guide your evaluation, consider the following example and the associated chain of thought process: </span><span class="sc">{</span>novice_example<span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>chain_of_thought<span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>reminder<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>    prompt <span class="op">=</span> <span class="st">' '</span>.join([prefix, value, postfix])</span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Creates a list of messages containing the prompt.</span></span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>    messages <span class="op">=</span> [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: prompt}] </span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Attempts to generate a completion using the completions_with_backoff function, passing the GPT model, messages, and maximum tokens as arguments.</span></span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>        completion <span class="op">=</span> completions_with_backoff(</span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>            model<span class="op">=</span>model,</span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>            messages<span class="op">=</span>messages,</span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a>            max_tokens<span class="op">=</span>MAX_TOKENS</span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> openai.APIError <span class="im">as</span> e:</span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">'ERROR: while getting accessing API.'</span>)</span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'Failed on item </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">.'</span>)</span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(e)</span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Prompt:"</span>, prompt)</span>
+<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> e</span>
+<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Retrieves the response from the completion and appends it to the responses list.</span></span>
+<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> completion.choices[<span class="dv">0</span>].message.content</span>
+<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a>    responses.append(response)</span>
+<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Updates the token_usage counter with the total tokens used in the completion.</span></span>
+<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a>    token_usage <span class="op">+=</span> completion.usage.total_tokens</span>
+<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Need to wait to not exceed rate limit</span></span>
+<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a>    time.sleep(<span class="dv">5</span>)</span>
+<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"literacy_llm_oneshotcot"</span>] <span class="op">=</span> responses</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  0%|          | 0/9 [00:00&lt;?, ?it/s] 11%|█         | 1/9 [00:05&lt;00:45,  5.72s/it] 22%|██▏       | 2/9 [00:11&lt;00:39,  5.67s/it] 33%|███▎      | 3/9 [00:16&lt;00:33,  5.62s/it] 44%|████▍     | 4/9 [00:22&lt;00:27,  5.52s/it] 56%|█████▌    | 5/9 [00:27&lt;00:22,  5.52s/it] 67%|██████▋   | 6/9 [00:33&lt;00:16,  5.47s/it] 78%|███████▊  | 7/9 [00:38&lt;00:11,  5.50s/it] 89%|████████▉ | 8/9 [00:44&lt;00:05,  5.50s/it]100%|██████████| 9/9 [00:49&lt;00:00,  5.46s/it]100%|██████████| 9/9 [00:49&lt;00:00,  5.51s/it]</code></pre>
+</div>
+</div>
+<p>It’s working a bit better. You can see that the prompt becomes longer. Long prompts can provide more detailed guidance, enhancing the model’s understanding of the task and potentially improving accuracy. However, they also pose challenges such as increased processing time and the risk of overwhelming the model with too much information, which might detract from its ability to focus on the core aspects of the task. To balance detail with efficiency, it’s crucial to ensure that every part of the prompt is directly relevant and structured to lead the model toward the desired outcome without unnecessary complexity.</p>
+</section>
+<section id="good-practices-for-effective-prompt-engineering" class="level2">
+<h2 class="anchored" data-anchor-id="good-practices-for-effective-prompt-engineering">Good practices for effective prompt engineering</h2>
+<p>Effective prompt engineering is a nuanced art that involves crafting inputs to guide machine learning models, particularly large language models (LLMs), to produce desired outputs with greater accuracy. Here are key practices to consider for successful prompt engineering:</p>
+<ol type="1">
+<li><p><strong>Clarity and Precision</strong>: Ensure your prompts are clear and unambiguous. Use precise language to reduce the model’s likelihood of misinterpretation. This involves directly stating what you want the model to do, possibly including the format or structure of the desired response.</p></li>
+<li><p><strong>Contextual Guidance</strong>: Incorporate enough context to guide the model’s response without overwhelming it with information. Context helps the model understand the task better but too much can lead to decreased performance or irrelevant details in the output.</p></li>
+<li><p><strong>Simplicity and Brevity</strong>: While detail is important, efficiency in communication should not be overlooked. Aim for the sweet spot where the prompt is brief yet comprehensive enough to guide the model effectively. Avoid unnecessary complexity that could confuse both the model and the reader.</p></li>
+<li><p><strong>Use of Examples</strong>: Including examples within your prompt can significantly improve model performance, especially for tasks that might be open to interpretation. Examples act as direct guidance, showing the model exactly what is expected.</p></li>
+<li><p><strong>Adaptation and Iteration</strong>: Not all prompts work well on the first try. Be prepared to adapt and iterate your prompts based on the outputs you receive. This might mean refining your language, adding more context, or simplifying the request.</p></li>
+<li><p><strong>Understanding Model Capabilities</strong>: Tailor your prompts according to the specific strengths and weaknesses of the model you are using. Different models may perform better with different types of prompts based on their training data and architecture.</p></li>
+<li><p><strong>Ethical Considerations</strong>: Ensure your prompts do not inadvertently guide the model to generate harmful, biased, or sensitive content. Being mindful of the ethical implications of your prompts is crucial for responsible AI use.</p></li>
+<li><p><strong>Feedback Loops</strong>: Incorporate mechanisms for feedback on the model’s outputs. This can involve human review or automated checks to refine prompts further based on performance.</p></li>
+<li><p><strong>Chain of Thought Prompting</strong>: For complex tasks, guiding the model through a chain of thought can help break down the problem into manageable parts, leading to more accurate and logical outputs.</p></li>
+<li><p><strong>Experimentation</strong>: Finally, effective prompt engineering often involves a degree of experimentation. Testing different prompt styles and structures can help identify what works best for your specific task and model.</p></li>
+</ol>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
