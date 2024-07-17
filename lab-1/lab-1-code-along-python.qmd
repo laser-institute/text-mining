@@ -8,11 +8,10 @@ format:
     chalkboard: 
       buttons: false
     preview-links: auto
-    theme: [default, css/laser.scss]
     logo: img/LASERLogoB.png
-    width: 1920
-    height: 1080
-    margin: 0.05
+    width: 1800
+    height: 1030
+    margin: 0.06
     footer: <a href=https://www.go.ncsu.edu/laser-institute>go.ncsu.edu/laser-institute
 highlight-style: a11y
 editor: visual
@@ -108,7 +107,7 @@ Install and import all the necessary libraries. Notice that `import matplotlib.p
 
 ```
 
-```{python echo=false, results='hide'}
+```{python}
 #| echo: false
 #| results: "hide"
 
@@ -346,7 +345,7 @@ pattern = r'\w+'
 tokenizer = RegexpTokenizer(pattern)
 
 # Example Text
-text = "Information is relevant and easily accessable."  
+text = "This is the first document."
 
 # Tokenize the text 
 tokens = tokenizer.tokenize(text)
@@ -373,9 +372,9 @@ tokenizer = RegexpTokenizer(pattern)
 corpus = pd.DataFrame({
     'document_id': [1, 2, 3],
     'text': [
-        "Information about how to develop curricula is usefull",
-        "Information of curriculum developing is relevant and accessible.",
-        "Information is of accessibility and affordability."
+        "This is the first document.",
+        "And here's the second one with more text.",
+        "Finally, the third document completes the set."
     ]
 })
 
@@ -425,7 +424,8 @@ print(corpus)
 lambda arguments: expression
 
 -   **arguments:** The parameters that the lambda function accepts.
--   **expression:** A single expression that is evaluated and returned.
+
+**expression:** A single expression that is evaluated and returned.
 
 ## Exploding Tokenized Results
 
@@ -472,10 +472,15 @@ nltk.download('stopwords')
 stop_words = set(stopwords.words('english'))
 
 # Remove stop words from the tokens obtained from tokenization
-corpus_clean = corpus_exploded[~corpus_exploded['tokens'].isin(stop_words)]
+corpus['tokens'] = corpus['tokens'].apply(lambda tokens: [token for token in tokens if token not in stop_words])
+
+corpus_exploded = corpus_exploded.dropna(subset=['tokens'])
 
 # Display the DataFrame with exploded tokens and stop words removed
-print(corpus_clean)
+print(corpus_exploded)
+
+# Display the DataFrame with token into separate rows
+print(corpus_exploded)
 ```
 
 ## Your Turn
@@ -512,10 +517,10 @@ lemmatizer = WordNetLemmatizer()
 
 # Lemmatize
 # Apply lemmatization to each token in the list of tokens
-corpus_clean['lemmatized_tokens'] = corpus_clean['tokens'].apply(lambda x: lemmatizer.lemmatize(x))
+corpus_exploded['tokens'] = corpus_exploded['tokens'].apply(lambda x: lemmatizer.lemmatize(x))
 
 # Display the resulting DataFrame
-print(corpus_clean)
+print(corpus_exploded)
 ```
 
 ## Your Turn
@@ -540,7 +545,7 @@ Using `value_counts()`:
 #| echo: true
 #| output-location: column
 
-word_counts = corpus_clean['tokens'].value_counts().reset_index()
+word_counts = corpus_exploded['tokens'].value_counts().reset_index()
 word_counts.columns = ['word', 'count']
 print(word_counts)
 ```
@@ -592,7 +597,7 @@ Using `size()` and `sum()` after `groupby()`:
 #| output-location: column
 
 # Group by the document and count the occurrences of each word
-word_counts_bydocument = corpus_clean.groupby(['document_id', 'tokens']).size().reset_index(name='count')
+word_counts_bydocument = corpus_exploded.groupby(['document_id', 'tokens']).size().reset_index(name='count')
 
 # Calculate the total number of words in each document
 total_words = word_counts_bydocument.groupby('document_id')['count'].sum().reset_index(name='total_words')
@@ -705,7 +710,6 @@ Explicitly visualize the word and its importance (counts, frequencies, tf-idf sc
 
 ```{python}
 #| echo: true
-#| output-location: column
 
 # Import WordCloud and Matplotlib
 import matplotlib.pyplot as plt
@@ -747,7 +751,6 @@ Using `barh()` from matplotlib
 
 ```{python}
 #| echo: true
-#| output-location: column
 
 # Import Matplotlib
 import matplotlib.pyplot as plt

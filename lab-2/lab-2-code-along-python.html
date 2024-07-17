@@ -8,7 +8,7 @@
 <link href="lab-2-code-along-python_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="lab-2-code-along-python_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="lab-2-code-along-python_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.4.553">
+  <meta name="generator" content="quarto-1.5.54">
 
   <title>Sentiment Analysis with Python</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -41,7 +41,7 @@
     }
     @media print {
     pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
     }
     pre.numberSource code
       { counter-reset: source-line 0; }
@@ -470,30 +470,33 @@
 </section>
 <section id="get-sentiment-values" class="slide level2">
 <h2>Get Sentiment Values</h2>
-<div id="d962e4ec" class="cell" data-execution_count="1">
+<div id="da22e8a8" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-stdout">
-<pre><code>Requirement already satisfied: nltk in /opt/anaconda3/lib/python3.11/site-packages (3.8.1)
-Requirement already satisfied: matplotlib in /opt/anaconda3/lib/python3.11/site-packages (3.8.0)
-Requirement already satisfied: click in /opt/anaconda3/lib/python3.11/site-packages (from nltk) (8.1.7)
-Requirement already satisfied: joblib in /opt/anaconda3/lib/python3.11/site-packages (from nltk) (1.2.0)
-Requirement already satisfied: regex&gt;=2021.8.3 in /opt/anaconda3/lib/python3.11/site-packages (from nltk) (2023.10.3)
-Requirement already satisfied: tqdm in /opt/anaconda3/lib/python3.11/site-packages (from nltk) (4.65.0)
-Requirement already satisfied: contourpy&gt;=1.0.1 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (1.2.0)
-Requirement already satisfied: cycler&gt;=0.10 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (0.11.0)
-Requirement already satisfied: fonttools&gt;=4.22.0 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (4.25.0)
-Requirement already satisfied: kiwisolver&gt;=1.0.1 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (1.4.4)
-Requirement already satisfied: numpy&lt;2,&gt;=1.21 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (1.26.4)
-Requirement already satisfied: packaging&gt;=20.0 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (23.1)
-Requirement already satisfied: pillow&gt;=6.2.0 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (10.2.0)
-Requirement already satisfied: pyparsing&gt;=2.3.1 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (3.0.9)
-Requirement already satisfied: python-dateutil&gt;=2.7 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (2.8.2)
-Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site-packages (from python-dateutil&gt;=2.7-&gt;matplotlib) (1.16.0)</code></pre>
+<pre><code>Requirement already satisfied: nltk in /cloud/project/r-reticulate/lib/python3.11/site-packages (3.8.1)
+Requirement already satisfied: matplotlib in /cloud/project/r-reticulate/lib/python3.11/site-packages (3.9.0)
+Requirement already satisfied: click in /cloud/project/r-reticulate/lib/python3.11/site-packages (from nltk) (8.1.7)
+Requirement already satisfied: joblib in /cloud/project/r-reticulate/lib/python3.11/site-packages (from nltk) (1.4.2)
+Requirement already satisfied: regex&gt;=2021.8.3 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from nltk) (2024.5.15)
+Requirement already satisfied: tqdm in /cloud/project/r-reticulate/lib/python3.11/site-packages (from nltk) (4.66.2)
+Requirement already satisfied: contourpy&gt;=1.0.1 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (1.2.1)
+Requirement already satisfied: cycler&gt;=0.10 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (0.12.1)
+Requirement already satisfied: fonttools&gt;=4.22.0 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (4.53.0)
+Requirement already satisfied: kiwisolver&gt;=1.3.1 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (1.4.5)
+Requirement already satisfied: numpy&gt;=1.23 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (1.26.4)
+Requirement already satisfied: packaging&gt;=20.0 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (24.0)
+Requirement already satisfied: pillow&gt;=8 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (10.3.0)
+Requirement already satisfied: pyparsing&gt;=2.3.1 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (3.1.2)
+Requirement already satisfied: python-dateutil&gt;=2.7 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (2.9.0.post0)
+Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from python-dateutil&gt;=2.7-&gt;matplotlib) (1.16.0)
+
+[notice] A new release of pip is available: 24.0 -&gt; 24.1.2
+[notice] To update, run: pip install --upgrade pip</code></pre>
 </div>
 </div>
 </section>
 <section id="get-sentiment-values-1" class="slide level2">
 <h2>Get Sentiment Values</h2>
-<div id="6f72afed" class="cell" data-execution_count="2">
+<div id="227b1edc" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a><span class="co"># Import SentimentIntensityAnalyzer</span></span>
 <span id="cb2-2"><a href=""></a><span class="im">from</span> nltk.sentiment.vader <span class="im">import</span> SentimentIntensityAnalyzer</span>
 <span id="cb2-3"><a href=""></a></span>
@@ -518,14 +521,14 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <section id="your-turn" class="slide level2">
 <h2>Your Turn</h2>
 <p>Replace the text with what you are interested, and use VADER to get the sentiment value.</p>
-<div id="20444784" class="cell" data-execution_count="3">
+<div id="d0613d22" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="sentiment-over-time" class="slide level2">
 <h2>Sentiment Over Time</h2>
 <h3 id="how-to-display-the-sentiment-over-time">How to display the sentiment over time?</h3>
-<div id="02436416" class="cell columns column-output-location" data-execution_count="4">
+<div id="9f2bce7d" class="cell columns column-output-location" data-execution_count="4">
 <div class="column">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a><span class="co"># Import needed libraries</span></span>
 <span id="cb5-2"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -575,17 +578,16 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lab-2-code-along-python_files/figure-revealjs/cell-5-output-1.png" width="949" height="565"></p>
+<p><img data-src="lab-2-code-along-python_files/figure-revealjs/cell-5-output-1.png" width="950" height="566"></p>
 </figure>
 </div>
 </div>
-</div>
-</div>
+</div></div>
 </section>
 <section id="your-turn-1" class="slide level2">
 <h2>Your Turn</h2>
 <p>Instead of sentiment over days, display sentiment over month.</p>
-<div id="107c4d00" class="cell" data-execution_count="5">
+<div id="7c92a181" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br>
@@ -845,18 +847,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
         }
         return false;
       }
-      const clipboard = new window.ClipboardJS('.code-copy-button', {
-        text: function(trigger) {
-          const codeEl = trigger.previousElementSibling.cloneNode(true);
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
-            }
-          }
-          return codeEl.innerText;
-        }
-      });
-      clipboard.on('success', function(e) {
+      const onCopySuccess = function(e) {
         // button target
         const button = e.trigger;
         // don't keep focus
@@ -888,7 +879,29 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
         }, 1000);
         // clear code selection
         e.clearSelection();
+      }
+      const getTextToCopy = function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+        text: getTextToCopy
       });
+      clipboard.on('success', onCopySuccess);
+      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+        // For code content inside modals, clipBoardJS needs to be initialized with a container option
+        // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+          text: getTextToCopy,
+          container: window.document.getElementById('quarto-embedded-source-code-modal')
+        });
+        clipboardModal.on('success', onCopySuccess);
+      }
         var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
         var mailtoRegex = new RegExp(/^mailto:/);
           var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -896,7 +909,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
             return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
         }
         // Inspect non-navigation links and adorn them if external
-     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
         for (var i=0; i<links.length; i++) {
           const link = links[i];
           if (!isInternal(link.href)) {

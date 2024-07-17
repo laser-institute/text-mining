@@ -8,7 +8,7 @@ editor: visual
 jupyter: python3
 ---
 
-## INTRODUCTION
+## 0. INTRODUCTION
 
 In this case study, we'll **"walk through"** a basic research workflow, or data analysis process, modeled after the Data-Intensive Research Workflow from *Learning Analytics Goes to School* (Krumm et al., 2018):
 
@@ -28,7 +28,7 @@ Our focus will be on getting our text "tidy" so we can perform some basic word c
 
 ------------------------------------------------------------------------
 
-## PREPARE
+## 1. PREPARE
 
 Prior to analysis, it's critical to understand the context and data sources available so you can formulate useful questions that can be feasibly addressed by your data. For this section, we'll focus on the following topics:
 
@@ -36,7 +36,7 @@ a.  **Context**. We learn a little bit about the North Carolina Race to the Top 
 b.  **Questions.** What aspects of online professional development offerings do teachers find most valuable?
 c.  **Project Setup.** We visit Chapter 6 from DSIEUR to set up a Project in RStudio and Python script for analysis.
 
-### a. Some Context
+### 1a. Some Context
 
 #### RTT Online Professional Development Evaluation
 
@@ -64,7 +64,7 @@ A common theme from focus groups and open-ended survey responses was the conveni
 
 While the majority of educators have indicated their satisfaction with these resources, the findings suggest that the use of these resources at both the state and local level was not wholly consistent with national standards for online professional development. Many LEAs likely needed additional guidance, training, support, technology tools, and/or content resources to ensure that local efforts contribute to the quality of the experiences for educators and that the vision for online professional development outlined in the state's RttT proposal is realized and can be sustained beyond RttT.
 
-### b. Guiding Questions
+### 1b. Guiding Questions
 
 The State's progress on designing and implementing online professional development was originally guided by the following (very) general evaluation questions:
 
@@ -82,7 +82,7 @@ Finally, one overarching question we'll explore throughout this lab, and that Si
 
 > How do we to **quantify** what a document or collection of documents is about?
 
-### c. Set Up
+### 1c. Set Up
 
 Python has a series of powerful libraries or packages that provide a range of functions, making it easier to implement complex tasks and saving a lot of time. Before wrangling data, we need to install and import the necessary libraries, in this case, `pandas` and `nltk`, and for others, we can install later when needed. This can be done using `!pip install package_name` to install a library and `import package_name as alias`.
 
@@ -106,7 +106,7 @@ import nltk
 
 ------------------------------------------------------------------------
 
-## WRANGLE
+## 2. WRANGLE
 
 In general, data wrangling involves some combination of cleaning, reshaping, transforming, and merging data (Wickham & Grolemund, 2017). The importance of data wrangling is difficult to overstate, as it involves the initial steps of going from raw data to a dataset that can be explored and modeled (Krumm et al, 2018).
 
@@ -114,7 +114,7 @@ a.  **Reading Data**. Before working with data, we need to "read" it into Python
 b.  **Data Reduction**. We focus on tools from the `pandas` library to view, rename, select, slice, and filter our data in preparation for analysis.
 c.  **Natural Language Toolkit (NLTK)**. We'll learn how to use the `nltk` library to tokenize our text in order to create a data frame to use for analysis.
 
-### a. Read, View, Write Data: **Reading Text Files**
+### 2a. Read, View, Write Data: **Reading Text Files**
 
 To read text from a file, we can use the built-in `open()` function and various file reading methods, such as `read()`, `readline()`, or `readlines()`.
 
@@ -171,7 +171,7 @@ print("\nColumn names:")
 print(opd_survey.columns)
 ```
 
-### **b. Writing to Text Files**
+### **2b. Writing to Text Files**
 
 To write text to a file, use the `open()` function with the appropriate mode ('w' for write, 'a' for append) and then write the content using methods like `write()`.
 
@@ -185,7 +185,7 @@ opd_survey.to_csv("data/opd_survey_copy.csv", index=False)
 print(f"DataFrame has been written to opd_survey_copy.csv")
 ```
 
-### c. Subset Columns
+### 2c. Subset Columns
 
 To begin, let's select Role, Resources (named as Resource...6 in the data frame), and Q21 columns and store as new data frame since those respectively pertain to educator role, OPD resource they are evaluating, and, as illustrated by the second row,
 
@@ -201,7 +201,7 @@ print(opd_survey.head())
 opd_selected = opd_survey.copy()
 ```
 
-### d. Rename Columns
+### 2d. Rename Columns
 
 Notice that Q21 is not a terribly informative variable name. Let's now take our `opd_selected` data frame and use the `rename()` function to change the name from Q21 to "text" and save it as `opd_renamed`.
 
@@ -218,7 +218,7 @@ This code will rename the 'Q21' column to 'text' in the DataFrame. The `inplace=
 
 After running this code, you will see the updated DataFrame with the column name changed to 'text'.
 
-### e. Subset Rows
+### 2e. Subset Rows
 
 Now let's deal with the legacy rows that Qualtrics outputs by default, which are effectively 3 sets of headers. The `opd_renamed.iloc[2:]` line is used to select all rows starting from the third row (index 2) onward, effectively removing the first two rows from the DataFrame.
 
@@ -289,7 +289,7 @@ opd_teacher = opd_complete[opd_complete['Role'] == 'Teacher'].copy()
 print(opd_teacher.head())
 ```
 
-### **f. Tokenization**
+### **2f. Tokenization**
 
 Tokenization involves breaking text into individual units, such as words or sentences. The `nltk` library provides powerful tools for tokenization.
 
@@ -376,7 +376,7 @@ print(opd_tidy.head())
 opd_clean = opd_tidy.copy()
 ```
 
-This code uses the `stopwords.words('english')` to get a list of English stop words and then removes these stop words from the 'word' column.
+This code uses the **`stopwords.words('english')`** to get a list of English stop words and then removes these stop words from the 'word' column.
 
 #### Comprehension Check
 
@@ -385,7 +385,7 @@ This code uses the `stopwords.words('english')` to get a list of English stop wo
 3.  How would you rewrite the code in the Subset Rows section if you were interested in looking at School Executive responses instead of teachers?
 4.  Rewrite the piped code in the Code Reduction section to prepare a data frame for tidying that includes all Roles, not just teachers, but excludes the Resource column. Assign it to `opd_benefits` for later use.
 
-## EXPLORE
+## 3. EXPLORE
 
 As highlighted in both DSEIUR and Learning Analytics Goes to School, calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. One goal in this phase is explore questions that drove the original analysis and develop new questions and hypotheses to test in later stages. In Section 6, we will calculate some very basic summary statistics from our tidied text, explore key words of interest to gather additional context, and use data visualization to identify patterns and trends that may not be obvious from our tables and numerical summaries. Topics addressed in Section 6 include:
 
@@ -393,7 +393,7 @@ As highlighted in both DSEIUR and Learning Analytics Goes to School, calculating
 -   **Word Search**. We learn about the global regular expression parser to search for key words among our data set.
 -   **Data Visualization**. Finally, we wrap up this walkthrough by creating wordclouds, bar plots, and small multiple charts to explore patterns and trends that would be difficult to distinguish otherwise.
 
-### a. Summary Stats
+### 3a. Summary Stats
 
 Prior to making any data visualization, we revisit our or overarching question guiding most of our efforts in this lab, "How do we **quantify** what a text is about?"
 
@@ -524,7 +524,7 @@ To make the TF-IDF DataFrame easy to read, let's display the individual words in
 5.  Calculate word counts, frequencies, and tf-idf for your `opd_benefits` data frame. For frequencies and tf-idf, group by Role instead of Resource.
 6.  What differences, if any, do you notice between teachers and other roles?
 
-### b. Word Search
+### 3b. Word Search
 
 A quick word count actually resulted in findings fairly consistent with some of the qualitative findings reported, but also lacked some nuance, unsurprisingly, and left some questions about what some of the more frequent words were in reference to.
 
@@ -563,7 +563,7 @@ sampled_opd_quotes = opd_quotes.sample(n=20, random_state=1)
 print(sampled_opd_quotes)
 ```
 
-### c. Data Visualization
+### 3c. Data Visualization
 
 #### Word Clouds
 
@@ -649,7 +649,7 @@ plt.show()
 
 1.  Create a word cloud, bar chart, and/or small multiple using your `opd_benefits` data.
 
-## MODEL
+## 4. MODEL
 
 As highlighted in [Chapter 3 of Data Science in Education Using R](https://datascienceineducation.com/c03.html), the **Model** step of the data science process entails "using statistical models, from simple to complex, to understand trends and patterns in the data." The authors note that while descriptive statistics and data visualization during the **Explore** step can help us to identify patterns and relationships in our data, statistical models can be used to help us determine if relationships, patterns and trends are actually meaningful.
 
@@ -659,7 +659,7 @@ We will explore the use of models for text mining in future labs, but if you are
 
 Finally, if you have not already done so, I ask that at minimum you read Chapter 3 of DSIEUR as well as the section on the Data-Intensive Research Workflow from Chapter 2 of Learning Analytics Goes to school.
 
-## COMMUNICATE
+## 5. COMMUNICATE
 
 The final(ish) step in our workflow/process is sharing the results of analysis with wider audience. Krumm et al. (2018) have outline the following 3-step process for communicating with education stakeholders what you have learned through analysis:
 
@@ -671,7 +671,7 @@ In this particular walkthrough, our target audience is developers of online prof
 
 For summative evaluation, typically at the end of a school year or grant period when the emphasis is on assessing program outcomes and impact, our audience would extend to those less familiar with the program but with a vested interest in program's success, such as the NC State Board of Education or those directly impacted by the program including NC educators is general. In that case, our data product would need to include much more narrative to provide context and greater detail in charts and graphs in order to help interpret the data presented.
 
-### a. Select
+### 5a. Select
 
 #### **Analyses**
 
@@ -696,7 +696,7 @@ In terms of "data products" and form, and because this is a simple demonstration
 
 We'll be using [Quarto Markdown](https://quarto.org/docs/get-started/hello/vscode.html#:~:text=qmd%20files%20contain%20a%20combination,you%20see%20on%20the%20right.) to create a slide deck or short report that documents our independent analysis. Quarto Markdown files can also be used to create a wide range of outputs and formats, including polished PDF or Word documents, websites, web apps, journal articles, online books, interactive tutorials and more.
 
-### b. Polish
+### 5b. Polish
 
 #### Word Cloud
 

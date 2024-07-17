@@ -1,0 +1,162 @@
+---
+title: "Lab 1 Badge: Text Mining Basics"
+author: "Dr. Shiyan Jiang"
+format: html
+editor: visual
+jupyter: python3
+---
+
+![](img/tmb.png)
+
+The final activity for each learning lab provides space to work with data and to reflect on how the concepts and techniques introduced in each lab might apply to your own research.
+
+To earn a badge for each lab, you are required to respond to a set of prompts for two parts: 
+
+-   In Part I, you will reflect on your understanding of key concepts and begin to think about potential next steps for your own study.
+
+-   In Part II, you will create a simple data product in R that demonstrates your ability to apply a data analysis technique introduced in this learning lab.
+
+### Part I: Reflect and Plan
+
+Use the institutional library (e.g. [NCSU Library](https://www.lib.ncsu.edu/#articles)), [Google Scholar](https://scholar.google.com/) or search engine to locate a research article, presentation, or resource that applies text mining to an educational context or topic of interest. More specifically, **locate a text mining study that visualize text data.**
+
+1.  Provide an APA citation for your selected study.
+
+    -   
+
+2.  How does the visualization address research questions?
+
+    -   
+
+Draft a research question for a population you may be interested in studying, or that would be of interest to educational researchers, and that would require the collection of text data and answer the following questions:
+
+1.  What text data would need to be collected?
+
+    -   
+
+2.  For what reason would text data need to be collected in order to address this question?
+
+    -   
+
+3.  Explain the analytical level at which these text data would need to be collected and analyzed.
+
+    -   
+
+### Part II: Data Product
+
+Use your case study file to create a new word cloud that does not include words that would give you important information about teachers' experiences with professional development. (For example, we did not include "University" in the word cloud describing where scholar came from as it occurs everywhere).
+
+I highly recommend creating a new Python script in your lab-1 folder to complete this task. When your code is ready to share, use the code chunk below to share the final code for your model and answer the questions that follow.
+
+```{python, my-data-product}
+# YOUR FINAL CODE HERE
+
+
+```
+
+```{python, import-libraries}
+!pip install pandas nltk matplotlib wordcloud
+
+import pandas as pd
+import nltk
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud
+```
+
+```{python, read-and-subset-data}
+# Read data
+opd_survey = pd.read_csv('data/opd_survey.csv', low_memory=False)
+
+# Subset the DataFrame to select specific columns
+opd_selected = opd_survey[['Role', 'Resource', 'Q21']]
+
+# Rename the 'Q21' column to 'text'
+opd_renamed = opd_selected.rename(columns={'Q21': 'text'})
+
+# Remove the first two rows from the opd_renamed DataFrame
+opd_sliced = opd_renamed.iloc[2:].copy()
+
+# Remove rows with missing data from the copied DataFrame
+opd_complete = opd_sliced.dropna().copy()
+
+# Filter the DataFrame for rows where 'Role' is equal to "Teacher"
+opd_teacher = opd_complete[opd_complete['Role'] == 'Teacher'].copy()
+
+# Display the filtered DataFrame
+print(opd_teacher.head())
+```
+
+```{python, tokenize}
+# Tokenize
+from nltk.tokenize import RegexpTokenizer
+
+# Use RegexpTokenizer to remove punctuation and convert to lowercase
+tokenizer = RegexpTokenizer(r'\w+')
+
+# Tokenize the 'text' column and create a new column 'word'
+opd_teacher['word'] = opd_teacher['text'].apply(lambda x: [token.lower() for token in tokenizer.tokenize(str(x))])
+
+# Explode the 'word' column to transform each row into individual words
+opd_tidy = opd_teacher.explode('word')
+
+# Drop the original 'text' column
+opd_tidy.drop(columns=['text'], inplace=True)
+
+# Display the tokenized DataFrame
+print(opd_tidy.head())
+```
+
+```{python, remove-stop-words}
+from nltk.corpus import stopwords
+
+# Ensure the stopwords is downloaded
+nltk.download('stopwords')
+
+# Get the list of stopwords from nltk
+stop_words = set(stopwords.words('english'))
+
+# Remove stop words
+opd_clean = opd_tidy[~opd_tidy['word'].isin(stop_words)]
+
+# Display the clean DataFrame
+print(opd_clean.head())
+```
+
+```{python, word-counts}
+# Count the occurrences of each word across all the resources
+words_count = opd_clean['word'].value_counts().reset_index()
+words_count.columns = ['word', 'count']
+
+# Print the word count of the top 10 words
+print("Top 10 words and their counts:")
+print(words_count.head(10))
+```
+
+```{python, word-cloud}
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+
+# Filter out the word 'university' and words with counts greater than 1000
+filtered_words_count = words_count[words_count['word'] != 'university']
+words_count_above_1000 = set(filtered_words_count[filtered_words_count['count'] > 1000]['word'])
+
+# Define custom coloring function
+def color_func(word, font_size, position, orientation, random_state=None, **kwargs):
+    if word in words_count_above_1000:
+        return 'black'  # Use black color for words occurring more than 1000 times
+    else:
+        return 'grey'  # Use gray color for the rest
+
+# Generate a word cloud with custom coloring function
+wordcloud = WordCloud(width=800, height=500, background_color='white', color_func=color_func).generate_from_frequencies(dict(zip(filtered_words_count['word'], filtered_words_count['count'])))
+
+# Display the word cloud using matplotlib
+plt.figure(figsize=(10, 5))
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis('off')
+plt.show()
+```
+
+### Knit & Submit
+
+Congratulations, you've completed your Intro to text mining Badge! Complete the following steps in the orientation to submit your work for review.

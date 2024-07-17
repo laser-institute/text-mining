@@ -1,0 +1,203 @@
+---
+title: "lab-2-case-study-python-v1"
+author: "Dr. Shiyan Jiang"
+format: html
+editor: visual
+jupyter: python3
+---
+
+## ![](img/dm.png)
+
+The final activity for each learning lab provides space to work with data and to reflect on how the concepts and techniques introduced in each lab might apply to your own research.
+
+To earn a badge for each lab, you are required to respond to a set of prompts for two parts: 
+
+-   In Part I, you will reflect on your understanding of key concepts and begin to think about potential next steps for your own study.
+
+-   In Part II, you will create a simple data product in R that demonstrates your ability to apply a data analysis technique introduced in this learning lab.
+
+### Part I: Reflect and Plan
+
+Use the institutional library (e.g. [NCSU Library](https://www.lib.ncsu.edu/#articles)), [Google Scholar](https://scholar.google.com/) or search engine to locate a research article, presentation, or resource that applies text mining to an educational context or topic of interest. More specifically, **locate a text mining study that visualize text data.**
+
+1.  Provide an APA citation for your selected study.
+
+    -   
+
+2.  How does the sentiment analysis address research questions?
+
+    -   
+
+Draft a research question for a population you may be interested in studying, or that would be of interest to educational researchers, and that would require the collection of text data and answer the following questions:
+
+1.  What text data would need to be collected?
+
+    -   
+
+2.  For what reason would text data need to be collected in order to address this question?
+
+    -   
+
+3.  Explain the analytical level at which these text data would need to be collected and analyzed.
+
+    -   
+
+### Part II: Data Product
+
+Use your case study file to create small multiples like the following figure:
+
+![](img/sentiment.png)
+
+I highly recommend creating a new Python script in your lab-2 folder to complete this task. When your code is ready to share, use the code chunk below to share the final code for your model and answer the questions that follow.
+
+```{python, my-data-product}
+# YOUR FINAL CODE HERE
+
+
+```
+
+```{python, import-libraries}
+!pip install pandas openpyxl langid nltk matplotlib seaborn
+
+import pandas as pd
+import openpyxl
+import langid
+import nltk
+import matplotlib.pyplot as plt
+import seaborn as sns
+```
+
+```{python, read-and-subset-and-combine-data}
+# Read data
+ngss_tweets = pd.read_excel('data/ngss_tweets.xlsx')
+csss_tweets = pd.read_excel('data/csss_tweets.xlsx')
+
+# Filter ngss tweets in English
+ngss_text = ngss_tweets[ngss_tweets['text'].apply(lambda x: isinstance(x, str) and len(x.strip()) > 0 and langid.classify(x)[0] == 'en')]
+
+# Add a new column 'standards' with the value 'ngss'
+ngss_text = ngss_text.assign(standards='ngss')
+
+# Subset columns
+ngss_text = ngss_text[['standards', 'screen_name', 'created_at', 'text']]
+
+# Filter csss tweets in English
+csss_text = csss_tweets[csss_tweets['text'].apply(lambda x: isinstance(x, str) and len(x.strip()) > 0 and langid.classify(x)[0] == 'en')]
+
+# Add a new column 'standards' with the value 'csss'
+csss_text = csss_text.assign(standards='csss')
+
+# Subset columns of interest
+csss_text = csss_text[['standards', 'screen_name', 'created_at', 'text']]
+
+# Combine the two DataFrames row-wise
+tweets = pd.concat([ngss_text, csss_text], ignore_index=True)
+
+# Display the combined DataFrame
+print(tweets)
+```
+
+```{python, preprocess-data}
+from nltk.tokenize import RegexpTokenizer
+from nltk.corpus import stopwords
+
+# Ensure nltk punkt tokenizer is downloaded
+nltk.download('punkt')
+
+# Create a tokenizer instance with the regular expression of tweets
+tweet_pattern = r'\b\w+\b'
+tokenizer = RegexpTokenizer(tweet_pattern)
+
+# Create preprocess_text function
+def preprocess_text(text):
+
+    # Tokenize the text
+    tokens = tokenizer.tokenize(text.lower())
+
+    # Remove stop words
+    filtered_tokens = [token for token in tokens if token not in stopwords.words('english')]
+
+    # Join the tokens back into a string
+
+    processed_text = ' '.join(filtered_tokens)
+
+    return processed_text
+
+# Apply the function to the 'text' column
+tweets['clean_text'] = tweets['text'].apply(preprocess_text)
+
+# Display the clean DataFrame
+print(tweets)
+```
+
+```{python, get-sentiment-values}
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+# Ensure vader_lexicon is downloaded
+nltk.download('vader_lexicon')
+
+# Initialize nltk sentiment analyzer
+analyzer = SentimentIntensityAnalyzer()
+
+# Get sentiment values of tweets['clean_text']
+tweets['sentiment_value'] = tweets['clean_text'].apply(lambda txt: analyzer.polarity_scores(txt))
+
+# Separate the sentiment_value into four columns
+tweets['negative'] = tweets['sentiment_value'].apply(lambda txt: txt['neg'])
+tweets['neutral'] = tweets['sentiment_value'].apply(lambda txt: txt['neu'])
+tweets['positive'] = tweets['sentiment_value'].apply(lambda txt: txt['pos'])
+tweets['compound'] = tweets['sentiment_value'].apply(lambda txt: txt['compound'])
+
+# Display the DataFrame with sentiment values
+print(tweets)
+```
+
+```{python, sentiment-counts}
+# Function to calculate sentiment category based on compound score
+def get_sentiment(compound):
+    if compound > 0:
+        return 'positive'
+    else:
+        return 'negative'
+
+# Apply the get_sentiment function
+tweets['sentiment_category'] = tweets['compound'].apply(get_sentiment)
+
+# Group by 'standards' and 'sentiment_category' to get counts
+sentiment2_counts = tweets.groupby(['standards', 'sentiment_category']).size().reset_index(name='count')
+
+# Pivot the table to get a clearer view
+sentiment2_counts_pivot = sentiment2_counts.pivot(index='standards', columns='sentiment_category', values='count').fillna(0).reset_index()
+
+# Display the sentiment counts
+print(sentiment2_counts_pivot)
+```
+
+```{python, sentiment-bar-plot}
+# Calculate the total counts for each standard
+total_counts = sentiment2_counts.groupby('standards')['count'].sum().reset_index()
+total_counts = total_counts.rename(columns={'count': 'total'})
+
+# Merge the total counts back to the original dataframe
+sentiment2_percentage = sentiment2_counts.merge(total_counts, on='standards')
+
+# Calculate the percentage
+sentiment2_percentage['percentage'] = (sentiment2_percentage['count'] / sentiment2_percentage['total']) * 100
+
+# Plot the stacked bar chart
+plt.figure(figsize=(10, 6))
+sns.barplot(data=sentiment2_percentage, x='standards', y='percentage', hue='sentiment_category')
+
+# Add labels and title
+plt.xlabel('Standards')
+plt.ylabel('Percentage')
+plt.title('Sentiment Percentage Distribution for NGSS and CCSS')
+plt.legend(title='Sentiment', loc='upper right')
+
+# Display the plot
+plt.show()
+```
+
+### Knit & Submit
+
+Congratulations, you've completed your Intro to text mining Badge! Complete the following steps in the orientation to submit your work for review.

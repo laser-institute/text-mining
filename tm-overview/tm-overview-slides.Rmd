@@ -194,17 +194,10 @@ Vayansky, I., & Kumar, S. A. (2020). [A review of topic modeling methods.](https
 
 ---
 class: no-logo
-# Text Classification
+# Text Classification with LLM
 
-### Text classification is a machine learning technique that assigns a set of predefined categories to open-ended text.
+### Text classification is a process where texts are automatically categorized into predefined labels based on their content. LLMs, or Large Language Models, enhance this process by leveraging deep learning algorithms that understand and interpret the nuances of language, enabling more accurate and sophisticated categorization of texts.
 
-.center[
-<img src="img/tcflow.png" height="300px"/>
-]
-
-.footnote[
-Figure source: https://monkeylearn.com/text-classification/
-]
 
 ---
 class: clear, inverse, center, middle

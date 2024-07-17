@@ -8,7 +8,7 @@
 <link href="lab-4-code-along-python_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="lab-4-code-along-python_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="lab-4-code-along-python_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.4.553">
+  <meta name="generator" content="quarto-1.5.54">
 
   <title>Topic Modelling with Python</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -41,7 +41,7 @@
     }
     @media print {
     pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
     }
     pre.numberSource code
       { counter-reset: source-line 0; }
@@ -449,7 +449,7 @@
 </section>
 <section id="lda-topic-modelling-with-gensim" class="slide level2">
 <h2>LDA Topic Modelling with gensim</h2>
-<div id="3a2bb0b1" class="cell" data-execution_count="1">
+<div id="69da58b8" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="op">!</span>pip install nltk gensim matplotlib pyLDAvis</span>
 <span id="cb1-2"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href=""></a><span class="im">import</span> nltk</span>
@@ -457,48 +457,46 @@
 <span id="cb1-5"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-6"><a href=""></a><span class="im">import</span> pyLDAvis</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Requirement already satisfied: nltk in /opt/anaconda3/lib/python3.11/site-packages (3.8.1)
-Requirement already satisfied: gensim in /opt/anaconda3/lib/python3.11/site-packages (4.3.0)
-Requirement already satisfied: matplotlib in /opt/anaconda3/lib/python3.11/site-packages (3.8.0)
-Requirement already satisfied: pyLDAvis in /opt/anaconda3/lib/python3.11/site-packages (3.4.1)
-Requirement already satisfied: click in /opt/anaconda3/lib/python3.11/site-packages (from nltk) (8.1.7)
-Requirement already satisfied: joblib in /opt/anaconda3/lib/python3.11/site-packages (from nltk) (1.2.0)
-Requirement already satisfied: regex&gt;=2021.8.3 in /opt/anaconda3/lib/python3.11/site-packages (from nltk) (2023.10.3)
-Requirement already satisfied: tqdm in /opt/anaconda3/lib/python3.11/site-packages (from nltk) (4.65.0)
-Requirement already satisfied: numpy&gt;=1.18.5 in /opt/anaconda3/lib/python3.11/site-packages (from gensim) (1.26.4)
-Requirement already satisfied: scipy&gt;=1.7.0 in /opt/anaconda3/lib/python3.11/site-packages (from gensim) (1.11.4)
-Requirement already satisfied: smart-open&gt;=1.8.1 in /opt/anaconda3/lib/python3.11/site-packages (from gensim) (5.2.1)
-Requirement already satisfied: FuzzyTM&gt;=0.4.0 in /opt/anaconda3/lib/python3.11/site-packages (from gensim) (2.0.9)
-Requirement already satisfied: contourpy&gt;=1.0.1 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (1.2.0)
-Requirement already satisfied: cycler&gt;=0.10 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (0.11.0)
-Requirement already satisfied: fonttools&gt;=4.22.0 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (4.25.0)
-Requirement already satisfied: kiwisolver&gt;=1.0.1 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (1.4.4)
-Requirement already satisfied: packaging&gt;=20.0 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (23.1)
-Requirement already satisfied: pillow&gt;=6.2.0 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (10.2.0)
-Requirement already satisfied: pyparsing&gt;=2.3.1 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (3.0.9)
-Requirement already satisfied: python-dateutil&gt;=2.7 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (2.8.2)
-Requirement already satisfied: pandas&gt;=2.0.0 in /opt/anaconda3/lib/python3.11/site-packages (from pyLDAvis) (2.1.4)
-Requirement already satisfied: jinja2 in /opt/anaconda3/lib/python3.11/site-packages (from pyLDAvis) (3.1.3)
-Requirement already satisfied: numexpr in /opt/anaconda3/lib/python3.11/site-packages (from pyLDAvis) (2.8.7)
-Requirement already satisfied: funcy in /opt/anaconda3/lib/python3.11/site-packages (from pyLDAvis) (2.0)
-Requirement already satisfied: scikit-learn&gt;=1.0.0 in /opt/anaconda3/lib/python3.11/site-packages (from pyLDAvis) (1.2.2)
-Requirement already satisfied: setuptools in /opt/anaconda3/lib/python3.11/site-packages (from pyLDAvis) (68.2.2)
-Requirement already satisfied: pyfume in /opt/anaconda3/lib/python3.11/site-packages (from FuzzyTM&gt;=0.4.0-&gt;gensim) (0.3.1)
-Requirement already satisfied: pytz&gt;=2020.1 in /opt/anaconda3/lib/python3.11/site-packages (from pandas&gt;=2.0.0-&gt;pyLDAvis) (2023.3.post1)
-Requirement already satisfied: tzdata&gt;=2022.1 in /opt/anaconda3/lib/python3.11/site-packages (from pandas&gt;=2.0.0-&gt;pyLDAvis) (2023.3)
-Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site-packages (from python-dateutil&gt;=2.7-&gt;matplotlib) (1.16.0)
-Requirement already satisfied: threadpoolctl&gt;=2.0.0 in /opt/anaconda3/lib/python3.11/site-packages (from scikit-learn&gt;=1.0.0-&gt;pyLDAvis) (2.2.0)
-Requirement already satisfied: MarkupSafe&gt;=2.0 in /opt/anaconda3/lib/python3.11/site-packages (from jinja2-&gt;pyLDAvis) (2.1.3)
-Requirement already satisfied: simpful in /opt/anaconda3/lib/python3.11/site-packages (from pyfume-&gt;FuzzyTM&gt;=0.4.0-&gt;gensim) (2.12.0)
-Requirement already satisfied: fst-pso in /opt/anaconda3/lib/python3.11/site-packages (from pyfume-&gt;FuzzyTM&gt;=0.4.0-&gt;gensim) (1.8.1)
-Requirement already satisfied: typing-extensions in /opt/anaconda3/lib/python3.11/site-packages (from pyfume-&gt;FuzzyTM&gt;=0.4.0-&gt;gensim) (4.9.0)
-Requirement already satisfied: miniful in /opt/anaconda3/lib/python3.11/site-packages (from fst-pso-&gt;pyfume-&gt;FuzzyTM&gt;=0.4.0-&gt;gensim) (0.0.6)</code></pre>
+<pre><code>Requirement already satisfied: nltk in /cloud/project/r-reticulate/lib/python3.11/site-packages (3.8.1)
+Requirement already satisfied: gensim in /cloud/project/r-reticulate/lib/python3.11/site-packages (4.3.2)
+Requirement already satisfied: matplotlib in /cloud/project/r-reticulate/lib/python3.11/site-packages (3.9.0)
+Requirement already satisfied: pyLDAvis in /cloud/project/r-reticulate/lib/python3.11/site-packages (3.4.1)
+Requirement already satisfied: click in /cloud/project/r-reticulate/lib/python3.11/site-packages (from nltk) (8.1.7)
+Requirement already satisfied: joblib in /cloud/project/r-reticulate/lib/python3.11/site-packages (from nltk) (1.4.2)
+Requirement already satisfied: regex&gt;=2021.8.3 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from nltk) (2024.5.15)
+Requirement already satisfied: tqdm in /cloud/project/r-reticulate/lib/python3.11/site-packages (from nltk) (4.66.2)
+Requirement already satisfied: numpy&gt;=1.18.5 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from gensim) (1.26.4)
+Requirement already satisfied: scipy&gt;=1.7.0 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from gensim) (1.12.0)
+Requirement already satisfied: smart-open&gt;=1.8.1 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from gensim) (7.0.4)
+Requirement already satisfied: contourpy&gt;=1.0.1 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (1.2.1)
+Requirement already satisfied: cycler&gt;=0.10 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (0.12.1)
+Requirement already satisfied: fonttools&gt;=4.22.0 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (4.53.0)
+Requirement already satisfied: kiwisolver&gt;=1.3.1 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (1.4.5)
+Requirement already satisfied: packaging&gt;=20.0 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (24.0)
+Requirement already satisfied: pillow&gt;=8 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (10.3.0)
+Requirement already satisfied: pyparsing&gt;=2.3.1 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (3.1.2)
+Requirement already satisfied: python-dateutil&gt;=2.7 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (2.9.0.post0)
+Requirement already satisfied: pandas&gt;=2.0.0 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from pyLDAvis) (2.2.2)
+Requirement already satisfied: jinja2 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from pyLDAvis) (3.1.4)
+Requirement already satisfied: numexpr in /cloud/project/r-reticulate/lib/python3.11/site-packages (from pyLDAvis) (2.10.0)
+Requirement already satisfied: funcy in /cloud/project/r-reticulate/lib/python3.11/site-packages (from pyLDAvis) (2.0)
+Requirement already satisfied: scikit-learn&gt;=1.0.0 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from pyLDAvis) (1.5.0)
+Requirement already satisfied: setuptools in /cloud/project/r-reticulate/lib/python3.11/site-packages (from pyLDAvis) (69.2.0)
+Requirement already satisfied: pytz&gt;=2020.1 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from pandas&gt;=2.0.0-&gt;pyLDAvis) (2024.1)
+Requirement already satisfied: tzdata&gt;=2022.7 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from pandas&gt;=2.0.0-&gt;pyLDAvis) (2024.1)
+Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from python-dateutil&gt;=2.7-&gt;matplotlib) (1.16.0)
+Requirement already satisfied: threadpoolctl&gt;=3.1.0 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from scikit-learn&gt;=1.0.0-&gt;pyLDAvis) (3.5.0)
+Requirement already satisfied: wrapt in /cloud/project/r-reticulate/lib/python3.11/site-packages (from smart-open&gt;=1.8.1-&gt;gensim) (1.16.0)
+Requirement already satisfied: MarkupSafe&gt;=2.0 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from jinja2-&gt;pyLDAvis) (2.1.5)
+
+[notice] A new release of pip is available: 24.0 -&gt; 24.1.2
+[notice] To update, run: pip install --upgrade pip</code></pre>
 </div>
 </div>
 </section>
 <section id="lda-topic-modelling-with-gensim-1" class="slide level2">
 <h2>LDA Topic Modelling with gensim</h2>
-<div id="6ba3f86e" class="cell" data-execution_count="2">
+<div id="afc7c9f7" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="im">from</span> gensim <span class="im">import</span> corpora, models</span>
 <span id="cb3-2"><a href=""></a><span class="im">from</span> gensim.models.ldamodel <span class="im">import</span> LdaModel</span>
 <span id="cb3-3"><a href=""></a></span>
@@ -522,8 +520,8 @@ Requirement already satisfied: miniful in /opt/anaconda3/lib/python3.11/site-pac
 <span id="cb3-21"><a href=""></a><span class="cf">for</span> topic_id, topic <span class="kw">in</span> lda_model.print_topics():</span>
 <span id="cb3-22"><a href=""></a>    <span class="bu">print</span>(<span class="ss">f"Topic </span><span class="sc">{</span>topic_id<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>topic<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Topic 0: 0.097*"variable" + 0.097*"sample" + 0.097*"population" + 0.097*"pepsi" + 0.097*"statistic" + 0.097*"differences" + 0.097*"hypothesis" + 0.097*"comparasion" + 0.097*"coke" + 0.033*"soda"
-Topic 1: 0.141*"data" + 0.141*"juice" + 0.141*"water" + 0.141*"soda" + 0.048*"coke" + 0.048*"comparasion" + 0.048*"hypothesis" + 0.048*"differences" + 0.048*"statistic" + 0.048*"pepsi"</code></pre>
+<pre><code>Topic 0: 0.141*"juice" + 0.141*"water" + 0.141*"soda" + 0.141*"data" + 0.049*"differences" + 0.049*"coke" + 0.049*"comparasion" + 0.048*"hypothesis" + 0.048*"pepsi" + 0.048*"variable"
+Topic 1: 0.097*"population" + 0.097*"sample" + 0.097*"statistic" + 0.097*"variable" + 0.097*"pepsi" + 0.096*"hypothesis" + 0.096*"comparasion" + 0.096*"coke" + 0.096*"differences" + 0.033*"data"</code></pre>
 </div>
 </div>
 </section>
@@ -535,7 +533,7 @@ Topic 1: 0.141*"data" + 0.141*"juice" + 0.141*"water" + 0.141*"soda" + 0.048*"co
 <section id="section" class="slide level2">
 <h2></h2>
 <h3 id="how-to-implement-coherencemodel-approach">How to implement CoherenceModel approach?</h3>
-<div id="018fe2a7" class="cell columns column-output-location" data-execution_count="3">
+<div id="0c1e4fdd" class="cell columns column-output-location" data-execution_count="3">
 <div class="column">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a><span class="co"># Import needed libraries</span></span>
 <span id="cb5-2"><a href=""></a><span class="im">from</span> gensim.models <span class="im">import</span> CoherenceModel</span>
@@ -594,13 +592,12 @@ Topic 1: 0.141*"data" + 0.141*"juice" + 0.141*"water" + 0.141*"soda" + 0.048*"co
 </figure>
 </div>
 </div>
-</div>
-</div>
+</div></div>
 </section>
 <section id="your-turn" class="slide level2">
 <h2>Your Turn</h2>
 <p>Fit a LDA model with the optimal # of topics</p>
-<div id="be484eaa" class="cell" data-execution_count="4">
+<div id="3eafaec9" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section></section>
@@ -616,7 +613,7 @@ Topic 1: 0.141*"data" + 0.141*"juice" + 0.141*"water" + 0.141*"soda" + 0.048*"co
 </section>
 <section id="how-to-create-a-visualization-with-pyldavis" class="slide level2">
 <h2>How to create a visualization with pyLDAvis?</h2>
-<div id="067ad7e2" class="cell columns column-output-location" data-execution_count="5">
+<div id="e66607a8" class="cell columns column-output-location" data-execution_count="5">
 <div class="column">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href=""></a><span class="co"># Import needed libaries</span></span>
 <span id="cb7-2"><a href=""></a><span class="im">import</span> pyLDAvis</span>
@@ -633,10 +630,10 @@ Topic 1: 0.141*"data" + 0.141*"juice" + 0.141*"water" + 0.141*"soda" + 0.048*"co
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.4.0/pyLDAvis/js/ldavis.v1.0.0.css">
 
 
-<div id="ldavis_el7315053545467687296205018" style="background-color:white;"></div>
+<div id="ldavis_el95391307690487492163830473728" style="background-color:white;"></div>
 <script type="text/javascript">
 
-var ldavis_el7315053545467687296205018_data = {"mdsDat": {"x": [0.05503456173554104, -0.05503456173554104], "y": [0.0, 0.0], "topics": [1, 2], "cluster": [1, 1], "Freq": [65.66942433401877, 34.330575665981236]}, "tinfo": {"Term": ["data", "juice", "water", "soda", "variable", "sample", "population", "pepsi", "statistic", "differences", "hypothesis", "comparasion", "coke", "variable", "sample", "population", "pepsi", "statistic", "differences", "hypothesis", "comparasion", "coke", "soda", "water", "juice", "data", "data", "juice", "water", "soda", "coke", "comparasion", "hypothesis", "differences", "statistic", "pepsi", "population", "sample", "variable"], "Freq": [0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.8245955626794954, 0.8245694206981757, 0.8245612791565482, 0.8244208375634732, 0.8244056993845095, 0.8243808295190691, 0.8243202768032143, 0.8242464940822147, 0.8240722778125442, 0.2794678618256341, 0.279449829583045, 0.2793073526045631, 0.27922787716500364, 0.6312030768913568, 0.6311424921961448, 0.6310337589615986, 0.6310199927355735, 0.21564495465145112, 0.21551201414022308, 0.21545583530237422, 0.21540959873887683, 0.2153905953616465, 0.2153790570031182, 0.215271903226872, 0.21526576827831734, 0.21524581722610703], "Total": [0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0398413799056025, 1.0398351889764932, 1.0398331823834202, 1.0397998945665914, 1.0397962947461559, 1.039790428257946, 1.0397761121055886, 1.0397585082224379, 1.0397172324639954, 0.9104878545612076, 0.9104835885446436, 0.9104498448007079, 0.9104309540563604, 0.9104309540563604, 0.9104498448007079, 0.9104835885446436, 0.9104878545612076, 1.0397172324639954, 1.0397585082224379, 1.0397761121055886, 1.039790428257946, 1.0397962947461559, 1.0397998945665914, 1.0398331823834202, 1.0398351889764932, 1.0398413799056025], "Category": ["Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2"], "logprob": [13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, -2.3373, -2.3373, -2.3373, -2.3375, -2.3375, -2.3375, -2.3376, -2.3377, -2.3379, -3.4193, -3.4193, -3.4199, -3.4201, -1.9559, -1.956, -1.9562, -1.9562, -3.0299, -3.0306, -3.0308, -3.031, -3.0311, -3.0312, -3.0317, -3.0317, -3.0318], "loglift": [13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.1886, 0.1886, 0.1886, 0.1884, 0.1884, 0.1884, 0.1883, 0.1883, 0.1881, -0.7606, -0.7606, -0.7611, -0.7614, 0.7028, 0.7027, 0.7025, 0.7025, -0.5039, -0.5046, -0.5049, -0.5051, -0.5052, -0.5053, -0.5058, -0.5058, -0.5059]}, "token.table": {"Topic": [1, 1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 2], "Freq": [0.9617999671219543, 0.961761786118578, 1.0983809321778562, 0.9617322614475203, 0.9617455030534984, 1.0983581420884245, 0.9617235058643848, 0.961692718545375, 0.9616908627455637, 1.098312289384608, 0.9617268353933967, 0.9616851371031038, 1.09831743546135], "Term": ["coke", "comparasion", "data", "differences", "hypothesis", "juice", "pepsi", "population", "sample", "soda", "statistic", "variable", "water"]}, "R": 13, "lambda.step": 0.01, "plot.opts": {"xlab": "PC1", "ylab": "PC2"}, "topic.order": [1, 2]};
+var ldavis_el95391307690487492163830473728_data = {"mdsDat": {"x": [0.05477975140348322, -0.05477975140348322], "y": [0.0, 0.0], "topics": [1, 2], "cluster": [1, 1], "Freq": [65.66637390394283, 34.33362609605717]}, "tinfo": {"Term": ["juice", "water", "soda", "data", "population", "sample", "statistic", "variable", "pepsi", "hypothesis", "comparasion", "coke", "differences", "population", "sample", "statistic", "variable", "pepsi", "hypothesis", "comparasion", "coke", "differences", "data", "soda", "water", "juice", "juice", "water", "soda", "data", "differences", "coke", "comparasion", "hypothesis", "pepsi", "variable", "statistic", "sample", "population"], "Freq": [0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.8255454165140304, 0.8253852009570073, 0.8252389780250518, 0.8252212328323525, 0.8238489379302765, 0.8235634883788991, 0.8233671464080654, 0.8231143251142319, 0.8230301149524619, 0.2796555869539148, 0.2796432798041395, 0.2795788183245671, 0.27943568013041054, 0.6301516654515318, 0.6300427230241645, 0.6299937720922095, 0.6299843942642127, 0.21684394908156968, 0.2167799337663432, 0.2165877049197631, 0.21643844115748045, 0.21622138767047616, 0.21517800454170288, 0.2151645197571188, 0.2150533658915892, 0.214931520637049], "Total": [0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0404769371510794, 1.0404385668485965, 1.0404034977821706, 1.0403992373740554, 1.0400703256007526, 1.0400019295363796, 1.0399548513278285, 1.039894258880575, 1.0398740640340316, 0.9096399812181275, 0.909637051896349, 0.9096215413487316, 0.9095873455819423, 0.9095873455819423, 0.9096215413487316, 0.909637051896349, 0.9096399812181275, 1.0398740640340316, 1.039894258880575, 1.0399548513278285, 1.0400019295363796, 1.0400703256007526, 1.0403992373740554, 1.0404034977821706, 1.0404385668485965, 1.0404769371510794], "Category": ["Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2"], "logprob": [13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, -2.3361, -2.3363, -2.3364, -2.3365, -2.3381, -2.3385, -2.3387, -2.339, -2.3391, -3.4186, -3.4186, -3.4188, -3.4193, -1.9577, -1.9579, -1.9579, -1.958, -3.0245, -3.0248, -3.0257, -3.0264, -3.0274, -3.0322, -3.0323, -3.0328, -3.0333], "loglift": [13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.1892, 0.189, 0.1889, 0.1889, 0.1875, 0.1872, 0.1871, 0.1868, 0.1867, -0.7589, -0.7589, -0.7592, -0.7596, 0.702, 0.7018, 0.7017, 0.7017, -0.4986, -0.4989, -0.4999, -0.5006, -0.5017, -0.5068, -0.5069, -0.5075, -0.5081]}, "token.table": {"Topic": [1, 1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 2], "Freq": [0.9616362350884402, 0.9615802058360383, 1.0993360237540004, 0.9616549105193121, 0.9615366775769234, 1.0993996396906915, 0.9614734459637547, 0.9610977084586719, 0.9611331527520346, 1.0993395639670442, 0.9611655498387897, 0.9611694857869926, 1.0993583095198698], "Term": ["coke", "comparasion", "data", "differences", "hypothesis", "juice", "pepsi", "population", "sample", "soda", "statistic", "variable", "water"]}, "R": 13, "lambda.step": 0.01, "plot.opts": {"xlab": "PC1", "ylab": "PC2"}, "topic.order": [2, 1]};
 
 function LDAvis_load_lib(url, callback){
   var s = document.createElement('script');
@@ -650,7 +647,7 @@ function LDAvis_load_lib(url, callback){
 if(typeof(LDAvis) !== "undefined"){
    // already loaded: just create the visualization
    !function(LDAvis){
-       new LDAvis("#" + "ldavis_el7315053545467687296205018", ldavis_el7315053545467687296205018_data);
+       new LDAvis("#" + "ldavis_el95391307690487492163830473728", ldavis_el95391307690487492163830473728_data);
    }(LDAvis);
 }else if(typeof define === "function" && define.amd){
    // require.js is available: use it to load d3/LDAvis
@@ -658,26 +655,25 @@ if(typeof(LDAvis) !== "undefined"){
    require(["d3"], function(d3){
       window.d3 = d3;
       LDAvis_load_lib("https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.4.0/pyLDAvis/js/ldavis.v3.0.0.js", function(){
-        new LDAvis("#" + "ldavis_el7315053545467687296205018", ldavis_el7315053545467687296205018_data);
+        new LDAvis("#" + "ldavis_el95391307690487492163830473728", ldavis_el95391307690487492163830473728_data);
       });
     });
 }else{
     // require.js not available: dynamically load d3 & LDAvis
     LDAvis_load_lib("https://d3js.org/d3.v5.js", function(){
          LDAvis_load_lib("https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.4.0/pyLDAvis/js/ldavis.v3.0.0.js", function(){
-                 new LDAvis("#" + "ldavis_el7315053545467687296205018", ldavis_el7315053545467687296205018_data);
+                 new LDAvis("#" + "ldavis_el95391307690487492163830473728", ldavis_el95391307690487492163830473728_data);
             })
          });
 }
 </script>
 </div>
-</div>
-</div>
+</div></div>
 </section>
 <section id="your-turn-1" class="slide level2">
 <h2>Your Turn</h2>
 <p>Create a pyLDAvis with the optimal model that you got.</p>
-<div id="311bdda2" class="cell" data-execution_count="6">
+<div id="c9744d27" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br>
@@ -934,18 +930,7 @@ if(typeof(LDAvis) !== "undefined"){
         }
         return false;
       }
-      const clipboard = new window.ClipboardJS('.code-copy-button', {
-        text: function(trigger) {
-          const codeEl = trigger.previousElementSibling.cloneNode(true);
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
-            }
-          }
-          return codeEl.innerText;
-        }
-      });
-      clipboard.on('success', function(e) {
+      const onCopySuccess = function(e) {
         // button target
         const button = e.trigger;
         // don't keep focus
@@ -977,7 +962,29 @@ if(typeof(LDAvis) !== "undefined"){
         }, 1000);
         // clear code selection
         e.clearSelection();
+      }
+      const getTextToCopy = function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+        text: getTextToCopy
       });
+      clipboard.on('success', onCopySuccess);
+      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+        // For code content inside modals, clipBoardJS needs to be initialized with a container option
+        // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+          text: getTextToCopy,
+          container: window.document.getElementById('quarto-embedded-source-code-modal')
+        });
+        clipboardModal.on('success', onCopySuccess);
+      }
         var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
         var mailtoRegex = new RegExp(/^mailto:/);
           var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -985,7 +992,7 @@ if(typeof(LDAvis) !== "undefined"){
             return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
         }
         // Inspect non-navigation links and adorn them if external
-     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
         for (var i=0; i<links.length; i++) {
           const link = links[i];
           if (!isInternal(link.href)) {

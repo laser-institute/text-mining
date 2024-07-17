@@ -8,7 +8,7 @@ number-sections: true
 jupyter: python3
 ---
 
-## INTRODUCTION
+## 0. INTRODUCTION
 
 This case study walkthrough extends previous research and evaluation work at the Friday Institute for Educational Innovation at North Carolina State University. In addition to many other areas of inquiry, this work was aimed at understanding and improving peer interaction and discussion in the Friday Institute's Massively Open Online Courses for Educators (MOOC-Ed) and Online Professional Learning programs. To learn more about these courses and programs, visit: <https://place.fi.ncsu.edu>
 
@@ -29,7 +29,7 @@ As noted by Krumm and Means (2018), the workflow for topic modelling is not alwa
 
 ------------------------------------------------------------------------
 
-## PREPARE
+## 1. PREPARE
 
 To help us better understand the context, questions, and data sources we'll be using, this section will focus on the following topics:
 
@@ -37,7 +37,7 @@ a.  **Context**. As context for our analysis, we'll review several related paper
 b.  **Questions.** We'll also examine what insight topic modeling can provide to a question that we asked participants answer in their professional learning teams (PLTs).
 c.  **Project Setup.** We will set up a "home' environment for the files and codes for lab 3 by installling and importing the required libraries for the topic modeling walkthrough.
 
-### a. Context
+### 1a. Context
 
 #### Participating in a MOOC and Professional Learning Team: How a Blended Approach to Professional Development Makes a Difference
 
@@ -70,7 +70,7 @@ The following highlight some key findings related to the discussion forums in th
 3.  Findings on knowledge construction demonstrated that over half of the discussions in both courses moved beyond sharing information and statements of agreement and entered a process of dissonance, negotiation and co-construction of knowledge, but seldom moved beyond this phase in which new knowledge was tested or applied. These findings echo similar research on difficulties in promoting knowledge construction in online settings.
 4.  Topic modeling provides more interpretable and cohesive models for discussion forums than other popular unsupervised modeling techniques such as k-means and k-medoids clustering algorithms.
 
-### b. Guiding Questions
+### 1b. Guiding Questions
 
 For the paper, [*Participating in a MOOC and Professional Learning Team: How a Blended Approach to Professional Development Makes a Difference*](https://www.learntechlib.org/p/195234/), the researchers were interested in unpacking how participants who enrolled in the Teaching Statistics through Data Investigations MOOC-Ed might benefit from also being in a smaller group of professionals committed to engaging in the same professional development. The specific research question for this paper was:
 
@@ -86,7 +86,7 @@ One overarching question that Silge and Robinson (2018) identify as a central qu
 
 > How do we to **quantify** what a document or collection of documents is about?
 
-### c. Set Up
+### 1c. Set Up
 
 First, let's load the following libraries that we'll be needing for this walkthrough:
 
@@ -117,7 +117,7 @@ import pyLDAvis
 
 ------------------------------------------------------------------------
 
-## WRANGLE
+## 2. WRANGLE
 
 Data wrangling involves some combination of cleaning, reshaping, transforming, and merging data (Wickham & Grolemund, 2017). We'll preprocess the data as follows to get it ready for topic modelling.
 
@@ -135,7 +135,7 @@ c.  **Prepare Data for LDA Modelling.**
 
     **Step 4: Create a Corpus.** Build upon the dictionary, the corpus represents the text data with words count besides the IDs. In the form of a corpus, each document is represented as a list of tuples (word_id, word_count), which is necessary for LDA to perform its computations.
 
-### a. Import Forum Data
+### 2a. Import Forum Data
 
 To get started, we need to import, or "read", our data into Python. The function used to import your data will depend on the file format of the data you are trying to import. Let's read our data into our Environment using the `read_csv()` function and assign it to a variable name so we can work with it like any other object in Python.
 
@@ -149,7 +149,7 @@ To get an overview, we can display the ts_forum_data data frame. You can find th
 ts_forum_data
 ```
 
-### b. Subset Columns and Rows
+### 2b. Subset Columns and Rows
 
 The post_content will be the text from which we will discover the topics, and post_id as the identifier could be useful, so those two columns will be the columns of interests, so let's subset column and create a **post_content** data frame. Also, the rows with missing values will not contribute to the topics, so let's drop it out.
 
@@ -167,7 +167,7 @@ post_content.dropna(subset=['document'], inplace=True)
 print(post_content)
 ```
 
-### c. Prepare Data for LDA Model
+### 2c. Prepare Data for LDA Model
 
 In this session, we will processing text and transforming our data frames into new data structures required for topic modeling, in the case of using `gensim` for LDA topic modelling, the needed data structure is the bag of word (BoW) format which will be the **corpus** data frame that we will end with after this session.
 
@@ -318,7 +318,7 @@ LDA requires the input data in the form of a corpus, where each document is repr
 
 ------------------------------------------------------------------------
 
-## MODEL
+## 3. MODEL
 
 In very simple terms, modeling involves developing a mathematical summary of a dataset. These summaries can help us further explore trends and patterns in our data.
 
@@ -331,7 +331,7 @@ In Section 3 we focus on Topic Modeling, an unsupervised learning approach to au
 a.  **Fitting a Topic Modeling with LDA**. In this section we learn to use the `LdaModel` function for unsupervised classification of our forum discussions to find natural groupings of words, or topics.
 b.  **Choosing K.** Finally, we wrap up Section 3 by learning about diagnostic properties like exclusivity, semantic coherence, and held out likelihood for helping to select an appropriate number of topics.
 
-### a. Fitting a Topic Modeling with LDA
+### 3a. Fitting a Topic Modeling with LDA
 
 Before running our first topic model using the `LdaModel` function, let's learn some basic principles behind LDA and why LDA is of preferred over other automatic classification or clustering approaches.
 
@@ -367,7 +367,7 @@ for idx, topic in lda_model.print_topics(-1):
 
 Notice that the `passes` parameter specifies the number of times the entire corpus will be used to update the LDA model's parameters and improve the quality of the topic distributions during training. This is part of the process known as "epochs" in other machine learning contexts. If not specified, the default value for `passes` is typically 1, here we choose 15. Increasing the number of passes can lead to a more accurate and stable model because the model has more opportunities to refine its parameters. However, more passes also mean longer training times.
 
-### b. Finding optimal K - num_topics
+### 3b. Finding optimal K - num_topics
 
 As alluded to earlier, selecting the number of topics for your model is a non-trivial decision and can dramatically impact your results. Bail (2018) notes that
 
@@ -433,7 +433,7 @@ for idx, topic in lda_model.print_topics(-1):
     print(f"Topic: {idx} \nWords: {topic}")
 ```
 
-## EXPLORE
+## 4. EXPLORE
 
 Silge and Robinson (2018) note that fitting at topic model is the "easy part." The hard part is making sense of the model results and that the rest of the analysis involves exploring and interpreting the model using a variety of approaches which we'll walkthrough in in this section.
 
@@ -441,7 +441,7 @@ Bail (2018) cautions, however, that:
 
 > *...post-hoc interpretation of topic models is rather dangerous... and can quickly come to resemble the process of "reading tea leaves," or finding meaning in patterns that are in fact quite arbitrary or even random.*
 
-### a. Visualizing Topics by pyLDAvis
+### 4a. Visualizing Topics by pyLDAvis
 
 Visualization is always a good way to explore the modelling results. The `pyLDAvis` is primarily designed for visualizing the results of LDA topic modeling, it provides an interactive dashboard that helps users interpret the topics discovered by LDA.
 
@@ -458,7 +458,7 @@ vis = pyLDAvis.gensim.prepare(optimal_model, corpus, dictionary)
 pyLDAvis.display(vis)
 ```
 
-### b. Finding the Dominant Topic for Each Document
+### 4b. Finding the Dominant Topic for Each Document
 
 One of the practical applications of topic modeling is to determine the main topic of a given document. Let's explore it by using `get_document_topics` function from `gensim` and visualize the first 10 document with its dominant topics:
 
@@ -483,7 +483,7 @@ for i, doc_topic_dist in enumerate(topic_dist_first_10):
     plt.show()
 ```
 
-### c. Finding the Dominant Words for Each Topic
+### 4c. Finding the Dominant Words for Each Topic
 
 By merely knowing the dominant topic ID for a document from last session, obviously, it's not very easy to interpret what the topics exactly are, so let's examine the top 5 terms for each topic and then look at this information visually:
 
@@ -527,7 +527,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-### d. Finding the Dominate Documents for Each Topic
+### 4d. Finding the Dominate Documents for Each Topic
 
 Now that we have a sense of the most common words associated with each topic, let's further explore the dominate documents for each topic:
 

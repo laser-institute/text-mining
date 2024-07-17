@@ -1,0 +1,175 @@
+---
+title: "Lab 3: Topic Modeling in MOOC-Eds with Python"
+author: "Dr. Shiyan Jiang"
+format: html
+editor: visual
+jupyter: python3
+---
+
+## ![](img/tm.png)
+
+The final activity for each learning lab provides space to work with data and to reflect on how the concepts and techniques introduced in each lab might apply to your own research.
+
+To earn a badge for each lab, you are required to respond to a set of prompts for two parts: 
+
+-   In Part I, you will reflect on your understanding of key concepts and begin to think about potential next steps for your own study.
+
+-   In Part II, you will create a simple data product in R that demonstrates your ability to apply a data analysis technique introduced in this learning lab.
+
+### Part I: Reflect and Plan
+
+Use the institutional library (e.g. [NCSU Library](https://www.lib.ncsu.edu/#articles)), [Google Scholar](https://scholar.google.com/) or search engine to locate a research article, presentation, or resource that applies text mining to an educational context or topic of interest. More specifically, **locate a text mining study that visualize text data.**
+
+1.  Provide an APA citation for your selected study.
+
+    -   
+
+2.  How does topic modeling address research questions?
+
+    -   
+
+Draft a research question for a population you may be interested in studying, or that would be of interest to educational researchers, and that would require the collection of text data and answer the following questions:
+
+1.  What text data would need to be collected?
+
+    -   
+
+2.  For what reason would text data need to be collected in order to address this question?
+
+    -   
+
+3.  Explain the analytical level at which these text data would need to be collected and analyzed.
+
+    -   
+
+### Part II: Data Product
+
+Use your case study file to try a large number of topics (e.g., 20) and explain how changing number of topics shape the way you interpret results.
+
+I highly recommend creating a new Python script in your lab-3 folder to complete this task. When your code is ready to share, use the code chunk below to share the final code for your model and answer the questions that follow.
+
+```{python, my-data-product}
+# YOUR FINAL CODE HERE
+
+
+```
+
+```{python, import-libraries}
+!pip install pandas nltk gensim matplotlib pyLDAvis
+
+import pandas as pd
+import nltk
+import gensim
+import matplotlib
+import seaborn as sns
+import pyLDAvis
+```
+
+```{python, read-and-subset-data}
+# Read data
+ts_forum_data = pd.read_csv("data/ts_forum_data.csv")
+
+# Subset data
+post_content = ts_forum_data[['post_id', 'post_content']]
+post_content.columns = ['id', 'document']
+
+# Drop rows with missing values in the 'document' column
+post_content.dropna(subset=['document'], inplace=True)
+
+# Display the resulting DataFrame
+print(post_content)
+```
+
+```{python, tokenize-and-remove-stop-words}
+from nltk.tokenize import word_tokenize
+from nltk.tokenize import RegexpTokenizer
+from nltk.corpus import stopwords
+
+# Ensure nltk punkt tokenizer and stopwords are downloaded
+nltk.download('punkt')
+nltk.download('stopwords')
+
+# Create a tokenizer instance with the regular expression of tweets
+tweet_pattern = r'\b\w+\b'
+tokenizer = RegexpTokenizer(tweet_pattern)
+
+# Specify stop words
+stop_words = set(stopwords.words('english'))
+
+# Tokenize the 'document' column, remove stop words, and create a new column 'word'
+post_content['word'] = post_content['document'].apply(
+    lambda x: [token.lower() for token in tokenizer.tokenize(str(x)) if token.lower() not in stop_words]
+)
+
+# Explode the 'word' column to transform each row into individual words
+post_content_exploded = post_content.explode('word')
+
+# Display the resulting DataFrame
+print(post_content_exploded)
+```
+
+```{python, lemmatize}
+from nltk.stem import WordNetLemmatizer
+
+# Convert float values to strings in the 'word' column
+post_content_exploded['word'] = post_content_exploded['word'].astype(str)
+
+# Ensure NLTK resources are downloaded
+nltk.download('wordnet')
+
+# Initialize the WordNetLemmatizer
+lemmatizer = WordNetLemmatizer()
+
+# Apply lemmatization to the 'word' column
+post_content_exploded['lemmatized_word'] = post_content_exploded['word'].apply(lambda x: lemmatizer.lemmatize(x))
+
+# Display the resulting DataFrame
+print(post_content_exploded)
+```
+
+```{python, dictionary}
+from gensim import corpora
+
+# Convert the lemmatized words back to lists for each document
+lemmatized_documents = post_content_exploded.groupby('document')['lemmatized_word'].apply(list).tolist()
+
+# Create a Dictionary
+dictionary = corpora.Dictionary(lemmatized_documents)
+
+# Display the dictionary
+print(dictionary.token2id)  # This will print the token to id mapping
+```
+
+```{python, corpus}
+# Create a corpus: BOW representation of each document
+corpus = [dictionary.doc2bow(doc) for doc in lemmatized_documents]
+
+# Dispaly the corpus
+print(corpus)
+```
+
+```{python,fit-LDA}
+from gensim.models.ldamodel import LdaModel
+
+# Build the LDA model
+lda_model = LdaModel(corpus, num_topics=20, id2word=dictionary, passes=15)
+
+# Display the topics
+for idx, topic in lda_model.print_topics(-1):
+    print(f"Topic: {idx} \nWords: {topic}")
+```
+
+```{python, pyLDAvis}
+import pyLDAvis
+import pyLDAvis.gensim
+
+# Prepare the visualization
+vis = pyLDAvis.gensim.prepare(lda_model, corpus, dictionary)
+
+# Display the visualization
+pyLDAvis.display(vis)
+```
+
+### Knit & Submit
+
+Congratulations, you've completed your Topic Modeling Badge! Complete the following steps in the orientation to submit your work for review.

@@ -1,0 +1,46 @@
+---
+title: "Large Language Models"
+subtitle: "Lab 4: Conceptual-Overview"
+format:
+  revealjs: 
+    slide-number: c/t
+    progress: true
+    chalkboard: 
+      buttons: false
+    preview-links: auto
+    theme: [default, css/laser.scss]
+    logo: img/LASERLogoB.png
+    width: 1920
+    height: 1080
+    margin: 0.05
+    footer: <a href=https://www.go.ncsu.edu/laser-institute>go.ncsu.edu/laser-institute
+highlight-style: a11y
+editor: visual
+jupyter: python3
+---
+
+## Agenda
+
+1.  In-context learning
+
+2.  Zero shot
+
+3.  Few shot
+
+4.  Chain of thought
+
+## In-context learning
+
+**Topic Modeling** is a type of statistical model used to uncover the abstract "topics" that occur in a collection of documents. The primary goal of topic modeling is to discover the hidden thematic structure in large archives of text data. This helps in organizing, understanding, and summarizing large datasets of textual information.
+
+## Zero shot
+
+Latent Dirichlet Allocation (LDA) is one of the most popular algorithms for topic modeling. Such topic modeling algorithms assume that any document is a mixture of topics and that any topic is a mixture of words. By analyzing the patterns of word co-occurrence across the documents, topic models can identify groups of words that frequently appear together and assign them to topics.
+
+## Few shot
+
+Gensim is designed for natural language processing (NLP) tasks such as topic modeling, document indexing, and similarity retrieval, particularly with large text corpora. Gensim provides efficient implementations of popular topic modeling algorithms such as Latent Dirichlet Allocation (LDA) and Latent Semantic Analysis (LSA).
+
+## Chain of thought
+
+Gensim is designed for natural language processing (NLP) tasks such as topic modeling, document indexing, and similarity retrieval, particularly with large text corpora. Gensim provides efficient implementations of popular topic modeling algorithms such as Latent Dirichlet Allocation (LDA) and Latent Semantic Analysis (LSA).
