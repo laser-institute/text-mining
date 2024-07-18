@@ -1,12 +1,13 @@
 ---
 title: "Lab 3: LLM with Python"
 author: "Dr. Shiyan Jiang"
+date: today
 format: html
 editor: visual
 jupyter: python3
 ---
 
-## ![](img/LLM_HX.png)
+## ![](img/LLM_HX.png){width="300"}
 
 The final activity for each learning lab provides space to work with data and to reflect on how the concepts and techniques introduced in each lab might apply to your own research.
 
