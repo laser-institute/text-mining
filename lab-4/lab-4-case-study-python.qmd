@@ -1,11 +1,17 @@
 ---
 title: "Lab 4: Topic Modeling in MOOC-Eds with Python"
-author: "Dr. Shiyan Jiang"
-format: html
+author: "LASER Institute"
+date: today 
+format:
+  html:
+    toc: true
+    toc-depth: 4
+    toc-location: right
+theme:
+  light: simplex
+  dark: cyborg
 editor: visual
-toc: true
-number-sections: true
-jupyter: python3
+#bibliography: lit/references.bib
 ---
 
 ## 0. INTRODUCTION
