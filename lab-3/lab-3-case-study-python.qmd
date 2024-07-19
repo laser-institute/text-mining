@@ -1,8 +1,17 @@
 ---
-title: "Assessing High School Students' Machine Learning Literacy"
-subtitle: "TM Lab 3: Case Study"
-format: html
+title: "Lab 3: Assessing High School Students' Machine Learning Literacy"
+author: "LASER Institute"
+date: today 
+format:
+  html:
+    toc: true
+    toc-depth: 4
+    toc-location: right
+theme:
+  light: simplex
+  dark: cyborg
 editor: visual
+#bibliography: lit/references.bib
 ---
 
 ## Background
@@ -20,8 +29,8 @@ The **`openai`** package is the official Python client for the OpenAI API, which
 **`backoff`** is a library that helps in adding retrying logic to Python applications. It's particularly useful when making requests to web services that might be temporarily unavailable or overloaded. By using **`backoff`**, we can automatically retry failed requests using a variety of backoff strategies (e.g., fixed delay, exponential backoff) to gracefully handle intermittent failures and improve the robustness of our applications.
 
 ```{python}
-#!pip install openai
-#!pip install backoff
+!pip install openai
+!pip install backoff
 ```
 
 Now let's set up a connection to OpenAI's GPT service using the openai library.
@@ -29,7 +38,27 @@ Now let's set up a connection to OpenAI's GPT service using the openai library.
 ```{python}
 import openai
 from openai import OpenAI
-gpt_key = "xxx" #use your own key
+```
+
+```{python}
+#| echo: false
+
+import dotenv
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Retrieve the API key from environment variables
+gpt_key = os.getenv("gpt_key")
+```
+
+Note that you need to use your own key. You can get it by referring to [How to get your ChatGPT API key (4 steps)](https://www.merge.dev/blog/chatgpt-api-key). Once you get it, replace the XXX with your own key and remove the \# in front of the code and run.
+
+```{python}
+# Create a client to interact with 
+#gpt_key = "xxx" #use your own key
 client = OpenAI(api_key=gpt_key)
 ```
 
