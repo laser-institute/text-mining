@@ -198,6 +198,9 @@ ngss_text = ngss_text.assign(standards='ngss')
 
 # Subset columns of interests
 ngss_text = ngss_text[['standards', 'screen_name', 'created_at', 'text']]
+
+# Display the ngss_text
+print(ngss_text)
 ```
 
 ##### Comprehension Check
@@ -215,6 +218,9 @@ csss_text = csss_text.assign(standards='csss')
 
 # Subset columns of interests
 csss_text = csss_text[['standards', 'screen_name', 'created_at', 'text']]
+
+# Display the csss_text
+print(csss_text)
 ```
 
 #### Combine Data Frames
@@ -226,11 +232,10 @@ Finally, let's combine our `ccss_text` and `ngss_text` into a single DataFrame b
 tweets = pd.concat([ngss_text, csss_text], ignore_index=True)
 ```
 
-And let's take a quick look at both the `head()` and the `tail()` of this new `tweets` DataFrame to make sure it contains both "ngss" and "ccss" standards:
+And let's take a quick look at `tweets` DataFrame to make sure it contains both "ngss" and "ccss" standards:
 
-```{r}
-tweets.head()
-tweets.tail()
+```{python}
+print(tweets)
 ```
 
 #### Preprocess Text
