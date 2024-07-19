@@ -1,11 +1,17 @@
 ---
 title: "Lab 1: Text Mining Basics with Python"
-author: "Dr. Shiyan Jiang"
-format: html
-toc: true
-number-sections: true
+author: "LASER Institute"
+date: today 
+format:
+  html:
+    toc: true
+    toc-depth: 4
+    toc-location: right
+theme:
+  light: simplex
+  dark: cyborg
 editor: visual
-jupyter: python3
+#bibliography: lit/references.bib
 ---
 
 ## 0. INTRODUCTION

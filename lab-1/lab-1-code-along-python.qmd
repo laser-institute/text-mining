@@ -1,6 +1,7 @@
 ---
 title: "Text Mining Basics with Python"
 subtitle: "Lab 1: Code-Along"
+
 format:
   revealjs: 
     slide-number: c/t
@@ -9,13 +10,15 @@ format:
       buttons: false
     preview-links: auto
     logo: img/LASERLogoB.png
-    width: 1800
-    height: 1030
-    margin: 0.06
+    theme: [default, css/laser.scss]
+    width: 1920
+    height: 1080
+    margin: 0.05
     footer: <a href=https://www.go.ncsu.edu/laser-institute>go.ncsu.edu/laser-institute
-highlight-style: a11y
+#resources:
+#  - demo.pdf
+#bibliography: lit/references.bib
 editor: visual
-jupyter: python3
 ---
 
 ## Agenda
@@ -63,9 +66,7 @@ jupyter: python3
 
 A library is a collection of pre-written code that adds functionality to Python, ensuring common functionalities do not need to be rewritten from scratch.
 
-## 
-
-### How to install and import library?
+## How to install and import library?
 
 ```{python}
 #| echo: true
@@ -165,7 +166,7 @@ Read the CSV file called `opd_survey_copy` within the data folder and create a D
 -   Focus on relevant data
 -   Privacy and ethical considerations
 
-## 
+## Subset Columns
 
 ### How to subset columns?
 
@@ -197,7 +198,7 @@ Select these three columns `Role`, `Resource`, `Q21` using the index approach.
 -   Clarity and readability
 -   Consistency across datasets
 
-## 
+## Rename Columns
 
 ### How to rename a column?
 
@@ -229,7 +230,7 @@ Rename the `Role` as `role` and `Resource` as `resource`.
 -   Exploratory analysis with small dataset portions
 -   Preparing data for modeling
 
-## 
+## Subset Rows
 
 ### How to subset rows?
 
@@ -308,13 +309,13 @@ Tokenization is the process of breaking down a text into smaller units called to
 
     -   WhitespaceTokenizer
 
-    -   …
+    -   ...
 
 -   Tokenization Module from Spacy 
 
 -   Tokenization Module from BERT
 
--   …
+-   ...
 
 How to choose the right tokenization method?
 
@@ -324,7 +325,7 @@ How to choose the right tokenization method?
 
 -   Performance Considerations
 
--   …
+-   ...
 
 ## RegexpTokenizer
 
@@ -455,7 +456,7 @@ Tokenize the `text` column of `opd_teacher` DataFrame and explode the tokenized 
 
 Stop words like "and", "the", "is", "in", "to" do not carry important meaning, removing them helps reduce the noise of analysis.
 
-## 
+## Remove Stop Words
 
 ### How to remove stop words?
 
@@ -499,7 +500,7 @@ Remove stop words from the `word` column in the `opd_teacher` DataFrame.
 
 Lemmatization is the process of reducing a word to its base or root form, called a lemma. For example, the words "running", "runs", and "ran" are all reduced to their lemma "run". Lemmatization makes it easier to compare and analyze texts by ensuring that different forms of a word are treated as a single entity. It helps to improve the accuracy by identifying the true meaning of words and their relationships.
 
-## 
+## Lemmatize
 
 ### How to lemmatize?
 
@@ -647,7 +648,7 @@ Where:
 
 -   IDF(t,D) = log(number of d in D / number of documents containing t + 1​)\
 
-## 
+## TF-IDF
 
 ### How to calculate TF-IDF?
 
@@ -698,7 +699,7 @@ Calculate the `TF-IDF` for the text in the `opd_teacher` DataFrame.
 
 Explicitly visualize the word and its importance (counts, frequencies, tf-idf scores, etc.) that is indicated by the size of the word.
 
-## 
+## Word Clouds
 
 ### How to create word clouds?
 
