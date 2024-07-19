@@ -594,7 +594,7 @@ Plot the sentiment by day towards CSSS standards.
 csss_data = tweets[tweets['standards'] == 'csss']
 
 # Resample CSSS data by day and calculate the mean compound score
-csss_sentiment_over_time = csss_data.resample('M', on='created_at')['compound'].mean().reset_index()
+csss_sentiment_over_time = csss_data.resample('D', on='created_at')['compound'].mean().reset_index()
 
 # Plot CSSS sentiment over time
 plt.figure(figsize=(12, 6))
