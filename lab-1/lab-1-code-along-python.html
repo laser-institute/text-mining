@@ -455,16 +455,16 @@
 </section>
 <section id="how-to-install-and-import-library" class="slide level2">
 <h2>How to install and import library?</h2>
-<div id="c5d8690e" class="cell" data-execution_count="1">
+<div id="95b7d1ac" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="op">!</span>pip install pandas</span>
 <span id="cb1-2"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Requirement already satisfied: pandas in /opt/anaconda3/lib/python3.11/site-packages (2.1.4)
-Requirement already satisfied: numpy&lt;2,&gt;=1.23.2 in /opt/anaconda3/lib/python3.11/site-packages (from pandas) (1.26.4)
-Requirement already satisfied: python-dateutil&gt;=2.8.2 in /opt/anaconda3/lib/python3.11/site-packages (from pandas) (2.8.2)
-Requirement already satisfied: pytz&gt;=2020.1 in /opt/anaconda3/lib/python3.11/site-packages (from pandas) (2023.3.post1)
-Requirement already satisfied: tzdata&gt;=2022.1 in /opt/anaconda3/lib/python3.11/site-packages (from pandas) (2023.3)
-Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas) (1.16.0)</code></pre>
+<pre><code>Requirement already satisfied: pandas in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (2.2.2)
+Requirement already satisfied: numpy&gt;=1.23.2 in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (from pandas) (1.26.4)
+Requirement already satisfied: python-dateutil&gt;=2.8.2 in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (from pandas) (2.9.0.post0)
+Requirement already satisfied: pytz&gt;=2020.1 in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (from pandas) (2024.1)
+Requirement already satisfied: tzdata&gt;=2022.7 in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (from pandas) (2023.3)
+Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas) (1.16.0)</code></pre>
 </div>
 </div>
 <p><code>pip</code> is Python’s library installer and manager.</p>
@@ -474,7 +474,6 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <li><code>import &lt;library_name&gt;</code>: Load libraries into the Python environment after installation.</li>
 <li><code>import &lt;library_name&gt; as &lt;alias&gt;</code>: Use aliases for commonly used libraries with long names.</li>
 </ul>
-<p>Note that <strong>&lt; &gt;</strong> is not part of the command, it is just used to highlight the part that you need to adapt to your data.</p>
 </section>
 <section id="necessary-libraries-for-text-mining" class="slide level2">
 <h2>Necessary Libraries for Text Mining</h2>
@@ -490,34 +489,34 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <section id="your-turn" class="slide level2">
 <h2>Your Turn</h2>
 <p>Install and import all the necessary libraries. Notice that <code>import matplotlib.pyplot</code> and use <code>plt</code> as its alias, and <code>import seaborn</code> and use <code>sns</code> as its alias.</p>
-<div id="75659c16" class="cell" data-execution_count="2">
+<div id="fa38126c" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="4ffb1952" class="cell" data-results="hide" data-execution_count="3">
+<div id="aece84df" class="cell" data-results="hide" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
-<pre><code>Requirement already satisfied: nltk in /opt/anaconda3/lib/python3.11/site-packages (3.8.1)
-Requirement already satisfied: matplotlib in /opt/anaconda3/lib/python3.11/site-packages (3.8.0)
-Requirement already satisfied: seaborn in /opt/anaconda3/lib/python3.11/site-packages (0.12.2)
-Requirement already satisfied: scikit-learn in /opt/anaconda3/lib/python3.11/site-packages (1.2.2)
-Requirement already satisfied: click in /opt/anaconda3/lib/python3.11/site-packages (from nltk) (8.1.7)
-Requirement already satisfied: joblib in /opt/anaconda3/lib/python3.11/site-packages (from nltk) (1.2.0)
-Requirement already satisfied: regex&gt;=2021.8.3 in /opt/anaconda3/lib/python3.11/site-packages (from nltk) (2023.10.3)
-Requirement already satisfied: tqdm in /opt/anaconda3/lib/python3.11/site-packages (from nltk) (4.65.0)
-Requirement already satisfied: contourpy&gt;=1.0.1 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (1.2.0)
-Requirement already satisfied: cycler&gt;=0.10 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (0.11.0)
-Requirement already satisfied: fonttools&gt;=4.22.0 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (4.25.0)
-Requirement already satisfied: kiwisolver&gt;=1.0.1 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (1.4.4)
-Requirement already satisfied: numpy&lt;2,&gt;=1.21 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (1.26.4)
-Requirement already satisfied: packaging&gt;=20.0 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (23.1)
-Requirement already satisfied: pillow&gt;=6.2.0 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (10.2.0)
-Requirement already satisfied: pyparsing&gt;=2.3.1 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (3.0.9)
-Requirement already satisfied: python-dateutil&gt;=2.7 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (2.8.2)
-Requirement already satisfied: pandas&gt;=0.25 in /opt/anaconda3/lib/python3.11/site-packages (from seaborn) (2.1.4)
-Requirement already satisfied: scipy&gt;=1.3.2 in /opt/anaconda3/lib/python3.11/site-packages (from scikit-learn) (1.11.4)
-Requirement already satisfied: threadpoolctl&gt;=2.0.0 in /opt/anaconda3/lib/python3.11/site-packages (from scikit-learn) (2.2.0)
-Requirement already satisfied: pytz&gt;=2020.1 in /opt/anaconda3/lib/python3.11/site-packages (from pandas&gt;=0.25-&gt;seaborn) (2023.3.post1)
-Requirement already satisfied: tzdata&gt;=2022.1 in /opt/anaconda3/lib/python3.11/site-packages (from pandas&gt;=0.25-&gt;seaborn) (2023.3)
-Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site-packages (from python-dateutil&gt;=2.7-&gt;matplotlib) (1.16.0)</code></pre>
+<pre><code>Requirement already satisfied: nltk in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (3.8.1)
+Requirement already satisfied: matplotlib in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (3.8.4)
+Requirement already satisfied: seaborn in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (0.13.2)
+Requirement already satisfied: scikit-learn in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (1.5.1)
+Requirement already satisfied: click in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (from nltk) (8.1.7)
+Requirement already satisfied: joblib in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (from nltk) (1.4.2)
+Requirement already satisfied: regex&gt;=2021.8.3 in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (from nltk) (2023.10.3)
+Requirement already satisfied: tqdm in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (from nltk) (4.66.4)
+Requirement already satisfied: contourpy&gt;=1.0.1 in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (from matplotlib) (1.2.0)
+Requirement already satisfied: cycler&gt;=0.10 in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (from matplotlib) (0.11.0)
+Requirement already satisfied: fonttools&gt;=4.22.0 in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (from matplotlib) (4.51.0)
+Requirement already satisfied: kiwisolver&gt;=1.3.1 in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (from matplotlib) (1.4.4)
+Requirement already satisfied: numpy&gt;=1.21 in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (from matplotlib) (1.26.4)
+Requirement already satisfied: packaging&gt;=20.0 in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (from matplotlib) (24.1)
+Requirement already satisfied: pillow&gt;=8 in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (from matplotlib) (10.3.0)
+Requirement already satisfied: pyparsing&gt;=2.3.1 in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (from matplotlib) (3.0.9)
+Requirement already satisfied: python-dateutil&gt;=2.7 in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (from matplotlib) (2.9.0.post0)
+Requirement already satisfied: pandas&gt;=1.2 in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (from seaborn) (2.2.2)
+Requirement already satisfied: scipy&gt;=1.6.0 in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (from scikit-learn) (1.12.0)
+Requirement already satisfied: threadpoolctl&gt;=3.1.0 in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (from scikit-learn) (3.5.0)
+Requirement already satisfied: pytz&gt;=2020.1 in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (from pandas&gt;=1.2-&gt;seaborn) (2024.1)
+Requirement already satisfied: tzdata&gt;=2022.7 in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (from pandas&gt;=1.2-&gt;seaborn) (2023.3)
+Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/envs/py311/lib/python3.11/site-packages (from python-dateutil&gt;=2.7-&gt;matplotlib) (1.16.0)</code></pre>
 </div>
 </div>
 </section></section>
@@ -529,7 +528,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <section id="read-data" class="slide level2">
 <h2>Read Data</h2>
 <h3 id="how-to-read-data-into-python-environment">How to read data into Python environment?</h3>
-<div id="a910041e" class="cell" data-execution_count="4">
+<div id="46073c8a" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a>opd_survey <span class="op">=</span> pd.read_csv(<span class="st">'data/opd_survey.csv'</span>, low_memory<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb5-2"><a href=""></a>opd_survey</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
@@ -849,7 +848,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <section id="your-turn-1" class="slide level2">
 <h2>Your Turn</h2>
 <p>Read the CSV file called <code>opd_survey_copy</code> within the data folder and create a DataFrame corresponding to its name.</p>
-<div id="20d90e42" class="cell" data-execution_count="5">
+<div id="f0d11235" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -864,7 +863,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <section id="subset-columns-1" class="slide level2">
 <h2>Subset Columns</h2>
 <h3 id="how-to-subset-columns">How to subset columns?</h3>
-<div id="9fae61fb" class="cell" data-execution_count="6">
+<div id="5b81d9a7" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href=""></a>opd_selected <span class="op">=</span> opd_survey[[<span class="st">'Role'</span>, <span class="st">'Resource'</span>, <span class="st">'Q21'</span>]]</span>
 <span id="cb7-2"><a href=""></a>opd_selected</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
@@ -977,7 +976,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <section id="your-turn-2" class="slide level2">
 <h2>Your Turn</h2>
 <p>Select these three columns <code>Role</code>, <code>Resource</code>, <code>Q21</code> using the index approach.</p>
-<div id="2f32145c" class="cell" data-execution_count="7">
+<div id="c3c6e1a0" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -992,7 +991,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <section id="rename-columns-1" class="slide level2">
 <h2>Rename Columns</h2>
 <h3 id="how-to-rename-a-column">How to rename a column?</h3>
-<div id="6faab47c" class="cell" data-execution_count="8">
+<div id="5341b589" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href=""></a>opd_renamed <span class="op">=</span> opd_selected.rename(columns <span class="op">=</span> {<span class="st">'Q21'</span>:<span class="st">'text'</span>})</span>
 <span id="cb9-2"><a href=""></a>opd_renamed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
@@ -1104,7 +1103,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <section id="your-turn-3" class="slide level2">
 <h2>Your Turn</h2>
 <p>Rename the <code>Role</code> as <code>role</code> and <code>Resource</code> as <code>resource</code>.</p>
-<div id="ebd4eefe" class="cell" data-execution_count="9">
+<div id="8ddaa0a1" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -1120,7 +1119,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <section id="subset-rows-1" class="slide level2">
 <h2>Subset Rows</h2>
 <h3 id="how-to-subset-rows">How to subset rows?</h3>
-<div id="10bfddc1" class="cell" data-execution_count="10">
+<div id="6762b124" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href=""></a>opd_sliced <span class="op">=</span> opd_renamed.iloc[<span class="dv">2</span>:]</span>
 <span id="cb11-2"><a href=""></a>opd_teacher <span class="op">=</span> opd_sliced[opd_sliced[<span class="st">'Role'</span>] <span class="op">==</span> <span class="st">'Teacher'</span>]</span>
 <span id="cb11-3"><a href=""></a>opd_teacher</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1233,7 +1232,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <section id="your-turn-4" class="slide level2">
 <h2>Your Turn</h2>
 <p>Subset the first 10 rows of <code>opd_teacher</code> and save it into a new DataFrame called <code>opd_teacher_first10</code>.</p>
-<div id="9458b3c3" class="cell" data-execution_count="11">
+<div id="79769050" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section></section>
@@ -1303,7 +1302,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 </section>
 <section id="word-tokenizing-a-single-document-with-regexptokenizer" class="slide level2">
 <h2>Word Tokenizing a Single Document with RegexpTokenizer</h2>
-<div id="389d9b0b" class="cell" data-execution_count="12">
+<div id="51c62d7d" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href=""></a><span class="co"># Import RegexpTokenizer</span></span>
 <span id="cb13-2"><a href=""></a><span class="im">from</span> nltk.tokenize <span class="im">import</span> RegexpTokenizer</span>
 <span id="cb13-3"><a href=""></a></span>
@@ -1314,7 +1313,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <span id="cb13-8"><a href=""></a>tokenizer <span class="op">=</span> RegexpTokenizer(pattern)</span>
 <span id="cb13-9"><a href=""></a></span>
 <span id="cb13-10"><a href=""></a><span class="co"># Example Text</span></span>
-<span id="cb13-11"><a href=""></a>text <span class="op">=</span> <span class="st">"This is the first document."</span></span>
+<span id="cb13-11"><a href=""></a>text <span class="op">=</span> <span class="st">"Information is relevant and easily accessable."</span></span>
 <span id="cb13-12"><a href=""></a></span>
 <span id="cb13-13"><a href=""></a><span class="co"># Tokenize the text </span></span>
 <span id="cb13-14"><a href=""></a>tokens <span class="op">=</span> tokenizer.tokenize(text)</span>
@@ -1322,13 +1321,13 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <span id="cb13-16"><a href=""></a><span class="co">#Display the tokens</span></span>
 <span id="cb13-17"><a href=""></a><span class="bu">print</span>(tokens)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>['This', 'is', 'the', 'first', 'document']</code></pre>
+<pre><code>['Information', 'is', 'relevant', 'and', 'easily', 'accessable']</code></pre>
 </div>
 </div>
 </section>
 <section id="word-tokenizing-multiple-documents-with-apply-lambda" class="slide level2">
 <h2>Word Tokenizing Multiple Documents with Apply &amp; Lambda</h2>
-<div id="8354d52d" class="cell" data-execution_count="13">
+<div id="02de5692" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href=""></a><span class="co"># Import RegexpTokenizer</span></span>
 <span id="cb15-2"><a href=""></a><span class="im">from</span> nltk.tokenize <span class="im">import</span> RegexpTokenizer</span>
 <span id="cb15-3"><a href=""></a></span>
@@ -1342,9 +1341,9 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <span id="cb15-11"><a href=""></a>corpus <span class="op">=</span> pd.DataFrame({</span>
 <span id="cb15-12"><a href=""></a>    <span class="st">'document_id'</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],</span>
 <span id="cb15-13"><a href=""></a>    <span class="st">'text'</span>: [</span>
-<span id="cb15-14"><a href=""></a>        <span class="st">"This is the first document."</span>,</span>
-<span id="cb15-15"><a href=""></a>        <span class="st">"And here's the second one with more text."</span>,</span>
-<span id="cb15-16"><a href=""></a>        <span class="st">"Finally, the third document completes the set."</span></span>
+<span id="cb15-14"><a href=""></a>        <span class="st">"Information about how to develop curricula is usefull"</span>,</span>
+<span id="cb15-15"><a href=""></a>        <span class="st">"Information of curriculum developing is relevant and accessible."</span>,</span>
+<span id="cb15-16"><a href=""></a>        <span class="st">"Information is of accessibility and affordability."</span></span>
 <span id="cb15-17"><a href=""></a>    ]</span>
 <span id="cb15-18"><a href=""></a>})</span>
 <span id="cb15-19"><a href=""></a></span>
@@ -1354,39 +1353,39 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <span id="cb15-23"><a href=""></a><span class="co"># Display the DataFrame with tokenized documents</span></span>
 <span id="cb15-24"><a href=""></a><span class="bu">print</span>(corpus)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   document_id                                            text  \
-0            1                     This is the first document.   
-1            2       And here's the second one with more text.   
-2            3  Finally, the third document completes the set.   
+<pre><code>   document_id                                               text  \
+0            1  Information about how to develop curricula is ...   
+1            2  Information of curriculum developing is releva...   
+2            3  Information is of accessibility and affordabil...   
 
                                               tokens  
-0                   [this, is, the, first, document]  
-1  [and, here, s, the, second, one, with, more, t...  
-2  [finally, the, third, document, completes, the...  </code></pre>
+0  [information, about, how, to, develop, curricu...  
+1  [information, of, curriculum, developing, is, ...  
+2  [information, is, of, accessibility, and, affo...  </code></pre>
 </div>
 </div>
 </section>
 <section id="apply" class="slide level2">
 <h2>Apply</h2>
-<div id="c0883f55" class="cell" data-execution_count="14">
+<div id="99eb566e" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href=""></a><span class="co"># Tokenize each document in the 'text' column</span></span>
 <span id="cb17-2"><a href=""></a>corpus[<span class="st">'tokens'</span>] <span class="op">=</span> corpus[<span class="st">'text'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: tokenizer.tokenize(x.lower()))</span>
 <span id="cb17-3"><a href=""></a></span>
 <span id="cb17-4"><a href=""></a><span class="co"># Display the DataFrame with token lists</span></span>
 <span id="cb17-5"><a href=""></a><span class="bu">print</span>(corpus)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   document_id                                            text  \
-0            1                     This is the first document.   
-1            2       And here's the second one with more text.   
-2            3  Finally, the third document completes the set.   
+<pre><code>   document_id                                               text  \
+0            1  Information about how to develop curricula is ...   
+1            2  Information of curriculum developing is releva...   
+2            3  Information is of accessibility and affordabil...   
 
                                               tokens  
-0                   [this, is, the, first, document]  
-1  [and, here, s, the, second, one, with, more, t...  
-2  [finally, the, third, document, completes, the...  </code></pre>
+0  [information, about, how, to, develop, curricu...  
+1  [information, of, curriculum, developing, is, ...  
+2  [information, is, of, accessibility, and, affo...  </code></pre>
 </div>
 </div>
-<p>DataFrame.apply(func, axis=0, raw=False, result_type=None, args=(), **kwds)</p>
+<h4 id="dataframe.applyfunc-axis0-rawfalse-result_typenone-args-kwds">DataFrame.apply(func, axis=0, raw=False, result_type=None, args=(), **kwds)</h4>
 <ul>
 <li><p><strong>func:</strong> The function to apply to each column (axis=0) or row (axis=1).</p></li>
 <li><p><strong>axis:</strong> Axis along which the function is applied (0 for columns, 1 for rows).</p></li>
@@ -1397,68 +1396,96 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 </section>
 <section id="lambda" class="slide level2">
 <h2>Lambda</h2>
-<div id="dc5b28d7" class="cell" data-execution_count="15">
+<div id="126e1774" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href=""></a><span class="co"># Tokenize each document in the 'text' column</span></span>
 <span id="cb19-2"><a href=""></a>corpus[<span class="st">'tokens'</span>] <span class="op">=</span> corpus[<span class="st">'text'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: tokenizer.tokenize(x.lower()))</span>
 <span id="cb19-3"><a href=""></a></span>
 <span id="cb19-4"><a href=""></a><span class="co"># Display the DataFrame with token lists</span></span>
 <span id="cb19-5"><a href=""></a><span class="bu">print</span>(corpus)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   document_id                                            text  \
-0            1                     This is the first document.   
-1            2       And here's the second one with more text.   
-2            3  Finally, the third document completes the set.   
+<pre><code>   document_id                                               text  \
+0            1  Information about how to develop curricula is ...   
+1            2  Information of curriculum developing is releva...   
+2            3  Information is of accessibility and affordabil...   
 
                                               tokens  
-0                   [this, is, the, first, document]  
-1  [and, here, s, the, second, one, with, more, t...  
-2  [finally, the, third, document, completes, the...  </code></pre>
+0  [information, about, how, to, develop, curricu...  
+1  [information, of, curriculum, developing, is, ...  
+2  [information, is, of, accessibility, and, affo...  </code></pre>
 </div>
 </div>
-<p>lambda arguments: expression</p>
+<h4 id="lambda-arguments-expression">lambda arguments: expression</h4>
 <ul>
 <li><strong>arguments:</strong> The parameters that the lambda function accepts.</li>
+<li><strong>expression:</strong> A single expression that is evaluated and returned.</li>
 </ul>
-<p><strong>expression:</strong> A single expression that is evaluated and returned.</p>
 </section>
 <section id="exploding-tokenized-results" class="slide level2">
 <h2>Exploding Tokenized Results</h2>
-<div id="a19be406" class="cell" data-execution_count="16">
+<div id="6beb3b08" class="cell columns column-output-location" data-execution_count="16">
+<div class="column">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href=""></a><span class="co"># Explode the 'word' column to transform each row into individual words</span></span>
 <span id="cb21-2"><a href=""></a>corpus_exploded <span class="op">=</span> corpus.explode(<span class="st">'tokens'</span>)</span>
 <span id="cb21-3"><a href=""></a></span>
 <span id="cb21-4"><a href=""></a><span class="co"># Display the DataFrame with token into separate rows</span></span>
 <span id="cb21-5"><a href=""></a><span class="bu">print</span>(corpus_exploded)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column">
 <div class="cell-output cell-output-stdout">
-<pre><code>   document_id                                            text     tokens
-0            1                     This is the first document.       this
-0            1                     This is the first document.         is
-0            1                     This is the first document.        the
-0            1                     This is the first document.      first
-0            1                     This is the first document.   document
-1            2       And here's the second one with more text.        and
-1            2       And here's the second one with more text.       here
-1            2       And here's the second one with more text.          s
-1            2       And here's the second one with more text.        the
-1            2       And here's the second one with more text.     second
-1            2       And here's the second one with more text.        one
-1            2       And here's the second one with more text.       with
-1            2       And here's the second one with more text.       more
-1            2       And here's the second one with more text.       text
-2            3  Finally, the third document completes the set.    finally
-2            3  Finally, the third document completes the set.        the
-2            3  Finally, the third document completes the set.      third
-2            3  Finally, the third document completes the set.   document
-2            3  Finally, the third document completes the set.  completes
-2            3  Finally, the third document completes the set.        the
-2            3  Finally, the third document completes the set.        set</code></pre>
+<pre><code>   document_id                                               text  \
+0            1  Information about how to develop curricula is ...   
+0            1  Information about how to develop curricula is ...   
+0            1  Information about how to develop curricula is ...   
+0            1  Information about how to develop curricula is ...   
+0            1  Information about how to develop curricula is ...   
+0            1  Information about how to develop curricula is ...   
+0            1  Information about how to develop curricula is ...   
+0            1  Information about how to develop curricula is ...   
+1            2  Information of curriculum developing is releva...   
+1            2  Information of curriculum developing is releva...   
+1            2  Information of curriculum developing is releva...   
+1            2  Information of curriculum developing is releva...   
+1            2  Information of curriculum developing is releva...   
+1            2  Information of curriculum developing is releva...   
+1            2  Information of curriculum developing is releva...   
+1            2  Information of curriculum developing is releva...   
+2            3  Information is of accessibility and affordabil...   
+2            3  Information is of accessibility and affordabil...   
+2            3  Information is of accessibility and affordabil...   
+2            3  Information is of accessibility and affordabil...   
+2            3  Information is of accessibility and affordabil...   
+2            3  Information is of accessibility and affordabil...   
+
+          tokens  
+0    information  
+0          about  
+0            how  
+0             to  
+0        develop  
+0      curricula  
+0             is  
+0        usefull  
+1    information  
+1             of  
+1     curriculum  
+1     developing  
+1             is  
+1       relevant  
+1            and  
+1     accessible  
+2    information  
+2             is  
+2             of  
+2  accessibility  
+2            and  
+2  affordability  </code></pre>
+</div>
 </div>
 </div>
 </section>
 <section id="your-turn-5" class="slide level2">
 <h2>Your Turn</h2>
 <p>Tokenize the <code>text</code> column of <code>opd_teacher</code> DataFrame and explode the tokenized results into a <code>word</code> column.</p>
-<div id="67630751" class="cell" data-execution_count="17">
+<div id="fbf11886" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -1470,7 +1497,8 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <section id="remove-stop-words-1" class="slide level2">
 <h2>Remove Stop Words</h2>
 <h3 id="how-to-remove-stop-words">How to remove stop words?</h3>
-<div id="5f393bcd" class="cell" data-execution_count="18">
+<div id="8007fadd" class="cell columns column-output-location" data-execution_count="18">
+<div class="column">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href=""></a><span class="co"># Import stopwords</span></span>
 <span id="cb24-2"><a href=""></a><span class="im">from</span> nltk.corpus <span class="im">import</span> stopwords</span>
 <span id="cb24-3"><a href=""></a></span>
@@ -1481,67 +1509,47 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <span id="cb24-8"><a href=""></a>stop_words <span class="op">=</span> <span class="bu">set</span>(stopwords.words(<span class="st">'english'</span>))</span>
 <span id="cb24-9"><a href=""></a></span>
 <span id="cb24-10"><a href=""></a><span class="co"># Remove stop words from the tokens obtained from tokenization</span></span>
-<span id="cb24-11"><a href=""></a>corpus[<span class="st">'tokens'</span>] <span class="op">=</span> corpus[<span class="st">'tokens'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> tokens: [token <span class="cf">for</span> token <span class="kw">in</span> tokens <span class="cf">if</span> token <span class="kw">not</span> <span class="kw">in</span> stop_words])</span>
+<span id="cb24-11"><a href=""></a>corpus_clean <span class="op">=</span> corpus_exploded[<span class="op">~</span>corpus_exploded[<span class="st">'tokens'</span>].isin(stop_words)]</span>
 <span id="cb24-12"><a href=""></a></span>
-<span id="cb24-13"><a href=""></a>corpus_exploded <span class="op">=</span> corpus_exploded.dropna(subset<span class="op">=</span>[<span class="st">'tokens'</span>])</span>
-<span id="cb24-14"><a href=""></a></span>
-<span id="cb24-15"><a href=""></a><span class="co"># Display the DataFrame with exploded tokens and stop words removed</span></span>
-<span id="cb24-16"><a href=""></a><span class="bu">print</span>(corpus_exploded)</span>
-<span id="cb24-17"><a href=""></a></span>
-<span id="cb24-18"><a href=""></a><span class="co"># Display the DataFrame with token into separate rows</span></span>
-<span id="cb24-19"><a href=""></a><span class="bu">print</span>(corpus_exploded)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-13"><a href=""></a><span class="co"># Display the DataFrame with exploded tokens and stop words removed</span></span>
+<span id="cb24-14"><a href=""></a><span class="bu">print</span>(corpus_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column">
 <div class="cell-output cell-output-stdout">
-<pre><code>   document_id                                            text     tokens
-0            1                     This is the first document.       this
-0            1                     This is the first document.         is
-0            1                     This is the first document.        the
-0            1                     This is the first document.      first
-0            1                     This is the first document.   document
-1            2       And here's the second one with more text.        and
-1            2       And here's the second one with more text.       here
-1            2       And here's the second one with more text.          s
-1            2       And here's the second one with more text.        the
-1            2       And here's the second one with more text.     second
-1            2       And here's the second one with more text.        one
-1            2       And here's the second one with more text.       with
-1            2       And here's the second one with more text.       more
-1            2       And here's the second one with more text.       text
-2            3  Finally, the third document completes the set.    finally
-2            3  Finally, the third document completes the set.        the
-2            3  Finally, the third document completes the set.      third
-2            3  Finally, the third document completes the set.   document
-2            3  Finally, the third document completes the set.  completes
-2            3  Finally, the third document completes the set.        the
-2            3  Finally, the third document completes the set.        set
-   document_id                                            text     tokens
-0            1                     This is the first document.       this
-0            1                     This is the first document.         is
-0            1                     This is the first document.        the
-0            1                     This is the first document.      first
-0            1                     This is the first document.   document
-1            2       And here's the second one with more text.        and
-1            2       And here's the second one with more text.       here
-1            2       And here's the second one with more text.          s
-1            2       And here's the second one with more text.        the
-1            2       And here's the second one with more text.     second
-1            2       And here's the second one with more text.        one
-1            2       And here's the second one with more text.       with
-1            2       And here's the second one with more text.       more
-1            2       And here's the second one with more text.       text
-2            3  Finally, the third document completes the set.    finally
-2            3  Finally, the third document completes the set.        the
-2            3  Finally, the third document completes the set.      third
-2            3  Finally, the third document completes the set.   document
-2            3  Finally, the third document completes the set.  completes
-2            3  Finally, the third document completes the set.        the
-2            3  Finally, the third document completes the set.        set</code></pre>
+<pre><code>   document_id                                               text  \
+0            1  Information about how to develop curricula is ...   
+0            1  Information about how to develop curricula is ...   
+0            1  Information about how to develop curricula is ...   
+0            1  Information about how to develop curricula is ...   
+1            2  Information of curriculum developing is releva...   
+1            2  Information of curriculum developing is releva...   
+1            2  Information of curriculum developing is releva...   
+1            2  Information of curriculum developing is releva...   
+1            2  Information of curriculum developing is releva...   
+2            3  Information is of accessibility and affordabil...   
+2            3  Information is of accessibility and affordabil...   
+2            3  Information is of accessibility and affordabil...   
+
+          tokens  
+0    information  
+0        develop  
+0      curricula  
+0        usefull  
+1    information  
+1     curriculum  
+1     developing  
+1       relevant  
+1     accessible  
+2    information  
+2  accessibility  
+2  affordability  </code></pre>
+</div>
 </div>
 </div>
 </section>
 <section id="your-turn-6" class="slide level2">
 <h2>Your Turn</h2>
 <p>Remove stop words from the <code>word</code> column in the <code>opd_teacher</code> DataFrame.</p>
-<div id="8bcca48e" class="cell" data-execution_count="19">
+<div id="434df14c" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -1553,7 +1561,8 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <section id="lemmatize-1" class="slide level2">
 <h2>Lemmatize</h2>
 <h3 id="how-to-lemmatize">How to lemmatize?</h3>
-<div id="bba8d66f" class="cell" data-execution_count="20">
+<div id="0b28ab80" class="cell columns column-output-location" data-execution_count="20">
+<div class="column">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href=""></a><span class="co"># Import WordNetLemmatizer</span></span>
 <span id="cb27-2"><a href=""></a><span class="im">from</span> nltk.stem <span class="im">import</span> WordNetLemmatizer</span>
 <span id="cb27-3"><a href=""></a></span>
@@ -1565,40 +1574,47 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <span id="cb27-9"><a href=""></a></span>
 <span id="cb27-10"><a href=""></a><span class="co"># Lemmatize</span></span>
 <span id="cb27-11"><a href=""></a><span class="co"># Apply lemmatization to each token in the list of tokens</span></span>
-<span id="cb27-12"><a href=""></a>corpus_exploded[<span class="st">'tokens'</span>] <span class="op">=</span> corpus_exploded[<span class="st">'tokens'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: lemmatizer.lemmatize(x))</span>
+<span id="cb27-12"><a href=""></a>corpus_clean[<span class="st">'lemmatized_tokens'</span>] <span class="op">=</span> corpus_clean[<span class="st">'tokens'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: lemmatizer.lemmatize(x))</span>
 <span id="cb27-13"><a href=""></a></span>
 <span id="cb27-14"><a href=""></a><span class="co"># Display the resulting DataFrame</span></span>
-<span id="cb27-15"><a href=""></a><span class="bu">print</span>(corpus_exploded)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-15"><a href=""></a><span class="bu">print</span>(corpus_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column">
 <div class="cell-output cell-output-stdout">
-<pre><code>   document_id                                            text     tokens
-0            1                     This is the first document.       this
-0            1                     This is the first document.         is
-0            1                     This is the first document.        the
-0            1                     This is the first document.      first
-0            1                     This is the first document.   document
-1            2       And here's the second one with more text.        and
-1            2       And here's the second one with more text.       here
-1            2       And here's the second one with more text.          s
-1            2       And here's the second one with more text.        the
-1            2       And here's the second one with more text.     second
-1            2       And here's the second one with more text.        one
-1            2       And here's the second one with more text.       with
-1            2       And here's the second one with more text.       more
-1            2       And here's the second one with more text.       text
-2            3  Finally, the third document completes the set.    finally
-2            3  Finally, the third document completes the set.        the
-2            3  Finally, the third document completes the set.      third
-2            3  Finally, the third document completes the set.   document
-2            3  Finally, the third document completes the set.  completes
-2            3  Finally, the third document completes the set.        the
-2            3  Finally, the third document completes the set.        set</code></pre>
+<pre><code>   document_id                                               text  \
+0            1  Information about how to develop curricula is ...   
+0            1  Information about how to develop curricula is ...   
+0            1  Information about how to develop curricula is ...   
+0            1  Information about how to develop curricula is ...   
+1            2  Information of curriculum developing is releva...   
+1            2  Information of curriculum developing is releva...   
+1            2  Information of curriculum developing is releva...   
+1            2  Information of curriculum developing is releva...   
+1            2  Information of curriculum developing is releva...   
+2            3  Information is of accessibility and affordabil...   
+2            3  Information is of accessibility and affordabil...   
+2            3  Information is of accessibility and affordabil...   
+
+          tokens lemmatized_tokens  
+0    information       information  
+0        develop           develop  
+0      curricula        curriculum  
+0        usefull           usefull  
+1    information       information  
+1     curriculum        curriculum  
+1     developing        developing  
+1       relevant          relevant  
+1     accessible        accessible  
+2    information       information  
+2  accessibility     accessibility  
+2  affordability     affordability  </code></pre>
+</div>
 </div>
 </div>
 </section>
 <section id="your-turn-7" class="slide level2">
 <h2>Your Turn</h2>
 <p>Lemmatize the <code>word</code> column and save it into a new column called <code>lemmatized_word</code> in the <code>opd_teacher</code> DataFrame.</p>
-<div id="541596a0" class="cell" data-execution_count="21">
+<div id="0fccaf19" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section></section>
@@ -1611,31 +1627,24 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <h2>Word Counts</h2>
 <h3 id="how-to-count-the-words">How to count the words?</h3>
 <p>Using <code>value_counts()</code>:</p>
-<div id="04e40f16" class="cell columns column-output-location" data-execution_count="22">
+<div id="7c81237a" class="cell columns column-output-location" data-execution_count="22">
 <div class="column">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href=""></a>word_counts <span class="op">=</span> corpus_exploded[<span class="st">'tokens'</span>].value_counts().reset_index()</span>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href=""></a>word_counts <span class="op">=</span> corpus_clean[<span class="st">'tokens'</span>].value_counts().reset_index()</span>
 <span id="cb30-2"><a href=""></a>word_counts.columns <span class="op">=</span> [<span class="st">'word'</span>, <span class="st">'count'</span>]</span>
 <span id="cb30-3"><a href=""></a><span class="bu">print</span>(word_counts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output cell-output-stdout">
-<pre><code>         word  count
-0         the      4
-1    document      2
-2        this      1
-3        with      1
-4   completes      1
-5       third      1
-6     finally      1
-7        text      1
-8        more      1
-9      second      1
-10        one      1
-11         is      1
-12          s      1
-13       here      1
-14        and      1
-15      first      1
-16        set      1</code></pre>
+<pre><code>            word  count
+0    information      3
+1        develop      1
+2      curricula      1
+3        usefull      1
+4     curriculum      1
+5     developing      1
+6       relevant      1
+7     accessible      1
+8  accessibility      1
+9  affordability      1</code></pre>
 </div>
 </div>
 </div>
@@ -1643,7 +1652,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <section id="your-turn-8" class="slide level2">
 <h2>Your Turn</h2>
 <p>Count the <code>word</code> column in the <code>opd_teacher</code> DataFrame.</p>
-<div id="e0fef0a2" class="cell" data-execution_count="23">
+<div id="7fb090f0" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -1656,10 +1665,10 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <h2>Word Frequencies in the Whole Corpus</h2>
 <h3 id="how-to-calculate-it">How to calculate it?</h3>
 <p>Using <code>len()</code>:</p>
-<div id="158bc842" class="cell columns column-output-location" data-execution_count="24">
+<div id="d35173ff" class="cell columns column-output-location" data-execution_count="24">
 <div class="column">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href=""></a><span class="co"># Calculate the total number of the words in the corpus</span></span>
-<span id="cb33-2"><a href=""></a>total_words <span class="op">=</span> <span class="bu">len</span>(corpus_exploded[<span class="st">'tokens'</span>])</span>
+<span id="cb33-2"><a href=""></a>total_words <span class="op">=</span> <span class="bu">len</span>(corpus_clean[<span class="st">'tokens'</span>])</span>
 <span id="cb33-3"><a href=""></a></span>
 <span id="cb33-4"><a href=""></a><span class="co"># Calculate the percentage</span></span>
 <span id="cb33-5"><a href=""></a>word_counts[<span class="st">'frequency'</span>] <span class="op">=</span> word_counts[<span class="st">'count'</span>] <span class="op">/</span> total_words</span>
@@ -1668,24 +1677,17 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <span id="cb33-8"><a href=""></a><span class="bu">print</span>(word_counts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output cell-output-stdout">
-<pre><code>         word  count  frequency
-0         the      4   0.190476
-1    document      2   0.095238
-2        this      1   0.047619
-3        with      1   0.047619
-4   completes      1   0.047619
-5       third      1   0.047619
-6     finally      1   0.047619
-7        text      1   0.047619
-8        more      1   0.047619
-9      second      1   0.047619
-10        one      1   0.047619
-11         is      1   0.047619
-12          s      1   0.047619
-13       here      1   0.047619
-14        and      1   0.047619
-15      first      1   0.047619
-16        set      1   0.047619</code></pre>
+<pre><code>            word  count  frequency
+0    information      3   0.250000
+1        develop      1   0.083333
+2      curricula      1   0.083333
+3        usefull      1   0.083333
+4     curriculum      1   0.083333
+5     developing      1   0.083333
+6       relevant      1   0.083333
+7     accessible      1   0.083333
+8  accessibility      1   0.083333
+9  affordability      1   0.083333</code></pre>
 </div>
 </div>
 </div>
@@ -1694,10 +1696,10 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <h2>Word Frequencies in the Documents</h2>
 <h3 id="how-to-calculate-it-1">How to calculate it?</h3>
 <p>Using <code>size()</code> and <code>sum()</code> after <code>groupby()</code>:</p>
-<div id="f3862e77" class="cell columns column-output-location" data-execution_count="25">
+<div id="11a1d861" class="cell columns column-output-location" data-execution_count="25">
 <div class="column">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href=""></a><span class="co"># Group by the document and count the occurrences of each word</span></span>
-<span id="cb35-2"><a href=""></a>word_counts_bydocument <span class="op">=</span> corpus_exploded.groupby([<span class="st">'document_id'</span>, <span class="st">'tokens'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'count'</span>)</span>
+<span id="cb35-2"><a href=""></a>word_counts_bydocument <span class="op">=</span> corpus_clean.groupby([<span class="st">'document_id'</span>, <span class="st">'tokens'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'count'</span>)</span>
 <span id="cb35-3"><a href=""></a></span>
 <span id="cb35-4"><a href=""></a><span class="co"># Calculate the total number of words in each document</span></span>
 <span id="cb35-5"><a href=""></a>total_words <span class="op">=</span> word_counts_bydocument.groupby(<span class="st">'document_id'</span>)[<span class="st">'count'</span>].<span class="bu">sum</span>().reset_index(name<span class="op">=</span><span class="st">'total_words'</span>)</span>
@@ -1715,27 +1717,19 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <span id="cb35-17"><a href=""></a><span class="bu">print</span>(word_frequencies)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output cell-output-stdout">
-<pre><code>    document_id     tokens  count  total_words  frequency
-0             1   document      1            5   0.200000
-1             1      first      1            5   0.200000
-2             1         is      1            5   0.200000
-3             1        the      1            5   0.200000
-4             1       this      1            5   0.200000
-5             2        and      1            9   0.111111
-6             2       here      1            9   0.111111
-7             2       more      1            9   0.111111
-8             2        one      1            9   0.111111
-9             2          s      1            9   0.111111
-10            2     second      1            9   0.111111
-11            2       text      1            9   0.111111
-12            2        the      1            9   0.111111
-13            2       with      1            9   0.111111
-14            3  completes      1            7   0.142857
-15            3   document      1            7   0.142857
-16            3    finally      1            7   0.142857
-17            3        set      1            7   0.142857
-18            3        the      2            7   0.285714
-19            3      third      1            7   0.142857</code></pre>
+<pre><code>    document_id         tokens  count  total_words  frequency
+0             1      curricula      1            4   0.250000
+1             1        develop      1            4   0.250000
+2             1    information      1            4   0.250000
+3             1        usefull      1            4   0.250000
+4             2     accessible      1            5   0.200000
+5             2     curriculum      1            5   0.200000
+6             2     developing      1            5   0.200000
+7             2    information      1            5   0.200000
+8             2       relevant      1            5   0.200000
+9             3  accessibility      1            3   0.333333
+10            3  affordability      1            3   0.333333
+11            3    information      1            3   0.333333</code></pre>
 </div>
 </div>
 </div>
@@ -1743,7 +1737,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <section id="your-turn-9" class="slide level2">
 <h2>Your Turn</h2>
 <p>Calculate the word frequencies based on <code>resource</code> in the <code>opd_teacher</code> DataFrame.</p>
-<div id="89afacf6" class="cell" data-execution_count="26">
+<div id="652937b1" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -1769,7 +1763,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <h2>TF-IDF</h2>
 <h3 id="how-to-calculate-tf-idf">How to calculate TF-IDF?</h3>
 <p>Using <code>TfidfVectorizer</code> from <code>scikit-learn</code> library</p>
-<div id="f6837691" class="cell columns column-output-location" data-execution_count="27">
+<div id="2e00a5d1" class="cell columns column-output-location" data-execution_count="27">
 <div class="column">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href=""></a><span class="co"># Import TfidfVectorizer</span></span>
 <span id="cb38-2"><a href=""></a><span class="im">from</span> sklearn.feature_extraction.text <span class="im">import</span> TfidfVectorizer</span>
@@ -1794,20 +1788,20 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <span id="cb38-21"><a href=""></a><span class="bu">print</span>(tfidf_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column">
 <div class="cell-output cell-output-stdout">
-<pre><code>        and  completes  document   finally     first      here        is  \
-0  0.000000   0.000000  0.383770  0.000000  0.504611  0.000000  0.504611   
-1  0.368885   0.000000  0.000000  0.000000  0.000000  0.368885  0.000000   
-2  0.000000   0.409146  0.311166  0.409146  0.000000  0.000000  0.000000   
+<pre><code>      about  accessibility  accessible  affordability       and  curricula  \
+0  0.386401       0.000000    0.000000       0.000000  0.000000   0.386401   
+1  0.000000       0.000000    0.413292       0.000000  0.314319   0.000000   
+2  0.000000       0.509353    0.000000       0.509353  0.387376   0.000000   
 
-       more       one    second       set      text       the     third  \
-0  0.000000  0.000000  0.000000  0.000000  0.000000  0.298032  0.000000   
-1  0.368885  0.368885  0.368885  0.000000  0.368885  0.217869  0.000000   
-2  0.000000  0.000000  0.000000  0.409146  0.000000  0.483296  0.409146   
+   curriculum   develop  developing       how  information        is  \
+0    0.000000  0.386401    0.000000  0.386401     0.228215  0.228215   
+1    0.413292  0.000000    0.413292  0.000000     0.244097  0.244097   
+2    0.000000  0.000000    0.000000  0.000000     0.300832  0.300832   
 
-       this      with  document_id  
-0  0.504611  0.000000            1  
-1  0.000000  0.368885            2  
-2  0.000000  0.000000            3  </code></pre>
+         of  relevant        to   usefull  document_id  
+0  0.000000  0.000000  0.386401  0.386401            1  
+1  0.314319  0.413292  0.000000  0.000000            2  
+2  0.387376  0.000000  0.000000  0.000000            3  </code></pre>
 </div>
 </div>
 </div>
@@ -1815,7 +1809,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <section id="your-turn-10" class="slide level2">
 <h2>Your Turn</h2>
 <p>Calculate the <code>TF-IDF</code> for the text in the <code>opd_teacher</code> DataFrame.</p>
-<div id="df87c548" class="cell" data-execution_count="28">
+<div id="ef411dc1" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section></section>
@@ -1839,7 +1833,8 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 </section>
 <section id="word-clouds-from-word-counts" class="slide level2">
 <h2>Word Clouds from Word Counts</h2>
-<div id="7d1f86a3" class="cell" data-execution_count="29">
+<div id="231ab9fa" class="cell columns column-output-location" data-execution_count="29">
+<div class="column">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href=""></a><span class="co"># Import WordCloud and Matplotlib</span></span>
 <span id="cb41-2"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb41-3"><a href=""></a><span class="im">from</span> wordcloud <span class="im">import</span> WordCloud</span>
@@ -1854,6 +1849,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <span id="cb41-12"><a href=""></a>plt.show()</span>
 <span id="cb41-13"><a href=""></a></span>
 <span id="cb41-14"><a href=""></a><span class="co"># Note: plt.imshow() is used primarily to display images, including arrays of data that can represent images such as heatmaps, plots, or in this case, a word cloud generated by the WordCloud library.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1862,11 +1858,12 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="your-turn-11" class="slide level2">
 <h2>Your Turn</h2>
 <p>Create a word cloud based on the word counts for the <code>opd_teacher</code> DataFrame.</p>
-<div id="dc3e2284" class="cell" data-execution_count="30">
+<div id="1a6631d4" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -1879,7 +1876,8 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <h2>Bar Chart based on Word Counts</h2>
 <h3 id="how-to-create-a-bar-chart">How to create a bar chart?</h3>
 <p>Using <code>barh()</code> from matplotlib</p>
-<div id="74e57dfb" class="cell" data-execution_count="31">
+<div id="7bb2906f" class="cell columns column-output-location" data-execution_count="31">
+<div class="column">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href=""></a><span class="co"># Import Matplotlib</span></span>
 <span id="cb43-2"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb43-3"><a href=""></a></span>
@@ -1891,11 +1889,13 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <span id="cb43-9"><a href=""></a>plt.title(<span class="st">'The Bar Chart of Word Counts'</span>)</span>
 <span id="cb43-10"><a href=""></a>plt.gca().invert_yaxis()  <span class="co"># Invert y-axis to display words in descending order</span></span>
 <span id="cb43-11"><a href=""></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lab-1-code-along-python_files/figure-revealjs/cell-32-output-1.png" width="860" height="523"></p>
+<p><img data-src="lab-1-code-along-python_files/figure-revealjs/cell-32-output-1.png" width="872" height="523"></p>
 </figure>
+</div>
 </div>
 </div>
 </div>
@@ -1903,7 +1903,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <section id="your-turn-12" class="slide level2">
 <h2>Your Turn</h2>
 <p>Create a bar chart that filters rows with word counts greater than 500 based on the word counts for the <code>opd_teacher</code> DataFrame.</p>
-<div id="a826b9fa" class="cell" data-execution_count="32">
+<div id="0430d2f2" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -1916,7 +1916,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <h2>Small Multiples based on Word Frequencies</h2>
 <h3 id="how-to-create-small-multiples">How to create small multiples?</h3>
 <p>Using <code>catplot()</code> from seaborn</p>
-<div id="41bdeb0e" class="cell" data-execution_count="33">
+<div id="a917ceb4" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href=""></a><span class="co"># Import seaborn</span></span>
 <span id="cb45-2"><a href=""></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb45-3"><a href=""></a></span>
@@ -1927,7 +1927,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lab-1-code-along-python_files/figure-revealjs/cell-34-output-1.png" width="1429" height="467"></p>
+<p><img data-src="lab-1-code-along-python_files/figure-revealjs/cell-34-output-1.png" width="1447" height="467"></p>
 </figure>
 </div>
 </div>
@@ -1936,7 +1936,7 @@ Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site
 <section id="your-turn-13" class="slide level2">
 <h2>Your Turn</h2>
 <p>Create a small supplies that displays the top 5 words for each resources from the <code>opd_teacher</code> DataFrame.</p>
-<div id="7675fd33" class="cell" data-execution_count="34">
+<div id="96872230" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br>

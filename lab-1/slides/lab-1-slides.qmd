@@ -50,7 +50,7 @@ Part 2: R Code-Along
 :::
 :::
 
-# Part 1: Overview 
+# Part 1: Research Overview
 
 Turn texts into numbers
 
@@ -117,7 +117,7 @@ These are some of the methods of processing the data in text mining:
 -   anti_join(dataframe, stop_words)
 -   filter()
 
-# Thank you! 
+# Thank you!
 
 **Dr. Shiyan Jiang**
 
