@@ -1,5 +1,5 @@
 ---
-  title: "TM Lab 3: Topic Modeling"
+  title: "TM Lab 4: Topic Modeling"
   subtitle: "Test"
   author: "**Dr. Shiyan Jiang**"
   institute: "LASER Institute"
