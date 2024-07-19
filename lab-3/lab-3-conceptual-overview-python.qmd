@@ -16,12 +16,11 @@ format:
     footer: <a href=https://www.go.ncsu.edu/laser-institute>go.ncsu.edu/laser-institute
 highlight-style: a11y
 editor: visual
-jupyter: python3
 ---
 
 ## Agenda
 
-1.  In-context learning
+1.  Large Language Models
 
 2.  Zero shot
 
@@ -29,18 +28,38 @@ jupyter: python3
 
 4.  Chain of thought
 
-## In-context learning
+## Large Language Models (LLMs)
 
-**Topic Modeling** is a type of statistical model used to uncover the abstract "topics" that occur in a collection of documents. The primary goal of topic modeling is to discover the hidden thematic structure in large archives of text data. This helps in organizing, understanding, and summarizing large datasets of textual information.
+**Large Language Models (LLMs)** are types of artificial intelligence algorithms designed to understand, generate, and sometimes translate human language. They are trained on vast amounts of text data, allowing them to learn a wide variety of linguistic patterns, syntax, and semantics. This extensive training enables them to perform a range of language-based tasks that were previously challenging for machines.
 
-## Zero shot
+### Examples of Large Language Models:
 
-Latent Dirichlet Allocation (LDA) is one of the most popular algorithms for topic modeling. Such topic modeling algorithms assume that any document is a mixture of topics and that any topic is a mixture of words. By analyzing the patterns of word co-occurrence across the documents, topic models can identify groups of words that frequently appear together and assign them to topics.
+-   **OpenAI's GPT (Generative Pre-trained Transformer) series**: Models like GPT-3 have demonstrated capabilities in generating human-like text based on the prompts they receive.
 
-## Few shot
+-   **Google's BERT (Bidirectional Encoder Representations from Transformers)**: Focused on improving search results by understanding the context of search queries.
 
-Gensim is designed for natural language processing (NLP) tasks such as topic modeling, document indexing, and similarity retrieval, particularly with large text corpora. Gensim provides efficient implementations of popular topic modeling algorithms such as Latent Dirichlet Allocation (LDA) and Latent Semantic Analysis (LSA).
+-   **Facebook’s RoBERTa (Robustly optimized BERT approach)**: An optimized version of BERT that improves language understanding.
 
-## Chain of thought
+## Zero-Shot Learning
 
-Gensim is designed for natural language processing (NLP) tasks such as topic modeling, document indexing, and similarity retrieval, particularly with large text corpora. Gensim provides efficient implementations of popular topic modeling algorithms such as Latent Dirichlet Allocation (LDA) and Latent Semantic Analysis (LSA).
+**Zero-shot learning** refers to the ability of a model to correctly perform a task without having seen any examples from that specific task during training.
+
+![](img/zeroshot.png){fig-align="center" width="1200"}
+
+Resource: <https://saturncloud.io/blog/breaking-the-data-barrier-how-zero-shot-one-shot-and-few-shot-learning-are-transforming-machine-learning/>
+
+## Few-Shot Learning
+
+**Few-shot learning** involves training a model on a very limited amount of data about a specific task. Unlike zero-shot learning, few-shot learning requires some examples (though still very few) of the task to guide the model.
+
+![](img/fewshot.png){fig-align="center" width="1200"}
+
+Resource: <https://medium.com/ubiai-nlp/step-by-step-guide-to-mastering-few-shot-learning-a673054167a0>
+
+## Chain of Thought
+
+**Chain of thought** prompting is a technique used to encourage a model to 'think aloud' or step through its reasoning process as it works toward a solution.
+
+![](img/chainofthought.png){fig-align="center" width="1100"}
+
+Resource: <https://www.promptingguide.ai/techniques/cot>

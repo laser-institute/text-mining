@@ -8,7 +8,7 @@
 <link href="lab-3-conceptual-overview-python_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="lab-3-conceptual-overview-python_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="lab-3-conceptual-overview-python_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.5.54">
+  <meta name="generator" content="quarto-1.4.553">
 
   <title>Large Language Models</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -337,27 +337,43 @@
 <section id="agenda" class="slide level2">
 <h2>Agenda</h2>
 <ol type="1">
-<li><p>In-context learning</p></li>
+<li><p>Large Language Models</p></li>
 <li><p>Zero shot</p></li>
 <li><p>Few shot</p></li>
 <li><p>Chain of thought</p></li>
 </ol>
 </section>
-<section id="in-context-learning" class="slide level2">
-<h2>In-context learning</h2>
-<p><strong>Topic Modeling</strong> is a type of statistical model used to uncover the abstract “topics” that occur in a collection of documents. The primary goal of topic modeling is to discover the hidden thematic structure in large archives of text data. This helps in organizing, understanding, and summarizing large datasets of textual information.</p>
+<section id="large-language-models-llms" class="slide level2">
+<h2>Large Language Models (LLMs)</h2>
+<p><strong>Large Language Models (LLMs)</strong> are types of artificial intelligence algorithms designed to understand, generate, and sometimes translate human language. They are trained on vast amounts of text data, allowing them to learn a wide variety of linguistic patterns, syntax, and semantics. This extensive training enables them to perform a range of language-based tasks that were previously challenging for machines.</p>
+<h3 id="examples-of-large-language-models">Examples of Large Language Models:</h3>
+<ul>
+<li><p><strong>OpenAI’s GPT (Generative Pre-trained Transformer) series</strong>: Models like GPT-3 have demonstrated capabilities in generating human-like text based on the prompts they receive.</p></li>
+<li><p><strong>Google’s BERT (Bidirectional Encoder Representations from Transformers)</strong>: Focused on improving search results by understanding the context of search queries.</p></li>
+<li><p><strong>Facebook’s RoBERTa (Robustly optimized BERT approach)</strong>: An optimized version of BERT that improves language understanding.</p></li>
+</ul>
 </section>
-<section id="zero-shot" class="slide level2">
-<h2>Zero shot</h2>
-<p>Latent Dirichlet Allocation (LDA) is one of the most popular algorithms for topic modeling. Such topic modeling algorithms assume that any document is a mixture of topics and that any topic is a mixture of words. By analyzing the patterns of word co-occurrence across the documents, topic models can identify groups of words that frequently appear together and assign them to topics.</p>
+<section id="zero-shot-learning" class="slide level2">
+<h2>Zero-Shot Learning</h2>
+<p><strong>Zero-shot learning</strong> refers to the ability of a model to correctly perform a task without having seen any examples from that specific task during training.</p>
+
+<img data-src="img/zeroshot.png" class="quarto-figure quarto-figure-center r-stretch" width="1200"><p>Resource: <a href="https://saturncloud.io/blog/breaking-the-data-barrier-how-zero-shot-one-shot-and-few-shot-learning-are-transforming-machine-learning/" class="uri">https://saturncloud.io/blog/breaking-the-data-barrier-how-zero-shot-one-shot-and-few-shot-learning-are-transforming-machine-learning/</a></p>
 </section>
-<section id="few-shot" class="slide level2">
-<h2>Few shot</h2>
-<p>Gensim is designed for natural language processing (NLP) tasks such as topic modeling, document indexing, and similarity retrieval, particularly with large text corpora. Gensim provides efficient implementations of popular topic modeling algorithms such as Latent Dirichlet Allocation (LDA) and Latent Semantic Analysis (LSA).</p>
+<section id="few-shot-learning" class="slide level2">
+<h2>Few-Shot Learning</h2>
+<p><strong>Few-shot learning</strong> involves training a model on a very limited amount of data about a specific task. Unlike zero-shot learning, few-shot learning requires some examples (though still very few) of the task to guide the model.</p>
+
+<img data-src="img/fewshot.png" class="quarto-figure quarto-figure-center r-stretch" width="1200"><p>Resource: <a href="https://medium.com/ubiai-nlp/step-by-step-guide-to-mastering-few-shot-learning-a673054167a0" class="uri">https://medium.com/ubiai-nlp/step-by-step-guide-to-mastering-few-shot-learning-a673054167a0</a></p>
 </section>
 <section id="chain-of-thought" class="slide level2">
-<h2>Chain of thought</h2>
-<p>Gensim is designed for natural language processing (NLP) tasks such as topic modeling, document indexing, and similarity retrieval, particularly with large text corpora. Gensim provides efficient implementations of popular topic modeling algorithms such as Latent Dirichlet Allocation (LDA) and Latent Semantic Analysis (LSA).</p>
+<h2>Chain of Thought</h2>
+<p><strong>Chain of thought</strong> prompting is a technique used to encourage a model to ‘think aloud’ or step through its reasoning process as it works toward a solution.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="img/chainofthought.png" class="quarto-figure quarto-figure-center" width="1100"></p>
+</figure>
+</div>
+<p>Resource: <a href="https://www.promptingguide.ai/techniques/cot" class="uri">https://www.promptingguide.ai/techniques/cot</a></p>
 <div class="quarto-auto-generated-content">
 <p><img src="img/LASERLogoB.png" class="slide-logo"></p>
 <div class="footer footer-default">
@@ -609,7 +625,18 @@
         }
         return false;
       }
-      const onCopySuccess = function(e) {
+      const clipboard = new window.ClipboardJS('.code-copy-button', {
+        text: function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+      });
+      clipboard.on('success', function(e) {
         // button target
         const button = e.trigger;
         // don't keep focus
@@ -641,29 +668,7 @@
         }, 1000);
         // clear code selection
         e.clearSelection();
-      }
-      const getTextToCopy = function(trigger) {
-          const codeEl = trigger.previousElementSibling.cloneNode(true);
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
-            }
-          }
-          return codeEl.innerText;
-      }
-      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-        text: getTextToCopy
       });
-      clipboard.on('success', onCopySuccess);
-      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-        // For code content inside modals, clipBoardJS needs to be initialized with a container option
-        // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-          text: getTextToCopy,
-          container: window.document.getElementById('quarto-embedded-source-code-modal')
-        });
-        clipboardModal.on('success', onCopySuccess);
-      }
         var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
         var mailtoRegex = new RegExp(/^mailto:/);
           var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -671,7 +676,7 @@
             return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
         }
         // Inspect non-navigation links and adorn them if external
-     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
         for (var i=0; i<links.length; i++) {
           const link = links[i];
           if (!isInternal(link.href)) {
