@@ -1,0 +1,122 @@
+---
+title: "Dictionary-Methods - Sentiment Analysis"
+subtitle: "Lab 2: Conceptual Overview"
+format:
+  revealjs: 
+    slide-number: c/t
+    progress: true
+    chalkboard: 
+      buttons: false
+    preview-links: auto
+    logo: img/LASERLogoB.png
+    theme: [default, css/laser.scss]
+    width: 1920
+    height: 1080
+    margin: 0.05
+    footer: <a href=https://www.go.ncsu.edu/laser-institute>go.ncsu.edu/laser-institute
+#resources:
+#  - demo.pdf
+#bibliography: lit/references.bib
+editor: visual
+---
+
+## Agenda
+
+::: columns
+::: {.column width="50%"}
+Part 1: Research Overview
+
+-   What is Sentiment Analysis?
+
+-   What research questions can sentiment analysis answer?
+:::
+
+::: {.column width="50%"}
+Part 2: R Code-Along
+
+-   Affin
+
+-   Bing
+
+-   Loughran
+
+-   NRC
+:::
+:::
+
+# Part 1: Research Overview
+
+Applying Sentiment Analysis in STEM Education Research
+
+## What is Sentiment Analysis?
+
+By summing the values related to each word in a document, we will be able to find out the tone or sentiment of the whole document.
+
+![](img/sentiment-flow.png){fig-align="center"}
+
+Figure source: Silge & Robinson, 2017
+
+## Research Questions
+
+::: panel-tabset
+## Walkthrough example
+
+::: columns
+::: {.column width="50%"}
+What is the public sentiment expressed toward the NGSS? How does sentiment for NGSS compare to sentiment for CCSS?
+:::
+
+![](img/data.png){fig-align="center"}
+:::
+
+## Discuss
+
+Take a look at the dataset located [here](https://github.com/laser-institute/text-mining/tree/main/dataset) and consider the following:
+
+\- What format is this data set stored as?
+
+\- What are some things you notice about this dataset?
+
+\- What questions do you have about this dataset?
+
+\- What similar dataset do you have?
+
+\- What research questions do you want to address with your dataset?
+:::
+
+# Part 2: R Code Along
+
+Lexicons!
+
+\[Text Mining_Sentiment Analysis\]
+
+## Inner_join
+
+inner_join() allows us to keep only the rows with words that match words in our sentiment lexicons, or dictionaries, along with the sentiment measure for that word from the sentiment lexicon.
+
+![](img/innerjoin.png){fig-align="center"}
+
+## Affin, Bing, Loughran, NRC
+
+There is a difference in the intended use of the lexicon. The following figure shows the different lexicons, the number of words in the lexicon, resolution, calculation method and classification method.
+
+![](img/lexicon.png){fig-align="center"}
+
+[Source](https://bookdown.org/psonkin18/berkshire/sentiment.html)
+
+## Affin, Bing, Loughran, NRC
+
+![](img/sentimentcounts.png){fig-align="center"}
+
+[LIWC study](https://onlinelibrary.wiley.com/doi/full/10.1002/sce.21679)
+
+# Thank you!
+
+**Dr. Shiyan Jiang**
+
+[sjiang24\@ncsu.edu](mailto:sjiang24@ncsu.edu)
+
+\
+
+\
+\

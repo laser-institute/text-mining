@@ -9,13 +9,15 @@ format:
       buttons: false
     preview-links: auto
     logo: img/LASERLogoB.png
-    width: 1820
-    height: 1050
+    theme: [default, css/laser.scss]
+    width: 1920
+    height: 1080
     margin: 0.05
     footer: <a href=https://www.go.ncsu.edu/laser-institute>go.ncsu.edu/laser-institute
-highlight-style: a11y
+#resources:
+#  - demo.pdf
+#bibliography: lit/references.bib
 editor: visual
-jupyter: python3
 ---
 
 ## Agenda

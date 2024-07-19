@@ -8,7 +8,7 @@
 <link href="lab-2-code-along-python_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="lab-2-code-along-python_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="lab-2-code-along-python_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.5.54">
+  <meta name="generator" content="quarto-1.4.553">
 
   <title>Sentiment Analysis with Python</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -41,7 +41,7 @@
     }
     @media print {
     pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
     }
     pre.numberSource code
       { counter-reset: source-line 0; }
@@ -55,44 +55,44 @@
         -khtml-user-select: none; -moz-user-select: none;
         -ms-user-select: none; user-select: none;
         padding: 0 4px; width: 4em;
-        color: #767676;
+        color: #aaaaaa;
       }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #767676;  padding-left: 4px; }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
     div.sourceCode
-      { color: #545454; background-color: #fefefe; }
+      { color: #003b4f; background-color: #f1f3f5; }
     @media screen {
     pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
     }
-    code span { color: #545454; } /* Normal */
-    code span.al { color: #7928a1; } /* Alert */
-    code span.an { color: #696969; } /* Annotation */
-    code span.at { color: #a55a00; } /* Attribute */
-    code span.bn { color: #7928a1; } /* BaseN */
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
     code span.bu { } /* BuiltIn */
-    code span.cf { color: #d91e18; } /* ControlFlow */
-    code span.ch { color: #008000; } /* Char */
-    code span.cn { color: #d91e18; } /* Constant */
-    code span.co { color: #696969; } /* Comment */
-    code span.cv { color: #696969; font-style: italic; } /* CommentVar */
-    code span.do { color: #696969; font-style: italic; } /* Documentation */
-    code span.dt { color: #7928a1; } /* DataType */
-    code span.dv { color: #7928a1; } /* DecVal */
-    code span.er { color: #7928a1; } /* Error */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
     code span.ex { } /* Extension */
-    code span.fl { color: #a55a00; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { } /* Import */
-    code span.in { color: #696969; } /* Information */
-    code span.kw { color: #d91e18; } /* Keyword */
-    code span.op { color: #00769e; } /* Operator */
-    code span.ot { color: #d91e18; } /* Other */
-    code span.pp { color: #7928a1; } /* Preprocessor */
-    code span.sc { color: #00769e; } /* SpecialChar */
-    code span.ss { color: #008000; } /* SpecialString */
-    code span.st { color: #008000; } /* String */
-    code span.va { color: #a55a00; } /* Variable */
-    code span.vs { color: #008000; } /* VerbatimString */
-    code span.wa { color: #696969; font-style: italic; } /* Warning */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="lab-2-code-along-python_files/libs/revealjs/dist/theme/quarto.css">
   <link href="lab-2-code-along-python_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -470,33 +470,27 @@
 </section>
 <section id="get-sentiment-values" class="slide level2">
 <h2>Get Sentiment Values</h2>
-<div id="da22e8a8" class="cell" data-execution_count="1">
+<div id="e3592d21" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-stdout">
-<pre><code>Requirement already satisfied: nltk in /cloud/project/r-reticulate/lib/python3.11/site-packages (3.8.1)
-Requirement already satisfied: matplotlib in /cloud/project/r-reticulate/lib/python3.11/site-packages (3.9.0)
-Requirement already satisfied: click in /cloud/project/r-reticulate/lib/python3.11/site-packages (from nltk) (8.1.7)
-Requirement already satisfied: joblib in /cloud/project/r-reticulate/lib/python3.11/site-packages (from nltk) (1.4.2)
-Requirement already satisfied: regex&gt;=2021.8.3 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from nltk) (2024.5.15)
-Requirement already satisfied: tqdm in /cloud/project/r-reticulate/lib/python3.11/site-packages (from nltk) (4.66.2)
-Requirement already satisfied: contourpy&gt;=1.0.1 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (1.2.1)
-Requirement already satisfied: cycler&gt;=0.10 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (0.12.1)
-Requirement already satisfied: fonttools&gt;=4.22.0 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (4.53.0)
-Requirement already satisfied: kiwisolver&gt;=1.3.1 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (1.4.5)
-Requirement already satisfied: numpy&gt;=1.23 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (1.26.4)
-Requirement already satisfied: packaging&gt;=20.0 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (24.0)
-Requirement already satisfied: pillow&gt;=8 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (10.3.0)
-Requirement already satisfied: pyparsing&gt;=2.3.1 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (3.1.2)
-Requirement already satisfied: python-dateutil&gt;=2.7 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from matplotlib) (2.9.0.post0)
-Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/python3.11/site-packages (from python-dateutil&gt;=2.7-&gt;matplotlib) (1.16.0)
-
-[notice] A new release of pip is available: 24.0 -&gt; 24.1.2
-[notice] To update, run: pip install --upgrade pip</code></pre>
+<pre><code>Requirement already satisfied: nltk in /opt/anaconda3/lib/python3.11/site-packages (3.8.1)
+Requirement already satisfied: matplotlib in /opt/anaconda3/lib/python3.11/site-packages (3.8.0)
+Requirement already satisfied: click in /opt/anaconda3/lib/python3.11/site-packages (from nltk) (8.1.7)
+Requirement already satisfied: joblib in /opt/anaconda3/lib/python3.11/site-packages (from nltk) (1.2.0)
+Requirement already satisfied: regex&gt;=2021.8.3 in /opt/anaconda3/lib/python3.11/site-packages (from nltk) (2023.10.3)
+Requirement already satisfied: tqdm in /opt/anaconda3/lib/python3.11/site-packages (from nltk) (4.65.0)
+Requirement already satisfied: contourpy&gt;=1.0.1 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (1.2.0)
+Requirement already satisfied: cycler&gt;=0.10 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (0.11.0)
+Requirement already satisfied: fonttools&gt;=4.22.0 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (4.25.0)
+Requirement already satisfied: kiwisolver&gt;=1.0.1 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (1.4.4)
+Requirement already satisfied: numpy&lt;2,&gt;=1.21 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (1.26.4)
+Requirement already satisfied: packaging&gt;=20.0 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (23.1)
+Requirement already satisfied: pillow&gt;=6.2.0 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (10.2.0)
+Requirement already satisfied: pyparsing&gt;=2.3.1 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (3.0.9)
+Requirement already satisfied: python-dateutil&gt;=2.7 in /opt/anaconda3/lib/python3.11/site-packages (from matplotlib) (2.8.2)
+Requirement already satisfied: six&gt;=1.5 in /opt/anaconda3/lib/python3.11/site-packages (from python-dateutil&gt;=2.7-&gt;matplotlib) (1.16.0)</code></pre>
 </div>
 </div>
-</section>
-<section id="get-sentiment-values-1" class="slide level2">
-<h2>Get Sentiment Values</h2>
-<div id="227b1edc" class="cell" data-execution_count="2">
+<div id="f8a47e3a" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a><span class="co"># Import SentimentIntensityAnalyzer</span></span>
 <span id="cb2-2"><a href=""></a><span class="im">from</span> nltk.sentiment.vader <span class="im">import</span> SentimentIntensityAnalyzer</span>
 <span id="cb2-3"><a href=""></a></span>
@@ -521,14 +515,14 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 <section id="your-turn" class="slide level2">
 <h2>Your Turn</h2>
 <p>Replace the text with what you are interested, and use VADER to get the sentiment value.</p>
-<div id="d0613d22" class="cell" data-execution_count="3">
+<div id="ca7b7b64" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="sentiment-over-time" class="slide level2">
 <h2>Sentiment Over Time</h2>
 <h3 id="how-to-display-the-sentiment-over-time">How to display the sentiment over time?</h3>
-<div id="9f2bce7d" class="cell columns column-output-location" data-execution_count="4">
+<div id="94c4466d" class="cell columns column-output-location" data-execution_count="4">
 <div class="column">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a><span class="co"># Import needed libraries</span></span>
 <span id="cb5-2"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -537,11 +531,11 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 <span id="cb5-5"><a href=""></a></span>
 <span id="cb5-6"><a href=""></a><span class="co"># Example dataset</span></span>
 <span id="cb5-7"><a href=""></a>data <span class="op">=</span> {</span>
-<span id="cb5-8"><a href=""></a>    <span class="st">'timestamp'</span>: [<span class="st">'2021-02-10'</span>, <span class="st">'2021-02-11'</span>, <span class="st">'2021-02-12'</span>],</span>
+<span id="cb5-8"><a href=""></a>    <span class="st">'timestamp'</span>: [<span class="st">'2024-06-01'</span>, <span class="st">'2024-06-02'</span>, <span class="st">'2024-06-03'</span>],</span>
 <span id="cb5-9"><a href=""></a>    <span class="st">'text'</span>: [</span>
-<span id="cb5-10"><a href=""></a>        <span class="st">"What common core equation do they use to arrive at this prediction. Can't wait to rub it in their face when that are wrong AGAIN!"</span>,</span>
-<span id="cb5-11"><a href=""></a>        <span class="st">"I can't help but think that the dumbing down of the American demographic is a direct result of 'common core'; 'no child left behind' as ways of allowing 'good enough for govt work' to be passed off to the next person 'responsible.' Now the passed off own false entitlement"</span>,</span>
-<span id="cb5-12"><a href=""></a>        <span class="st">"I just got an 'explainer' on how to read my child's report card. Now, if I can get an explainer on how to do second-grade common core math, I'll really be in good shape. #hopeful."</span></span>
+<span id="cb5-10"><a href=""></a>        <span class="st">"This is a positive tweet!"</span>,</span>
+<span id="cb5-11"><a href=""></a>        <span class="st">"Feeling neutral today."</span>,</span>
+<span id="cb5-12"><a href=""></a>        <span class="st">"Not a good experience."</span></span>
 <span id="cb5-13"><a href=""></a>    ]</span>
 <span id="cb5-14"><a href=""></a>}</span>
 <span id="cb5-15"><a href=""></a><span class="co"># Create DataFrame</span></span>
@@ -578,16 +572,17 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lab-2-code-along-python_files/figure-revealjs/cell-5-output-1.png" width="950" height="566"></p>
+<p><img data-src="lab-2-code-along-python_files/figure-revealjs/cell-5-output-1.png" width="949" height="565"></p>
 </figure>
 </div>
 </div>
-</div></div>
+</div>
+</div>
 </section>
 <section id="your-turn-1" class="slide level2">
 <h2>Your Turn</h2>
 <p>Instead of sentiment over days, display sentiment over month.</p>
-<div id="7c92a181" class="cell" data-execution_count="5">
+<div id="e12912a6" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br>
@@ -847,7 +842,18 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
         }
         return false;
       }
-      const onCopySuccess = function(e) {
+      const clipboard = new window.ClipboardJS('.code-copy-button', {
+        text: function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+      });
+      clipboard.on('success', function(e) {
         // button target
         const button = e.trigger;
         // don't keep focus
@@ -879,29 +885,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
         }, 1000);
         // clear code selection
         e.clearSelection();
-      }
-      const getTextToCopy = function(trigger) {
-          const codeEl = trigger.previousElementSibling.cloneNode(true);
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
-            }
-          }
-          return codeEl.innerText;
-      }
-      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-        text: getTextToCopy
       });
-      clipboard.on('success', onCopySuccess);
-      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-        // For code content inside modals, clipBoardJS needs to be initialized with a container option
-        // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-          text: getTextToCopy,
-          container: window.document.getElementById('quarto-embedded-source-code-modal')
-        });
-        clipboardModal.on('success', onCopySuccess);
-      }
         var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
         var mailtoRegex = new RegExp(/^mailto:/);
           var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -909,7 +893,7 @@ Requirement already satisfied: six&gt;=1.5 in /cloud/project/r-reticulate/lib/py
             return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
         }
         // Inspect non-navigation links and adorn them if external
-     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
         for (var i=0; i<links.length; i++) {
           const link = links[i];
           if (!isInternal(link.href)) {
