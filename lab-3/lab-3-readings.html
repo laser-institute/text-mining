@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.54">
+<meta name="generator" content="quarto-1.4.553">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="LASER Institute">
-<meta name="dcterms.date" content="2024-07-16">
+<meta name="dcterms.date" content="2024-07-19">
 
 <title>Lab 3 Readings: LLM</title>
 <style>
@@ -66,7 +66,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 16, 2024</p>
+      <p class="date">July 19, 2024</p>
     </div>
   </div>
   
@@ -87,12 +87,6 @@ ul.task-list li input[type="checkbox"] {
 <section id="required" class="level5">
 <h5 class="anchored" data-anchor-id="required">Required</h5>
 <ol type="1">
-<li><p>Xiao, Z., Yuan, X., Liao, Q. V., Abdelghani, R., &amp; Oudeyer, P. Y. (2023, March). Supporting qualitative analysis with large language models: Combining codebook with GPT-3 for deductive coding. In&nbsp;<em>Companion proceedings of the 28th international conference on intelligent user interfaces</em>&nbsp;(pp.&nbsp;75-78).</p></li>
-<li><p>Xiao, Z., Yuan, X., Liao, Q. V., Abdelghani, R., &amp; Oudeyer, P. Y. (2023, March). Supporting qualitative analysis with large language models: Combining codebook with GPT-3 for deductive coding. In&nbsp;<em>Companion proceedings of the 28th international conference on intelligent user interfaces</em>&nbsp;(pp.&nbsp;75-78).</p></li>
-<li><p>Gao, J., Guo, Y., Lim, G., Zhang, T., Zhang, Z., Li, T. J. J., &amp; Perrault, S. T. (2024, May). CollabCoder: a lower-barrier, rigorous workflow for inductive collaborative qualitative analysis with large language models. In&nbsp;<em>Proceedings of the CHI Conference on Human Factors in Computing Systems</em>&nbsp;(pp.&nbsp;1-29).</p></li>
-<li><p>Baker, S. ChatGPT for Education Research: Exploring the Potential of Large Language Models for Qualitative Codebook Development.</p></li>
-<li><p>Barany, A., Nasiar, N., Porter, C., Zambrano, A. F., Andres, A. L., Bright, D., … &amp; Baker, R. S. (2024, July). ChatGPT for Education Research: Exploring the Potential of Large Language Models for Qualitative Codebook Development. In&nbsp;<em>International Conference on Artificial Intelligence in Education</em>&nbsp;(pp.&nbsp;134-149). Cham: Springer Nature Switzerland.</p></li>
-<li><p>Tai, R. H., Bentley, L. R., Xia, X., Sitt, J. M., Fankhauser, S. C., Chicas-Mosier, A. M., &amp; Monteith, B. G. (2024). An examination of the use of large language models to aid analysis of textual data.&nbsp;<em>International Journal of Qualitative Methods</em>,&nbsp;<em>23</em>, 16094069241231168.</p></li>
 <li><p>Xiao, Z., Yuan, X., Liao, Q. V., Abdelghani, R., &amp; Oudeyer, P. Y. (2023, March). Supporting qualitative analysis with large language models: Combining codebook with GPT-3 for deductive coding. In&nbsp;Companion proceedings of the 28th international conference on intelligent user interfaces&nbsp;(pp.&nbsp;75-78).</p></li>
 <li><p>Gao, J., Guo, Y., Lim, G., Zhang, T., Zhang, Z., Li, T. J. J., &amp; Perrault, S. T. (2024, May). CollabCoder: a lower-barrier, rigorous workflow for inductive collaborative qualitative analysis with large language models. In&nbsp;Proceedings of the CHI Conference on Human Factors in Computing Systems&nbsp;(pp.&nbsp;1-29).</p></li>
 <li><p>Barany, A., Nasiar, N., Porter, C., Zambrano, A. F., Andres, A. L., Bright, D., … &amp; Baker, R. S. (2024, July). ChatGPT for Education Research: Exploring the Potential of Large Language Models for Qualitative Codebook Development. In&nbsp;International Conference on Artificial Intelligence in Education&nbsp;(pp.&nbsp;134-149). Cham: Springer Nature Switzerland.</p></li>
@@ -286,7 +280,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -318,29 +323,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -348,7 +331,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
