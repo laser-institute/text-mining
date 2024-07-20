@@ -1,5 +1,5 @@
 ---
-title: "Topic Modelling"
+title: "Topic Modeling"
 subtitle: "Lab 4: Conceptual Overview"
 format:
   revealjs: 

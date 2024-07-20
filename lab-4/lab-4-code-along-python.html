@@ -10,7 +10,7 @@
 <link href="lab-4-code-along-python_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.4.553">
 
-  <title>Topic Modelling with Python</title>
+  <title>Topic Modeling with Python</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -395,7 +395,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Topic Modelling with Python</h1>
+  <h1 class="title">Topic Modeling with Python</h1>
   <p class="subtitle">Lab 4: Code-Along</p>
 
 <div class="quarto-title-authors">
@@ -405,12 +405,12 @@
 <section id="agenda" class="slide level2">
 <h2>Agenda</h2>
 <ol type="1">
-<li><p>Topic Modelling and LDA Model</p></li>
+<li><p>Topic Modeling and LDA Model</p></li>
 <li><p>Python gensim Library for LDA</p></li>
-<li><p>Perform Topic Modelling with gensim Library</p>
+<li><p>Perform Topic Modeling with gensim Library</p>
 <ul>
 <li><p>Import and Preprocess Data (Lab 1.2; Lab 1.3)</p></li>
-<li><p>Preprocess Data for LDA Modelling&nbsp;</p></li>
+<li><p>Preprocess Data for LDA Modeling&nbsp;</p></li>
 <li><p>Fit a LDA Model</p></li>
 <li><p>Find optimal # of topics - K</p></li>
 <li><p>Topic Summaries and Visualization</p>
@@ -421,12 +421,12 @@
 </ol>
 </section>
 <section>
-<section id="topic-modelling-and-lda-model" class="title-slide slide level1 center">
-<h1>Topic Modelling and LDA Model</h1>
+<section id="topic-modeling-and-lda-model" class="title-slide slide level1 center">
+<h1>Topic Modeling and LDA Model</h1>
 
 </section>
-<section id="what-is-topic-modelling" class="slide level2">
-<h2>What is topic modelling?</h2>
+<section id="what-is-topic-modeling" class="slide level2">
+<h2>What is topic modeling?</h2>
 <p><strong>Topic Modeling</strong> is a type of statistical model used to uncover the abstract “topics” that occur in a collection of documents. The primary goal of topic modeling is to discover the hidden thematic structure in large archives of text data. This helps in organizing, understanding, and summarizing large datasets of textual information.</p>
 </section>
 <section id="what-is-lda" class="slide level2">
@@ -443,13 +443,13 @@
 <p>Gensim is designed for natural language processing (NLP) tasks such as topic modeling, document indexing, and similarity retrieval, particularly with large text corpora. Gensim provides efficient implementations of popular topic modeling algorithms such as Latent Dirichlet Allocation (LDA) and Latent Semantic Analysis (LSA).</p>
 </section></section>
 <section>
-<section id="perform-lda-modelling-with-gensim-library" class="title-slide slide level1 center">
-<h1>Perform LDA Modelling with Gensim Library</h1>
+<section id="perform-lda-modeling-with-gensim-library" class="title-slide slide level1 center">
+<h1>Perform LDA Modeling with Gensim Library</h1>
 
 </section>
-<section id="lda-topic-modelling-with-gensim" class="slide level2">
-<h2>LDA Topic Modelling with gensim</h2>
-<div id="f39fcb71" class="cell" data-execution_count="1">
+<section id="lda-topic-modeling-with-gensim" class="slide level2">
+<h2>LDA Topic Modeling with gensim</h2>
+<div id="085aae7e" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="op">!</span>pip install nltk gensim matplotlib pyLDAvis</span>
 <span id="cb1-2"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href=""></a><span class="im">import</span> nltk</span>
@@ -496,9 +496,9 @@ Requirement already satisfied: miniful in /opt/anaconda3/lib/python3.11/site-pac
 </div>
 </div>
 </section>
-<section id="lda-topic-modelling-with-gensim-1" class="slide level2">
-<h2>LDA Topic Modelling with gensim</h2>
-<div id="2ea363af" class="cell" data-execution_count="2">
+<section id="lda-topic-modeling-with-gensim-1" class="slide level2">
+<h2>LDA Topic Modeling with gensim</h2>
+<div id="df67f14d" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="im">from</span> gensim <span class="im">import</span> corpora, models</span>
 <span id="cb3-2"><a href=""></a><span class="im">from</span> gensim.models.ldamodel <span class="im">import</span> LdaModel</span>
 <span id="cb3-3"><a href=""></a></span>
@@ -522,8 +522,8 @@ Requirement already satisfied: miniful in /opt/anaconda3/lib/python3.11/site-pac
 <span id="cb3-21"><a href=""></a><span class="cf">for</span> topic_id, topic <span class="kw">in</span> lda_model.print_topics():</span>
 <span id="cb3-22"><a href=""></a>    <span class="bu">print</span>(<span class="ss">f"Topic </span><span class="sc">{</span>topic_id<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>topic<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Topic 0: 0.141*"data" + 0.141*"soda" + 0.141*"water" + 0.141*"juice" + 0.049*"sample" + 0.049*"population" + 0.049*"statistic" + 0.048*"variable" + 0.048*"coke" + 0.048*"differences"
-Topic 1: 0.097*"hypothesis" + 0.097*"pepsi" + 0.097*"comparasion" + 0.097*"differences" + 0.097*"coke" + 0.096*"variable" + 0.096*"statistic" + 0.096*"population" + 0.096*"sample" + 0.033*"juice"</code></pre>
+<pre><code>Topic 0: 0.141*"variable" + 0.141*"population" + 0.141*"sample" + 0.141*"statistic" + 0.049*"water" + 0.049*"comparasion" + 0.048*"hypothesis" + 0.048*"coke" + 0.048*"data" + 0.048*"juice"
+Topic 1: 0.097*"differences" + 0.097*"pepsi" + 0.097*"soda" + 0.096*"juice" + 0.096*"data" + 0.096*"coke" + 0.096*"hypothesis" + 0.096*"comparasion" + 0.096*"water" + 0.033*"statistic"</code></pre>
 </div>
 </div>
 </section>
@@ -535,7 +535,7 @@ Topic 1: 0.097*"hypothesis" + 0.097*"pepsi" + 0.097*"comparasion" + 0.097*"diffe
 <section id="find-optimal-of-topics---k-1" class="slide level2">
 <h2>Find optimal # of topics - K</h2>
 <h3 id="how-to-implement-coherencemodel-approach">How to implement CoherenceModel approach?</h3>
-<div id="7b25efda" class="cell columns column-output-location" data-execution_count="3">
+<div id="a8e9def5" class="cell columns column-output-location" data-execution_count="3">
 <div class="column">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a><span class="co"># Import needed libraries</span></span>
 <span id="cb5-2"><a href=""></a><span class="im">from</span> gensim.models <span class="im">import</span> CoherenceModel</span>
@@ -600,7 +600,7 @@ Topic 1: 0.097*"hypothesis" + 0.097*"pepsi" + 0.097*"comparasion" + 0.097*"diffe
 <section id="your-turn" class="slide level2">
 <h2>Your Turn</h2>
 <p>Fit a LDA model with the optimal # of topics</p>
-<div id="6d4724d5" class="cell" data-execution_count="4">
+<div id="5e979bcb" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section></section>
@@ -616,7 +616,7 @@ Topic 1: 0.097*"hypothesis" + 0.097*"pepsi" + 0.097*"comparasion" + 0.097*"diffe
 </section>
 <section id="how-to-create-a-visualization-with-pyldavis" class="slide level2">
 <h2>How to create a visualization with pyLDAvis?</h2>
-<div id="da28d7c7" class="cell columns column-output-location" data-execution_count="5">
+<div id="42db048e" class="cell columns column-output-location" data-execution_count="5">
 <div class="column">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href=""></a><span class="co"># Import needed libaries</span></span>
 <span id="cb7-2"><a href=""></a><span class="im">import</span> pyLDAvis</span>
@@ -633,10 +633,10 @@ Topic 1: 0.097*"hypothesis" + 0.097*"pepsi" + 0.097*"comparasion" + 0.097*"diffe
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.4.0/pyLDAvis/js/ldavis.v1.0.0.css">
 
 
-<div id="ldavis_el6213253790900001170370589" style="background-color:white;"></div>
+<div id="ldavis_el6553853234664327844090738" style="background-color:white;"></div>
 <script type="text/javascript">
 
-var ldavis_el6213253790900001170370589_data = {"mdsDat": {"x": [0.05487811114196975, -0.05487811114196975], "y": [0.0, 0.0], "topics": [1, 2], "cluster": [1, 1], "Freq": [65.66607475491483, 34.33392524508517]}, "tinfo": {"Term": ["data", "soda", "water", "juice", "hypothesis", "pepsi", "comparasion", "differences", "coke", "variable", "statistic", "population", "sample", "hypothesis", "pepsi", "comparasion", "differences", "coke", "variable", "statistic", "population", "sample", "juice", "water", "soda", "data", "data", "soda", "water", "juice", "sample", "population", "statistic", "variable", "coke", "differences", "comparasion", "pepsi", "hypothesis"], "Freq": [0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.8259750923815363, 0.825788482498846, 0.8257697197464964, 0.8253627906294367, 0.8248457018951925, 0.8232866125787681, 0.8227066845247903, 0.8224683657686755, 0.82216771651323, 0.27986114348306934, 0.2796890667831311, 0.2793971946796321, 0.2792708800146617, 0.6307367128813014, 0.6306405394260265, 0.6304181965069504, 0.630287105303391, 0.2172990669638888, 0.21707010630013784, 0.21688863377405376, 0.2164469907682521, 0.21525967093408627, 0.21486593175343105, 0.21455601179615771, 0.21454171214686027, 0.2143996135388417], "Total": [0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.040374705920378, 1.0403301946457062, 1.0403257315426542, 1.0402287223828677, 1.0401053728292786, 1.0397336033470201, 1.039595318298844, 1.0395384720688134, 1.0394667834771187, 0.9101482487864604, 0.9101072632900815, 0.9100377341056586, 0.9100075928959631, 0.9100075928959631, 0.9100377341056586, 0.9101072632900815, 0.9101482487864604, 1.0394667834771187, 1.0395384720688134, 1.039595318298844, 1.0397336033470201, 1.0401053728292786, 1.0402287223828677, 1.0403257315426542, 1.0403301946457062, 1.040374705920378], "Category": ["Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2"], "logprob": [13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, -2.3356, -2.3358, -2.3358, -2.3363, -2.3369, -2.3388, -2.3395, -2.3398, -2.3402, -3.4178, -3.4184, -3.4195, -3.4199, -1.9568, -1.9569, -1.9573, -1.9575, -3.0224, -3.0234, -3.0243, -3.0263, -3.0318, -3.0337, -3.0351, -3.0352, -3.0358], "loglift": [13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.1898, 0.1896, 0.1896, 0.1892, 0.1887, 0.1872, 0.1866, 0.1864, 0.1861, -0.7587, -0.7593, -0.7603, -0.7607, 0.7025, 0.7023, 0.7019, 0.7016, -0.4962, -0.4973, -0.4982, -0.5003, -0.5062, -0.5081, -0.5097, -0.5098, -0.5105]}, "token.table": {"Topic": [1, 1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 2], "Freq": [0.9614410483043804, 0.9612373987108279, 1.0988919299207707, 0.9613270413349911, 0.9611921496258791, 1.0987221052541087, 0.961233274922448, 0.9619653595021579, 0.9620317030765538, 1.0988555337024042, 0.9619127581647479, 0.9617848233248275, 1.0987715847744715], "Term": ["coke", "comparasion", "data", "differences", "hypothesis", "juice", "pepsi", "population", "sample", "soda", "statistic", "variable", "water"]}, "R": 13, "lambda.step": 0.01, "plot.opts": {"xlab": "PC1", "ylab": "PC2"}, "topic.order": [2, 1]};
+var ldavis_el6553853234664327844090738_data = {"mdsDat": {"x": [0.054417883845629865, -0.054417883845629865], "y": [0.0, 0.0], "topics": [1, 2], "cluster": [1, 1], "Freq": [65.66330791209771, 34.3366920879023]}, "tinfo": {"Term": ["variable", "population", "sample", "statistic", "differences", "pepsi", "soda", "juice", "data", "coke", "hypothesis", "comparasion", "water", "differences", "pepsi", "soda", "juice", "data", "coke", "hypothesis", "comparasion", "water", "statistic", "sample", "population", "variable", "variable", "population", "sample", "statistic", "water", "comparasion", "hypothesis", "coke", "data", "juice", "soda", "pepsi", "differences"], "Freq": [0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.8243458387721176, 0.8239340932120598, 0.8239263976277584, 0.8237198252491567, 0.8237165180559032, 0.8236333294256042, 0.8236034374865824, 0.8231763007579218, 0.822853404216616, 0.28103100450957896, 0.28088189461375634, 0.2807051505743061, 0.2807028609789768, 0.6293189472374499, 0.6293172178381852, 0.6291827903030343, 0.6290693151051285, 0.21693102139846876, 0.21668549658940106, 0.21636061896022696, 0.21633783745068258, 0.21627454808913082, 0.21627203713442922, 0.21611489460509026, 0.2161090246248938, 0.2157959202137908], "Total": [0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0401417589859085, 1.0400431178369536, 1.0400412922328486, 1.039991862383586, 1.039991066145034, 1.0399711668762868, 1.0399640564468093, 1.039861797347323, 1.0397844256150848, 0.9101003196147075, 0.9100646849167906, 0.9100223684124913, 0.9100218082164266, 0.9100218082164266, 0.9100223684124913, 0.9100646849167906, 0.9101003196147075, 1.0397844256150848, 1.039861797347323, 1.0399640564468093, 1.0399711668762868, 1.039991066145034, 1.039991862383586, 1.0400412922328486, 1.0400431178369536, 1.0401417589859085], "Category": ["Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Default", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic1", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2", "Topic2"], "logprob": [13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, -2.3375, -2.338, -2.338, -2.3382, -2.3382, -2.3383, -2.3384, -2.3389, -2.3393, -3.4136, -3.4141, -3.4148, -3.4148, -1.9591, -1.9591, -1.9593, -1.9595, -3.0242, -3.0253, -3.0268, -3.0269, -3.0272, -3.0272, -3.0279, -3.028, -3.0294], "loglift": [13.0, 12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.1881, 0.1877, 0.1877, 0.1875, 0.1875, 0.1874, 0.1874, 0.187, 0.1866, -0.7545, -0.755, -0.7555, -0.7555, 0.7001, 0.7001, 0.6999, 0.6996, -0.4982, -0.4994, -0.501, -0.5012, -0.5015, -0.5015, -0.5022, -0.5023, -0.5038]}, "token.table": {"Topic": [1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 2, 2, 1], "Freq": [0.9615651201212181, 0.961666254641713, 0.9615467214605313, 0.9614074152497781, 0.9615716945224507, 0.9615459852811468, 0.9614985983271214, 1.0988740878364036, 1.098822992006807, 0.9615002860637537, 1.098779967930735, 1.098874764287159, 0.9617378134976869], "Term": ["coke", "comparasion", "data", "differences", "hypothesis", "juice", "pepsi", "population", "sample", "soda", "statistic", "variable", "water"]}, "R": 13, "lambda.step": 0.01, "plot.opts": {"xlab": "PC1", "ylab": "PC2"}, "topic.order": [2, 1]};
 
 function LDAvis_load_lib(url, callback){
   var s = document.createElement('script');
@@ -650,7 +650,7 @@ function LDAvis_load_lib(url, callback){
 if(typeof(LDAvis) !== "undefined"){
    // already loaded: just create the visualization
    !function(LDAvis){
-       new LDAvis("#" + "ldavis_el6213253790900001170370589", ldavis_el6213253790900001170370589_data);
+       new LDAvis("#" + "ldavis_el6553853234664327844090738", ldavis_el6553853234664327844090738_data);
    }(LDAvis);
 }else if(typeof define === "function" && define.amd){
    // require.js is available: use it to load d3/LDAvis
@@ -658,14 +658,14 @@ if(typeof(LDAvis) !== "undefined"){
    require(["d3"], function(d3){
       window.d3 = d3;
       LDAvis_load_lib("https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.4.0/pyLDAvis/js/ldavis.v3.0.0.js", function(){
-        new LDAvis("#" + "ldavis_el6213253790900001170370589", ldavis_el6213253790900001170370589_data);
+        new LDAvis("#" + "ldavis_el6553853234664327844090738", ldavis_el6553853234664327844090738_data);
       });
     });
 }else{
     // require.js not available: dynamically load d3 & LDAvis
     LDAvis_load_lib("https://d3js.org/d3.v5.js", function(){
          LDAvis_load_lib("https://cdn.jsdelivr.net/gh/bmabey/pyLDAvis@3.4.0/pyLDAvis/js/ldavis.v3.0.0.js", function(){
-                 new LDAvis("#" + "ldavis_el6213253790900001170370589", ldavis_el6213253790900001170370589_data);
+                 new LDAvis("#" + "ldavis_el6553853234664327844090738", ldavis_el6553853234664327844090738_data);
             })
          });
 }
@@ -677,7 +677,7 @@ if(typeof(LDAvis) !== "undefined"){
 <section id="your-turn-1" class="slide level2">
 <h2>Your Turn</h2>
 <p>Create a pyLDAvis with the optimal model that you got.</p>
-<div id="c4d34480" class="cell" data-execution_count="6">
+<div id="7a0e3df4" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href=""></a><span class="co"># YOUR CODE IS HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br>

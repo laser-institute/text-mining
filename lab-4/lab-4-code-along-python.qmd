@@ -1,5 +1,5 @@
 ---
-title: "Topic Modelling with Python"
+title: "Topic Modeling with Python"
 subtitle: "Lab 4: Code-Along"
 format:
   revealjs: 
@@ -21,15 +21,15 @@ jupyter: python3
 
 ## Agenda
 
-1.  Topic Modelling and LDA Model
+1.  Topic Modeling and LDA Model
 
 2.  Python gensim Library for LDA
 
-3.  Perform Topic Modelling with gensim Library
+3.  Perform Topic Modeling with gensim Library
 
     -   Import and Preprocess Data (Lab 1.2; Lab 1.3)
 
-    -   Preprocess Data for LDA Modelling 
+    -   Preprocess Data for LDA Modeling 
 
     -   Fit a LDA Model
 
@@ -39,9 +39,9 @@ jupyter: python3
 
         -   pyLDAvis
 
-# Topic Modelling and LDA Model
+# Topic Modeling and LDA Model
 
-## What is topic modelling?
+## What is topic modeling?
 
 **Topic Modeling** is a type of statistical model used to uncover the abstract "topics" that occur in a collection of documents. The primary goal of topic modeling is to discover the hidden thematic structure in large archives of text data. This helps in organizing, understanding, and summarizing large datasets of textual information.
 
@@ -55,9 +55,9 @@ Latent Dirichlet Allocation (LDA) is one of the most popular algorithms for topi
 
 Gensim is designed for natural language processing (NLP) tasks such as topic modeling, document indexing, and similarity retrieval, particularly with large text corpora. Gensim provides efficient implementations of popular topic modeling algorithms such as Latent Dirichlet Allocation (LDA) and Latent Semantic Analysis (LSA).
 
-# Perform LDA Modelling with Gensim Library
+# Perform LDA Modeling with Gensim Library
 
-## LDA Topic Modelling with gensim
+## LDA Topic Modeling with gensim
 
 ```{python}
 #| echo: true
@@ -70,7 +70,7 @@ import matplotlib.pyplot as plt
 import pyLDAvis
 ```
 
-## LDA Topic Modelling with gensim
+## LDA Topic Modeling with gensim
 
 ```{python}
 #| echo: true
