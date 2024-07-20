@@ -1,5 +1,5 @@
 ---
-title: "Lab 3: LLM with Python"
+title: "Large Language Model Badge"
 author: "LASER Institute"
 date: today 
 format:
