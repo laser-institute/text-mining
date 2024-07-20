@@ -1,8 +1,8 @@
 ---
 title: "Large Language Model Badge"
 author: "LASER Institute"
-date: today 
-format:
+date: today
+format: 
   html:
     toc: true
     toc-depth: 4
