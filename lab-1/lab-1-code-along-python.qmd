@@ -259,7 +259,7 @@ Subset the first 10 rows of `opd_teacher` and save it into a new DataFrame calle
 
 ### What is tokenization and why is it needed?
 
-Tokenization is the process of breaking down a text into smaller units called tokens, which helps in preparing text for further analysis and modelling by providing a structured representation of linguistic units.
+Tokenization is the process of breaking down a text into smaller units called tokens, which helps in preparing text for further analysis and modeling by providing a structured representation of linguistic units.
 
 ### Important Terminology
 
