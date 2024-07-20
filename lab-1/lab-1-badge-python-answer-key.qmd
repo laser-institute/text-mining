@@ -1,12 +1,20 @@
 ---
-title: "Lab 1 Badge: Text Mining Basics"
-author: "Dr. Shiyan Jiang"
+title: "Lab 1 Badge: Text Mining Basics with Python"
+author: "LASER Institute"
+date: today
+html:
+    toc: true
+    toc-depth: 4
+    toc-location: right
+theme:
+  light: simplex
+  dark: cyborg
 format: html
 editor: visual
-jupyter: python3
+#bibliography: lit/references.bib
 ---
 
-![](img/tmb.png)
+![](img/tmb.png){fig-align="left" width="300"}
 
 The final activity for each learning lab provides space to work with data and to reflect on how the concepts and techniques introduced in each lab might apply to your own research.
 
@@ -14,7 +22,7 @@ To earn a badge for each lab, you are required to respond to a set of prompts fo
 
 -   In Part I, you will reflect on your understanding of key concepts and begin to think about potential next steps for your own study.
 
--   In Part II, you will create a simple data product in R that demonstrates your ability to apply a data analysis technique introduced in this learning lab.
+-   In Part II, you will create a simple data product in Python that demonstrates your ability to apply a data analysis technique introduced in this learning lab.
 
 ### Part I: Reflect and Plan
 
