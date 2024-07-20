@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.54">
+<meta name="generator" content="quarto-1.4.553">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="LASER Institute">
-<meta name="dcterms.date" content="2024-07-17">
+<meta name="dcterms.date" content="2024-07-20">
 
 <title>Lab 2: Dictionary Methods - Twitter Sentiment and School Reform</title>
 <style>
@@ -35,7 +35,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -75,10 +75,69 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="fullcontent">
+<body>
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">0. INTRODUCTION</a>
+  <ul>
+  <li><a href="#walkthrough-focus" id="toc-walkthrough-focus" class="nav-link" data-scroll-target="#walkthrough-focus">Walkthrough Focus</a></li>
+  </ul></li>
+  <li><a href="#prepare" id="toc-prepare" class="nav-link" data-scroll-target="#prepare">1. PREPARE</a>
+  <ul>
+  <li><a href="#a.-some-context" id="toc-a.-some-context" class="nav-link" data-scroll-target="#a.-some-context">1a. Some Context</a>
+  <ul class="collapse">
+  <li><a href="#twitter-now-known-as-x-and-the-next-generation-science-standards" id="toc-twitter-now-known-as-x-and-the-next-generation-science-standards" class="nav-link" data-scroll-target="#twitter-now-known-as-x-and-the-next-generation-science-standards"><strong>Twitter (Now known as X) and the Next Generation Science Standards</strong></a></li>
+  </ul></li>
+  <li><a href="#b.-guiding-questions" id="toc-b.-guiding-questions" class="nav-link" data-scroll-target="#b.-guiding-questions">1b. Guiding Questions</a></li>
+  <li><a href="#c.-set-up" id="toc-c.-set-up" class="nav-link" data-scroll-target="#c.-set-up">1c. Set Up</a></li>
+  </ul></li>
+  <li><a href="#wrangle" id="toc-wrangle" class="nav-link" data-scroll-target="#wrangle">2. WRANGLE</a>
+  <ul>
+  <li><a href="#a.-import-data" id="toc-a.-import-data" class="nav-link" data-scroll-target="#a.-import-data">2a. Import Data</a></li>
+  <li><a href="#b.-tidy-text" id="toc-b.-tidy-text" class="nav-link" data-scroll-target="#b.-tidy-text">2b. Tidy Text</a>
+  <ul class="collapse">
+  <li><a href="#functions-used" id="toc-functions-used" class="nav-link" data-scroll-target="#functions-used">Functions Used</a></li>
+  <li><a href="#subset-rows-columns" id="toc-subset-rows-columns" class="nav-link" data-scroll-target="#subset-rows-columns">Subset Rows &amp; Columns</a></li>
+  <li><a href="#add-reorder-columns" id="toc-add-reorder-columns" class="nav-link" data-scroll-target="#add-reorder-columns">Add &amp; Reorder Columns</a></li>
+  <li><a href="#combine-data-frames" id="toc-combine-data-frames" class="nav-link" data-scroll-target="#combine-data-frames">Combine Data Frames</a></li>
+  <li><a href="#tokenize-text" id="toc-tokenize-text" class="nav-link" data-scroll-target="#tokenize-text">Tokenize Text</a></li>
+  <li><a href="#remove-stop-words" id="toc-remove-stop-words" class="nav-link" data-scroll-target="#remove-stop-words">Remove Stop Words</a></li>
+  <li><a href="#custom-stop-words" id="toc-custom-stop-words" class="nav-link" data-scroll-target="#custom-stop-words">Custom Stop Words</a></li>
+  </ul></li>
+  <li><a href="#c.-add-sentiment-values" id="toc-c.-add-sentiment-values" class="nav-link" data-scroll-target="#c.-add-sentiment-values">2c. Add Sentiment Values</a>
+  <ul class="collapse">
+  <li><a href="#get-sentiments" id="toc-get-sentiments" class="nav-link" data-scroll-target="#get-sentiments">Get Sentiments</a></li>
+  <li><a href="#join-sentiments" id="toc-join-sentiments" class="nav-link" data-scroll-target="#join-sentiments">Join Sentiments</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#explore" id="toc-explore" class="nav-link" data-scroll-target="#explore">3. EXPLORE</a>
+  <ul>
+  <li><a href="#a.-time-series" id="toc-a.-time-series" class="nav-link" data-scroll-target="#a.-time-series">3a. Time Series</a></li>
+  <li><a href="#b.-sentiment-summaries" id="toc-b.-sentiment-summaries" class="nav-link" data-scroll-target="#b.-sentiment-summaries">3b. Sentiment Summaries</a>
+  <ul class="collapse">
+  <li><a href="#sentiment-counts" id="toc-sentiment-counts" class="nav-link" data-scroll-target="#sentiment-counts">Sentiment Counts</a></li>
+  <li><a href="#compute-sentiment-value" id="toc-compute-sentiment-value" class="nav-link" data-scroll-target="#compute-sentiment-value">Compute Sentiment Value</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model">4. MODEL</a></li>
+  <li><a href="#communicate" id="toc-communicate" class="nav-link" data-scroll-target="#communicate">5. COMMUNICATE</a>
+  <ul>
+  <li><a href="#a.-select" id="toc-a.-select" class="nav-link" data-scroll-target="#a.-select">5a. Select</a></li>
+  <li><a href="#b.-polish" id="toc-b.-polish" class="nav-link" data-scroll-target="#b.-polish">5b. Polish</a>
+  <ul class="collapse">
+  <li><a href="#ngss-sentiment" id="toc-ngss-sentiment" class="nav-link" data-scroll-target="#ngss-sentiment">NGSS Sentiment</a></li>
+  <li><a href="#ngss-vs-ccss" id="toc-ngss-vs-ccss" class="nav-link" data-scroll-target="#ngss-vs-ccss">NGSS vs CCSS</a></li>
+  </ul></li>
+  <li><a href="#c.-narrate" id="toc-c.-narrate" class="nav-link" data-scroll-target="#c.-narrate">5c. Narrate</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -100,7 +159,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 17, 2024</p>
+      <p class="date">July 20, 2024</p>
     </div>
   </div>
   
@@ -353,20 +412,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(tidy_tweets, word, <span class="at">sort =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 7,151 × 2
+<pre><code># A tibble: 7,163 × 2
    word         n
    &lt;chr&gt;    &lt;int&gt;
  1 common    1112
- 2 core      1110
+ 2 core      1109
  3 https      623
- 4 math       450
- 5 ngss       225
- 6 students   141
- 7 science    140
- 8 school     128
- 9 amp        127
-10 teachers   122
-# ℹ 7,141 more rows</code></pre>
+ 4 t.co       623
+ 5 math       450
+ 6 ngss       224
+ 7 students   141
+ 8 science    140
+ 9 school     128
+10 amp        127
+# ℹ 7,153 more rows</code></pre>
 </div>
 </div>
 <p>Notice that the nonsense word “amp” is in our top tens words. If we use the <code>filter()</code> function and `grep() query from Lab 1 on our <code>tweets</code> data frame, we can see that “amp” seems to be some sort of html residue that we might want to get rid of.</p>
@@ -574,7 +633,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in inner_join(tidy_tweets, loughran, by = "word"): Detected an unexpected many-to-many relationship between `x` and `y`.
-ℹ Row 2299 of `x` matches multiple rows in `y`.
+ℹ Row 2417 of `x` matches multiple rows in `y`.
 ℹ Row 2589 of `y` matches multiple rows in `x`.
 ℹ If a many-to-many relationship is expected, set `relationship =
   "many-to-many"` to silence this warning.</code></pre>
@@ -797,7 +856,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 # Groups:   standards [2]
   standards method negative positive sentiment
   &lt;chr&gt;     &lt;chr&gt;     &lt;int&gt;    &lt;int&gt;     &lt;dbl&gt;
-1 ccss      nrc         766     2296      3.00
+1 ccss      nrc         766     2294      2.99
 2 ngss      nrc          79      571      7.23</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
@@ -1075,7 +1134,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 10 loughran ccss      positive    112
 11 loughran ngss      negative     73
 12 loughran ngss      positive     57
-13 nrc      ccss      positive   2296
+13 nrc      ccss      positive   2294
 14 nrc      ccss      negative    766
 15 nrc      ngss      positive    571
 16 nrc      ngss      negative     79</code></pre>
@@ -1112,8 +1171,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 10 loughran ccss      positive    112   545
 11 loughran ngss      negative     73   130
 12 loughran ngss      positive     57   130
-13 nrc      ccss      positive   2296  3062
-14 nrc      ccss      negative    766  3062
+13 nrc      ccss      positive   2294  3060
+14 nrc      ccss      negative    766  3060
 15 nrc      ngss      positive    571   650
 16 nrc      ngss      negative     79   650</code></pre>
 </div>
@@ -1141,8 +1200,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 10 loughran ccss      positive    112   545    20.6
 11 loughran ngss      negative     73   130    56.2
 12 loughran ngss      positive     57   130    43.8
-13 nrc      ccss      positive   2296  3062    75.0
-14 nrc      ccss      negative    766  3062    25.0
+13 nrc      ccss      positive   2294  3060    75.0
+14 nrc      ccss      negative    766  3060    25.0
 15 nrc      ngss      positive    571   650    87.8
 16 nrc      ngss      negative     79   650    12.2</code></pre>
 </div>
@@ -1363,7 +1422,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1395,29 +1465,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -1425,7 +1473,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
