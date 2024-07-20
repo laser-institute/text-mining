@@ -2,8 +2,8 @@
 title: "Lab 4: Topic Modeling in MOOC-Eds"
 author: "LASER Institute"
 date: today
-format: html
-html:
+format: 
+  html:
     toc: true
     toc-depth: 4
     toc-location: right

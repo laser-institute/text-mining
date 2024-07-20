@@ -2,14 +2,14 @@
 title: "Topic Modeling Badge"
 author: "LASER Institute"
 date: today
-html:
+format: 
+  html:
     toc: true
     toc-depth: 4
     toc-location: right
 theme:
   light: simplex
   dark: cyborg
-format: html
 editor: visual
 #bibliography: lit/references.bib
 ---

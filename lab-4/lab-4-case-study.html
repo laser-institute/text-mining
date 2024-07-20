@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.54">
+<meta name="generator" content="quarto-1.4.553">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="LASER Institute">
-<meta name="dcterms.date" content="2024-07-16">
+<meta name="dcterms.date" content="2024-07-20">
 
 <title>Lab 4: Topic Modeling in MOOC-Eds</title>
 <style>
@@ -35,7 +35,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -75,10 +75,68 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="fullcontent">
+<body>
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">0. INTRODUCTION</a>
+  <ul>
+  <li><a href="#walkthrough-focus" id="toc-walkthrough-focus" class="nav-link" data-scroll-target="#walkthrough-focus">Walkthrough Focus</a></li>
+  </ul></li>
+  <li><a href="#prepare" id="toc-prepare" class="nav-link" data-scroll-target="#prepare">1. PREPARE</a>
+  <ul>
+  <li><a href="#a.-context" id="toc-a.-context" class="nav-link" data-scroll-target="#a.-context">1a. Context</a>
+  <ul class="collapse">
+  <li><a href="#participating-in-a-mooc-and-professional-learning-team-how-a-blended-approach-to-professional-development-makes-a-difference" id="toc-participating-in-a-mooc-and-professional-learning-team-how-a-blended-approach-to-professional-development-makes-a-difference" class="nav-link" data-scroll-target="#participating-in-a-mooc-and-professional-learning-team-how-a-blended-approach-to-professional-development-makes-a-difference">Participating in a MOOC and Professional Learning Team: How a Blended Approach to Professional Development Makes a Difference</a></li>
+  </ul></li>
+  <li><a href="#b.-guiding-questions" id="toc-b.-guiding-questions" class="nav-link" data-scroll-target="#b.-guiding-questions">1b. Guiding Questions</a></li>
+  <li><a href="#c.-set-up" id="toc-c.-set-up" class="nav-link" data-scroll-target="#c.-set-up">1c. Set Up</a></li>
+  </ul></li>
+  <li><a href="#wrangle" id="toc-wrangle" class="nav-link" data-scroll-target="#wrangle">2. WRANGLE</a>
+  <ul>
+  <li><a href="#a.-import-forum-data" id="toc-a.-import-forum-data" class="nav-link" data-scroll-target="#a.-import-forum-data">2a. Import Forum Data</a></li>
+  <li><a href="#b.-cast-a-document-term-matrix" id="toc-b.-cast-a-document-term-matrix" class="nav-link" data-scroll-target="#b.-cast-a-document-term-matrix">2b. Cast a Document Term Matrix</a>
+  <ul class="collapse">
+  <li><a href="#functions-used" id="toc-functions-used" class="nav-link" data-scroll-target="#functions-used">Functions Used</a></li>
+  <li><a href="#tidying-text" id="toc-tidying-text" class="nav-link" data-scroll-target="#tidying-text">Tidying Text</a></li>
+  <li><a href="#creating-a-document-term-matrix" id="toc-creating-a-document-term-matrix" class="nav-link" data-scroll-target="#creating-a-document-term-matrix">Creating a Document Term Matrix</a></li>
+  </ul></li>
+  <li><a href="#c.-to-stem-or-not-to-stem" id="toc-c.-to-stem-or-not-to-stem" class="nav-link" data-scroll-target="#c.-to-stem-or-not-to-stem">2c. To Stem or not to Stem?</a>
+  <ul class="collapse">
+  <li><a href="#processing-and-stemming-for-stm" id="toc-processing-and-stemming-for-stm" class="nav-link" data-scroll-target="#processing-and-stemming-for-stm">Processing and Stemming for STM</a></li>
+  <li><a href="#stemming-tidy-text" id="toc-stemming-tidy-text" class="nav-link" data-scroll-target="#stemming-tidy-text">Stemming Tidy Text</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model">3. MODEL</a>
+  <ul>
+  <li><a href="#a.-fitting-a-topic-modeling-with-lda" id="toc-a.-fitting-a-topic-modeling-with-lda" class="nav-link" data-scroll-target="#a.-fitting-a-topic-modeling-with-lda">3a. Fitting a Topic Modeling with LDA</a></li>
+  <li><a href="#b.-fitting-a-structural-topic-model" id="toc-b.-fitting-a-structural-topic-model" class="nav-link" data-scroll-target="#b.-fitting-a-structural-topic-model">3b. Fitting a Structural Topic Model</a>
+  <ul class="collapse">
+  <li><a href="#the-stm-package" id="toc-the-stm-package" class="nav-link" data-scroll-target="#the-stm-package">The <code>stm</code> Package</a></li>
+  </ul></li>
+  <li><a href="#c.-finding-k" id="toc-c.-finding-k" class="nav-link" data-scroll-target="#c.-finding-k">3c. Finding <em>K</em></a>
+  <ul class="collapse">
+  <li><a href="#the-findtopicsnumber-function" id="toc-the-findtopicsnumber-function" class="nav-link" data-scroll-target="#the-findtopicsnumber-function">The FindTopicsNumber Function</a></li>
+  <li><a href="#the-findingk-function" id="toc-the-findingk-function" class="nav-link" data-scroll-target="#the-findingk-function">The findingK() Function</a></li>
+  <li><a href="#the-ldavis-explorer" id="toc-the-ldavis-explorer" class="nav-link" data-scroll-target="#the-ldavis-explorer">The LDAvis Explorer</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#explore" id="toc-explore" class="nav-link" data-scroll-target="#explore">4. EXPLORE</a>
+  <ul>
+  <li><a href="#a.-exploring-beta-values" id="toc-a.-exploring-beta-values" class="nav-link" data-scroll-target="#a.-exploring-beta-values">4a. Exploring Beta Values</a></li>
+  <li><a href="#b.-exploring-gamma-values" id="toc-b.-exploring-gamma-values" class="nav-link" data-scroll-target="#b.-exploring-gamma-values">4b. Exploring Gamma Values</a></li>
+  <li><a href="#c.-reading-the-tea-leaves" id="toc-c.-reading-the-tea-leaves" class="nav-link" data-scroll-target="#c.-reading-the-tea-leaves">4c. Reading the Tea Leaves</a>
+  <ul class="collapse">
+  <li><a href="#takeaway" id="toc-takeaway" class="nav-link" data-scroll-target="#takeaway">Takeaway</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -100,7 +158,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 16, 2024</p>
+      <p class="date">July 20, 2024</p>
     </div>
   </div>
   
@@ -279,7 +337,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>forums_tidy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 194,299 × 14
+<pre><code># A tibble: 192,160 × 14
    course_id course_name       forum_id forum_name discussion_id discussion_name
    &lt;chr&gt;     &lt;chr&gt;             &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;         &lt;chr&gt;          
  1 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
@@ -292,7 +350,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  8 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
  9 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
 10 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
-# ℹ 194,289 more rows
+# ℹ 192,150 more rows
 # ℹ 8 more variables: discussion_creator &lt;dbl&gt;, discussion_poster &lt;dbl&gt;,
 #   discussion_reference &lt;chr&gt;, parent_id &lt;dbl&gt;, post_date &lt;chr&gt;,
 #   post_id &lt;chr&gt;, post_title &lt;chr&gt;, word &lt;chr&gt;</code></pre>
@@ -303,20 +361,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>forums_tidy <span class="sc">%&gt;%</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 13,448 × 2
+<pre><code># A tibble: 13,620 × 2
    word           n
    &lt;chr&gt;      &lt;int&gt;
- 1 students    6842
- 2 data        4370
- 3 statistics  3107
+ 1 students    6841
+ 2 data        4365
+ 3 statistics  3103
  4 school      1488
  5 questions   1470
  6 class       1426
  7 font        1311
  8 span        1267
  9 time        1253
-10 style       1178
-# ℹ 13,438 more rows</code></pre>
+10 style       1150
+# ℹ 13,610 more rows</code></pre>
 </div>
 </div>
 <p>Terms like “students,” “data,” and “class” are about what we would have expected from a course teaching statistics. The term “agree” and “time” however, are not so intuitive and worth a quick look as well.</p>
@@ -333,16 +391,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 10 × 1
    post_content                                                                 
    &lt;chr&gt;                                                                        
- 1 "My students have access to Statcruch through their online homework portal. …
- 2 "&lt;p style=\\box-sizing: border-box; margin: 0px 0px 11px; color: rgb(51  51 …
- 3 "&lt;p abp=\\458\\\"&gt;I am currently teaching 7th graders. My students have hard…
- 4 "With this task  the students do no benefit in posing a question and collect…
- 5 "&lt;b style=\\font-weight:normal;\\\" id=\\\"docs-internal-guid-09e91f17-9522-…
- 6 "Hi All!  I had several \\aha\\\" moments throughout these two videos. It oc…
- 7 "I also agree.  The most beneficially part of this course for me was the exp…
- 8 "Like you Alpna  I found some concepts in the assessment not part of the cur…
- 9 "I agree.  I would imagine that among a class of high school students you wo…
-10 "I found myself doing the same tests and coming to a very similar conclusion…</code></pre>
+ 1 "I agree.  It was good to see how the same data set looked different for the…
+ 2 "I agree that it is difficult to get students to pose questions. I teach onl…
+ 3 "Dear Hollylynne Lee  all participants and the Teaching Statistics Design Te…
+ 4 "After looking through the examples  it made me think about the Black-Schole…
+ 5 "I was interested to hear Dr. Webster West talk about how Probability and St…
+ 6 "My students have the hardest time year in and year out trying to identify t…
+ 7 "I agree that this was probably a pre-assessment  but I wish I had known tha…
+ 8 "in the old faithful data there was a lot of data that deal with the blast  …
+ 9 "I really like Paige's suggestion for the opening week activity.  I think it…
+10 "I really enjoyed the video on Statcrunch.  Just listening to the dialogue b…</code></pre>
 </div>
 </div>
 </section>
@@ -376,8 +434,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1] "DocumentTermMatrix"    "simple_triplet_matrix"</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;&lt;DocumentTermMatrix (documents: 5766, terms: 13448)&gt;&gt;
-Non-/sparse entries: 143113/77398055
+<pre><code>&lt;&lt;DocumentTermMatrix (documents: 5766, terms: 13620)&gt;&gt;
+Non-/sparse entries: 142641/78390279
 Sparsity           : 100%
 Maximal term length: NA
 Weighting          : term frequency (tf)</code></pre>
@@ -450,7 +508,7 @@ Creating Output... </code></pre>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>stemmed_forums</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 194,299 × 15
+<pre><code># A tibble: 192,160 × 15
    course_id course_name       forum_id forum_name discussion_id discussion_name
    &lt;chr&gt;     &lt;chr&gt;             &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;         &lt;chr&gt;          
  1 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
@@ -463,7 +521,7 @@ Creating Output... </code></pre>
  8 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
  9 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
 10 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
-# ℹ 194,289 more rows
+# ℹ 192,150 more rows
 # ℹ 9 more variables: discussion_creator &lt;dbl&gt;, discussion_poster &lt;dbl&gt;,
 #   discussion_reference &lt;chr&gt;, parent_id &lt;dbl&gt;, post_date &lt;chr&gt;,
 #   post_id &lt;chr&gt;, post_title &lt;chr&gt;, word &lt;chr&gt;, stem &lt;chr&gt;</code></pre>
@@ -490,20 +548,20 @@ Creating Output... </code></pre>
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 9,825 × 2
+<pre><code># A tibble: 10,001 × 2
    stem         n
    &lt;chr&gt;    &lt;int&gt;
- 1 student   7355
- 2 data      4370
- 3 statist   4165
- 4 question  2471
+ 1 student   7354
+ 2 data      4365
+ 3 statist   4161
+ 4 question  2470
  5 teach     1858
  6 class     1738
  7 school    1606
  8 time      1457
  9 learn     1372
 10 font      1311
-# ℹ 9,815 more rows</code></pre>
+# ℹ 9,991 more rows</code></pre>
 </div>
 </div>
 </section>
@@ -701,30 +759,30 @@ Creating Output... </code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">terms</span>(forums_lda, <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>     Topic 1    Topic 2       Topic 3       Topic 4      Topic 5    Topic 6   
-[1,] "students" "students"    "technology"  "statistics" "students" "kids"    
-[2,] "task"     "statistical" "students"    "resources"  "activity" "science" 
-[3,] "data"     "level"       "simulations" "teaching"   "time"     "math"    
-[4,] "tasks"    "data"        "simulation"  "students"   "standard" "age"     
-[5,] "question" "technology"  "software"    "feel"       "minutes"  "students"
-     Topic 7 Topic 8      Topic 9       Topic 10   Topic 11     Topic 12
-[1,] "div"   "sample"     "statistics"  "students" "li"         "span"  
-[2,] "href"  "sampling"   "students"    "idea"     "strong"     "style" 
-[3,] "https" "population" "mathematics" "class"    "href"       "td"    
-[4,] "http"  "samples"    "math"        "question" "statistics" "0"     
-[5,] "www"   "data"       "learn"       "activity" "target"     "height"
-     Topic 13     Topic 14 Topic 15     Topic 16   Topic 17 Topic 18    
-[1,] "students"   "font"   "stats"      "data"     "grade"  "locus"     
-[2,] "school"     "normal" "statistics" "students" "6th"    "items"     
-[3,] "statistics" "text"   "ap"         "real"     "7th"    "assessment"
-[4,] "middle"     "0px"    "class"      "project"  "8th"    "website"   
-[5,] "time"       "style"  "students"   "analysis" "link"   "resource"  
-     Topic 19    Topic 20    
-[1,] "data"      "questions" 
-[2,] "students"  "students"  
-[3,] "census"    "answer"    
-[4,] "gapminder" "question"  
-[5,] "school"    "statistics"</code></pre>
+<pre><code>     Topic 1  Topic 2      Topic 3    Topic 4      Topic 5   Topic 6     
+[1,] "dice"   "resources"  "students" "statistics" "survey"  "stats"     
+[2,] "fair"   "statistics" "kids"     "students"   "time"    "students"  
+[3,] "trials" "teaching"   "nice"     "math"       "minutes" "class"     
+[4,] "die"    "unit"       "idea"     "teaching"   "idea"    "ap"        
+[5,] "rolls"  "mooc"       "standard" "teach"      "class"   "statistics"
+     Topic 7      Topic 8     Topic 9         Topic 10 Topic 11    
+[1,] "div"        "gapminder" "students"      "li"     "test"      
+[2,] "science"    "students"  "questions"     "href"   "td"        
+[3,] "statistics" "videos"    "understanding" "strong" "hypothesis"
+[4,] "sharing"    "td"        "assessment"    "https"  "testing"   
+[5,] "students"   "data"      "concepts"      "target" "sample"    
+     Topic 12     Topic 13    Topic 14     Topic 15    Topic 16 Topic 17     
+[1,] "students"   "questions" "students"   "data"      "font"   "students"   
+[2,] "school"     "question"  "technology" "students"  "style"  "statistical"
+[3,] "time"       "students"  "software"   "questions" "span"   "quot"       
+[4,] "technology" "answer"    "time"       "sets"      "text"   "span"       
+[5,] "middle"     "answers"   "data"       "collect"   "normal" "mind"       
+     Topic 18   Topic 19 Topic 20  
+[1,] "students" "data"   "students"
+[2,] "sample"   "plots"  "data"    
+[3,] "activity" "graph"  "task"    
+[4,] "size"     "box"    "activity"
+[5,] "lesson"   "class"  "tasks"   </code></pre>
 </div>
 </div>
 <p>Even though we’ve somewhat arbitrarily selected the number of topics for our corpus, some these topics or themes are fairly intuitive to interpret. For example:</p>
@@ -739,20 +797,20 @@ Creating Output... </code></pre>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>tidy_lda</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 268,960 × 3
+<pre><code># A tibble: 272,400 × 3
    topic term       beta
    &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt;
- 1     1 2015  3.10e- 62
- 2     2 2015  3.69e- 80
- 3     3 2015  1.73e- 60
- 4     4 2015  1.42e- 34
- 5     5 2015  6.70e-218
- 6     6 2015  5.99e-  4
- 7     7 2015  2.88e-  4
- 8     8 2015  3.28e-  3
- 9     9 2015  1.79e-  4
-10    10 2015  7.81e- 58
-# ℹ 268,950 more rows</code></pre>
+ 1     1 2015  8.35e-281
+ 2     2 2015  1.06e-  3
+ 3     3 2015  7.92e- 45
+ 4     4 2015  5.72e- 67
+ 5     5 2015  3.00e- 31
+ 6     6 2015  5.38e- 36
+ 7     7 2015  4.06e- 34
+ 8     8 2015  1.02e- 33
+ 9     9 2015  1.10e-  4
+10    10 2015  6.74e-  5
+# ℹ 272,390 more rows</code></pre>
 </div>
 </div>
 <p>Obviously, it’s not very easy to interpret what the topics are about from a data frame like this so let’s borrow code again from <a href="https://www.tidytextmining.com/nasa.html?q=beta#interpreting-the-topic-model">Chapter 8.4.3 Interpreting the topic model</a> in Text Mining with R to examine the top 5 terms for each topic and then look at this information visually:</p>
@@ -796,36 +854,36 @@ Creating Output... </code></pre>
 <span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>td_beta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 268,960 × 3
+<pre><code># A tibble: 272,400 × 3
    topic term       beta
    &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt;
- 1     1 2015  3.10e- 62
- 2     2 2015  3.69e- 80
- 3     3 2015  1.73e- 60
- 4     4 2015  1.42e- 34
- 5     5 2015  6.70e-218
- 6     6 2015  5.99e-  4
- 7     7 2015  2.88e-  4
- 8     8 2015  3.28e-  3
- 9     9 2015  1.79e-  4
-10    10 2015  7.81e- 58
-# ℹ 268,950 more rows</code></pre>
+ 1     1 2015  8.35e-281
+ 2     2 2015  1.06e-  3
+ 3     3 2015  7.92e- 45
+ 4     4 2015  5.72e- 67
+ 5     5 2015  3.00e- 31
+ 6     6 2015  5.38e- 36
+ 7     7 2015  4.06e- 34
+ 8     8 2015  1.02e- 33
+ 9     9 2015  1.10e-  4
+10    10 2015  6.74e-  5
+# ℹ 272,390 more rows</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>td_gamma</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 115,320 × 3
    document topic    gamma
    &lt;chr&gt;    &lt;int&gt;    &lt;dbl&gt;
- 1 11295        1 0.00170 
- 2 12711        1 0.000209
- 3 12725        1 0.0244  
- 4 12733        1 0.00198 
- 5 12743        1 0.00683 
- 6 12744        1 0.00340 
- 7 12756        1 0.0244  
- 8 12757        1 0.00251 
- 9 12775        1 0.00251 
-10 12816        1 0.00251 
+ 1 11295        1 0.00192 
+ 2 12711        1 0.000243
+ 3 12725        1 0.0259  
+ 4 12733        1 0.00224 
+ 5 12743        1 0.00761 
+ 6 12744        1 0.00383 
+ 7 12756        1 0.0259  
+ 8 12757        1 0.00282 
+ 9 12775        1 0.00282 
+10 12816        1 0.00282 
 # ℹ 115,310 more rows</code></pre>
 </div>
 </div>
@@ -857,11 +915,11 @@ Creating Output... </code></pre>
 <span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>, </span>
 <span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Topic"</span>, <span class="st">"Expected topic proportion"</span>, <span class="st">"Top 7 terms"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
+<table class="table table-sm table-striped small">
 <colgroup>
-<col style="width: 7%">
-<col style="width: 22%">
-<col style="width: 69%">
+<col style="width: 8%">
+<col style="width: 23%">
+<col style="width: 68%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -873,103 +931,103 @@ Creating Output... </code></pre>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Topic 4</td>
-<td style="text-align: right;">0.115</td>
-<td style="text-align: left;">statistics, resources, teaching, students, feel, teach, learning</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Topic 20</td>
-<td style="text-align: right;">0.095</td>
-<td style="text-align: left;">questions, students, answer, question, statistics, feel, struggle</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Topic 13</td>
-<td style="text-align: right;">0.074</td>
-<td style="text-align: left;">students, school, statistics, middle, time, agree, teachers</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Topic 15</td>
-<td style="text-align: right;">0.074</td>
-<td style="text-align: left;">stats, statistics, ap, class, students, math, school</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Topic 19</td>
-<td style="text-align: right;">0.070</td>
-<td style="text-align: left;">data, students, census, gapminder, school, questions, set</td>
+<td style="text-align: right;">0.087</td>
+<td style="text-align: left;">statistics, students, math, teaching, teach, school, level</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Topic 2</td>
-<td style="text-align: right;">0.062</td>
-<td style="text-align: left;">students, statistical, level, data, technology, levels, mind</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Topic 10</td>
-<td style="text-align: right;">0.062</td>
-<td style="text-align: left;">students, idea, class, question, activity, experiment, coke</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Topic 16</td>
-<td style="text-align: right;">0.061</td>
-<td style="text-align: left;">data, students, real, project, analysis, collect, analyze</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Topic 1</td>
-<td style="text-align: right;">0.060</td>
-<td style="text-align: left;">students, task, data, tasks, question, time, activity</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Topic 3</td>
-<td style="text-align: right;">0.052</td>
-<td style="text-align: left;">technology, students, simulations, simulation, software, hypothesis, calculator</td>
+<td style="text-align: right;">0.080</td>
+<td style="text-align: left;">resources, statistics, teaching, unit, mooc, ideas, learning</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Topic 9</td>
-<td style="text-align: right;">0.048</td>
-<td style="text-align: left;">statistics, students, mathematics, math, learn, teaching, statistical</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Topic 5</td>
-<td style="text-align: right;">0.040</td>
-<td style="text-align: left;">students, activity, time, standard, minutes, deviation, lesson</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Topic 8</td>
-<td style="text-align: right;">0.035</td>
-<td style="text-align: left;">sample, sampling, population, samples, data, size, img</td>
+<td style="text-align: right;">0.079</td>
+<td style="text-align: left;">students, questions, understanding, assessment, concepts, test, statistical</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Topic 6</td>
-<td style="text-align: right;">0.034</td>
-<td style="text-align: left;">kids, science, math, age, students, statistics, nz</td>
+<td style="text-align: right;">0.078</td>
+<td style="text-align: left;">stats, students, class, ap, statistics, school, math</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Topic 7</td>
-<td style="text-align: right;">0.025</td>
-<td style="text-align: left;">div, href, https, http, www, target, _blank</td>
+<td style="text-align: left;">Topic 15</td>
+<td style="text-align: right;">0.078</td>
+<td style="text-align: left;">data, students, questions, sets, collect, question, real</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Topic 18</td>
-<td style="text-align: right;">0.025</td>
-<td style="text-align: left;">locus, items, assessment, website, resource, topics, statisticseducation</td>
+<td style="text-align: left;">Topic 20</td>
+<td style="text-align: right;">0.070</td>
+<td style="text-align: left;">students, data, task, activity, tasks, question, cycle</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Topic 11</td>
-<td style="text-align: right;">0.021</td>
-<td style="text-align: left;">li, strong, href, statistics, target, _blank, ncsu</td>
-</tr>
-<tr class="even">
 <td style="text-align: left;">Topic 14</td>
-<td style="text-align: right;">0.019</td>
-<td style="text-align: left;">font, normal, text, 0px, style, 51, 255</td>
+<td style="text-align: right;">0.064</td>
+<td style="text-align: left;">students, technology, software, time, data, agree, real</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Topic 13</td>
+<td style="text-align: right;">0.059</td>
+<td style="text-align: left;">questions, question, students, answer, answers, correct, results</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Topic 17</td>
-<td style="text-align: right;">0.016</td>
-<td style="text-align: left;">grade, 6th, 7th, 8th, link, standards, 9</td>
+<td style="text-align: left;">Topic 8</td>
+<td style="text-align: right;">0.053</td>
+<td style="text-align: left;">gapminder, students, videos, td, data, video, site</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Topic 12</td>
-<td style="text-align: right;">0.012</td>
-<td style="text-align: left;">span, style, td, 0, height, font, line</td>
+<td style="text-align: right;">0.049</td>
+<td style="text-align: left;">students, school, time, technology, middle, video, student</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Topic 3</td>
+<td style="text-align: right;">0.045</td>
+<td style="text-align: left;">students, kids, nice, idea, standard, understand, language</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Topic 18</td>
+<td style="text-align: right;">0.038</td>
+<td style="text-align: left;">students, sample, activity, size, lesson, data, results</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Topic 17</td>
+<td style="text-align: right;">0.038</td>
+<td style="text-align: left;">students, statistical, quot, span, mind, level, reasoning</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Topic 11</td>
+<td style="text-align: right;">0.033</td>
+<td style="text-align: left;">test, td, hypothesis, testing, sample, difference, results</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Topic 7</td>
+<td style="text-align: right;">0.033</td>
+<td style="text-align: left;">div, science, statistics, sharing, students, love, http</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Topic 19</td>
+<td style="text-align: right;">0.030</td>
+<td style="text-align: left;">data, plots, graph, box, class, median, plot</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Topic 10</td>
+<td style="text-align: right;">0.030</td>
+<td style="text-align: left;">li, href, strong, https, target, _blank, statistics</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Topic 16</td>
+<td style="text-align: right;">0.023</td>
+<td style="text-align: left;">font, style, span, text, normal, 0px, color</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Topic 5</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: left;">survey, time, minutes, idea, class, semester, student</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Topic 1</td>
+<td style="text-align: right;">0.014</td>
+<td style="text-align: left;">dice, fair, trials, die, rolls, rolling, unfair</td>
 </tr>
 </tbody>
 </table>
@@ -1012,16 +1070,16 @@ Creating Output... </code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>
  Topic 2: 
-     I used to check out the videos from the public library to show in my 3-1/2 hour night classes to break up the night.  You can purchase them on DVD but they are viewable online for free.  They've actually got very good worksheets available too  including \while you watch\" ones that are useful if you're flipping the class.  "
+     Here is a cool video with Hans Rosling  using Gapminder. It's pretty cool.  https://www.youtube.com/watch?v=jbkSRLYSojo
     Thank you for sharing the link!!!  I think that this is the document that Chris mentions co-writing and being ready for NCTM's National Conference in San Francisco this April. :-)
-    WHoops!  forgot the link to the video.  VERY SORRY!     &lt;a href=\https://www.ted.com/talks/hans_rosling_shows_the_best_stats_you_ve_ever_seen\" target=\"_blank\"&gt;https://www.ted.com/talks/hans_rosling_shows_the_best_stats_you_ve_ever_seen&lt;/a&gt;  "
-    I love your idea of using this as a STEM night project.  Thank you for the thought...I will have to steal it :)  Eren
-    I will definitely use this site!  Such a plus that is free and available!
-    Thanks for sharing this link  Jennifer! I had not heard of this tool before and I like that it is free through Google.  It also looks like the steps are really easy to follow.  I'm definitely going to explore this new tool and share it with my students! :-)
-    I also like this database.  I have never used it before and I cannot wait to use it this year in my classes.
+    Yes  thank you! The site was an excellent resource  especially for someone like myself who is new to this stuff!
+    I've never heard of FiveThirtyEight  could you tell me more about the resource?     Thanks!  Carisa
     QELP looks so cool! Thanks for sharing!
-    Sorry to everyone  I saw that the video that I suggested is part of this unit however  I did not know that.I saw this video of Benjamin Arthur about 4 years ago.
-    I'll add my voice to the chorus of gratitude.  I've already used a couple of the activities presented here in my fall quarter course  and I will definitely bookmark as many of the resources as possible to try to use in the future.  Thank you!</code></pre>
+    Thanks for letting us know about this TED talk!  I watched the one about Ignorance and found Hans Rosling so entertaining that I ended up finding other TED talks he has done and watched them for way too long last night.
+    Wow!  I totally agree with you.  The Gapminder was great.  Also  I was inspired to complete this unit as well.  I did not know there was a TedTalk about this.  I will have to check it out.
+    Wow!  I totally agree with you.  The Gapminder was great.  Also  I was inspired to complete this unit as well.  I did not know there was a TedTalk about this.  I will have to check it out.
+    I love your idea of using this as a STEM night project.  Thank you for the thought...I will have to steal it :)  Eren
+    Hi Regina   I really like the gapminder site.  There are some great video on the gapminder site that I have used in my courses. Hans Rosling  founder of gapminder  also has some really great TED talks.  Sadly he passed away this year.      My interests have been peaked by the Locus site.  I think there is a lot of potential there for use in my classroom too.     Good luck!     Shar</code></pre>
 </div>
 </div>
 <p>Duplicate posts aside, this <strong>Course Utility</strong> topic returns posts there were expected based on my interpretation of the key terms for Topic 2. It looks like I may have read those tea leaves correctly.</p>
@@ -1035,16 +1093,16 @@ Creating Output... </code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>
  Topic 16: 
-     &lt;span style=\color: rgb(51  51  51); font-family: UniversRoman  Arial  sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 22.4px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(255  255  255);\"&gt;When I tested the software  before the videos  I ran the companies through at 10  100  and 1000 rolls. I enjoyed the fact that Pips and Dots started off very uneven with 10 rolls and became quite even at 1000. I like to talk with my students about the significance of the decisions we are making vs. the cost per trial. Dice that are off by a few percentages may not affect the game too badly  and no one would get hurt. With software providing thousands of trials in moments  it takes a negligible investment to gather thousands of trials. Of course  do the trials. What if each roll of the dice required a monetary investment that came out of the profits from the game? Now we have competing interests when we decide how many trials to run. Unfortunately  this is the kind of trade off that must be considered with most real world data collection  such as drug trials.&lt;/span&gt;  "
-    When I tested the software  before the videos  I ran the companies through at 10  100  and 1000 rolls. I enjoyed the fact that Pips and Dots started off very uneven with 10 rolls and became quite even at 1000. I like to talk with my students about the significance of the decisions we are making vs. the cost per trial. Dice that are off by a few percentages may not affect the game too badly  and no one would get hurt. With software providing thousands of trials in moments  it takes a negligible investment to gather thousands of trials. Of course  do the trials. What if each roll of the dice required a monetary investment that came out of the profits from the game? Now we have competing interests when we decide how many trials to run. Unfortunately  this is the kind of trade off that must be considered with most real world data collection  such as drug trials.
-    I liked that they had the  tool to try the simulations with increasing number of trials.  (It would be nice if my students had similar  tools.)  I wonder why one group did not  explore using larger number of trials.   The first group was able to see the difference and the second buy became  convinced after seeing enough trails.
-    Hi Erik   When I was in school  we did a similar activity except that we used regular bags of M&amp;amp;Ms to determine which color is the most common for M&amp;amp;M's.  Using skittles would be similar.  You could also extend this to see if the type of M&amp;amp;M changes the predominant color - plain vs. peanut vs. ? (there are so many varieties now!).
-    Using the interaction was interesting  but I wonder if not having in die company producing a fair die was the best approach.  At n = 10 000  we can see that Pips &amp;amp; Dots still produced a weighted die that like the number 3.
-    I like being able to mix and match using the physics die/coins and the technology when it is more efficient.  One of the nicest aspect of some of the simulators is how you can observe the changes in the histograms as more trials are conducted and the margin of error decreases.  Students are able to see the importance of sample size.
-    Nathan   I agree that large data sets are not always available. I used to conduct burn testing on fiber optic cables used inside buildings. These were of course destructive tests as we measured flame and smoke propagation  and the cables were quite expensive. We also had to test the cables at the UL lab in Chicago which added quite a bit of cost along with being fit on a schedule.  On the flip side  the whole point of computer simulations seems to be that we can run many trials quickly and cheaply on a computer. Unless it was some crazy large computer program  there would be no real need to do 300 vs. 3000 runs. Why not run the max?    Regards
-    I was re-watching the boys interact in the Watching a Dynamic Simulation Tool video. They nicely settled on multiples of 6 for a sample size and increased the number of rolls (keeping the multiple of 6) for more convincing evidence. I love how you can do quite a few number of rolls in a very short time!  So I decided to try 6000 rolls of a die using the Fathom tool. A couple of observations for the High Rollers company die with actual probabilities: P(1) = 13.33% P(2) = 20% P(3) = 13.33% P(4) = 20% P(5) = 13.33% and P(6) = 20%.    1) The results take time to show up. About 5 minutes. But in the meantime  it's great to see the dynamic changing of the bars as more rolls are completed. (Keep animation on.) As you surpass 3000 rolls  the bars really start to settle down so that it almost appears that there is NO CHANGE. However  it does continue to change.   2) Fathom shows two bar charts  one with frequencies on the y-axis and one with relative frequencies. Interesting to compare the two. The first continually has to change the scale whereas the second keeps the scale constant. Do the percentages get closer to the theoretical percentages with number of rolls? Yes  although it never stopped at exactly 20% (or 13.33%). How about the counts? Will the counts get closer to the expected counts? I'm not sure whether this difference will tend to increase or decrease with number of rolls. Holly?  3) The simulation with 6000 rolls shows clear differences between rolling a 1 3 5 and rolling 2 4 6. However  the bars while \somewhat\" the same for 1 3 5  were not exactly the same height. Variation again raising its ugly head. I think the math teacher in me wanted to see the theoretical percentages showing up!  "
-    I really loved the software because I like to play with software.  So  I just put different numbers in to see what would happen.
-    A quick Google search gives us this link: &lt;a href=\http://minnesota.cbslocal.com/2012/11/26/boy-oh-boy-local-hospital-delivers-19-boys-in-a-row/\"&gt;Boy  Oh Boy! Local Hospital Delivers 19 Boys In A Row&lt;/a&gt;  The writer wrote  \"The odds of this string of births are about 1 in more than 500 000.\" I guess he got his number by calculating (1/2)&lt;sup&gt;19&lt;/sup&gt;. But what does the number mean? Births do not come in batches of 19.  "</code></pre>
+     Hi Folks   One of the discussions that needs to occur when studying the travel time of walking vs. driving by car vs riding on a school bus is the number of stops the bus must make in order to pick up students.  One of my previous careers was that of a school bus driver.  At each stop I was required to stop the bus  put on the flashing lights  put on the emergency brake  look through all of the mirrors to determine all of the cars had stopped  open the bus door  then pick up the microphone (which could be heard inside and outside of the bus) to tell the students it was now safe to cross the road and enter the bus.  After waiting for all students to get on the bus and take a seat and for the bus monitor to check under the bus and get on the bus again; I would then close the bus door and take off the emergency brake.  Next  I would check all of my mirrors to make sure it was safe pull completely back into the lane of travel and continue on my bus route. All of these actions increased the amount of time it took to get to school.  What is the purpose of this investigation?  I would want to know if the students with the longer travel time to and from school are impacted by the amount of time spent traveling each day.  What are the grades of the students with the longest travel time how do those grades compare to students with the least travel time? What behaviors are exhibited by students in school who spend the most time traveling to and from school? Are they more likely to exhibit behaviors that result in disciplinary referrals? Does travel time negatively impact the academic and behavioral performance of these students in school? On the flip slide  does longer travel time provide the opportunity for students to engage in preferred activities of talking to their friends on the bus or engaging in their electronic device to listen to music or play games and does this provide a beginning and end of the day relaxation experience for the students. Do these students have better grades and less disciplinary referrals?
+    This is a great activity and can have so many variations.  It doesn't have to be Pepsi vs. Coke if you don't have a lot of pop drinkers in class.  You can do a name brand vs. generic orange juice or even a taste test with chips or cookies (perhaps blind folds would be necessary for food tasting).  I also think one of the best follow-up discussions is about how many students actually prefer what they claim to prefer.  Having the preference beforehand definitely enriches the discussions.
+    I agree and oftentimes do a blindfolded taste test with name brand Oreo cookies and then a store brand cookie. I follow a similar method as the Coke vs. Pepsi one  but tweak it a bit for AP Statistics. It is fun to see the looks on kids faces when they \choose\" the generic Oreo because they are just so sure they knew the Oreo! Every time I've done this experiment  there seems to be no clear evidence students prefer Oreos :) "
+    We do which is different out of three as well  we also have 6 different combinations and randomly assign students to the combinations (ex coke Pepsi  pepsi  c p c  coke coke pepsi  etc)
+    My colleagues have commented on the Pepsi versus Coke activity. I also commented in there but liked to expand the concept further. When students are involved in an activity  they make it there own and really would make it worth their while. Hence when they actually made the data happen  being instrumental in not only choosing which brand to anonymously be named and tasted  to collating the results  the students learn how to make data collection impartial  objective and representative. Also  they see the process of good data collection by the randomness it was done  such that whatever result would really represent a preference for a brand without any prior bias.   So  the students learn to collect and collate data and results in as objective and unbiased manner  such that results are untainted and would truly represent a true preference and not a directed preference through a prior bias. Though it would take a lot of time  yet the lessons learned on how data is done and collected and collated was worth its while in the lesson it has rendered.
+    I have used a similar task comparing bottled water versus tap water  or two brands/types of bottled water and it worked pretty well. Sometimes it was interesting to see where students could not tell the difference between tap water and bottled water.
+    I have done this one as well and it went great.  Another version I do is name brand and store brand cookies.  Fudge stripes or chips a hoy cookies work great.
+    I have done this one in class with approximately 20 students.  Instead of picking which is which  I ask which one is different out of three samples.  We design the experiment together and talk about the random assignment of the odd ball drink in which cup  consistency in pouring  color  smell  how to blind the experiment  ect.  We then look at our data and compare it to a simulation to see if we have more \skill\" than randomly guessing.  This helps create a smoother transition between simulations and experiments.  I have also used different drinks  most recently blue Gatorade vs Blue Powerade.  Smell and color were factors we had trouble controlling.    "
+    I've seen bottled water vs. tap water too
+    Hi Erik   When I was in school  we did a similar activity except that we used regular bags of M&amp;amp;Ms to determine which color is the most common for M&amp;amp;M's.  Using skittles would be similar.  You could also extend this to see if the type of M&amp;amp;M changes the predominant color - plain vs. peanut vs. ? (there are so many varieties now!).</code></pre>
 </div>
 </div>
 <p>It looks like my tea reading was a partially correct for Topic 16, though the results seem to be about a specific “Pepsi challenge” activity to conduct with students.</p>
@@ -1060,16 +1118,16 @@ Creating Output... </code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>
  Topic 3: 
-     &lt;p style=\text-indent:.5in\"&gt;I really liked this task and I could  easily see it being implemented in either an elementary  middle  or high school  classroom.  However  the task would have  to be altered to each of these educational levels.  As I completed this task  I was thinking  about what the expert panel said about tasks‚Äîhow they need to be goal orientated  and time managed.       &lt;p style=\"text-indent:.5in\"&gt; In video one  we saw the student‚Äôs gain better  understanding of statistical understanding through participating in the  task.  However  in video two the students  followed all three levels of the SASI model.   I think an important goal of this task is for our students to complete  all three levels of the SASI model.  The  SASI model could also be implemented into other statistical investigations we  do with our students.   We could also  create lessons with goals that include some of the parts of the SASI model.   "
-    I do not think that my students are well prepared to respond to these questions. The challenge I have (as I suspect most of us do) is to balance instruction leading to genuine understanding and completing the syllabus in time for their external examinations. I hate that I have to rush through some content when there are so many rich experiences that can be had engaging with statistics. To assist students to reach competence in answering these questions will require a thorough examination of the syllabus and a redesign of instructional experiences so that an integration of content coverage and the real-life data analysis skills required is achieved.
-    Hi Deborah.  You bring up great points about tasks and students' interest level.  I am wondering what you think about some of these tasks and how they do or do not provide opportunities for students to engage in statistical habits of mind and the four phases of the statistical investigation cycle.
-    I think it is extremely important that you related this task back to what the expert panel had to say. Obviously teachers want tasks to be goal oriented in order for their students to succeed and learn the content that is necessary  however  just as the task need to be goal oriented  they need to be time managed as well. As stated in the video  that is one of the parts professors and teachers struggle with most - how do you gauge the amount of time various students will need to complete the same task? In order for students to follow all three levels of the SASI model and go through the necessary processes to learn  students will need enough time.
-    I like how your improvements to the task are bringing in different statistical content (e.g.  regression  sampling).   I wonder how  these improvements are providing more opportunities to engage in the statistical investigation cycle or different statistical habits of mind?   &lt;span style=\line-height: 1.6;\"&gt;What are others' thoughts on this?&lt;/span&gt;  "
-    These are nice suggestions for how to improve this task....how do these suggestions connect with different phases of the investigative cycle or how would these improvements lead to different statistical habits of mind?
-    After completing this MOOC course  I definitely have a better understanding of the statistical process and how to engage students in stats.  However  I would have loved to have seen more tools and applications for the primary grade levels.  I will definitely utilize the habits of mind and statistical process when planning lessons for my primary grade levels but I think that the majority of the investigations and tools shared were aimed more at the higher levels with higher levels of thinking.
-    I appreciate your attention to the discussion between two of the middle school students and how they may have attended to different aspects of the problem that what you saw with the AP Statistics students.  So  I wonder  does the Ap Statistics students' use of some advanced techniques in their approach where \they seemed to know what they what were doing\" indicate a sophisticated level of statistical reasoning? What do others think?  And....how could having students' paired up in tasks like Schoolopoly lead to different approaches that are at different levels of sophistication....is this a good thing or not?    "
-    &lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt; I agree  \A Sequence of Activities for Developing Statistical Concepts\" is worth a read.  &lt;/div&gt;&lt;/div&gt;&lt;/div&gt; "
-    I agree that using relevant topics is engaging for students.  I'd love to think about unpacking this task a bit more. Consider the task as it is written  what phases of the investigative cycle would students be engaged in?  What statistical habits of mind might they be engaged in with this task?</code></pre>
+     I really like the \Gummy Bears in Space\" activity and I can think of different ways to incorporate this into my 7th grade classroom. I think this would be a great hands on activity to get a STEM or science teacher involved to integrate different subjects into a lesson. "
+    I agree about them working together.  I never have students work independently on these sorts of tasks.  It is a richer experience when the conversations can occur about the work being done.
+    Motivating the students to be interested to learn the material is a big push for me this year.  As others stated  we as teachers have to be motivated in order for our students to be motivated.  I spend a lot of time trying to make my lessons fun and interactive because I know if the students are engaged they will take away more.  Some topics are easier than others.  Just like it's easier to incorporate real world situations with some topics and not others.  I have discovered that once I got the mindset of making them interesting more students was becoming successful on the lesson.
+    I agree also that listening is beneficial for both students and teachers.  The students can hear samples of mathematical/statistical thinking going on...like a \think aloud.\"  We need to continually model the thinking process for them  and these videos help to show the progression of thinking.  It is also helpful for us as teachers to see the directions that student minds are going so that we can encourage them to make even more progress by taking their thinking to the next level. "
+    Oh yeah. Without a doubt the introduction of the SASI framework was the most useful part of the MOOC for me too. I will definitely be administering this framework in my Statistics classes until it becomes second nature for my students that every time they're thinking about anything statistically significant that they consider the framework in mind.
+    I agree that the framework is very useful and I would also like to see lessons created that specifically address each aspect of the framework. These lessons would be used to develop a strong expertise with each aspect using a whole-part-whole instructional method. Teach the SASI framework as a whole  then break it down into the 4 parts and practice those skills  then go back to completing a whole project. The quality of student work may improve with this teaching progression.
+    I also really loved the gummy bear activity idea. I think that my third graders would also really enjoy an activity like this  although they would probably eat the gummy bears. I think it would be a great way for them to get more involved in the lesson.
+    I agree with the point you made Drew. The discussions made it feel like you were connected with other people and it gave us different ways to look at the particular subject. It gave someone like me  who isn't as experienced in statistics  viewpoints and thinking strategies from people who are \experts\" in the field.  "
+    I really like the war game activity. It is a game that your student are probably going to know how to play already  which should help you when explaining. Also it can really get your students up and going and you will see the competitiveness really kick in with your students. I also like the discussion part you have with it as well because in reality who really knows which deck of cards is going to be the best to pick from  so this makes a great topic for discussion and it would be interesting to see what all of your students say. Overall I would have to say you did a great job with your project here. The only way I can see for adjustments though would be after you do your activities the first time because you really don't know how things are going to work out until you actually try them yourself.
+    I don't know that it is fair to say that they don't want to think and are just looking for formulas. I think in the past this has been their experience though and so they want to fall back on what they know. Hopefully MOOCs like this as well as the common core curriculum should be driving the \thinking\" end of things a little more than ever before. I know I have already started to see a difference in the thinking skills of my students if not their math skills and this is a exciting for my future as a math educator. The experts in the video talk about how collecting and analyzing real world data is engaging for kids because it isn't a worksheet that is disconnected from their lives. I think this engagement necessarily forces them to think which is way more fun than being a formula robot. Anecdotally  my brother woke me up this week with an interesting geometry problem that made me think about circles in a new way and it was really exciting. Granted  as a math teacher I'm probably to the point where I can be excited about thinking about weird problems but I know that balancing my budget is significantly less exciting that solving weird problems that make me think.  Lon story short- I think if we are engaging students with interesting problems they will be practicing thinking skills  if we drive class discussions with metacognition they will be practicing thinking skills  if we have students pose their own problems that are relevant to their lives they will be practicing thinking skills. If we can make a nation of critical thinkers and problem solvers  there should be no limit to what we can accomplish.   "</code></pre>
 </div>
 </div>
 <p>Looking at just the 10 posts returned, perhaps a better name for this topic would be <strong>Course Reflections on Teaching Statistics</strong>.</p>
@@ -1272,7 +1330,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1304,29 +1373,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -1334,7 +1381,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
