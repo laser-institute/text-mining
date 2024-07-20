@@ -2,8 +2,8 @@
 title: "Lab 1 Readings: What is text mining?"
 author: "LASER Institute"
 date: today
-format: html
-html:
+format: 
+  html:
     toc: true
     toc-depth: 4
     toc-location: right
