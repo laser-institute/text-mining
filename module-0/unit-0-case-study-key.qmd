@@ -1,0 +1,556 @@
+---
+title: 'Unit 0: Getting Started Case Study'
+subtitle: 'ECI 588: Text Mining in Education'
+author: "Dr. Shaun Kellogg"
+date: today 
+format:
+  html:
+    toc: true
+    toc-depth: 4
+    toc-location: right
+theme:
+  light: simplex
+  dark: cyborg
+editor: visual
+bibliography: lit/references.bib
+---
+
+## 0. INTRODUCTION
+
+### Background
+
+Welcome to using **ECI 588: Text Mining in Education**! During the third week of each unit, we'll complete a basic research workflow, or data analysis process, modeled after an actual learning analytics study. This getting started task is designed to orient you to both our data analysis assignments and to R, RStudio, and/or Quarto, which we'll be using to complete those assignments.
+
+We'll be using Posit Cloud, which has all of the functionality of the RStudio Desktop, and some additional benefits for the those new to R, such as the pre-installation of packages and the simplification of file directories. If you're new to R, I highly recommend it.
+
+You are also welcome to use RStudio Desktop, and you can download this project on our course workspace by clicking the "Export" button shown in the following screenshot:
+
+![](img/project-export.png){width="80%"}
+
+### Organization
+
+This independent practice is really a warm-up. It is a chance to become familiar with how RStudio works. In the context of doing so, we'll focus on three things:
+
+1.  Reading data into R (in the **Prepare** section)
+2.  Preparing and "wrangling" data in table (think spreadsheet!) format (in the **Wrangle** section)
+3.  Creating some plots (in the **Explore** section)
+4.  Running a model - specifically, a regression model (in the **Model** section)
+5.  Finally, creating a reproducible report of your work you can share with others (in the **Communicate** section)
+
+### How to use this Quarto document
+
+What you are working in now is an **Q**uarto **m**ark**d**own file as indicated by the .**qmd** file name extension. Quarto documents are fully reproducible and use a productive notebook interface to combine formatted text and "chunks" of code to produce a range of [static and dynamic output formats](https://quarto.org/docs/guide/) including: HTML, PDF, Word, HTML5 slides, Tufte-style handouts, books, dashboards, shiny applications, scientific articles, websites, and more.
+
+::: callout-tip
+Quarto docs can include specially formatted **callout boxes** like this one to draw special attention to provide notes, tips, cautions, warnings, and important information.
+
+**Pro tip**: Quarto documents also have a handy Outline feature that allow you to easily navigate the entire document. If the outline is not currently visible, click the Outline button located on the right of the toolbar at the top of this document.
+:::
+
+#### Source vs. Visual Editor
+
+Following best practices for reproducible research [@gandrud2021], Quarto files store information in plain text [markdown](https://bookdown.org/yihui/rmarkdown/markdown-syntax.html) syntax. You are currently viewing this Quarto document using the visual editor, The visual editor is set as the default view in the [Quarto YAML header](https://quarto.org/docs/get-started/hello/rstudio.html#yaml-header) at the top of this document. Basically, a [YAML header](https://monashdatafluency.github.io/r-rep-res/yaml-header.html#) is:
+
+> a short blob of text that... not only dictates the final file format, but a style and feel for our final document.
+
+The visual editor allows you to view formatted headers, text and code chunks and is a bit more "human readable" than markdown syntax but there will be many occasions where you will want to take a look at the plain text source code underlying this document. This can be viewed at any point by switching to source mode for editing. You can toggle back and forth between these two modes by clicking on **Source** and **Visual** in the editor toolbar.
+
+You may have noticed a special kind of link in the text above. Specifically, a link citing Reproducible Research with R and R Studio by Chris Gandrud. The YAML header includes a bibliography option and points to our `reference.bib` file in the `lit` folder of this project, which produces a nice tooltip for linked references and a bibliography when our doc is [rendered](https://quarto.org/docs/get-started/hello/rstudio.html#rendering) and [published](https://quarto.org/docs/get-started/authoring/rstudio.html#publishing). Click the following link to learn more about [citations in Quarto](https://quarto.org/docs/authoring/citations.html).
+
+#### **👉 Your Turn ⤵**
+
+Learning Analytics case studies include many interactive elements in which you are asked to perform an action, answer some questions, or write some code. These are indicated by the **👉 Your Turn ⤵** header. Now it's your turn to do something.
+
+Take a look at the markdown syntax used to create this document by viewing with the source editor. To do so, click the "Source" button in the toolbar at the top of this file. After you've had a look, click back to the visual editor to continue.
+
+![](img/source-view.png)
+
+Great job! Let's continue!
+
+#### Code Chunks
+
+In addition to including formatted text hyperlinks, and embedded images like above, Quarto documents can also include a specially formatted text box called a "[code chunk](https://quarto.org/docs/get-started/hello/rstudio.html#code-chunks)." These chunks allows you to run code from multiple languages including R, Python, and SQL. For example, the code chunk below is intended to run R code as specified by "r" inside the curly brackets `{}`. It also contains a contains a code "comment" as indicted by the \# hashtag and line of R code. You may have also noticed a set of buttons in the upper right corner of the code chunk which are used to execute the code.
+
+#### **👉 Your Turn ⤵**
+
+You may have noticed a set of buttons in the upper right corner for running the code. Click the green arrow ![](https://d33wubrfki0l68.cloudfront.net/18153fb9953057ee5cff086122bd26f9cee8fe93/3aba9/images/notebook-run-chunk.png)icon on the right side of the code chunk to run the R code and view the image file name `research-workflow.png` stored in the `img` folder in your files pane. Quarto will execute the code and its output and any related messages are displayed below the chunk.
+
+```{r}
+knitr::include_graphics("img/research-workflow.png")
+```
+
+Nice work! For this case study, don't stress too much about understanding the code. We'll spend a lot of time doing that in the other modules. For now, take a look at the image displayed and answer the question that follows by typing your response directly in this document.
+
+In case studies, you will often see as part of "Your Turns" a prompt to answer a question. Type your response to the following question by deleting "YOUR RESPONSE HERE" and adding your own response:
+
+What do you think this image is intended to illustrate?
+
+-   YOUR RESPONSE HERE
+
+### The Data-Intensive Research Workflow
+
+You may have noticed that the words in this diagram correspond to the sections outlined at the beginning of this document. These terms, or processes, are part of a framework called the data-intensive research workflow and comes from the book [Learning Analytics Goes to School](https://www.routledge.com/Learning-Analytics-Goes-to-School-A-Collaborative-Approach-to-Improving/Krumm-Means-Bienkowski/p/book/9781138121836) [@krumm2018]*.* You can check that out (literally, it's available online through the NCSU Library), but don't feel any need to dive deep for now - we'll be spending more time on this process throughout the course. For now, know that this document and our unit case studies are organized around these five components of the Data-Intensive Research Workflow.
+
+Now, let's get started!
+
+## 1. PREPARE
+
+First and foremost, data-intensive research involves defining and refining a research question and developing an understanding of where your data comes from [@krumm2018]. This part of the process also involves setting up a reproducible research environment [@gandrud2021] so your work can be understood and replicated by other researchers or analysts. For now, we'll focus on just a few parts of this process, diving in much more deeply into these components in later learning labs.
+
+### Research Question
+
+In this getting started case study, we'll be working with data come from an unpublished research study, which utilized a number of different data sources to understand high school students' motivation within the context of online courses. For the purpose of this case study, our analysis will be driven by the following research question:
+
+> *Is there a relationship between the time students spend on a course (as measured through their learning management system) and their final course grade?*
+
+### R Projects & Packages 📦
+
+As highlighted in [Chapter 6 of Data Science in Education Using R](https://datascienceineducation.com/c06.html) [@estrellado2020e], one of the first steps of every workflow should be to set up a "Project" within RStudio.
+
+> A **Project** is the home for all of the files, images, reports, and code that are used in any given project.
+
+We are working in Posit Cloud with an R project [cloned from GitHub](https://github.com/laser-institute/laser-orientation), so a project has already been set up for you as indicated by the `.Rproj` file in the main directory. Locate the Files tab lower right hand window pane and see if you can find the file named `laser-orientation.Rproj`.
+
+Since a project already set up for us, we will instead focus on loading the required packages we'll need for analysis.
+
+> **Packages**, sometimes referred to as libraries, are shareable collections of R code that can contain functions, data, and/or documentation and extend the functionality of R.
+
+You can always check to see which packages have already been installed and loaded into RStudio by looking at the Packages tab in the same pane as the Files tab. Click the packages tab to see which packages have already been installed for this project.
+
+### The tidyverse Package
+
+![](img/tidyverse.png){width="40%"}
+
+One package that we'll be using extensively in our learning labs is the {tidyverse} package. The {tidyverse} is actually a [collection of R packages](https://www.tidyverse.org/packages) designed for wrangling and exploring data (sound familiar?) and which all share an underlying design philosophy, grammar, and data structures. These shared features are sometimes referred to as "[tidy data principles](https://r4ds.had.co.nz/tidy-data.html)" [@wickham2016r].
+
+Before we can begin using these packages, we will need to install them using the `install.packages()` function built into R.
+
+Click the green arrow in the right corner of the block-or "chunk"-of code that follows and see if you can identify which packages have been installed in the console below.
+
+```{r, eval=FALSE}
+install.packages("tidyverse")
+```
+
+Once these packages have been installed, we will need to load them using the `library()` function in order to use the handy functions they contain.
+
+To load the tidyverse, click the green arrow in the right corner of the block-or "chunk"-of code that follows. Notice that we do not need to use the quotation marks again because the {tidyverse} package and packages it contains are now a part of our package library!
+
+```{r}
+library(tidyverse)
+```
+
+Please do not worry if you saw a number of messages. Those probably mean that the tidyverse loaded just fine. If you see an error, though, try to interpret or search via your search engine the contents of the error, or reach out to us for assistance.
+
+#### **👉 Your Turn ⤵**
+
+As we noted in the beginning, these case studies are meant to be interactive. Throughout each case study, you'll see Your Turn headings like the one above that will ask to you apply some of your R skills to help with the analysis. These Your Turns are intended to help you practice newly introduced functions or R code and reinforce R skills you have already learned.
+
+Complete the code chunk below to load the {skimr} package into our environment as well. **`Skimr`** is a handy package that provides summary statistics that you can skim quickly to understand your data. We'll be using this later in the Explore section of this case study.
+
+```{r}
+# load the {skimr} package below
+library(skimr)
+```
+
+### Loading (or reading in) data
+
+The data we'll explore in this case study were originally collected for a unpublished research study and utilized a number of different data sources to understand students' course-related motivation. These courses were designed and taught by instructors through a state-wide online course provider designed to supplement---but not replace---students' enrollment in their local school.
+
+The data used in this case study has already been "wrangled" quite a bit, but the original datasets included:
+
+1.  A self-report survey assessing three aspects of students' motivation
+
+2.  Log-trace data, such as data output from the learning management system (LMS)
+
+3.  Discussion board data
+
+4.  Academic achievement data
+
+If you are interested in learning more about these datasets, you can visit Chapter 7 of the excellent book, [*Data Science in Education Using R*](https://datascienceineducation.com/c07.html#data-sources)[@estrellado2020e].
+
+Next, we'll load data - specifically, a CSV file, the kind that you can export from Microsoft Excel or Google Sheets - into R, using the `read_csv()` function in the next chunk.
+
+Again, clicking the green arrow runs the code; do that next.
+
+```{r}
+sci_data <- read_csv("data/sci-online-classes.csv")
+```
+
+Notice that we "assigned" our data set to a new object in R named `sci_data` that will now be saved in your "Environment" pane in the upper right corner of RStudio. Go ahead and take a look to make sure it's there.
+
+![](img/environment-pane.png){width="80%"}
+
+#### **👉 Your Turn ⤵**
+
+Why do you think we included `data/` before our `sci-online-classes.csv` file? Why quotation marks?
+
+Add your responses after the dashes below:
+
+-   YOUR RESPONSE HERE
+
+Hint: check the files pane in the lower right corner of RStudio.
+
+### Viewing or inspecting data
+
+Last, let's check that the code worked as we intended; run the next chunk and look at the results, tabbing left or right with the arrows, or scanning through the rows by clicking the numbers at the bottom of the pane with the print-out of the data you loaded:
+
+```{r}
+sci_data
+```
+
+#### **👉 Your Turn ⤵**
+
+What do you notice about this dataset? What do you wonder? Add one or two thoughts after the dash below:
+
+-   YOUR RESPONSE HERE
+
+There are other ways to inspect your data; the `glimpse()` function provides one such way. Run the code below to take a glimpse at your data.
+
+```{r}
+glimpse(sci_data)
+```
+
+Generally, rows typically represent "cases," the units that we measure, or the units on which we collect data. What counts as a "case" (and therefore what is represented as a row) varies by (and within) fields. There may be multiple types or levels of units studied in your field; listing more than one is fine! Also, please consider what columns - which usually represent variables - represent in your area of work and/or research.
+
+#### **👉 Your Turn ⤵**
+
+How many "cases" or observations are in this data set?
+
+-   YOUR RESPONSE HERE
+
+Pick two columns (or more) and write what you think it represents:
+
+-   YOUR RESPONSE HERE
+
+Next, we'll use a few functions that are handy for preparing data in table form.
+
+## 2. WRANGLE
+
+By wrangle, we refer to the process of cleaning and processing data, and, in some cases, merging (or joining) data from multiple sources. Often, this part of the process is very (surprisingly) time-intensive! Wrangling your data into shape can itself be an important accomplishment! And documenting your code using R scripts or Markdown files will save yourself and others a great deal of time wrangling data in the future! There are great tools in R for data wrangling, especially through the use of the {[dplyr](https://dplyr.tidyverse.org)} R package which is part of the tidyverse.
+
+### Selecting variables
+
+Recall from our Prepare section that we are interested the relationship between the time students spend on a course and their final course grade.
+
+Let's practice selecting a few variables by introducing a very powerful `|>` operator called a **pipe**. Pipes are a powerful tool for combining a sequence of functions or processes.
+
+Run the following code chunk to "pipe" our `sci_data` to the `select()` function include the following two variables as arguments:
+
+-   `FinalGradeCEMS` (i.e., students' final grades on a 0-100 point scale)
+
+-   `TimeSpent` (i.e., the number of minutes they spent in the course's learning management system)
+
+```{r}
+sci_data |> 
+  select(FinalGradeCEMS, TimeSpent)
+```
+
+Notice how the number of columns (variables) is now different!
+
+Let's *include one additional variable* in the select function that you think might be a predictor of students' final course grade or useful in addressing our research question.
+
+First, we need to figure out what variables exist in our dataset (or be reminded of this - it's very common in R to be continually checking and inspecting your data)!
+
+In addition to `glimpse()` function, you can use a function named `View()` to do this. Try it out and see what happens!
+
+```{r, eval=FALSE}
+View(sci_data)
+```
+
+#### **👉 Your Turn ⤵**
+
+In the code chunk below, add a new variable, being careful to type the new variable name as it appears in the data. We've added some code to get you started. Consider how the names of the other variables are separated as you think about how to add an additional variable to this code.
+
+```{r}
+sci_data |> 
+  select(FinalGradeCEMS, TimeSpent)
+```
+
+Once added, the output should be different than in the code above - there should now be an additional variable included in the print-out.
+
+**A quick footnote about pipes**: The original pipe operator, `%>%`, comes from the {[magrittr](https://magrittr.tidyverse.org)} package but all packages in the tidyverse load `%>%` for you automatically, so you don't usually load magrittr explicitly. The pipe has become such a useful and much used operator in R that it is now baked into R using the new and simpler native pipe `|>` operator. You can use both fairly interchangeably but there are a few [differences between pipe operators](https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/).
+
+### Filtering variables
+
+Next, let's explore filtering variables. Check out and run the next chunk of code, imagining that we wish to filter our data to view only the rows associated with students who earned a final grade (as a percentage) of 70 - 70% - or higher.
+
+```{r}
+sci_data |> 
+  filter(FinalGradeCEMS > 70)
+```
+
+#### **👉 Your Turn ⤵**
+
+In the next code chunk, change the cut-off from 70% to some other value - larger or smaller (maybe much larger or smaller - feel free to play around with the code a bit!).
+
+```{r}
+sci_data |> 
+  filter(FinalGradeCEMS > 70)
+```
+
+What happens when you change the cut-off from 70 to something else? Add a thought (or more):
+
+-   YOUR RESPONSE HERE
+
+### Arrange
+
+The last function we'll use for preparing tables is arrange. We'll again use the `|>` to combine this `arrange()` function with a function we used already - `select()`. We do this so we can view only time spent and final grades.
+
+```{r}
+sci_data |> 
+  select(FinalGradeCEMS, TimeSpent) |> 
+  arrange(FinalGradeCEMS)
+```
+
+Note that arrange works by sorting values in ascending order (from lowest to highest); you can change this by using the `desc()` function as an argument with arrange, like the following:
+
+```{r}
+sci_data |> 
+  select(FinalGradeCEMS, TimeSpent) |> 
+  arrange(desc(FinalGradeCEMS))
+```
+
+Just at a quick cursory glance at our two variables, it does appear that students with higher grades also tend to have spent more time in the online course.
+
+#### **👉 Your Turn ⤵**
+
+In the code chunk below, replace `FinalGradeCEMS` that is used with both the `select()` and `arrange()` functions with a different variable in the data set. Consider returning to the code chunk above in which you glimpsed at the names of all of the variables.
+
+```{r}
+sci_data |> 
+  select(TimeSpent, FinalGradeCEMS) |> 
+  arrange(desc(FinalGradeCEMS))
+```
+
+## 3. EXPLORE
+
+Exploratory data analysis, or exploring your data, involves processes of *describing* your data (such as by calculating the means and standard deviations of numeric variables, or counting the frequency of categorical variables) and, often, visualizing your data. As we'll learn in later case studies, the explore phase can also involve the process of "feature engineering," or creating new variables within a dataset [@krumm2018].
+
+In this section, we'll quickly pull together some basic stats using a handy function from the {skimr} package, and introduce you to a basic data visualization "code template" for the {ggplot} package from the tidyverse.
+
+### Summary Statistics
+
+Let's repurpose what we learned from our wrangle section to select just a few variables and quickly gather some descriptive stats using the `skim()` function from the {skimr} package.
+
+```{r}
+sci_data |>
+  select(TimeSpent, FinalGradeCEMS) |>
+  skim()
+```
+
+#### **👉 Your Turn ⤵**
+
+Copy the code from the chunk from above and use it as a template to explore some other variables of interest from our `sci_data`.
+
+```{r}
+# use skim() to summarize other variables of your choosing
+
+```
+
+What happens if simply feed the skim function the entire `sci_data` object? Give it a try!
+
+```{r}
+# use skim() on the entire data frame
+
+```
+
+### Data Visualization
+
+Data visualization is an extremely common practice in Learning Analytics, especially in the use of data dashboards. Data visualization involves graphically representing one or more variables with the goal of discovering patterns in data. These patterns may help us to answer research questions or generate new questions about our data, to discover relationships between and among variables, and to create or select features for data modeling.
+
+In this section we'll focus on using a basic code template for the {[ggplot2](https://ggplot2.tidyverse.org)} package from the tidyverse. `ggplot2` is a system for declaratively creating graphics, based on [the grammar of graphics](https://ggplot2-book.org/introduction.html#what-is-the-grammar-of-graphics) [@Wickham]. You provide the data, tell ggplot2 how to map variables to [aesthetics](https://ggplot2.tidyverse.org/reference/aes.html), what graphical elements to use, and it takes care of the details.
+
+### The Graphing Workflow
+
+At it's core, you can create some very simple but attractive graphs with just a couple lines of code. {[ggplot2](https://ggplot2.tidyverse.org)} follows the common workflow for making graphs. To make a graph, you simply:
+
+1.  Start the graph with `ggplot()` and include your data as an argument;
+
+2.  "Add" elements to the graph using the `+` operator a [`geom_()` function](https://ggplot2.tidyverse.org/reference/#geoms);
+
+3.  Select variables to graph on each axis with the `aes()` argument.
+
+Let's give it a try by creating a simple histogram of our `FinalGradeCEMS` variable. The code below creates a histogram, or a distribution of the values, in this case for students' final grades. Go ahead and run it:
+
+```{r}
+ggplot(sci_data) +
+  geom_histogram(aes(x = FinalGradeCEMS))
+```
+
+Note that the first function, `ggplot()`, creates a coordinate system that you can "add" layers to using additional functions and `+` operator. The first argument of `ggplot()` is the dataset, in our case `sci_data`, to use for the graph.
+
+By itself, `ggplot(sci_data)` just creates an empty graph. But when you add a required `geom_()` function like `geom_histogram()`, you tell it which type of graph you want to make, in our case a histogram. A **geom** is the geometrical object that a plot uses to represent observations. People often describe plots by the type of geom that the plot uses. For example, bar charts use bar geoms, line charts use line geoms, boxplots use boxplot geoms, and so on. Scatterplots, which we'll see a in bit, break the trend; they use the point geom.
+
+The final required element for any graph is a `mapping =` argument that defines which variables in your dataset are mapped to which axes in your graph. The `mapping` argument is always paired with the function `aes()`, which you use to gather together all of the mappings that you want to create. In our case, since we just created a simple histogram, we only had to specify what variable to place on the x axis, which in our case was `FinalGradeCEMS`.
+
+We won't spend a lot of time on it in this case study, but you can also add a wide range of [aesthetic arguments](https://ggplot2.tidyverse.org/reference/index.html#aesthetics) to each geom, like changing the color of the histogram bars by adding an argument to specify color. Let's give that a try using the `fill =` argument:
+
+```{r}
+ggplot(sci_data) +
+  geom_histogram(aes(x = FinalGradeCEMS), fill = "blue")
+```
+
+#### **👉 Your Turn ⤵**
+
+Now use the code chunk below to visualize the distribution of another variable in the data, specifically `TimeSpent`. You can do so by swapping out the variable `FinalGradeCEMS` with our new variable. Also, change the color to one of your choosing; consider this list of valid color names here: <http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf>
+
+```{r}
+# create a histogram of TimeSpent using a different color
+
+```
+
+**Tip:** There is no shame in copying and pasting code from above. Remember, reproducible research is also intended to help you save time!
+
+### Scatterplots
+
+Finally, let's create a scatter plot for the relationship between these two variables. Scatterplots use the point geom, i.e., the `geom_point()` function, and are most useful for displaying the relationship between two continuous variables.
+
+#### **👉 Your Turn ⤵**
+
+Complete the code chunk below to create a simple scatterplot with `TimeSpent` on the x axis and `FinalGradeCEMS` on the y axis.
+
+```{r}
+ggplot(sci_data) +
+  geom_point(aes(x = TimeSpent, 
+                 y = FinalGradeCEMS))
+```
+
+Well done! As you can see, there appears to be a positive relationship between the time students spend in the online course and their final grade!
+
+To learn more about using {ggplot2} for data visualization, we highly recommend the following Posit Cloud Primers:
+
+1.  [Visualization Basics](https://posit.cloud/learn/primers/1.1): Start here to begin making plots with R. Plots are one of the most important tools for data science; they are also one of the most fun!
+2.  [Visualize Data](https://posit.cloud/learn/primers/3): Learn how to use ggplot2 to make any type of plot with your data. Then learn the best ways to visualize patterns within values and relationships between variables.
+
+## 4. MODEL
+
+"Model" is one of those terms that has many different meanings. For our purpose, we refer to the process of simplifying and summarizing our data. Thus, models can take many forms; calculating means represents a legitimate form of modeling data, as does estimating more complex models, including linear regressions, and models and algorithms associated with machine learning tasks. For now, we'll run a base linear regression model to further examine the relationship between `TimeSpent` and `FinalGradeCEMS`.
+
+We'll dive much deeper into modeling in subsequent learning labs, but for now let's see if there is a statistically significant relationship between students' final grades, `FinaGradeCEMS`, and the `TimeSpent` on the course:
+
+```{r}
+model_1 <- lm(FinalGradeCEMS ~ TimeSpent, data = sci_data)
+
+summary(model_1)
+```
+
+There is a lot to unpack in this output, but for now the most important values to look at are those for `TimeSpent`. Note that the estimate for `TimeSpent` is positive and statistically significant indicating that students who spent more time in the LMS also earned higher grades.
+
+#### **👉 Your Turn ⤵**
+
+Now let's "add" *another* variable to the regression model. Specifically, use the `+` operator after `TimeSpent` to add the course `subject` variable, or another variable of your choosing, as a predictor of students' final grades.
+
+```{r}
+m2 <- lm(FinalGradeCEMS ~ TimeSpent + subject, data = sci_data)
+summary(m2)
+```
+
+What do you notice about the results? Add a comment or two below:
+
+-   YOUR RESPONSE HERE
+
+## 5. COMMUNICATE
+
+The final step in the workflow/process is sharing the results of your analysis with wider audience. Krumm et al. @krumm2018 have outlined the following 3-step process for communicating with education stakeholders findings from an analysis:
+
+1.  **Select.** Communicating what one has learned involves selecting among those analyses that are most important and most useful to an intended audience, as well as selecting a form for displaying that information, such as a graph or table in static or interactive form, i.e. a "data product."
+
+2.  **Polish**. After creating initial versions of data products, research teams often spend time refining or polishing them, by adding or editing titles, labels, and notations and by working with colors and shapes to highlight key points.
+
+3.  **Narrate.** Writing a narrative to accompany the data products involves, at a minimum, pairing a data product with its related research question, describing how best to interpret the data product, and explaining the ways in which the data product helps answer the research question and might be used to inform new analyses or a "change idea" for improving student learning.
+
+In later modules, you will have an opportunity to create a "data product" designed to illustrate some insights gained from your analysis and ideally highlight an action step or change idea that can be used to improve learning or the contexts in which learning occurs.
+
+For example, imagine that as part of a grant to improve student performance in online courses, your are working with the instructors who taught for this online course provider. As part of some early exploratory work to identify factors influencing performance, you are interested in sharing some of your findings about hours logged in the LMS and their final grades. One way we might communicate these findings is through a simple [data dashboard](https://sbkellogg.quarto.pub/final-grades-and-hours-logged/#plots) like the one shown below. Dashboards are a very common reporting tool and their use, for better or worse, has become ubiquitous in the field of Learning Analytics.
+
+![](img/data-dashboard.png)
+
+### Render Document
+
+For now, we will wrap up this case study by converting your work to an HTML file that can be published and used to communicate your learning and demonstrate some of your new R skills. To do so, you will need to "render" your document. Rendering a document does two important things, namely when you render a document it:
+
+1.  checks through all your code for any errors; and,
+
+2.  creates a file in your project directory that you can use to share you work.
+
+#### 👉 Your Turn ⤵
+
+Now that you've finished your first case study, let's render this document by clicking the ![](img/render.png){width="2%"} Render button in the toolbar at that the top of this file. Rendering will covert this Quarto document to a HTML web page as specified in our YAML header. Web pages are just one of [the many publishing formats you can create with Quarto](https://quarto.org/docs/output-formats/all-formats.html) documents.
+
+If the files rendered correctly, you should now see a new file named `orientation-case-study-R.html` in the Files tab located in the bottom right corner of R Studio. If so, congratulations, you just completed the getting started activity! You're now ready for the unit Case Studies that we will complete during the third week of each unit.
+
+::: callout-important
+If you encounter errors when you try to render, first check the case study answer key located in the files pane and has the suggested code for the Your Turns. If you are still having difficulties, try copying and pasting the error into Google or ChatGPT to see if you can resolve the issue. Finally, contact your instructor to debug the code together if you're still having issues.
+:::
+
+### Publish File
+
+There are a wide variety of ways to publish documents, presentations, and websites created using Quarto. Since content rendered with Quarto uses standard formats (HTML, PDFs, MS Word, etc.) it can be published anywhere. Additionally, there is a `quarto publish` command available for easy publishing to various popular services such as [Quarto Pub](#0), [Posit Cloud](#0), [RPubs](#0) , [GitHub Pages](#0), or [other services](#0).
+
+#### 👉 Your Turn ⤵
+
+Choose of of the following methods described below for publishing your completed case study.
+
+#### Publishing with Quarto Pub
+
+Quarto Pub is a free publishing service for content created with Quarto. Quarto Pub is ideal for blogs, course or project websites, books, reports, presentations, and personal hobby sites.
+
+It’s important to note that all documents and sites published to Quarto Pub are **publicly visible**. You should only publish content you wish to share publicly.
+
+To publish to Quarto Pub, you will use the `quarto publish` command to publish content rendered on your local machine or via Posit Cloud.
+
+Before attempting your first publish, be sure that you have created a free [Quarto Pub](https://quartopub.com/) account.
+
+The `quarto publish` command provides a very straightforward way to publish documents to Quarto Pub.
+
+For example, here is the Terminal command to publish a generic Quarto `document.qmd` to each of this service:
+
+``` {.bash filename="Terminal"}
+quarto publish quarto-pub document.qmd
+```
+
+You can access your the terminal from directly **Terminal Pane** in the lower left corner as shown below:
+
+![](img/terminal.png){width="100%"}
+
+The actual command you will enter into your terminal to publish your getting started case study is:
+
+`quarto publish quarto-pub unit-0-case-study.qmd`
+
+When you publish to Quarto Pub using `quarto publish` an access token is used to grant permission for publishing to your account. The first time you publish to Quarto Pub the Quarto CLI will automatically launch a browser to authorize one as shown below.
+
+``` {.bash filename="Terminal"}
+$ quarto publish quarto-pub
+? Authorize (Y/n) › 
+❯ In order to publish to Quarto Pub you need to
+  authorize your account. Please be sure you are
+  logged into the correct Quarto Pub account in 
+  your default web browser, then press Enter or 
+  'Y' to authorize.
+```
+
+Authorization will launch your default web browser to confirm that you want to allow publishing from Quarto CLI. An access token will be generated and saved locally by the Quarto CLI.
+
+Once you've authorized Quarto Pub and published your case study, it should take you immediately to the published document. See my example Orientation Case Study complete with answer key here: [https://sbkellogg.quarto.pub/laser-orientation-case-study-key](https://sbkellogg.quarto.pub/laser-orientation-case-study-key/).
+
+After you've published your first document, you can continue adding more documents, slides, books and even publish entire websites!
+
+![](img/quarto-pub.png)
+
+#### Publishing with R Pubs
+
+An alternative, and perhaps the easiest way to quickly publish your file online is to publish directly from RStudio using Posit Cloud or RPubs. You can do so by clicking the "Publish" button located in the Viewer Pane after you render your document and as illustrated in the screenshot below.
+
+![](img/publish.png){width="100%"}
+
+Similar to Quarto Pub, be sure that you have created a free Posit Cloud or R Pub account before attempting your first publish. You may also need to add your Posit Cloud or R Pub account before being able to publish.
+
+See below for an example of my published Orientation Case Study complete with answer key here using:
+
+-   **R Pubs**: <https://rpubs.com/sbkellogg/orientation-case-study-key>
+
+-   **Posit Cloud**: <https://posit.cloud/content/8432811>
+
+![](img/posit-cloud-pub.png){width="100%"}
+
+### References

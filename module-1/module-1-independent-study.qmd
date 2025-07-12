@@ -1,0 +1,93 @@
+---
+title: 'Text Mining Basics'
+subtitle: "ECI 588 Unit 1: Independent Study"
+author: "Dr. Shaun Kellogg"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+theme:
+  light: simplex
+  dark: cyborg
+editor: visual
+bibliography: lit/references.bib
+---
+
+The final week of each unit is designed to provide you some space for gaining proficiency with R and conducting an independent analysis. Depending on your prior experience with R, there are two assignment tracks this week:
+
+1.  **Independent Analysis**: For students who have completed ECI 586 or are comfortable with R basics, you will be required to create a simple "data product" designed to illustrate your ability to apply basic text mining techniques demonstrated in the case study.
+
+2.  **Datacamp Tutorials**: For students new to R or have not completed ECI 586: Intro to Learning Analytics, you will be required to complete two Datacamp tutorials focused on the basics [data visualization](#0), and [wrangling and visualizing text](#0).
+
+## Datacamp Tutorials (R Beginners)
+
+For students new to R, the third week of each unit consists of tutorials for working with R packages and functions used import, wrangle, explore, and model data. The primary goal of these tutorials is to support familiarity and fluency with R syntax and key functions for data analysis.
+
+### Assignment
+
+Your assignment this week is to complete the following Datacamp tutorials:
+
+1.  [**Introduction to Data Visualization with ggplot2**](https://www.datacamp.com/courses/introduction-to-data-visualization-with-ggplot2). This tutorial introduces you to the principles of good visualizations and the grammar of graphics plotting concepts implemented in the ggplot2 package.
+2.  [**Introduction to Text Analysis in R**](https://app.datacamp.com/learn/courses/introduction-to-text-analysis-in-r). This tutorial introduces the latest tidy tools to quickly and easily get started with text. This week will focus on learning how to wrangle and visualize text.
+
+### Assessment
+
+This is assignment is worth 6 points and you will receive full credit upon successful completion of each tutorial.
+
+## Independent Analysis (ECI 586 Students or R Users)
+
+For those who completed ECI 586 or are already comfortable with R, you will be required to conducted an independent analysis and create a simple "data product" designed to illustrate key insights about a text-based data set of your choosing.
+
+### Assignment
+
+For your independent analysis, you will demonstrate your ability to formulate a basic research question, wrangle and analyze data, and create a simple data product to illustrate key findings. **Your primary goal is to analyze a text-based data** by applying the knowledge and skills acquired from the course readings and case study. Specifically, your assignment this week is to:
+
+1.  **Identity a data source.** I've included the `opd_survey.csv` dataset from our case study in a data folder located the Unit 1 Analysis Project in our [Posit Cloud ECI 588 Workspace](https://posit.cloud/spaces/597706/join?access_code=weMxPiHe3BsKRsQOtUOnlD9NwbNG3L1G7NsuBanV). You are also welcome to identify your own text-based data source related to an area of professional interest. However, if you choose to use an alternative data source, you will need to specify the context in which it was collected and the audience for whom your analysis intended.
+
+2.  **Formulate a question.** I recommend keeping this simple and limiting to no more than one or two questions. Your question(s) should be appropriate to your data set and ideally be answered by applying concepts and skills from our course readings and case study.
+
+3.  **Analyze the data.** I highly recommend creating a new R script in your project space to use as you work through data wrangling and analysis. Your R script will likely contain code that doesn't make it into your Quarto presentation or report since you will likely experiment with different approaches and figure out code that works and code that does not.
+
+4.  **Create a data product.** When you feel you've wrangled and analyzed the data to your satisfaction, create an Quarto file that includes a polished graph and/or data table and a narrative highlighting your research question, data source, and key findings and potential implications. Your file should include all code necessary to read, wrangle, and explore your data.
+
+5.  **Share your findings.** Render your data product to a desired output format. I recommend using the example data product I've included in the project folder to create an HTML slide deck like [this example](https://sbkellogg.quarto.pub/what-do-teachers-value-about-online-pd/#/title-slide), but you are welcome to experiment with other formats as well.
+
+### Student Examples
+
+To help provide some inspiration for you analysis, here are a few examples form past students:
+
+1.  **Meghann Martinez**: [Teacher Recommendations for Online PD: A Text Analysis of Open-Ended Survey Responses](https://rpubs.com/meghannmm/teacherrecs)
+2.  **Soraya Campbell**: [Winter Breakaway Student Survey Responses](https://sorayaworldwide.github.io/Rmarkdown.html#1)
+3.  **Jennifer Houchins**: ["A Little Birdie Told Me" Examining Tweets About Education](https://jennhouchins.github.io/EdTweets/EdTweets.html#/)
+
+### Assessment
+
+As noted in our Unit 1 Case Study, the final step in our workflow/process is sharing the results of analysis with wider audience. @krumm2018 outlined the following 3-step process for communicating with education stakeholders what you have learned through analysis:
+
+1.  **Select**. Communicating what one has learned involves selecting among those analyses that are most important and most useful to an intended audience, as well as selecting a form for displaying that information, such as a graph or table in static or interactive form, i.e. a "data product."
+
+2.  **Polish**. After creating initial versions of data products, research teams often spend time refining or polishing them, by adding or editing titles, labels, and notations and by working with colors and shapes to highlight key points.
+
+3.  **Narrate**. Writing a narrative to accompany the data products involves, at a minimum, pairing a data product with its related research question, describing how best to interpret the data product, and explaining the ways in which the data product helps answer the research question.
+
+For the purpose of this assignment, imagine that you have been asked to share your analysis with online professional development instructors at the North Carolina Department of Education. Remember, your audience will have limited background in text mining and so adapt the product accordingly. This assignment is worth a total of 6 points and will be assessed based on the following criteria.
+
+1.  **Polished Graph (2 points).** The graph you selected to share should be visually appealing and help to clearly illustrate for your audience key findings from your analysis.
+
+2.  **Clear Narrative (2 points).** Include slides with bullet points, or a brief narrative, to accompany your visualization and/or table. Your narrative should includes the following:
+
+    -   The question or questions guiding the analysis;
+    -   The conclusions you've reached based on our findings;
+    -   How your audience might use this information;
+    -   How you might revisit or improve upon this analysis in the future.
+
+3.  **Peer Feedback (2 points).** Finally, take look at the posted data products of your peers and provide some brief (1 paragraph) but constructive feedback to at least two of your peers. Your feedback should include one thing you liked about their data product and why and one suggestion for improvement or extension of the analysis.
+
+## Troubleshooting
+
+If you have any questions about the assignment or run into any technical issues, don't hesitate to email me at [sbkellog\@ncsu.edu](#0) or set up a Zoom meeting at [calendly.com/sbkellogg](#0).
+
+I also encourage you to post to the **Questions & Troubleshooting** thread, especially if others might benefit from the response to your question or issue. You are also more than welcome to respond to the questions posted by your peers.
+
+## References

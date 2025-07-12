@@ -1,0 +1,150 @@
+---
+title: "What Do Teachers Value About Online PD?"
+author: "Shaun Kellogg"
+format:
+  revealjs: 
+    theme: simple
+editor: visual
+---
+
+## Research Questions
+
+1.  What aspects of online professional learning resources do teachers find most valuable?
+
+2.  How might online learning resources differ in the value they afford teachers?
+
+## Benefits of Online PD
+
+Words teachers frequently used to describe online PD:
+
+```{r}
+library(tidyverse)
+library(tidytext)
+library(wordcloud2)
+
+opd_survey <- read_csv("data/opd_survey.csv")
+
+teacher_counts <- opd_survey |>
+  select(Role, Resource, Q21) |> # Select only columns Role, Resource, and Q21
+  rename(text = Q21) |> 
+  slice(-1, -2) |>
+  drop_na() |>
+  filter(Role == "Teacher") |>
+  unnest_tokens(word, text) |>
+  anti_join(stop_words) |>
+  count(word, sort = TRUE)
+
+wordcloud2(teacher_counts,
+           color = ifelse(teacher_counts[, 2] > 1000, '#CC0000', 'gray'))
+```
+
+## Top 15 Words
+
+```{r}
+teacher_counts |>
+  filter(n > 500) |>
+  slice_max(order_by = n, n = 15) |>    
+  mutate(word = reorder(word, n)) |>
+  ggplot(aes(n, word)) +
+  geom_col() + 
+  labs(x = "Word Counts", y = NULL) + 
+  theme_minimal()
+```
+
+## Information Shared
+
+```{r, eval=FALSE}
+
+# This code is used to find quotes, which are copied, pasted, and formatted below
+
+opd_teacher <- opd_survey |>
+  select(Role, Resource, Q21) |>
+  rename(text = Q21) |>
+  slice(-1, -2) |>
+  filter(Role == "Teacher")
+
+select(opd_teacher, text) |> 
+  filter(grepl('inform*', text)) |>
+  sample_n(10) |>
+  
+```
+
+-   "It could be completed at home in my free time. It had lots of good information that helped me understand the **terminology**."
+
+-   "the information about the way our **common core** was created for our system"
+
+-   "Informative information on the **21st century learner** and teacher."
+
+-   "The most beneficial aspect was the information about **types of data** and where we get it from."
+
+## Videos and Resources Provided
+
+```{r, eval=F}
+
+select(opd_teacher, text) %>% 
+  filter(grepl('resource*', text)) %>%
+  sample_n(10)
+
+```
+
+-   "**Printable resources** to keep on hand and example videos of how to use formative assessments in the classroom."
+
+-   "I was able to see other **lesson plans** and resources that other schools are doing."
+
+-   "Viewing **teacher videos**, especially Dan Meyer and Finland classroom. I was also introduced to new online resources that will aid my students and me in learning."
+
+## Time and Pace for Learning
+
+```{r, eval=F}
+
+select(opd_teacher, text) %>% 
+  filter(grepl('time', text)) %>%
+  sample_n(10)
+
+```
+
+-   "The **ability to schedule the time to work** on the module so that it does not interfere with my commitments as an educator."
+
+-   "time to **talk with peers**"
+
+-   "The most valuable aspect was the time factor... I could **walk away and work on it at another time**, so this is a tremendous aspect for the online learner."
+
+-   "Teachers are **able to go back to the information at anytime** to view the information to ensure understanding of the material."
+
+## Top 5 Words by Resource
+
+```{r}
+
+opd_survey |>
+  select(Role, Resource, Q21) |> # Select only columns Role, Resource, and Q21
+  rename(text = Q21) |> 
+  slice(-1, -2) |>
+  drop_na() |>
+  filter(Role == "Teacher") |>
+  unnest_tokens(word, text) |>
+  anti_join(stop_words) |>
+  count(Resource, word, sort = TRUE) |>
+  group_by(Resource) |>
+  mutate(percent = n / sum(n)) |>
+  filter(Resource != "Calendar") |> 
+  group_by(Resource) |> 
+  slice_max(order_by = percent, n = 5, with_ties = FALSE) |> 
+  ungroup() |>  
+  mutate(word = reorder_within(word, percent, Resource)) |>  
+  ggplot(aes(percent, word, fill = Resource)) + 
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~Resource, ncol = 3, scales = "free_y") +  
+  scale_y_reordered()
+```
+
+## Conclusions
+
+1.  Teachers found the **information** shared beneficial, such as new terminology, the common core standards, and types of data.
+2.  Teachers appreciated the **resources and videos** provided including lesson plans and printable materials.
+3.  Use of words like time, pace, and format suggests teachers valued the **convenience** of online professional development.
+
+## Discussion
+
+-   **Limitations**: While able to provide quick insight into a large number of responses, analysis raised as many questions as it answered.
+-   **Implications**: Validation of design decisions such use of videos and inclusion of practical resources.
+-   **Next Steps for Analysis**: Dig into recommendations for improvement.

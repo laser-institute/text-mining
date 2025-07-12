@@ -1,0 +1,146 @@
+---
+title-block-banner: false
+title: "Text Mining Toolkit"
+subtitle: "ECI 588: Text Mining in Education"
+author: "Dr. Shaun Kellogg"
+date: today
+format:
+  html:
+    toc: true
+theme: journal
+editor: visual
+---
+
+Your final task is to prepare your Learning Analytics Toolkit by setting up and getting familiar with the required texts and software we'll be using throughout the course.
+
+## Part 1: Text & Software
+
+The first step in preparing your toolkit is making sure you can access the required course texts and data analysis software. These required texts and software, as well as optional but recommended software and texts, are describe in more detail in our [ECI 588 Course Syllabus](https://sbkellogg.github.io/eci-588/unit-0/unit-0-syllabus.html).
+
+### **Course Texts**
+
+There are several required textbooks for this course, all of which are freely available online or through the NCSU Library. Supplemental course readings and content (e.g. articles, videos) will also be provided at no cost through the Moodle course site. You will also be asked to locate articles of interest for our discussions and I highly recommend that you link Google Scholar to the NCSU Library: [https://www.lib.ncsu.edu/articles/google-scholar](#0){.uri}.
+
+Course readings will draw heavily from the following resources:  
+
+1.  Silge, J., & Robinson, D. (2017). *Text mining with R: A tidy approach*. O'Reilly Media, Inc. [https://www.tidytextmining.com](#0)
+2.  Researcher and Practitioner Articles (see References). Provided through the Moodle course site.
+
+### Data Analysis Software
+
+Hands-on data analysis tutorials and experiences will make extensive use of R and R Studio during the semester. You will access Learning Analytics Case Study activities through Posit Cloud and will complete R tutorials to assist with these activities through DataCamp.
+
+1.  **Posit Cloud** (<https://posit.co/products/cloud/cloud/)> provides access to Posit's powerful set of data science tools, including **RStudio** ([https://posit.co/products/open-source/rstudio](https://posit.co/products/open-source/rstudio/)), an integrated development environment (IDE) for R and Python that includes a console and syntax-highlighting editor, as well as tools for plotting, history, debugging, and workspace management. As part of our Case Studies, we'll also be making extensive use of **Quarto** ([https://quarto.org](https://quarto.org/)), an open-source scientific and technical publishing system used for creating reproducible, production quality articles, presentations, dashboards, websites, blogs, and books in HTML, PDF, MS Word, ePub, and more.
+
+    -   First, register for a free Posit Cloud account at: <https://login.posit.cloud/register.>
+
+    -   Next, access our ECI 588: Text Mining in Education workspace at: <https://posit.cloud/spaces/597706/join?access_code=weMxPiHe3BsKRsQOtUOnlD9NwbNG3L1G7NsuBanV>
+
+2.  **DataCamp** ([https://www.datacamp.com](https://www.datacamp.com/)) is an online learning platform with a large catalog of video tutorials, coding activities, assessments and certifications for R, Python, data science, statistics & more.
+
+    -   Register for a free account using your \@ncsu.edu email address at: <https://www.datacamp.com/users/sign_up>
+
+    -   After registering with your NC State email, click the following link to access our [Learning Analytics DataCamp group space](https://www.datacamp.com/groups/shared_links/b6b84feb66a4f045585bb4dbe7eb154418aef1136ccef4450d5eb3f453b0e136) where you will complete required assignments during Week 2 of each unit.
+
+## Part 2: Introduction to R DataCamp Assignment
+
+The second step in preparing your Learning Analytics Toolkit is to join our Learning Analytics group on DataCamp and complete your first assignment: Introduction to R.
+
+### Sign Up
+
+First, sign up for a DataCamp account using your NC State email.
+
+![](img/datacamp-signup.png)
+
+### Join Group
+
+Next, click the following link to access our [Learning Analytics DataCamp group space](https://www.datacamp.com/groups/shared_links/b6b84feb66a4f045585bb4dbe7eb154418aef1136ccef4450d5eb3f453b0e136). You will be informed that you have been invited to join the space and should see something like below. Click "Join" to accept the invite to our group and then the "Getting Started" button on the page that follows.
+
+![](img/datacamp-join.png)
+
+Next you'll be prompted to "Start with the course that Shaun Kellogg has assigned to you" or "Go to the Dashboard -\>" instead. You're welcome to get started immediately on the **Introduction to R** course, but I recommend taking a quick visit to the group dashboard first. ![](img/datacamp-start.png)
+
+### Visit Dashboard
+
+The DataCamp Dashboard is where you can access DataCamp courses, tutorials, assessments, certifications, etc. As part of the educator group I set up for this course and for my [LASER Institute](https://fi.ncsu.edu/projects/laser-institute/), you have free access to the full suite of DataCamp instructional resources for the fall semester!
+
+![](img/datacamp-dashboard.png)
+
+Feel free to explore the dashboard board and click around to check out the resources available to you. To get back to this page, click the "Learn" button in the menu bar at the top of the page.
+
+### Start Assignment
+
+You should see the **Introduction to R**, **Introduction to the Tidyverse**, and an optional **Introduction to ChatGPT** assignment on your dashboard. Click on Introduction to R to get started on your first tutorial. Once, you do you should the see the course landing page picture below.
+
+![](img/datacamp-course.png)
+
+Click "Start' to get started on the assignment. You'll then see an exercise with a set of instructions on the left, and on the right you'll see a code editor and R Console for writing and running code and viewing the outputs of the R code you run.
+
+![](img/datacamp-assignment.png)
+
+Good luck and don't hesitate to reach out if you have any questions or run into any issues!
+
+## Part 3: Getting Started with Posit Cloud
+
+Your final step in preparing your toolkit is to complete our introductory Case Study designed to help get you up and running with RStudio and working with Quarto. This brief activity is designed to orient you to the data analysis assignments during the final week of each unit, including the use of R, RStudio, and Quarto.
+
+### Sign Up
+
+If you haven't done so already, be sure to sign up for a free Posit account. You can access the free plan directly using this link: <https://posit.cloud/plans/free>.
+
+![](img/posit-signup.png)
+
+### Join Space
+
+Next, access our [ECI 588 Text Mining in Education (2025)](https://posit.cloud/spaces/597706/join?access_code=weMxPiHe3BsKRsQOtUOnlD9NwbNG3L1G7NsuBanV) workspace. This space is part of my paid plan and will provide you unlimited use of Posit Cloud during the semester. You should see a prompt to "Join Space?" like the one below:
+
+![](img/join-space.png){width="100%"}
+
+### View Content
+
+After joining the space, you may see a description of the space like in the screenshot below. Click the "Content" menu tab next.
+
+![](img/about-space.png)
+
+### Start Assignment
+
+Once you have accessed the content section of our workspace, click on the assignment labeled **Unit 0 - Getting Started**, which will create a copy of the R Project for your individual use.
+
+![](img/getting-started.png){alt="" fig-align="center"}
+
+### Open Case Study
+
+Next, click on the `unit-0-case-study.qmd` file located in the Files tab of your R Studio cloud project. This will open the **Unit 0: Getting Started Case Study** assignment. This assignment is created using a Quarto document, which allows
+
+![](img/files-pane.png){fig-align="center"}
+
+Finally, if the document opens in "Source" mode and looks like unformatted text, click on the "Visual" button in the toolbar of the file you just opened and follow the direction to complete the assignment.
+
+![](img/visual-editor.png){fig-align="center"}
+
+### Your Turn
+
+Complete the assignment by reading through the document and completing coding activities and reflection questions where you see the [**Your Turn**]{style="color: green;"} **⤵** signal. Be sure to complete all your the activities or your document will not "render" to an HTML webpage when you have completed the assignment.
+
+![](img/posit-assignment.png) Good luck and don't hesitate to reach out if you have any questions or run into any issues!
+
+## Troubleshooting
+
+Learning a programming language like R (or any new language for that matter) will inevitably be a little frustrating at first. Even experienced R developers like Hadley Wickham [get frustrated](#0):
+
+> "It's easy when you start out programming to get really frustrated and think, 'Oh it's me, I'm really stupid,' or, 'I'm not made out to program.' But, that is absolutely not the case. Everyone gets frustrated. I still get frustrated occasionally when writing R code. It's just a natural part of programming. So, it happens to everyone and gets less and less over time. Don't blame yourself. Just take a break, do something fun, and then come back and try again later."
+
+When feeling stuck or like banging your head against your desk, there are several options for seeking out help within and beyond this course:
+
+1.  **Course Forums & Email**: Including this general software troubleshooting forum, we will have forums for each assignment. You'll likely have similar questions as your peers, and you'll likely be able to answer other peoples' questions too so I encourage you to use these forums. Unlike most of my apps and social media accounts, I actually have notifications enabled. Also, do not hesitate to email me directly as well.
+
+2.  **Learning Analytics Office Hours**: Some issues are much easier to troubleshoot in real time. To schedule a 1 on 1 meeting with me in person of via Zoom, use the following Calendly link: [https://calendly.com/sbkellogg/analytics](https://calendly.com/sbkellogg/analytics?back=1&month=2024-08)
+
+3.  **ChatGPT** (<https://openai.com/chatgpt/>) is an advanced AI language model developed by OpenAI and is **highly recommended for this course**. It's and excellent tool for learning analytics and can assist by explaining concepts, helping with code, offering analysis guidance, and troubleshooting, though it's important to verify its advice against reliable sources.\
+    Use with or without registering for an account at: <https://chatgpt.com>
+
+4.  **NCSU Library Services**: The [Data & Visualization](https://www.lib.ncsu.edu/services/data-visualization) group is an incredible asset for NC State students. Though the library's website, you can access and enroll in workshops, find resources, and chat or schedule a Zoom appointment to get R help. 
+
+5.  **Social Media**: If you use Twitter, you can also post R-related questions and content with the [#rstats](https://twitter.com/search?q=%23rstats&src=typed_query) hashtag. One of the things I most value about the R in general is that the R community is exceptionally helpful.
+
+6.  **The Interwebs**: Aside from Google of course, [StackOverflow](https://stackoverflow.com/) and the [RStudio Community](https://community.rstudio.com/) will likely become tried and true tools in your text mining toolkit. In fact, I'd wager that the majority of Google searcher will likely direct you to one of these two sites. Note that when search Google, it sometimes helps to include "rstats" in your query.

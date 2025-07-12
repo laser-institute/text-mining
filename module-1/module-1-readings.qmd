@@ -1,0 +1,158 @@
+---
+title: "Unit 1 Readings: What is Text Mining?"
+subtitle: "ECI 588: Text Mining in Education"
+author: "Dr. Shaun Kellogg"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+theme:
+  light: simplex
+  dark: cyborg
+editor: visual
+---
+
+## OVERVIEW
+
+The primary goal of the Unit 1 readings and discussion is to build a basic understanding of text mining and its applications for understanding and improving teaching. The required and self-selected readings for this week provide an introduction to text mining in the field of education, and text mining more generally. A secondary goal of readings and discussion is to help you start generating ideas for independent analyses and/or your final course project.
+
+## READINGS
+
+To help address our discussion questions for the week, you'll be asked to read or view three resources, including: a required journal article, an instructor-selected resource, and one additional self-selected resource such as a journal article, video, news article, podcast, or blog post.
+
+### 1. Required
+
+1.  Ferreira‐Mello, R., André, M., Pinheiro, A., Costa, E., & Romero, C. (2019). [Text mining in education](https://ncsu.summon.serialssolutions.com/#!/search?bookMark=eNp1j79PwzAQhS0UJErpwMYYiYkh7fkcx86Iyq9KRSyRGK2QXJCrxilOotL_noRIbNz0hu-903fJAtc4Yuyaw5ID4Opoy3rJhcAzNuNpjFGsUhn8Za0u2KJtdzCcQK01zthNRt9dWFtn3WdoXUhlX-SdbdwVO6_yfUsLFnS-pznLnh6z9Uu0fXverO-3UYGpwkgkukxFhUCUSCV5CRJUoitUMlWVEmmuyiQvKSZAiuWHApJaKVklwAG5mLPbafbgm6-e2s7smt674bFBAQI4Sg4DdTdRhW_a1lNlDt7WuT8ZDmY0N6O5Gc0HdjWxR7un0_-ged88vP42fgAOlliW). Wiley Interdisciplinary Reviews: Data Mining and Knowledge Discovery, 9(6). https://doi.org/10.1002/widm.1332
+
+### 2. Instructor-Selected Resources (Choose One)
+
+1.  Bail, C. (2018). [An Introduction to Text as Data](https://cbail.github.io/textasdata/strengths-weaknesses/rmarkdown/Strengths_and_Weaknesses.html). Retrieved from https://cbail.github.io/textasdata/strengths-weaknesses/rmarkdown/Strengths_and_Weaknesses.html
+
+2.  Bail, C. (2020). [An Introduction to Text Analysis](https://youtu.be/pLsC4UyzX_U). Retrieved from https://youtu.be/pLsC4UyzX_U
+
+3.  Fesler, L., Dee, T., Baker, R., & Evans, B. (2019). [Text as data methods for education research](https://moodle-courses2021.wolfware.ncsu.edu/draftfile.php/115316/user/draft/615071748/Fesler-2019-Text%20as%20Data%20Methods%20for%20Education%20Research.pdf). Journal of Research on Educational Effectiveness, 12(4), 707-727.
+
+4.  Temos, J. (2016). [Text analysis for teaching](https://mcgrawect.princeton.edu/text-analysis-for-teaching/). The McGraw Center. Retrieved from https://mcgrawect.princeton.edu/text-analysis-for-teaching/
+
+5.  Underwood, T. (2015). [Where to start with text mining](https://tedunderwood.com/2012/08/14/where-to-start-with-text-mining/). The Stone and the Shell. Retrieved from https://tedunderwood.com/2012/08/14/where-to-start-with-text-mining/
+
+### 3. Self-Selected Resource
+
+Use the [NCSU Library](#0), [Google Scholar](#0) or search engine of your choice to locate a journal article, presentation, website or other scholarly resource. For example, in [Text Mining in Education](#0) one of the articles cited in the literature review may have peaked your interest and you'd like to follow up on it. Your selection should also address one or more of the discussion topics/questions provided below. In addition, you are welcome to find less formal resources such as videos or shorter online articles to share with the class and that help us better understand this week's topics for discussion.
+
+## DISCUSSION
+
+In lieu of the peer interaction and discussion of course materials that normally take place "in class", you'll be asked to log in this week and engage with other members of our learning community through the course discussion forum. To help guide our discussions, **we will collectively address a set of guiding questions provided in each forum**. You are also welcome to add your own topics or questions for the class to discuss.
+
+With the exception of the Self-Selected resource, **you are not required to post to every thread or address every question listed below**, particularly if you feel others in the class have thoroughly addressed the topic or questions. Our primary goal for these discussions is to collectively build our understanding of this week's topics through back-and-forth dialogue and avoid a "collective monologue" in which we see 20 variations of the same post.
+
+### Guiding Questions
+
+#### Topic 1: Text Mining Terminology
+
+Reflecting on the course text and your self-selected reading, answer one or more of the following questions:
+
+1.  What exactly is text mining?
+
+2.  How is it defined or described in your readings?
+
+3.  What alternative terms or phrases are used? How would you explain it to someone with no background in text mining?
+
+4.  What are some other new terms, words, concepts that you have come across in the resources that were unfamiliar to you, or that you had come across before but feel you have a better understanding of after this week?
+
+#### Topic 2: Methods, Techniques & Educational Applications
+
+Reflecting on the course text and your self-selected reading, answer one or more of the following questions:
+
+1.  What text mining methods or techniques are commonly used in analyzing text and for what purpose?
+
+2.  How has text mining be applied to educational contexts, or in other fields that might be relevant to education?
+
+3.  How might text mining be applied in your own professional context?
+
+4.  How has/could text mining be applied to address systemic issues or persistent problems in Education?
+
+#### Topic 3: Affordances, Limitations, & Ethical Issues
+
+Reflecting on the course text and your self-selected reading, answer one or more of the following questions:
+
+1.  What are some of the advantages of text mining over more traditional approaches to analyzing text as data?
+
+2.  What are some of the challenges and limitations of text mining in comparison to traditional qualitative analysis?
+
+3.  What ethical issues should be considered when mining text for educational purposes or in general?
+
+#### Topic 4: Text-Based Data Sources
+
+Reflecting on the course text and your self-selected reading, answer one or more of the following questions:
+
+1.  What sources of data are commonly used in text mining, particularly in educational contexts?
+
+2.  Are some data sources more suitable or appropriate for text mining purposes than others?
+
+3.  What data sources in education are publicly available for analysis?
+
+4.  What sources of data are you interested in potentially exploring for an independent analysis or final course project?
+
+#### Student-Selected Resources
+
+Provide a brief overview of your self-selected resource that includes the following:
+
+-   APA Citation (note: this can be easily [retrieved via Google Scholar](#0))
+
+-   What was the **purpose** of your article?
+
+-   How was Text Mining **defined** and/or characterized?
+
+-   What **data source(s)** were analyzed or discussed?
+
+-   How, if at all, did your article touch upon the **application(s)** of text mining to "understand and improve learning and the contexts in which learning occurs?"
+
+-   Did your selection address any **ethical or legal considerations** of text mining?
+
+## ASSESSMENT
+
+### Grading
+
+Grading for this week is fairly lenient, provided that it's fairly clear from your posts that you've done the required reading. Readings and discussion for each unit are worth 6 points and judged based on three criteria: quantity, quality, and connections to readings.
+
+In term of **quantity** (2 points), you'll be expected to add at least 4 posts over the course of the week and spread across at least two different days. *Your initial post should be shared by Friday* to help facilitate discussion.
+
+In terms of **quality** (2 points), your posts over the next week should provide new or insightful contributions to the division questions or topics (see [Gao's productive online discussion model](https://scholarworks.bgsu.edu/cgi/viewcontent.cgi?article=1040&&context=vcte_pub&&sei-redir=1&referer=https%253A%252F%252Fscholar.google.com%252Fscholar%253Fhl%253Den%2526as_sdt%253D0%25252C34%2526q%253DGao%252Bproductive%252Bonline%252Bdiscussion%252Bmodel%2526btnG%253D#search=%22Gao%20productive%20online%20discussion%20model%22) summarized below). There is no requisite for the length of each posting; in fact short conversational exchanges (1-3 paragraphs) are highly encouraged.
+
+In terms of **connections** (2 points), your collective posts should help us interpret or elaborate on discussion topics, questions, or ideas other have shared by "making connection to the learning materials" as illustrated in Gao's Disposition 1: Discussion to Comprehend. Your posts should tie in to at least 3 different resources.
+
+### Productive Online Discussion Model
+
+#### Disposition 1: Discuss to Comprehend
+
+Actively engage in such cognitive processes as interpretation, elaboration, **making connections to** prior knowledge.
+
+-   Interpreting or elaborating the ideas by making connection to the **learning materials**
+-   Interpreting or elaborating the ideas by making connection to **personal experience**
+-   Interpreting or elaborating the ideas by making connection to other **ideas, sources, or references**
+
+#### Disposition 2: Discuss to Critique
+
+Carefully **examine other people's views**, and be sensitive and analytical to conflicting views.
+
+-   Building or **adding new insights or ideas** to others' posts
+-   **Challenging ideas** in the texts
+-   Challenging ideas **in others' posts**
+
+#### Disposition 3: Discuss to Construct Knowledge
+
+Actively **negotiate meanings**, and be ready to reconsider, refine and sometimes revise their thinking.
+
+-   **Comparing views** from the texts or others' posts
+-   Facilitating thinking and discussions by **raising questions**
+-   Refining and **revising one's own view** based on the texts or others' posts
+
+#### Disposition 4: Discuss to Share Improved Understanding
+
+Actively **synthesize knowledge** and explicitly express improved understanding based on a review of previous discussions.
+
+-   **Summarizing personal learning** experiences of online discussions
+-   **Synthesizing content** of discussion
+-   **Generating new topics** based on a review of previous discussions
