@@ -289,14 +289,56 @@ And the edges between them describe the regularity with which they co-occur in d
 TBD
 :::
 
-# Key Terms
+# Key Cosiderations
 
-Actors, Ties, and Attributes
+Logistical, Technical, Ethical, & Legal
 
 ::: notes
 **Speaker Notes:**
 
-In this section we introduce some very basic terms that are essential for being able to conceptualize and discuss social networks. These terms encompass those are a part of a social network (actors), relationships between them (ties), and information about both (attributes).
+TBD
+:::
+
+## Text Mining Cosiderations
+
+Despite the potential advantages of text-based data captured by educational technologies, TM poses a number of challenges[^6] for STEM Ed researchers.
+
+[^6]: @bail2020digitaltrace. [*Strengths and weaknesses of digital trace data*](https://sicss.io/2020/materials/day2-digital-trace-data/strengths-weaknesses/rmarkdown/Strengths_and_Weaknesses.html#weaknesses-of-digital-trace-data). Text as Data.
+
+::::::: columns
+:::: {.column width="60%"}
+**Logistical & Technical**
+
+::: incremental
+-   Unstructured
+
+-   Inaccessible
+
+-   Non-Representative
+
+-   Incomplete
+:::
+::::
+
+:::: {.column width="40%"}
+**Ethical & Legal**
+
+::: incremental
+-   Bias (algorithmic, positivity)
+
+-   Sensitive
+
+-   Terms of Use
+
+-   FERPA
+:::
+::::
+:::::::
+
+::: notes
+**Speaker Notes:**
+
+TBD
 :::
 
 ## Actors
