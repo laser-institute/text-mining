@@ -1,0 +1,98 @@
+---
+title: 'Epistemic Network Analysis'
+subtitle: "TM Module 4: Badge"
+author: "LASER Institute"
+date: today 
+format:
+  html:
+    toc: true
+    toc-depth: 4
+    toc-location: right
+theme:
+  light: simplex
+  dark: cyborg
+editor: visual
+bibliography: lit/references.bib
+---
+
+The final activity for each learning module provides space to work with data and to reflect on how the concepts and techniques introduced in each module might apply to your own research.
+
+To earn a badge for each module, you are required to respond to a set of prompts for two parts:
+
+-   In Part I, you will reflect on your understanding of key concepts addressed in the case study and essential readings and begin to think about potential next steps for your own study.
+
+-   In Part II, you will create a simple data product in R that demonstrates your ability to apply a data analysis technique introduced in this learning module.
+
+### Part I: Reflect and Plan
+
+Use your institutional library, [Google Scholar](https://scholar.google.com/), or search engine of your choice to locate a research article, presentation, or resource that applies text mining to an educational context or topic of interest. More specifically, **locate a research study that makes use of Quantitative Enthography techniques like those demonstrated in our Module 3 Case Study.** You are also welcome to select one of the research papers listed in the [essential readings](https://laser-institute.github.io//text-mining/module-3/tm-3-readings.html) that may have piqued your interest.
+
+1.  Provide an APA citation for your selected study.
+
+    -   
+
+2.  What was the **purpose** of your article?
+
+    -   
+
+3.  How was QE and/or ENA **defined** and/or characterized?
+
+    -   
+
+4.  What **data source(s)** were analyzed or discussed?
+
+    -   
+
+5.  How, if at all, did your article touch upon the **application(s)** of text mining to "understand and improve learning and the contexts in which learning occurs?"
+
+    -   
+
+6.  Did your selection address any **ethical or legal considerations** of text mining? If so, describe.
+
+    -   
+
+Draft a research question that would be of interest to educational researchers and that would make use of topic modeling, then answer the following questions:
+
+1.  What text-based data would need to be collected?
+
+    -   
+
+2.  For what reason would relational data need to be collected in order to address this question?
+
+    -   
+
+3.  How dictionary-based methods would be used to analyze your data?
+
+    -   
+
+4.  How might you communicate your findings from your analyses for your targeted audience?
+
+    -   
+
+### Part II: Data Product
+
+For your final TM badge, your goal is to distill the analysis from our case study into a simple "data product" designed to illustrate a key finding from our analysis that has not already been covered in the case study. **Your primary goal is to analyze a text-based data using ENA** by applying the knowledge and skills acquired from the course readings and case study. To complete your badge, you will need to:
+
+1.  **Identity a data source.** I've included the `rescushell-data.csv` from our case study in a data folder located the Module 4 data folder. You are also welcome to identify your own text-based data source related to an area of personal or professional interest. However, if you choose to use an alternative data source, you will need to specify the context in which it was collected and the audience for whom your analysis intended.
+
+2.  **Formulate a question.** I recommend keeping this simple and limiting to no more than one or two questions. Your question(s) should be appropriate to your data set and ideally be answered by applying concepts and skills from our course readings and case study.
+
+3.  **Analyze the data.** I highly recommend creating a new R script in your project space to use as you work through data wrangling and analysis. Your R script will likely contain code that doesn't make it into your Quarto presentation or report since you will likely experiment with different approaches and figure out code that works and code that does not.
+
+4.  **Create a data product.** When you feel you've wrangled and analyzed the data to your satisfaction, use the code chunk below to create a simple polished chart and/or data table, followed by a brief narrative that highlights your research question, data source, and key findings and potential implications. Your chart or table should include all code necessary to read, wrangle, and explore your data.
+
+I highly recommend creating a new R script to complete this task. When your code is ready to share, use the appropriate code chunk below to share the all the code necessary to reproduce your analysis and create your data product.
+
+```{r}
+# YOUR FINAL R CODE HERE
+
+
+```
+
+#### Narrative
+
+-   WRITE A BRIEF NARRATIVE OF YOUR ANALYSIS HERE
+
+To receive your TM Badge, you will need to render this document and publish via a method designated by your instructor such as: [Quarto Pub](https://quarto.org/docs/publishing/quarto-pub.html), [Posit Cloud](https://posit.cloud/learn/guide#publish-from-cloud), [RPubs](https://rpubs.com) , [GitHub Pages](https://quarto.org/docs/publishing/github-pages.html), or [other methods](https://quarto.org/docs/publishing/other.html). Once you have shared a link to you published document with your instructor and they have reviewed your work, you will be provided a physical or digital version of the badge pictured at the top of this document!
+
+If you have any questions about this badge, or run into any technical issues, don't hesitate to contact your instructor.
