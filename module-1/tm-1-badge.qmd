@@ -27,7 +27,7 @@ To earn a badge for each module, you are required to respond to a set of prompts
 
 ### Part I: Reflect and Plan
 
-Use your institutional library, [Google Scholar](https://scholar.google.com/), or search engine of your choice to locate a research article, presentation, or resource that applies text mining to an educational context or topic of interest. More specifically, **locate a research study that makes use of basic text mining techniques demonstrated in our Module 1 Case Study.** You are also welcome to select one of the research papers listed in the [essential readings](https://github.com/laser-institute/essential-readings/tree/main/sna-labs) that may have piqued your interest.
+Use your institutional library, [Google Scholar](https://scholar.google.com/), or search engine of your choice to locate a research article, presentation, or resource that applies text mining to an educational context or topic of interest. More specifically, **locate a research study that makes use of basic text mining techniques demonstrated in our Module 1 Case Study.** You are also welcome to select one of the research papers listed in the [essential readings](https://laser-institute.github.io//text-mining/module-1/tm-1-readings.html) that may have piqued your interest.
 
 1.  Provide an APA citation for your selected study.
 
