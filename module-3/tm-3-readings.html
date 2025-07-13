@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dr.&nbsp;Shaun Kellogg">
+<meta name="dcterms.date" content="2025-07-13">
+
+<title>Topic Modeling in Education Research</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="tm-3-readings_files/libs/clipboard/clipboard.min.js"></script>
+<script src="tm-3-readings_files/libs/quarto-html/quarto.js"></script>
+<script src="tm-3-readings_files/libs/quarto-html/popper.min.js"></script>
+<script src="tm-3-readings_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="tm-3-readings_files/libs/quarto-html/anchor.min.js"></script>
+<link href="tm-3-readings_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="tm-3-readings_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="tm-3-readings_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="tm-3-readings_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="tm-3-readings_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="tm-3-readings_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="tm-3-readings_files/libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">OVERVIEW</a></li>
+  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings">READINGS</a>
+  <ul>
+  <li><a href="#required" id="toc-required" class="nav-link" data-scroll-target="#required">1. Required</a></li>
+  <li><a href="#instructor-selected-resources-choose-one" id="toc-instructor-selected-resources-choose-one" class="nav-link" data-scroll-target="#instructor-selected-resources-choose-one">2. Instructor-Selected Resources (Choose One)</a></li>
+  <li><a href="#self-selected-resource" id="toc-self-selected-resource" class="nav-link" data-scroll-target="#self-selected-resource">3. Self-Selected Resource</a></li>
+  </ul></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">DISCUSSION</a>
+  <ul>
+  <li><a href="#guiding-questions" id="toc-guiding-questions" class="nav-link" data-scroll-target="#guiding-questions">Guiding Questions</a>
+  <ul class="collapse">
+  <li><a href="#topic-1-what-is-topic-modeling-and-other-new-terms." id="toc-topic-1-what-is-topic-modeling-and-other-new-terms." class="nav-link" data-scroll-target="#topic-1-what-is-topic-modeling-and-other-new-terms.">Topic 1: What is Topic Modeling? And other new terms.</a></li>
+  <li><a href="#topic-2-applications-in-education" id="toc-topic-2-applications-in-education" class="nav-link" data-scroll-target="#topic-2-applications-in-education">Topic 2: Applications in Education</a></li>
+  <li><a href="#topic-3-topic-modeling-measures" id="toc-topic-3-topic-modeling-measures" class="nav-link" data-scroll-target="#topic-3-topic-modeling-measures">Topic 3: Topic Modeling Measures</a></li>
+  <li><a href="#topic-4-affordances-limitations-ethical-issues" id="toc-topic-4-affordances-limitations-ethical-issues" class="nav-link" data-scroll-target="#topic-4-affordances-limitations-ethical-issues">Topic 4: Affordances, Limitations, &amp; Ethical Issues</a></li>
+  <li><a href="#topic-5-text-based-data-sources" id="toc-topic-5-text-based-data-sources" class="nav-link" data-scroll-target="#topic-5-text-based-data-sources">Topic 5: Text-Based Data Sources</a></li>
+  <li><a href="#student-selected-resources" id="toc-student-selected-resources" class="nav-link" data-scroll-target="#student-selected-resources">Student-Selected Resources</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#assessment-example" id="toc-assessment-example" class="nav-link" data-scroll-target="#assessment-example">ASSESSMENT EXAMPLE</a>
+  <ul>
+  <li><a href="#grading" id="toc-grading" class="nav-link" data-scroll-target="#grading">Grading</a></li>
+  <li><a href="#productive-online-discussion-model" id="toc-productive-online-discussion-model" class="nav-link" data-scroll-target="#productive-online-discussion-model">Productive Online Discussion Model</a>
+  <ul class="collapse">
+  <li><a href="#disposition-1-discuss-to-comprehend" id="toc-disposition-1-discuss-to-comprehend" class="nav-link" data-scroll-target="#disposition-1-discuss-to-comprehend">Disposition 1: Discuss to Comprehend</a></li>
+  <li><a href="#disposition-2-discuss-to-critique" id="toc-disposition-2-discuss-to-critique" class="nav-link" data-scroll-target="#disposition-2-discuss-to-critique">Disposition 2: Discuss to Critique</a></li>
+  <li><a href="#disposition-3-discuss-to-construct-knowledge" id="toc-disposition-3-discuss-to-construct-knowledge" class="nav-link" data-scroll-target="#disposition-3-discuss-to-construct-knowledge">Disposition 3: Discuss to Construct Knowledge</a></li>
+  <li><a href="#disposition-4-discuss-to-share-improved-understanding" id="toc-disposition-4-discuss-to-share-improved-understanding" class="nav-link" data-scroll-target="#disposition-4-discuss-to-share-improved-understanding">Disposition 4: Discuss to Share Improved Understanding</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Topic Modeling in Education Research</h1>
+<p class="subtitle lead">TM Module 3: Essential Readings</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr.&nbsp;Shaun Kellogg </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">July 13, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">OVERVIEW</h2>
+<p>For Module 3, our primary goal is to build a basic understanding of topic modeling and how it has been applied to gain insight into text data, and specifically its applications in educational contexts. This week’s readings and videos are intended to provide you with a brief introduction to these methods and some general applications across disciplines. Many of the introductory readings come from the <a href="#0">Journal of Digital Humanities&nbsp;(Vol. 2, No.&nbsp;1 Winter 2012)</a>. The entire&nbsp;issue on Topic Modeling&nbsp;contains many good reads and is worth checking out in its entirety. <a href="#0">The Digital Humanities Contribution to Topic Modeling</a> article provides a nice overview of the entire issue.&nbsp;Per usual, your course readings, discussion guidelines, and assessment criteria are described&nbsp;below. If you have any questions about this week’s assignment, please post them there or email me separately.</p>
+</section>
+<section id="readings" class="level2">
+<h2 class="anchored" data-anchor-id="readings">READINGS</h2>
+<p>To help address our discussion questions for the week, you’ll be asked to <strong>read or view 3 resources</strong>, including: 1) a required journal article, 2) an instructor-selected resource, and 3) a self-selected resource such as a journal article, video, news article, podcast, or blog post.</p>
+<section id="required" class="level3">
+<h3 class="anchored" data-anchor-id="required">1. Required</h3>
+<ol type="1">
+<li><a href="http://journalofdigitalhumanities.org/2-1/topic-modeling-a-basic-introduction-by-megan-r-brett/">Topic Modeling: A Basic Introduction</a>.&nbsp;Great layman’s introduction to the topic of topic modeling by Megan Brett.</li>
+</ol>
+</section>
+<section id="instructor-selected-resources-choose-one" class="level3">
+<h3 class="anchored" data-anchor-id="instructor-selected-resources-choose-one">2. Instructor-Selected Resources (Choose One)</h3>
+<p>The resources curated below provide a comprehensive introduction to topic modeling, covering both theoretical foundations and practical implementations. They explore the mathematical principles underlying topic models, including probabilistic approaches like Latent Dirichlet Allocation (LDA) and Structural Topic Modeling (STM), while also emphasizing the importance of text preprocessing for accurate results. Several tutorials and hands-on examples demonstrate how to apply these methods using R, offering insights into different modeling approaches and best practices. Finally, a few resources take a more critical perspective, examining the limitations of topic modeling, its application to figurative language, and the challenges of working with large-scale data.</p>
+<ol type="1">
+<li><p><a href="https://www.youtube.com/watch?v=evTuL-RcRpc">Topic modeling with R and tidy data principles</a>. Julie Silge demonstrate how to train a topic model in R using the tidytext and stm packages on a collection of Sherlock Holmes stories.</p></li>
+<li><p><a href="https://youtu.be/3mHy4OSyRf0">LDA Topic Models</a>. An engaging video and introduction to the subject by&nbsp;Andrius Knispelis.</p></li>
+<li><p><a href="http://www.matthewjockers.net/2013/04/12/secret-recipe-for-topic-modeling-themes/">The “Secret” Recipe for Topic Modeling Themes</a>. Matthew Jocker’s blog post highlights the importance of preprocessing text and provides some very practical guidelines for topic modeling.</p></li>
+<li><p><a href="https://moodle-courses2425.wolfware.ncsu.edu/pluginfile.php/1060406/mod_forum/intro/Blei2012.pdf">Probabilistic Topic Models(opens in new window)</a>. Article by David Blei explains some of the basic concepts of topic modeling, including some underlying math and some great visuals.&nbsp;</p></li>
+<li><p><a href="https://youtu.be/IUAHUEy1V0Q">Introduction to Topic Models</a>. In this video, Duke Professor Chris Bail provides an introduction to topic modeling, including example applications and R code.&nbsp;</p></li>
+<li><p><a href="https://projects.cpsievert.me/615/xkcd/">Finding structure in xkcd comics with Latent Dirichlet Allocation</a>.&nbsp;Quick intro and fun example of applying to LDA to a favorite comic of mine</p></li>
+<li><p><a href="http://www.matthewjockers.net/2011/09/29/the-lda-buffet-is-now-open-or-latent-dirichlet-allocation-for-english-majors/">The LDA Buffet is Now Open</a>.&nbsp;Short, whimsical blog post by Matthew Jocker explaining LDA for English Marjors</p></li>
+<li><p><a href="http://journalofdigitalhumanities.org/2-1/topic-modeling-and-figurative-language-by-lisa-m-rhody/">Topic Modeling and Figurative Language</a>.&nbsp;Lisa M. Rhody explores the productive failure of topic modeling.&nbsp;</p></li>
+<li><p><a href="https://vimeo.com/53080123">Training and Validating Big Models on Big Data</a>.&nbsp;Video of David Mimno’s presentation provides an accessible introduction to the math behind topic modeling.&nbsp;</p></li>
+<li><p><a href="https://dl.acm.org/doi/pdf/10.1145/2723576.2723584?casa_token=Fznv8hpSQ_gAAAAA:FVC4vgtnmEOIDYQ5gDhNPTj_qYMQuAISz8PI_F-pR6zEChM-0HfD2lEN-IuRFxiZYYxLcjBsavq8">“Twitter Archeology” of Learning Analytics and Knowledge Conferences</a>.&nbsp;Paper exploring the conference tweets through multiple methods including: topic modeling, and descriptive, network, and hashtag analysis.</p></li>
+<li><p><a href="https://scholar.harvard.edu/files/dtingley/files/educationwriteup.pdf">Computer-Assisted Reading and Discovery for Student Generated Text in Massive Open Online Courses</a>. This paper introduces the Structural Topic Model with applications to self-reported students’ motivations, identifying discussion themes, and patterns of feedback in course evaluations.</p></li>
+<li><p><a href="http://learndialogue.org/pdf/LearnDialogue-EzenCan-LAKmooc-2015.pdf">Unsupervised Modeling for Understanding MOOC Discussion Forums</a>. Paper exploring three different approaches to text classification: manual coding, LDA, and the&nbsp;k-medoids clustering algorithm</p></li>
+<li><p><a href="https://www.jstor.org/stable/26388396?seq=1#metadata_info_tab_contents">Using a Learner-Topic Model for Mining Learner Interests in Open Learning Environments</a>. A study that applies topic modeling to automatically discover learner interests in open learning environments.</p></li>
+</ol>
+</section>
+<section id="self-selected-resource" class="level3">
+<h3 class="anchored" data-anchor-id="self-selected-resource">3. Self-Selected Resource</h3>
+<p>Use the <a href="#0">NCSU Library</a>, <a href="#0">Google Scholar</a>&nbsp;or search engine of your choice to locate a journal article, presentation, website or other scholarly resource. <strong>Your selection should discuss some form of topic modeling and address one or more of the discussion topics/questions provided below</strong>. In addition, you are welcome to find less formal resources such as videos or shorter online articles to share with the class and that help us better understand this week’s topics for discussion.</p>
+</section>
+</section>
+<section id="discussion" class="level2">
+<h2 class="anchored" data-anchor-id="discussion">DISCUSSION</h2>
+<p>In lieu of the peer interaction and discussion of course materials that normally take place “in class”, you’ll be asked to log in this week and engage with other members of our learning community through the course discussion forum. To help guide our discussions, <strong>we will collectively address a set of guiding questions provided in each forum</strong>. You are also welcome to add your own topics or questions for the class to discuss.</p>
+<p>With the exception of the Self-Selected resource, <strong>you are not required to post to every thread or address every question listed below</strong>, particularly if you feel others in the class have thoroughly addressed the topic or questions. Our primary goal for these discussions is to collectively build our understanding of this week’s topics through back-and-forth dialogue and avoid a “collective monologue” in which we see 20 variations of the same post.</p>
+<section id="guiding-questions" class="level3">
+<h3 class="anchored" data-anchor-id="guiding-questions">Guiding Questions</h3>
+<section id="topic-1-what-is-topic-modeling-and-other-new-terms." class="level4">
+<h4 class="anchored" data-anchor-id="topic-1-what-is-topic-modeling-and-other-new-terms.">Topic 1: What is Topic Modeling? And other new terms.</h4>
+<p>Reflecting on the course text and your self-selected reading, answer one or more of the following questions:</p>
+<ol type="1">
+<li><p>What exactly is “topic modeling”?</p></li>
+<li><p>What is it trying to accomplish and how does it work?&nbsp;</p></li>
+<li><p>What are some other new terms, words, concepts that you have come across in the resources that were unfamiliar to you, or that you had come across before but feel you have a better understanding of after this week?</p></li>
+</ol>
+</section>
+<section id="topic-2-applications-in-education" class="level4">
+<h4 class="anchored" data-anchor-id="topic-2-applications-in-education">Topic 2: Applications in Education</h4>
+<p>Reflecting on the course text and your self-selected reading, answer one or more of the following questions:</p>
+<ol type="1">
+<li><p>How has topic modeling been applied to educational contexts, or in other fields that might be relevant to education?&nbsp;</p></li>
+<li><p>How have/could these methods be applied to better understand and improve student learning and the contexts in which learning occurs? &nbsp;</p></li>
+<li><p>How might text mining be applied in your professional context?&nbsp;</p></li>
+<li><p>How has/could text mining be applied to address systemic issues or persistent problems in Education?</p></li>
+</ol>
+</section>
+<section id="topic-3-topic-modeling-measures" class="level4">
+<h4 class="anchored" data-anchor-id="topic-3-topic-modeling-measures">Topic 3: Topic Modeling Measures</h4>
+<p>Reflecting on the course text and your self-selected reading, answer one or more of the following questions:</p>
+<ol type="1">
+<li><p>What measures or statistics associated with topic modeling were described in your readings?</p></li>
+<li><p>How are these measures interpreted and what are they used for?</p></li>
+</ol>
+</section>
+<section id="topic-4-affordances-limitations-ethical-issues" class="level4">
+<h4 class="anchored" data-anchor-id="topic-4-affordances-limitations-ethical-issues">Topic 4: Affordances, Limitations, &amp; Ethical Issues</h4>
+<p>Reflecting on the course text and your self-selected reading, answer one or more of the following questions:</p>
+<ol type="1">
+<li><p>What are some of the advantages of topic-modeling approaches compared to approaches we examined in Module 1 &amp; 2?</p></li>
+<li><p>What are some of the issues, challenges, and limitations of this approach?&nbsp;</p></li>
+</ol>
+</section>
+<section id="topic-5-text-based-data-sources" class="level4">
+<h4 class="anchored" data-anchor-id="topic-5-text-based-data-sources">Topic 5: Text-Based Data Sources</h4>
+<p>Reflecting on the course text and your self-selected reading, answer one or more of the following questions:</p>
+<ol type="1">
+<li><p>What data sources were described in your readings or selections?</p></li>
+<li><p>Are some data sources more suitable or appropriate for dictionary-based methods than others?</p></li>
+<li><p>What data sources in education might be particularly suitable for dictionary-based approaches to analysis?</p></li>
+<li><p>What sources of data are you interested in potentially exploring for an independent analysis in this Module or for a final course project?</p></li>
+</ol>
+</section>
+<section id="student-selected-resources" class="level4">
+<h4 class="anchored" data-anchor-id="student-selected-resources">Student-Selected Resources</h4>
+<p>Provide a brief overview of your self-selected resource that includes the following:</p>
+<ul>
+<li><p>APA Citation (note: this can be easily <a href="#0">retrieved via Google Scholar</a>)</p></li>
+<li><p>What was the <strong>purpose</strong>&nbsp;of your article?</p></li>
+<li><p>How was Topic Modeling <strong>defined</strong>&nbsp;and/or characterized?</p></li>
+<li><p>What <strong>data source(s)</strong> were analyzed or discussed?</p></li>
+<li><p>How, if at all, did your article touch upon the <strong>application(s)</strong> of text mining to “understand and improve learning and the contexts in which learning occurs?”</p></li>
+<li><p>What were some key <strong>findings</strong> from the analysis?</p></li>
+<li><p>Did your selection address any&nbsp;<strong>ethical or legal considerations</strong> of text mining?</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="assessment-example" class="level2">
+<h2 class="anchored" data-anchor-id="assessment-example">ASSESSMENT EXAMPLE</h2>
+<section id="grading" class="level3">
+<h3 class="anchored" data-anchor-id="grading">Grading</h3>
+<p>Grading for this week is fairly lenient, provided that it’s fairly clear from your posts that you’ve done the required reading. Readings and discussion for each module are worth 6 points and judged based on three criteria: quantity, quality, and connections to readings.</p>
+<p>In term of <strong>quantity</strong> (2 points), you’ll be expected to add at least 4 posts over the course of the week and spread across at least two different days. <em>Your initial post should be shared by Friday</em> to help facilitate discussion.</p>
+<p>In terms of <strong>quality</strong> (2 points), your posts over the next week should provide new or insightful contributions to the division questions or topics (see <a href="https://scholarworks.bgsu.edu/cgi/viewcontent.cgi?article=1040&amp;&amp;context=vcte_pub&amp;&amp;sei-redir=1&amp;referer=https%253A%252F%252Fscholar.google.com%252Fscholar%253Fhl%253Den%2526as_sdt%253D0%25252C34%2526q%253DGao%252Bproductive%252Bonline%252Bdiscussion%252Bmodel%2526btnG%253D#search=%22Gao%20productive%20online%20discussion%20model%22">Gao’s productive online discussion model</a> summarized below). There is no requisite for the length of each posting; in fact short conversational exchanges (1-3 paragraphs) are highly encouraged.</p>
+<p>In terms of <strong>connections</strong> (2 points), your collective posts should help us interpret or elaborate on discussion topics, questions, or ideas other have shared by “making connection to the learning materials” as illustrated in Gao’s Disposition 1: Discussion to Comprehend. Your posts should tie in to at least 3 different resources.</p>
+</section>
+<section id="productive-online-discussion-model" class="level3">
+<h3 class="anchored" data-anchor-id="productive-online-discussion-model">Productive Online Discussion Model</h3>
+<section id="disposition-1-discuss-to-comprehend" class="level4">
+<h4 class="anchored" data-anchor-id="disposition-1-discuss-to-comprehend">Disposition 1: Discuss to Comprehend</h4>
+<p>Actively engage in such cognitive processes as interpretation, elaboration, <strong>making connections to</strong> prior knowledge.</p>
+<ul>
+<li>Interpreting or elaborating the ideas by making connection to the <strong>learning materials</strong></li>
+<li>Interpreting or elaborating the ideas by making connection to <strong>personal experience</strong></li>
+<li>Interpreting or elaborating the ideas by making connection to other <strong>ideas, sources, or references</strong></li>
+</ul>
+</section>
+<section id="disposition-2-discuss-to-critique" class="level4">
+<h4 class="anchored" data-anchor-id="disposition-2-discuss-to-critique">Disposition 2: Discuss to Critique</h4>
+<p>Carefully <strong>examine other people’s views</strong>, and be sensitive and analytical to conflicting views.</p>
+<ul>
+<li>Building or <strong>adding new insights or ideas</strong> to others’ posts</li>
+<li><strong>Challenging ideas</strong> in the texts</li>
+<li>Challenging ideas <strong>in others’ posts</strong></li>
+</ul>
+</section>
+<section id="disposition-3-discuss-to-construct-knowledge" class="level4">
+<h4 class="anchored" data-anchor-id="disposition-3-discuss-to-construct-knowledge">Disposition 3: Discuss to Construct Knowledge</h4>
+<p>Actively <strong>negotiate meanings</strong>, and be ready to reconsider, refine and sometimes revise their thinking.</p>
+<ul>
+<li><strong>Comparing views</strong> from the texts or others’ posts</li>
+<li>Facilitating thinking and discussions by <strong>raising questions</strong></li>
+<li>Refining and <strong>revising one’s own view</strong> based on the texts or others’ posts</li>
+</ul>
+</section>
+<section id="disposition-4-discuss-to-share-improved-understanding" class="level4">
+<h4 class="anchored" data-anchor-id="disposition-4-discuss-to-share-improved-understanding">Disposition 4: Discuss to Share Improved Understanding</h4>
+<p>Actively <strong>synthesize knowledge</strong> and explicitly express improved understanding based on a review of previous discussions.</p>
+<ul>
+<li><strong>Summarizing personal learning</strong> experiences of online discussions</li>
+<li><strong>Synthesizing content</strong> of discussion</li>
+<li><strong>Generating new topics</strong> based on a review of previous discussions</li>
+</ul>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
