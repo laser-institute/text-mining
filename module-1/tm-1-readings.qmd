@@ -1,6 +1,6 @@
 ---
-title: "Unit 1 Readings: What is Text Mining?"
-subtitle: "ECI 588: Text Mining in Education"
+title: "What is Text Mining?"
+subtitle: "TM Module 1: Essential Readings"
 author: "Dr. Shaun Kellogg"
 date: today
 format:
@@ -15,7 +15,7 @@ editor: visual
 
 ## OVERVIEW
 
-The primary goal of the Unit 1 readings and discussion is to build a basic understanding of text mining and its applications for understanding and improving teaching. The required and self-selected readings for this week provide an introduction to text mining in the field of education, and text mining more generally. A secondary goal of readings and discussion is to help you start generating ideas for independent analyses and/or your final course project.
+The primary goal of the Module 1 readings and discussion is to build a basic understanding of text mining and its applications for understanding and improving teaching. The required and self-selected readings for this week provide an introduction to text mining in the field of education, and text mining more generally. A secondary goal of readings and discussion is to help you start generating ideas for independent analyses and/or your final course project.
 
 ## READINGS
 
@@ -111,7 +111,7 @@ Provide a brief overview of your self-selected resource that includes the follow
 
 -   Did your selection address any **ethical or legal considerations** of text mining?
 
-## ASSESSMENT
+## ASSESSMENT EXAMPLE
 
 ### Grading
 
