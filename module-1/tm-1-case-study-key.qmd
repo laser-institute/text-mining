@@ -1,12 +1,12 @@
 ---
-title: "Unit 1 Case Study: Tidy Text, Tokenization & Term Frequency"
-subtitle: "ECI 588: Text Mining in Education"
+title: "Tidy Text, Tokenization & Term Frequency"
+subtitle: "TM Module 1: Case Study Key"
 author: "Dr. Shaun Kellogg"
 date: today
 format:
   html:
     toc: true
-    toc-depth: 3
+    toc-depth: 4
 theme:
   light: simplex
   dark: cyborg
@@ -16,7 +16,7 @@ bibliography: lit/references.bib
 
 ## 0. INTRODUCTION
 
-During the second week of each unit, we'll conduct a basic learning analytics workflow modeled after the Data-Intensive Research Workflow from *Learning Analytics Goes to School* [@krumm2018]*.*
+For each Text Mining module, we'll conduct a basic learning analytics workflow modeled after the Data-Intensive Research Workflow from *Learning Analytics Goes to School* [@krumm2018]*.*
 
 ![Figure 2.2 Steps of Data-Intensive Research Workflow](img/workflow.png){width="60%"}
 
@@ -26,13 +26,13 @@ This week, we will focus on analysis of open-ended survey items from an evaluati
 
 ### Case Study Focus
 
-For Unit 1, our focus will be on getting our text "tidy" so we can perform some basic word counts, look at words that occur at a higher rate in a group of documents, and examine words that are unique to those document groups. Specifically, the Unit 1 Case Study will cover the following workflow topics:
+For Module 1, our focus will be on getting our text "tidy" so we can perform some basic word counts, look at words that occur at a higher rate in a group of documents, and examine words that are unique to those document groups. Specifically, the Module 1 Case Study will cover the following workflow topics:
 
 1.  **Prepare**: Prior to analysis, it's critical to understand the context and data sources you're working with so you can formulate useful and answerable questions.
 2.  **Wrangle**: Wrangling data entails the work of manipulating, cleaning, transforming, and merging data. In section 2 we focus on reading, reducing, and tidying our data.
 3.  **Explore**: In section 3, we use simple summary statistics, more sophisticated approaches like term frequency-inverse document frequency (tf-idf), and basic data visualization to explore our data and see what insight it provides in response to our question.
 
-While we won't investigate approaches to **Model** our data until Unit 3 when we learn about topic models, we will be developing "data products" next week to **Communicate** key findings and insights.
+While we won't investigate approaches to **Model** our data until Module 3 when we learn about topic models, we will be developing "data products" next week to **Communicate** key findings and insights.
 
 ## 1. PREPARE
 
@@ -143,7 +143,7 @@ This section introduces the following functions for reading data into R and insp
 -   `dplyr::write_csv()` writing .csv files to directory.
 
 ::: callout-tip
-The name before the double colon indicates the package the function comes from. For example, `read_csv` comes from the \`readr\`\` package. In practice, we do not typically need to name the package when we call a function. If there are packages that use a function with the same name, it will default to the package that last loaded.
+The name before the double colon indicates the package the function comes from. For example, `read_csv` comes from the `readr` package. In practice, we do not typically need to name the package when we call a function. If there are packages that use a function with the same name, it will default to the package that last loaded.
 :::
 
 #### Reading Data into R
@@ -172,7 +172,7 @@ Now let's read our data into our Environment and assign it to a variable name so
 opd_survey <- read_csv("data/opd_survey.csv")
 ```
 
-Well done! The message not only communcates the number of rows and columns, but also indicates that the `read_csv()` dealt with an issue of duplicate column names for us!!
+Well done! The message not only communicates the number of rows and columns, but also indicates that the `read_csv()` dealt with an issue of duplicate column names for us!!
 
 #### **👉 Your Turn ⤵**
 
@@ -620,7 +620,7 @@ Topics addressed in Section 3 include:
 
 ### 3a. Summary Stats
 
-Prior to making any data visualization, we revisit the overarching question guiding most of our efforts in this course, "How do we **quantify** what a text is about?"
+Prior to making any data visualization, we revisit the overarching question guiding most of our efforts in the text mining modules, "How do we **quantify** what a text is about?"
 
 In this section, we introduce the following functions:
 
@@ -865,7 +865,7 @@ resource_percentages
 
 ### 3b. Word Search
 
-This section is a really quick aside and primarily meant to introduce the `grep` package that we'll be using in future units.
+This section is a really quick aside and primarily meant to introduce the `grep` package that we'll be using in future modules.
 
 A quick word count actually resulted in findings fairly consistent with some of the qualitative findings reported, but also lacked some nuance, unsurprisingly, and left some questions about what some of the more frequent words were in reference to.
 
@@ -1040,9 +1040,9 @@ In the Communicate section, I'll illustrate one one particularly useful graph el
 
 As highlighted in [Chapter 3 of Data Science in Education Using R](https://datascienceineducation.com/c03.html), the **Model** step of the data science process entails "using statistical models, from simple to complex, to understand trends and patterns in the data." The authors note that while descriptive statistics and data visualization during the **Explore** step can help us to identify patterns and relationships in our data, statistical models can be used to help us determine if relationships, patterns and trends are actually meaningful.
 
-In [Learning Analytics Goes to School](https://catalog.lib.ncsu.edu/catalog/NCSU4862134), the authors describe modeling as simply developing a mathematical summary of a dataset and note that there are two general types to modeling: unsupervised and supervised learning. Unsupervised learning algorithms, which will be the focus in this course, are used to explore the structure of a dataset, while supervised models "help to quantify relationships between features and a known outcome."
+In [Learning Analytics Goes to School](https://catalog.lib.ncsu.edu/catalog/NCSU4862134), the authors describe modeling as simply developing a mathematical summary of a dataset and note that there are two general types to modeling: unsupervised and supervised learning. Unsupervised learning algorithms are used to explore the structure of a dataset, while supervised models "help to quantify relationships between features and a known outcome."
 
-We will not explore the use of models for text mining until Unit 2, but if you are interested in looking ahead to see how they might be applied to text as data, I recommend taking a look at [Chapter 6 Topic Modeling](https://www.tidytextmining.com/topicmodeling.html) from Text Mining with R: A Tidy Approach. Chris Bail in his Text as Data course also provides a nice [introduction to Topic Modeling](https://cbail.github.io/textasdata/topic-modeling/rmarkdown/Topic_Modeling.html), including Structural Topic Modeling, which we will explore using the `stm` package in Unit 3. He also has this [excellent video on topic modeling](https://youtu.be/oos4q_3eLU4?si=MWy-HdD9NkHqnNSP).
+We will not explore the use of models for text mining until Module 2, but if you are interested in looking ahead to see how they might be applied to text as data, I recommend taking a look at [Chapter 6 Topic Modeling](https://www.tidytextmining.com/topicmodeling.html) from Text Mining with R: A Tidy Approach. Chris Bail in his Text as Data course also provides a nice [introduction to Topic Modeling](https://cbail.github.io/textasdata/topic-modeling/rmarkdown/Topic_Modeling.html), including Structural Topic Modeling, which we will explore using the `stm` package in Module 3. He also has this [excellent video on topic modeling](https://youtu.be/oos4q_3eLU4?si=MWy-HdD9NkHqnNSP).
 
 Finally, if you have not already done so, I recommend taking a look at [Chapter 3 of DSIEUR](https://datascienceineducation.com/c03) as well as the section on the Data-Intensive Research Workflow from Chapter 2 of Learning Analytics Goes to school.
 
@@ -1054,7 +1054,7 @@ The final(ish) step in our workflow/process is sharing the results of analysis w
 2.  **Polish**. After creating initial versions of data products, research teams often spend time refining or polishing them, by adding or editing titles, labels, and notations and by working with colors and shapes to highlight key points.
 3.  **Narrate**. Writing a narrative to accompany the data products involves, at a minimum, pairing a data product with its related research question, describing how best to interpret the data product, and explaining the ways in which the data product helps answer the research question.
 
-In this particular case study, our target audience is developers of online professional learning opportunities who are looking to receive feedback on what's working well and potential areas for improvement. This allows us assume a good deal of prior knowledge on their end about the context of the evaluation, a high level of familiarly with the online professional development resources being assessed, and fairly literate at reading and interpreting data and charts. This also allows us simplify our data products and narrative and reduce the level of detail needed to communicate useful information.
+For this particular case study, our target audience is developers of online professional learning opportunities who are looking to receive feedback on what's working well and potential areas for improvement. This allows us assume a good deal of prior knowledge on their end about the context of the evaluation, a high level of familiarly with the online professional development resources being assessed, and fairly literate at reading and interpreting data and charts. This also allows us simplify our data products and narrative and reduce the level of detail needed to communicate useful information.
 
 For summative evaluation, typically at the end of a school year or grant period when the emphasis is on assessing program outcomes and impact, our audience would extend to those less familiar with the program but with a vested interest in program's success, such as this [report to NC State Board of Education](https://fi.ncsu.edu/wp-content/uploads/sites/175/2024/11/ATR-Evaluation-Report-2024-FINAL.pdf) or those directly impacted by the program including NC educators is general. In that case, our data product would need to include much more narrative to provide context and greater detail in charts and graphs in order to help interpret the data presented.
 
@@ -1070,7 +1070,7 @@ For analyses to present, I'm going to focus primarily on:
 
 #### **Data Products**
 
-In terms of "data products" and form, and because this is a simple demonstration for sharing analyses and our first experience in this course with independently analysis, I'll prepare my data product as a basic slide show that includes the following charts:
+In terms of "data products" and form, and because this is a simple demonstration for sharing analyses and our first badging experience, I'll prepare my data product as a basic slide show that includes the following charts:
 
 1.  **Word Cloud**. This is really as much decorative as it is a means to communicate key findings. I'll probably include this on my title slide as a way to immediately engage my audience and provide a preview of findings I'll share. It's also a way to include common words that may not make the cut in my bar chart.
 2.  **Bar Chart**. I'll definitely share with them the bar chart I created earlier as a means to focus on the most common words used by teachers across all resources. Also, this is a little less busy than a word cloud and allows them to quickly see the top words in order.
@@ -1079,7 +1079,7 @@ In terms of "data products" and form, and because this is a simple demonstration
 
 #### Sharing Format
 
-For Unit 1 we'll be using [Quarto](https://quarto.org) to create a `revealjs` [slide deck](https://quarto.org/docs/presentations/) or short report that documents our independent analysis. Quarto files can also be used to create a [wide range of outputs and formats](https://quarto.org/docs/guide/), including polished PDF or Word documents, websites, web apps, journal articles, online books, interactive tutorials and more. And to make this process even more user-friendly, Quarto includes [a visual editor](https://rstudio.github.io/visual-markdown-editing/#/) that lets you create files like you would with a standard word processing tool.
+For Module 1 we'll be using [Quarto](https://quarto.org) to create a `revealjs` [slide deck](https://quarto.org/docs/presentations/) or short report that documents our independent analysis. Quarto files can also be used to create a [wide range of outputs and formats](https://quarto.org/docs/guide/), including polished PDF or Word documents, websites, web apps, journal articles, online books, interactive tutorials and more. And to make this process even more user-friendly, Quarto includes [a visual editor](https://rstudio.github.io/visual-markdown-editing/#/) that lets you create files like you would with a standard word processing tool.
 
 An additional advantage of Quarto compared to the alternative of copying and pasting tables and charts created from an R script to Word or PowerPoint is that you can embed your R code directly in your file making it easy to update your charts as needed and share your file with others so they can inspect your code and reproduce your analysis, i.e. [reproducible research](https://vickysteeves.gitlab.io/repro-papers/r-markdown-in-reproducible-research.html).
 
@@ -1142,9 +1142,9 @@ teacher_percentages |>
 
 ### 5c. Narrate
 
-With our "data products" cleanup complete, we'll start pulling together a quick presentation to share with our education partners. We've already seen what a more formal report looks like in the PREPARE section of this case study. For your Unit 1 Independent Analysis assignment, you'll be creating either a simple report or slide deck to share out some key findings from our analysis.
+With our "data products" cleanup complete, we'll start pulling together a quick presentation to share with our education partners. We've already seen what a more formal report looks like in the PREPARE section of this case study. For your Module 1 Badge, you'll be creating a simple data product report to share out some key findings from our analysis.
 
-Regardless of whether you plan to talk us through your analysis and findings with a presentation or walk us through with a brief written report, your assignment should address the following questions:
+Regardless of whether you plan to talk us through your analysis and findings with a presentation or walk us through with a brief written report, your data product should address the following questions:
 
 1.  **Purpose**. What question or questions are guiding your analysis? What did you hope to learn by answering these questions and why should your audience care about your findings?
 2.  **Methods**. What data did you selected for analysis? What steps did you take took to prepare your data for analysis and what techniques you used to analyze your data? These should be fairly explicit with your embedded code.
@@ -1154,8 +1154,6 @@ Regardless of whether you plan to talk us through your analysis and findings wit
 #### Examples and Templates
 
 You can view my example presentation here: <https://sbkellogg.quarto.pub/what-do-teachers-value-about-online-pd>
-
-I've also provide you with the Quarto file used to create this slide deck in our Posit Cloud Workspace.
 
 #### Render Document
 
@@ -1169,10 +1167,74 @@ For now, we will wrap up this case study by converting your work to an HTML file
 
 Now that you've finished your case study, let's render this document by clicking the ![](img/render.png){width="2%"} Render button in the toolbar at that the top of this file. Rendering will covert this Quarto document to a HTML web page as specified in our YAML header. Web pages are just one of [the many publishing formats you can create with Quarto](https://quarto.org/docs/output-formats/all-formats.html) documents.
 
-If the files rendered correctly, you should now see a new file named `unit-1-case-study.html` in the Files tab located in the bottom right corner of R Studio. If so, congratulations, you just completed the getting started activity! You're now ready for the unit Case Studies that we will complete during the third week of each unit.
+If the files rendered correctly, you should now see a new file named `tm-1-case-study.html` in the Files tab located in the bottom right corner of R Studio. If so, congratulations, you just completed the getting started activity! You're now ready for the module Case Studies that we will complete during the third week of each module.
 
 ::: callout-important
 If you encounter errors when you try to render, first check the case study answer key located in the files pane and has the suggested code for the Your Turns. If you are still having difficulties, try copying and pasting the error into Google or ChatGPT to see if you can resolve the issue. Finally, contact your instructor to debug the code together if you're still having issues.
 :::
+
+### Publish File
+
+There are a wide variety of ways to publish documents, presentations, and websites created using Quarto. Since content rendered with Quarto uses standard formats (HTML, PDFs, MS Word, etc.) it can be published anywhere. Additionally, there is a `quarto publish` command available for easy publishing to various popular services such as [Quarto Pub](#0), [Posit Cloud](#0), [RPubs](#0) , [GitHub Pages](#0), or [other services](#0).
+
+#### 👉 Your Turn ⤵
+
+Choose of of the following methods described below for publishing your completed case study.
+
+#### Publishing with Quarto Pub
+
+Quarto Pub is a free publishing service for content created with Quarto. Quarto Pub is ideal for blogs, course or project websites, books, reports, presentations, and personal hobby sites.
+
+It’s important to note that all documents and sites published to Quarto Pub are **publicly visible**. You should only publish content you wish to share publicly.
+
+To publish to Quarto Pub, you will use the `quarto publish` command to publish content rendered on your local machine or via Posit Cloud.
+
+Before attempting your first publish, be sure that you have created a free [Quarto Pub](https://quartopub.com/) account.
+
+The `quarto publish` command provides a very straightforward way to publish documents to Quarto Pub.
+
+For example, here is the Terminal command to publish a generic Quarto `document.qmd` to each of this service:
+
+``` {.bash filename="Terminal"}
+quarto publish quarto-pub document.qmd
+```
+
+You can access your the terminal from directly **Terminal Pane** in the lower left corner as shown below:
+
+![](img/terminal.png){width="100%"}
+
+The actual command you will enter into your terminal to publish your orientation case study is:
+
+`quarto publish quarto-pub sna-2-case-study-R.qmd`
+
+When you publish to Quarto Pub using `quarto publish` an access token is used to grant permission for publishing to your account. The first time you publish to Quarto Pub the Quarto CLI will automatically launch a browser to authorize one as shown below.
+
+``` {.bash filename="Terminal"}
+$ quarto publish quarto-pub
+? Authorize (Y/n) › 
+❯ In order to publish to Quarto Pub you need to
+  authorize your account. Please be sure you are
+  logged into the correct Quarto Pub account in 
+  your default web browser, then press Enter or 
+  'Y' to authorize.
+```
+
+Authorization will launch your default web browser to confirm that you want to allow publishing from Quarto CLI. An access token will be generated and saved locally by the Quarto CLI.
+
+Once you've authorized Quarto Pub and published your case study, it should take you immediately to the published document. See my example Orientation Case Study complete with answer key here: [https://sbkellogg.quarto.pub/laser-orientation-case-study-key](https://sbkellogg.quarto.pub/laser-orientation-case-study-key/).
+
+After you've published your first document, you can continue adding more documents, slides, books and even publish entire websites!
+
+![](img/quarto-pub.png)
+
+#### Publishing with R Pubs
+
+An alternative, and perhaps the easiest way to quickly publish your file online is to publish directly from RStudio using Posit Cloud or RPubs. You can do so by clicking the "Publish" button located in the Viewer Pane after you render your document and as illustrated in the screenshot below.
+
+![](img/publish.png){width="100%"}
+
+Similar to Quarto Pub, be sure that you have created a free Posit Cloud or R Pub account before attempting your first publish. You may also need to add your Posit Cloud or R Pub account before being able to publish.
+
+Congratulations, you've completed your first case study! If you've already completed the Essential Readings, you're now ready to earn your first Text Mining LASER Badge!
 
 ## References
