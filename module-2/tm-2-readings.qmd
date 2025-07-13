@@ -1,6 +1,6 @@
 ---
-title: "Unit 2 Readings: Dictionary-Based Methods"
-subtitle: "ECI 588: Text Mining in Education"
+title: "Dictionary-Based Methods"
+subtitle: "TM Module 2: Essential Readings"
 author: "Dr. Shaun Kellogg"
 date: today
 format:
@@ -15,7 +15,7 @@ editor: visual
 
 ## OVERVIEW
 
-The primary goal of the Unit 2 readings and discussion is to develop an understanding of dictionary-based approaches for text analysis, the limitations of these methods, and their applications in educational contexts and beyond. The required and self-selected readings for this week provide an introduction to dictionary-based methods for text classification, with an emphasis on a popular and widely used technique call sentiment analysis. A secondary goal of readings and discussion is to help you start generating ideas for independent analyses and/or your final course project.
+The primary goal of the Module 2 readings and discussion is to develop an understanding of dictionary-based approaches for text analysis, the limitations of these methods, and their applications in educational contexts and beyond. The required and self-selected readings for this week provide an introduction to dictionary-based methods for text classification, with an emphasis on a popular and widely used technique call sentiment analysis. A secondary goal of readings and discussion is to help you start generating ideas for independent analyses and/or your final course project.
 
 ## READINGS
 
@@ -57,7 +57,7 @@ You are also free to choose from one of the curated resources on Sentiment Analy
 
 #### **Sentiment Analysis in Education**
 
-The first article is co-authored by [Tiffany Barnes](https://www.csc.ncsu.edu/people/tmbarnes), professor of Computer Science at NCSU, and provides a nice bridge to our articles on LIWC. The second by faculty at Michigan State University demonstrates the use of sentiment analysis to explore tweets from two education conferences and provides an excellent discussion of some general applications for SA in education. The third artilce is by my colleague, [Josh Rosenberg](https://joshuamrosenberg.com), and ties in with our Unit 2 Case Study. The last three articles show how SA has been applied to teacher evaluation surveys, student writing, and online course discussions respectively.
+The first article is co-authored by [Tiffany Barnes](https://www.csc.ncsu.edu/people/tmbarnes), professor of Computer Science at NCSU, and provides a nice bridge to our articles on LIWC. The second by faculty at Michigan State University demonstrates the use of sentiment analysis to explore tweets from two education conferences and provides an excellent discussion of some general applications for SA in education. The third artilce is by my colleague, [Josh Rosenberg](https://joshuamrosenberg.com), and ties in with our Module 2 Case Study. The last three articles show how SA has been applied to teacher evaluation surveys, student writing, and online course discussions respectively.
 
 1.  Crossley, S. A., Mcnamara, D. S., Baker, R. S., Wang, Y., Paquette, L., Barnes, T., & Bergner, Y. (2015). [Language to completion - Success in an educational data mining massive open online class](https://files.eric.ed.gov/fulltext/ED560771.pdf). Presented at the 8th International Conference on Educational Data Mining. https://files.eric.ed.gov/fulltext/ED560771.pdf
 
@@ -129,7 +129,7 @@ Reflecting on the course text and your self-selected reading, answer one or more
 
 Reflecting on the course text and your self-selected reading, answer one or more of the following questions:
 
-1.  What are some of the advantages of dictionary-based approaches compared to approaches we examined in Unit 1?
+1.  What are some of the advantages of dictionary-based approaches compared to approaches we examined in Module 1?
 
 2.  What are some of the advantages compared to more traditional qualitative approaches to coding, classifying, or labeling text?
 
@@ -145,7 +145,7 @@ Reflecting on the course text and your self-selected reading, answer one or more
 
 3.  What data sources in education might be particularly suitable for dictionary-based approaches to analysis?
 
-4.  What sources of data are you interested in potentially exploring for an independent analysis in this Unit or for a final course project?
+4.  What sources of data are you interested in potentially exploring for an independent analysis in this Module or for a final course project?
 
 #### Student-Selected Resources
 
@@ -163,11 +163,11 @@ Provide a brief overview of your self-selected resource that includes the follow
 
 -   Did your selection address any **ethical or legal considerations** of text mining?
 
-## ASSESSMENT
+## ASSESSMENT EXAMPLE
 
 ### Grading
 
-Grading for this week is fairly lenient, provided that it's fairly clear from your posts that you've done the required reading. Readings and discussion for each unit are worth 6 points and judged based on three criteria: quantity, quality, and connections to readings.
+Grading for this week is fairly lenient, provided that it's fairly clear from your posts that you've done the required reading. Readings and discussion for each module are worth 6 points and judged based on three criteria: quantity, quality, and connections to readings.
 
 In term of **quantity** (2 points), you'll be expected to add at least 4 posts over the course of the week and spread across at least two different days. *Your initial post should be shared by Friday* to help facilitate discussion.
 

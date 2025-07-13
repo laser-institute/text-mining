@@ -1,6 +1,6 @@
 ---
-title: "Unit 2 Case Study: Twitter Sentiment Towards State Standards"
-subtitle: "ECI 588: Text Mining in Education"
+title: "Twitter Sentiment Towards State Standards"
+subtitle: "TM Module 2: Case Study Key"
 author: "Dr. Shaun Kellogg"
 date: today
 format:
@@ -20,21 +20,21 @@ Data sources such as digital learning environments and administrative data syste
 
 ### Case Study Focus
 
-For Unit 2, our focus will be using data that was collected using a now sadly depricated Twitter API and using sentiment lexicons to help gauge public opinion about those topics or tweets. The following diagram from Silge & Robinson @silge2017text nicely illustrates the process of using text mining {tidverse} functions to analyze the sentiment of text:
+For Module 2, our focus will be using data that was collected using a now sadly depricated Twitter API and using sentiment lexicons to help gauge public opinion about those topics or tweets. The following diagram from Silge & Robinson @silge2017text nicely illustrates the process of using text mining {tidverse} functions to analyze the sentiment of text:
 
 [![Figure 2.1: A flowchart of a typical text analysis that uses tidytext for sentiment analysis.](img/sentiment-flow.png "Figure 2.1: A flowchart of a typical text analysis that uses tidytext for sentiment analysis. This chapter shows how to implement sentiment analysis using tidy data principles."){width="100%"}](https://www.tidytextmining.com/sentiment.html#sentiment)
 
-For Unit 2, our case study will cover the following topics:
+For Module 2, our case study will cover the following topics:
 
 1.  **Prepare**: Prior to analysis, it's critical to understand the context and data sources you're working with so you can formulate useful and answerable questions. We'll take a quick look at Dr. Rosenberg's study as how data through Twitter's now deprecated API.
-2.  **Wrangle**: In section 2 we revisit tidying and tokenizing text from Unit 1 and learn some new functions for appending sentiment scores to our tweets using the AFFIN, bing, and nrc sentiment lexicons.
+2.  **Wrangle**: In section 2 we revisit tidying and tokenizing text from Module 1 and learn some new functions for appending sentiment scores to our tweets using the AFFIN, bing, and nrc sentiment lexicons.
 3.  **Explore**: In section 3, we use simple summary statistics and basic data visualization to compare sentiment between NGSS and CCSS tweets.
 4.  **Model**: We explore the {vader} package to model the sentiment of tweets, as well as examine a mixed-effects model used by Rosenberg et al. to analyze the sentiment of tweets.
 5.  **Communicate:** Finally, I'll demonstrated a simple data product for communicating findings from our analysis.
 
 ## 1. PREPARE
 
-To help us better understand the context, questions, and data sources we'll be using in Unit 2, this section will focus on the following topics:
+To help us better understand the context, questions, and data sources we'll be using in Module 2, this section will focus on the following topics:
 
 a.  **Context**. We take a quick look at the Rosenberg et al. @rosenberg2020 article*, Understanding Public Sentiment about Educational Reforms: The Next Generation Science Standards on Twitter,* including the purpose of the study, questions explored, and findings.
 b.  **Questions.** We'll formulate some basic questions that we'll use to guide our analysis, attempting to replicate some of the findings by Rosenberg et al.
@@ -116,7 +116,7 @@ Our (very) specific questions of interest for this case study are:
 1.  What is the public sentiment expressed toward the NGSS?
 2.  How does sentiment for NGSS compare to sentiment for CCSS?
 
-And just to reiterate from Unit 1, one overarching question we'll explore throughout this course, and that Silge and Robinson (2018) identify as a central question to text mining and natural language processing, is:
+And just to reiterate from Module 1, one overarching question we'll explore throughout the Text Mining modules, and that Silge and Robinson (2018) identify as a central question to text mining and natural language processing, is:
 
 > How do we to **quantify** what a document or collection of documents is about?
 
@@ -126,7 +126,7 @@ As highlighted in [Chapter 6 of Data Science in Education Using R](https://datas
 
 > increase the functionality of R by providing access to additional functions to suit a variety of needs. While it is entirely possible to do your work in R without packages, it’s not recommend. There are a wealth of packages available that reduce the learning curve the time spent on analytical projects.
 
-Run the code chunk below to load packages that were introduced in Unit 1:
+Run the code chunk below to load packages that were introduced in Module 1:
 
 ```{r, message=FALSE}
 library(tidyverse)
@@ -287,7 +287,7 @@ ngss_tweets |>
 
 ### 2b. Tidy Tweets
 
-Now that we have the data needed to answer our questions, we still have a little bit of tidying to do to get it ready for analysis. This section will revisit some familiar functions from Unit 1 and introduce a couple new functions:
+Now that we have the data needed to answer our questions, we still have a little bit of tidying to do to get it ready for analysis. This section will revisit some familiar functions from Module 1 and introduce a couple new functions:
 
 #### Functions Used
 
@@ -490,7 +490,7 @@ Before wrapping up, let's take a quick count of the most common words in `tidy_t
 count(tidy_tweets, word, sort = T)
 ```
 
-Notice that the nonsense words like "t.co", "https", and "amp" occur in our top tens words. If we use the `filter()` function and \`grep() query from Unit 1 on our `tweets` data frame, we can see that "amp" seems to be some sort of html residue that we might want to get rid of.
+Notice that the nonsense words like "t.co", "https", and "amp" occur in our top tens words. If we use the `filter()` function and \`grep() query from Module 1 on our `tweets` data frame, we can see that "amp" seems to be some sort of html residue that we might want to get rid of.
 
 ```{r}
 filter(ss_tweets, grepl('amp', text))
@@ -551,7 +551,7 @@ Now that we have our tweets nice and tidy, we're almost ready to begin exploring
 
 For a quick overview of the different join functions with helpful visuals, visit: <https://statisticsglobe.com/r-dplyr-join-inner-left-right-full-semi-anti>
 
-And for a more in-depth look at the different tidyverse joins, visit the chapter on joins from our course text, *R for Data Science*, at: <https://r4ds.hadley.nz/joins.html>
+And for a more in-depth look at the different tidyverse joins, visit the chapter on joins from *R for Data Science*, at: <https://r4ds.hadley.nz/joins.html>
 
 #### Get Sentiments
 
@@ -666,7 +666,7 @@ sentiment_nrc |>
 
 ## 3. EXPLORE
 
-Now that we have our tweets tidied and sentiments joined, we're ready for a little data exploration. As highlighted in Unit 1, calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. One goal in this phase is explore questions that drove the original analysis and develop new questions and hypotheses to test in later stages. Topics addressed in Section 3 include:
+Now that we have our tweets tidied and sentiments joined, we're ready for a little data exploration. As highlighted in Module 1, calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. One goal in this phase is explore questions that drove the original analysis and develop new questions and hypotheses to test in later stages. Topics addressed in Section 3 include:
 
 a.  **Time Series**. We take a quick look at the date range of our tweets and compare number of postings by standards.
 b.  **Sentiment Summaries**. We put together some basic summaries of our sentiment values in order to compare public sentiment
@@ -1125,7 +1125,7 @@ To address questions 1 and 2, I'm going to focus my analyses, data products and 
 
 1.  **Analyses**. For RQ1, I'm want to try and replicate as closely as possible the analysis by Rosenberg et al. so I will clean up my analysis and calculate a single sentiment score using the AFINN Lexicon for the entire tweet and label it positive or negative based on that score. I also want to highlight how regardless of the lexicon selected, NGSS tweets contain more positive words than negative, so I'll also polish my previous analyses and calculate percentages of positive and negative words for the
 2.  **Data Products**. I know these are shunned in the world of data viz, but I think a **pie chart** will actually be an effective way to quickly communicate the proportion of positive and negative tweets among the Next Generation Science Standards. And for my analyses with the `bing`, `nrc`, and `loughan` lexicons, I'll create some 100% stacked bars showing the percentage of positive and negative words among all tweets for the NGSS and CCSS.
-3.  **Format**. Similar to Unit 1, I'll be using [Quarto](https://quarto.org) again to create a `revealjs` [slide deck](https://quarto.org/docs/presentations/). or short report that documents our independent analysis. Quarto files can also be used to create a [wide range of outputs and formats](https://quarto.org/docs/guide/), including polished PDF or Word documents, websites, web apps, journal articles, online books, interactive tutorials and more.
+3.  **Format**. Similar to Module 1, I'll be using [Quarto](https://quarto.org) again to create a `revealjs` [slide deck](https://quarto.org/docs/presentations/). or short report that documents our independent analysis. Quarto files can also be used to create a [wide range of outputs and formats](https://quarto.org/docs/guide/), including polished PDF or Word documents, websites, web apps, journal articles, online books, interactive tutorials and more.
 
 ### 5b. Polish
 
@@ -1212,7 +1212,7 @@ And finished! The chart above clearly illustrates that regardless of sentiment l
 
 ### 5c. Narrate
 
-With our "data products" cleanup complete, we can start pulling together a quick presentation to share with the class. We've already seen what a more formal journal article looks like in the PREPARE section of this case study. For your Independent Analysis assignment for Unit 2, you'll be creating either a simple report or slide deck to share out some key findings from our analysis.
+With our "data products" cleanup complete, we can start pulling together a quick presentation to share with the class. We've already seen what a more formal journal article looks like in the PREPARE section of this case study. For your Independent Analysis assignment for Module 2, you'll be creating either a simple report or slide deck to share out some key findings from our analysis.
 
 Regardless of whether you plan to talk us through your analysis and findings with a presentation or walk us through with a brief written report, your assignment should address the following questions:
 

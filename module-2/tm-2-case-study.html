@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dr.&nbsp;Shaun Kellogg">
+<meta name="dcterms.date" content="2025-07-13">
+
+<title>Twitter Sentiment Towards State Standards</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="tm-2-case-study_files/libs/clipboard/clipboard.min.js"></script>
+<script src="tm-2-case-study_files/libs/quarto-html/quarto.js"></script>
+<script src="tm-2-case-study_files/libs/quarto-html/popper.min.js"></script>
+<script src="tm-2-case-study_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="tm-2-case-study_files/libs/quarto-html/anchor.min.js"></script>
+<link href="tm-2-case-study_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="tm-2-case-study_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="tm-2-case-study_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="tm-2-case-study_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="tm-2-case-study_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="tm-2-case-study_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="tm-2-case-study_files/libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">0. INTRODUCTION</a>
+  <ul class="collapse">
+  <li><a href="#case-study-focus" id="toc-case-study-focus" class="nav-link" data-scroll-target="#case-study-focus">Case Study Focus</a></li>
+  </ul></li>
+  <li><a href="#prepare" id="toc-prepare" class="nav-link" data-scroll-target="#prepare">1. PREPARE</a>
+  <ul class="collapse">
+  <li><a href="#a.-reseach-context" id="toc-a.-reseach-context" class="nav-link" data-scroll-target="#a.-reseach-context">1a. Reseach Context</a></li>
+  <li><a href="#b.-guiding-questions" id="toc-b.-guiding-questions" class="nav-link" data-scroll-target="#b.-guiding-questions">1b. Guiding Questions</a></li>
+  <li><a href="#c.-load-libraries" id="toc-c.-load-libraries" class="nav-link" data-scroll-target="#c.-load-libraries">1c. Load Libraries</a></li>
+  </ul></li>
+  <li><a href="#wrangle" id="toc-wrangle" class="nav-link" data-scroll-target="#wrangle">2. WRANGLE</a>
+  <ul class="collapse">
+  <li><a href="#a.-import-tweets-from-csv" id="toc-a.-import-tweets-from-csv" class="nav-link" data-scroll-target="#a.-import-tweets-from-csv">2a. Import Tweets from CSV</a></li>
+  <li><a href="#c.-tidy-tweets" id="toc-c.-tidy-tweets" class="nav-link" data-scroll-target="#c.-tidy-tweets">2c. Tidy Tweets</a></li>
+  <li><a href="#c.-add-sentiment-values" id="toc-c.-add-sentiment-values" class="nav-link" data-scroll-target="#c.-add-sentiment-values">2c. Add Sentiment Values</a></li>
+  </ul></li>
+  <li><a href="#explore" id="toc-explore" class="nav-link" data-scroll-target="#explore">3. EXPLORE</a>
+  <ul class="collapse">
+  <li><a href="#a.-time-series" id="toc-a.-time-series" class="nav-link" data-scroll-target="#a.-time-series">3a. Time Series</a></li>
+  <li><a href="#b.-sentiment-summaries" id="toc-b.-sentiment-summaries" class="nav-link" data-scroll-target="#b.-sentiment-summaries">3b. Sentiment Summaries</a></li>
+  <li><a href="#c.-visualizing-sentiment" id="toc-c.-visualizing-sentiment" class="nav-link" data-scroll-target="#c.-visualizing-sentiment">3c. Visualizing Sentiment</a></li>
+  </ul></li>
+  <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model">4. MODEL</a></li>
+  <li><a href="#communicate" id="toc-communicate" class="nav-link" data-scroll-target="#communicate">5. COMMUNICATE</a>
+  <ul class="collapse">
+  <li><a href="#a.-select" id="toc-a.-select" class="nav-link" data-scroll-target="#a.-select">5a. Select</a></li>
+  <li><a href="#b.-polish" id="toc-b.-polish" class="nav-link" data-scroll-target="#b.-polish">5b. Polish</a></li>
+  <li><a href="#c.-narrate" id="toc-c.-narrate" class="nav-link" data-scroll-target="#c.-narrate">5c. Narrate</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Twitter Sentiment Towards State Standards</h1>
+<p class="subtitle lead">TM Module 2: Case Study Key</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr.&nbsp;Shaun Kellogg </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">July 13, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">0. INTRODUCTION</h2>
+<p>Data sources such as digital learning environments and administrative data systems, as well as data produced by social media websites and the mass digitization of academic and practitioner publications, hold enormous potential to address a range of pressing problems in education, but collecting and analyzing text-based data also presents unique challenges. This week, our case study is guided by my colleague Josh Rosenberg’s study, <strong>Understanding Public Sentiment about Educational Reforms: The Next Generation Science Standards on Twitter.</strong> We will focus on conducting a very simplistic “replication study” by comparing the sentiment of tweets about the <a href="https://www.nextgenscience.org">Next Generation Science Standards</a> (NGSS) and <a href="http://www.corestandards.org">Common Core State Standards</a> (CCSS) in order to better understand public reaction to these two curriculum reform efforts.</p>
+<section id="case-study-focus" class="level3">
+<h3 class="anchored" data-anchor-id="case-study-focus">Case Study Focus</h3>
+<p>For Module 2, our focus will be using data that was collected using a now sadly depricated Twitter API and using sentiment lexicons to help gauge public opinion about those topics or tweets. The following diagram from Silge &amp; Robinson <span class="citation" data-cites="silge2017text">Silge and Robinson (<a href="#ref-silge2017text" role="doc-biblioref">2017</a>)</span> nicely illustrates the process of using text mining {tidverse} functions to analyze the sentiment of text:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://www.tidytextmining.com/sentiment.html#sentiment"><img src="img/sentiment-flow.png" title="Figure 2.1: A flowchart of a typical text analysis that uses tidytext for sentiment analysis. This chapter shows how to implement sentiment analysis using tidy data principles." class="img-fluid figure-img" style="width:100.0%" alt="Figure 2.1: A flowchart of a typical text analysis that uses tidytext for sentiment analysis."></a></p>
+<figcaption>Figure 2.1: A flowchart of a typical text analysis that uses tidytext for sentiment analysis.</figcaption>
+</figure>
+</div>
+<p>For Module 2, our case study will cover the following topics:</p>
+<ol type="1">
+<li><strong>Prepare</strong>: Prior to analysis, it’s critical to understand the context and data sources you’re working with so you can formulate useful and answerable questions. We’ll take a quick look at Dr.&nbsp;Rosenberg’s study as how data through Twitter’s now deprecated API.</li>
+<li><strong>Wrangle</strong>: In section 2 we revisit tidying and tokenizing text from Module 1 and learn some new functions for appending sentiment scores to our tweets using the AFFIN, bing, and nrc sentiment lexicons.</li>
+<li><strong>Explore</strong>: In section 3, we use simple summary statistics and basic data visualization to compare sentiment between NGSS and CCSS tweets.</li>
+<li><strong>Model</strong>: We explore the {vader} package to model the sentiment of tweets, as well as examine a mixed-effects model used by Rosenberg et al.&nbsp;to analyze the sentiment of tweets.</li>
+<li><strong>Communicate:</strong> Finally, I’ll demonstrated a simple data product for communicating findings from our analysis.</li>
+</ol>
+</section>
+</section>
+<section id="prepare" class="level2">
+<h2 class="anchored" data-anchor-id="prepare">1. PREPARE</h2>
+<p>To help us better understand the context, questions, and data sources we’ll be using in Module 2, this section will focus on the following topics:</p>
+<ol type="a">
+<li><strong>Context</strong>. We take a quick look at the Rosenberg et al. <span class="citation" data-cites="rosenberg2020">Rosenberg et al. (<a href="#ref-rosenberg2020" role="doc-biblioref">2020</a>)</span> article<em>, Understanding Public Sentiment about Educational Reforms: The Next Generation Science Standards on Twitter,</em> including the purpose of the study, questions explored, and findings.</li>
+<li><strong>Questions.</strong> We’ll formulate some basic questions that we’ll use to guide our analysis, attempting to replicate some of the findings by Rosenberg et al.</li>
+<li><strong>Twitter API.</strong> We describe the process used to pull data from old Twitter API.</li>
+</ol>
+<section id="a.-reseach-context" class="level3">
+<h3 class="anchored" data-anchor-id="a.-reseach-context">1a. Reseach Context</h3>
+<section id="twitter-and-the-next-generation-science-standards" class="level4">
+<h4 class="anchored" data-anchor-id="twitter-and-the-next-generation-science-standards"><strong>Twitter and the Next Generation Science Standards</strong></h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://doi.org/10.1177/23328584211024261"><img src="img/rosenberg.jpg" class="img-fluid figure-img" style="width:50.0%" alt="Full Paper (AERA Open)"></a></p>
+<figcaption>Rosenberg, J., Borchers, C., Dyer, E., Anderson, D., &amp; Fischer, C. (2021). Understanding Public Sentiment About Educational Reforms: The Next Generation Science Standards on Twitter. AERA Open, 7. &lt;https://doi.org/10.1177/23328584211024261&gt;</figcaption>
+</figure>
+</div>
+<p><strong>Abstract</strong></p>
+<p>While the Next Generation Science Standards (NGSS) are a long-standing and widespread standards-based educational reform effort, they have received less public attention, and no studies have explored the sentiment of the views of multiple stakeholders toward them. To establish how public sentiment about this reform might be similar to or different from past efforts, we applied a suite of data science techniques to posts about the standards on Twitter from 2010-2020 (N = 571,378) from 87,719 users. Applying data science techniques to identify teachers and to estimate tweet sentiment, we found that the public sentiment towards the NGSS is overwhelmingly positive—33 times more so than for the CCSS. Mixed effects models indicated that sentiment became more positive over time and that teachers, in particular, showed a more positive sentiment towards the NGSS. We discuss implications for educational reform efforts and the use of data science methods for understanding their implementation.</p>
+</section>
+<section id="data-sources" class="level4">
+<h4 class="anchored" data-anchor-id="data-sources">Data Sources</h4>
+<p>Similar to data we’ll be using for this case study, Rosenberg et al.&nbsp;used publicly accessible data from Twitter collected using the Full-Archive Twitter API and the {rtweet} package in R. Specifically, the authors accessed tweets and user information from the hashtag-based #NGSSchat online community, all tweets that included any of the following phrases, with “/” indicating an additional phrase featuring the respective plural form: “ngss”, “next generation science standard/s”, “next gen science standard/s”.</p>
+<p>Data used in this case study was obtained prior to Twitter’s transition to X, and used the now retired {<a href="https://github.com/cjbarrie/academictwitteR">academictwitter</a>} package along with an <a href="https://developer.twitter.com/en/products/twitter-api/academic-research">Academic Research developer account</a>, which is sadly no longer accessible. The Twitter API v2 endpoints allowed researchers to access the full twitter archive, unlike a standard developer account. Data includes all tweets from January through May of 2020 and included the following terms: <code>#ccss</code>, <code>common core</code>, <code>#ngsschat</code>, <code>ngss</code>.</p>
+<p>Below is an example of the code used to retrieve data for this case study. <strong>This code is set not to execute and will NOT run</strong>, but it does illustrate the search query used, variables selected, and time frame.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(academictwitteR)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>ccss_tweets_2021 <span class="ot">&lt;-</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_all_tweets</span>(<span class="st">'(#commoncore OR "common core") -is:retweet lang:en'</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"2021-01-01T00:00:00Z"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"2021-05-31T00:00:00Z"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                 bearer_token,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data_path =</span> <span class="st">"ccss-data/"</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bind_tweets =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>ccss_tweets <span class="ot">&lt;-</span> <span class="fu">bind_tweet_jsons</span>(<span class="at">data_path =</span> <span class="st">"ccss-data/"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>         created_at,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>         author_id,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>         id,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>         conversation_id,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>         source,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>         possibly_sensitive,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>         in_reply_to_user_id)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(ccss_tweets, <span class="st">"data/ccss-tweets.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="analysis" class="level4">
+<h4 class="anchored" data-anchor-id="analysis">Analysis</h4>
+<p>The authors determined Tweet sentiment using the Java version of SentiStrength to assign tweets to two 5-point scales of sentiment, one for positivity and one for negativity, because SentiStrength is a validated measure for sentiment in short informal texts (Thelwall et al., 2011). In addition, they used this tool because Wang and Fikis (2019) used it to explore the sentiment of CCSS-related posts.</p>
+<p>We’ll be using the AFINN sentiment lexicon which also assigns words in a tweet to two 5-point scales, in addition to exploring some other sentiment lexicons to see if they produce similar results. We will use a similar approach to label tweets as positive, negative, or neutral using the {Vader} package which greatly simplifies this process.</p>
+<p>Note that the authors also used the <code>lme4</code> package in R to run a mixed effects model to determine if sentiment changes over time and differs between teachers and non-teacher. We will not attempt replicated that aspect of the analysis, but if you are interested in a guided case study of how modeling can be used to understand changes in Twitter word use, see <a href="https://www.tidytextmining.com/twitter.html#changes-in-word-use">Chapter 7 of Text Mining with R</a>.</p>
+</section>
+<section id="questions" class="level4">
+<h4 class="anchored" data-anchor-id="questions">❓Questions</h4>
+<p>Take a quick look at the article by Rosenberg et al.&nbsp;and write below a two key findings from their analysis as well as a limitation of this study:</p>
+<ol type="1">
+<li>KEY FINDING 1</li>
+<li>KEY FINDING 2</li>
+<li>STUDY LIMITATION</li>
+</ol>
+</section>
+</section>
+<section id="b.-guiding-questions" class="level3">
+<h3 class="anchored" data-anchor-id="b.-guiding-questions">1b. Guiding Questions</h3>
+<p>The purpose of this study was to understand the nature of the public sentiment expressed toward the NGSS, as well as sources of variation (including the year of the post and the professional role of users, among others) for sentiment. The following two research questions guided this study:</p>
+<ol type="1">
+<li><p>What public sentiment is expressed on the social media platform Twitter toward the NGSS?</p></li>
+<li><p>What factors explain variation in this public sentiment?</p></li>
+</ol>
+<p>For this case study, we’ll use a similar approach used by the authors to guage public sentiment around the NGSS, by comparing how much more positive or negative NGSS tweets are relative to CSSS tweets.</p>
+<p>Our (very) specific questions of interest for this case study are:</p>
+<ol type="1">
+<li>What is the public sentiment expressed toward the NGSS?</li>
+<li>How does sentiment for NGSS compare to sentiment for CCSS?</li>
+</ol>
+<p>And just to reiterate from Module 1, one overarching question we’ll explore throughout the Text Mining modules, and that Silge and Robinson (2018) identify as a central question to text mining and natural language processing, is:</p>
+<blockquote class="blockquote">
+<p>How do we to <strong>quantify</strong> what a document or collection of documents is about?</p>
+</blockquote>
+</section>
+<section id="c.-load-libraries" class="level3">
+<h3 class="anchored" data-anchor-id="c.-load-libraries">1c. Load Libraries</h3>
+<p>As highlighted in <a href="https://datascienceineducation.com/c06#c06p">Chapter 6 of Data Science in Education Using R</a> (DSIEUR), <strong>packages</strong> are shareable collections of R code that contain functions, data, and documentation. Sometimes refered to as libraries, these <strong>packages</strong>:</p>
+<blockquote class="blockquote">
+<p>increase the functionality of R by providing access to additional functions to suit a variety of needs. While it is entirely possible to do your work in R without packages, it’s not recommend. There are a wealth of packages available that reduce the learning curve the time spent on analytical projects.</p>
+</blockquote>
+<p>Run the code chunk below to load packages that were introduced in Module 1:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(writexl)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="the-scales-package" class="level4">
+<h4 class="anchored" data-anchor-id="the-scales-package">The scales Package 📦</h4>
+<p><img src="img/scales.png" class="img-fluid" style="width:30.0%"></p>
+<p>The {<a href="https://scales.r-lib.org">scales</a>} package in R provides tools for working with numeric data, especially in data visualization contexts. It includes functions to:</p>
+<ul>
+<li><p>Format axis labels (e.g., add thousands separators, percentages, currency symbols).</p></li>
+<li><p>Rescale numeric data to a specific range or transform data (log, sqrt, etc.).</p></li>
+<li><p>Define and manipulate color palettes and gradients.</p></li>
+<li><p>Integrate smoothly with packages like ggplot2 to enhance data visualization.</p></li>
+</ul>
+<p>Run the following code chunk to load the {scales} package:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="the-textdata-package" class="level4">
+<h4 class="anchored" data-anchor-id="the-textdata-package">The textdata Package 📦</h4>
+<p><img src="img/textdata.png" class="img-fluid" style="width:30.0%"></p>
+<p>The {<a href="https://cran.r-project.org/web/packages/textdata/readme/README.html">textdata</a>} package integrates nicely with the {tidytext} package and provides streamlined access to various text-based datasets, which are commonly used for text mining, natural language processing, and sentiment analysis. Some examples of datasets accessible via textdata include sentiment lexicons (e.g., sentiment lexicons like AFINN, NRC, or Bing), specialized word lists, and linguistic resources.</p>
+<p>Run the following code chunk to load the {textdata} package:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(textdata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="the-vader-package" class="level4">
+<h4 class="anchored" data-anchor-id="the-vader-package">The vader Package 📦</h4>
+<p><img src="img/vader.jpeg" class="img-fluid" style="width:30.0%"></p>
+<p>The {vader} package is for the <strong>V</strong>alence <strong>A</strong>ware <strong>D</strong>ictionary for s<strong>E</strong>ntiment <strong>R</strong>easoning (VADER), a rule-based model for general sentiment analysis of social media text and specifically attuned to measuring sentiment in microblog-like contexts.</p>
+<p>To learn more about the {vader} package and its development, take a look at the article by Hutto and Gilbert (2014), <a href="https://ojs.aaai.org/index.php/ICWSM/article/view/14550">VADER: A Parsimonious Rule-based Model for Sentiment Analysis of Social Media Text</a>.</p>
+</section>
+<section id="your-turn" class="level4">
+<h4 class="anchored" data-anchor-id="your-turn"><strong>👉 Your Turn ⤵</strong></h4>
+<p>Use the code chunk below to load the VADER library:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># YOUR CODE HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The {vader} package can take quite some time to run on a large datasets like the one we’ll be working with, so in our Model section we will examine just a small(ish) subset of tweets.</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="wrangle" class="level2">
+<h2 class="anchored" data-anchor-id="wrangle">2. WRANGLE</h2>
+<p>In general, data wrangling involves some combination of cleaning, reshaping, transforming, and merging data (Wickham &amp; Grolemund, 2017). The importance of data wrangling is difficult to overstate, as it involves the initial steps of going from raw data to a dataset that can be explored and modeled (Krumm et al, 2018).</p>
+<ol type="a">
+<li><strong>Import Data</strong>. In this section, we’ll import our CCSS and NGSS tweets and make our first assessment of their sentiment.</li>
+<li><strong>Tidy Tweets</strong>. We revisit the <code>tidytext</code> package to both “tidy” and tokenize our tweets in order to create our data frame for analysis.</li>
+<li><strong>Get Sentiments</strong>. We conclude our data wrangling by introducing sentiment lexicons and the <code>inner_join()</code> function for appending sentiment values to our data frame.</li>
+</ol>
+<section id="a.-import-tweets-from-csv" class="level3">
+<h3 class="anchored" data-anchor-id="a.-import-tweets-from-csv">2a. Import Tweets from CSV</h3>
+<p>Data for this case study includes all tweets from January through May of 2020 and includes the following terms: <code>#ccss</code>, <code>common core</code>, <code>#ngsschat</code>, <code>ngss</code>. Since we’ll be working with some computational intensive functions later in this case study that can take some time to run, I restricted the time frame for my search to only a handful of month. Even so, we’ll be working with nearly 30,000 tweets and nearly 1,000,000 words for our analysis!</p>
+<p>Let’s use the by now familiar <code>read_csv()</code> function to import our <code>ccss_tweets.csv</code> file saved in our data folder:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ccss_tweets <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/ccss-tweets.csv"</span>, </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">author_id =</span> <span class="fu">col_character</span>(), </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">id =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">conversation_id =</span> <span class="fu">col_character</span>(), </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                           <span class="at">in_reply_to_user_id =</span> <span class="fu">col_character</span>()</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                           )</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>          )</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>ccss_tweets</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note the addition of the <code>col_types =</code> argument for changing some of the column types to character strings because the numbers for those particular columns actually indicate identifiers for authors and tweets:</p>
+<ul>
+<li><p><code>author_id</code> = the author of the tweet</p></li>
+<li><p><code>id</code> = the unique id for each tweet</p></li>
+<li><p><code>converastion_id</code> = the unique id for each <a href="https://developer.twitter.com/en/docs/twitter-api/conversation-id">conversation thread</a></p></li>
+<li><p><code>in_reply_to_user_id</code> = the author of the tweet being replied to</p></li>
+</ul>
+<section id="your-turn-1" class="level4">
+<h4 class="anchored" data-anchor-id="your-turn-1"><strong>👉 Your Turn ⤵</strong></h4>
+<p>Complete the following code chunk to import the NGSS tweets located in the same data folder as our common core tweets and named <code>ngss-tweets.csv</code>. By default, R will treat numerical IDs in our dataset as numeric values but we will need to convert these to characters like demonstrated above for the purpose of analysis. Also, feel free to repurpose the code from above.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ngss_tweets <span class="ot">&lt;-</span> <span class="co"># YOUR CODE HERE</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>ngss_tweets</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Importing data and dealing with data types can be a bit tricky, especially for beginners. Recall from previous case studies that RStudio has an “Import Dataset” feature in the Environment Pane that can help you use the {readr} package and associated functions to greatly facilitate this process. If you get stuck, you can copy the code generated in the lower right hand corner of the Import Dataset window.</p>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="img/import-data.png" class="img-fluid quarto-figure quarto-figure-left figure-img"></p>
+</figure>
+</div>
+<p>Now use the following code chunk to inspect the <code>head()</code> of each data frame and answer the questions that follow:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ngss_tweets)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ccss_tweets)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Wow, so much for a family friendly case study! Based on this very limited sample, which set of standards do you think Twitter users are more negative about?</p>
+<ul>
+<li>YOUR RESPONSE HERE</li>
+</ul>
+<p>Let’s take a slightly larger sample of the CCSS tweets:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ccss_tweets <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">20</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(text)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="your-turn-2" class="level4">
+<h4 class="anchored" data-anchor-id="your-turn-2"><strong>👉 Your Turn ⤵</strong></h4>
+<p>Use the code chunk below to take a sample of the NGSS tweets. Try to do it without looking at the code above first:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># YOUR CODE HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol type="1">
+<li><p>Still of the same opinion?</p>
+<ul>
+<li>YOUR RESPONSE HERE</li>
+</ul></li>
+<li><p>What else you notice about our data sets? Record a few observations that you think are relevant to our analysis or might be useful for future analyses.</p>
+<ul>
+<li>YOUR RESPONSE HERE</li>
+</ul></li>
+<li><p>What questions do you have about these data sets? What are you still curious about?</p>
+<ul>
+<li>YOUR RESPONSE HERE</li>
+</ul></li>
+</ol>
+</section>
+</section>
+<section id="c.-tidy-tweets" class="level3">
+<h3 class="anchored" data-anchor-id="c.-tidy-tweets">2c. Tidy Tweets</h3>
+<p>Now that we have the data needed to answer our questions, we still have a little bit of tidying to do to get it ready for analysis. This section will revisit some familiar functions from Module 1 and introduce a couple new functions:</p>
+<section id="functions-used" class="level4">
+<h4 class="anchored" data-anchor-id="functions-used">Functions Used</h4>
+<p><strong><code>dplyr</code> functions</strong></p>
+<ul>
+<li><code>select()</code> picks variables based on their names.</li>
+<li><code>slice()</code> lets you select, remove, and duplicate rows.</li>
+<li><code>rename()</code> changes the names of individual variables using new_name = old_name syntax</li>
+<li><code>filter()</code> picks cases, or rows, based on their values in a specified column.</li>
+</ul>
+<p><strong><code>tidytext</code> functions</strong></p>
+<ul>
+<li><code>unnest_tokens()</code> splits a column into tokens</li>
+<li><code>anti_join()</code> returns all rows from x with<strong>out</strong> a match in y.</li>
+</ul>
+</section>
+<section id="subset-tweets" class="level4">
+<h4 class="anchored" data-anchor-id="subset-tweets">Subset Tweets</h4>
+<p>As you may have noticed, we have more data than we need for our analysis and should probably pare it down to just what we’ll use.</p>
+<p>Let’s start with the CCSS tweets first. And since this is a family friendly case study, let’s use the <code>filter()</code> function introduced in previous labs to keep only those rows containing “possibly sensitive” language:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ccss_tweets_1 <span class="ot">&lt;-</span> ccss_tweets <span class="sc">|&gt;</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(possibly_sensitive <span class="sc">==</span> <span class="st">"FALSE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now let’s use the <code>select()</code> function to select the following columns from our <code>ccss_tweets_1</code> data frame:</p>
+<ol type="1">
+<li><code>text</code> containing the tweet which is our primary data source of interest</li>
+<li><code>author_id</code> of the user who created the tweet</li>
+<li><code>created_at</code> timestamp for examining changes in sentiment over time</li>
+<li><code>conversation_id</code> for examining sentiment by conversations</li>
+<li><code>id</code> for the unique reference id for each tweet and useful for counts</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ccss_tweets_2 <span class="ot">&lt;-</span> ccss_tweets_1 <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>         author_id,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>         created_at, </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>         conversation_id,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>         id)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>ccss_tweets_2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="your-turn-3" class="level4">
+<h4 class="anchored" data-anchor-id="your-turn-3"><strong>👉 Your Turn ⤵</strong></h4>
+<p><strong>Note:</strong> The <code>select()</code> function will also reorder your columns based on the order in which you list them.</p>
+<p>Use the code chunk below to reorder the columns to your liking and assign to <code>ccss_tweets_3</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ccss_tweets_3 <span class="ot">&lt;-</span> ccss_tweets_2 <span class="sc">|&gt;</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>         text,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>         author_id,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>         created_at, </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>         conversation_id)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>ccss_tweets_3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="add-relocate-columns" class="level4">
+<h4 class="anchored" data-anchor-id="add-relocate-columns">Add &amp; Relocate Columns</h4>
+<p>Finally, since we are interested in comparing the sentiment of NGSS tweets with CSSS tweets, it would be helpful if we had a column to quickly identify the set of state standards with which each tweet is associated.</p>
+<p>We’ll use the <code>mutate()</code> function introduced in previous case studies to create a new variable called <code>standards</code> to label each tweets as “ngss”:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>ccss_tweets_4 <span class="ot">&lt;-</span> <span class="fu">mutate</span>(ccss_tweets_2, <span class="at">standards =</span> <span class="st">"ccss"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(ccss_tweets_4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And just because it bothers me, I’m going to use the <code>relocate()</code> function to move the <code>standards</code> column to the first position so I can quickly see which standards the tweet is from:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ccss_tweets_5 <span class="ot">&lt;-</span> <span class="fu">relocate</span>(ccss_tweets_4, standards)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(ccss_tweets_5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Again, we could also have used the <code>select()</code> function to reorder columns like so:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>ccss_tweets_5 <span class="ot">&lt;-</span> ccss_tweets_4 <span class="sc">|&gt;</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(standards,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>         text,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>         author_id,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>         created_at, </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>         conversation_id,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>         id)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(ccss_tweets_5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Before moving on to the CCSS standards, let’s use the <code>|&gt;</code> pipe operator and rewrite the code from our wrangling so there is less redundancy and it is easier to read:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Search Tweets</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>ccss_tweets_clean <span class="ot">&lt;-</span> ccss_tweets <span class="sc">|&gt;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(possibly_sensitive <span class="sc">==</span> <span class="st">"FALSE"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(text, author_id, created_at, conversation_id, id) <span class="sc">|&gt;</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">standards =</span> <span class="st">"ccss"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(standards)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ccss_tweets_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="your-turn-4" class="level4">
+<h4 class="anchored" data-anchor-id="your-turn-4"><strong>👉 Your Turn ⤵</strong></h4>
+<p>Recall from our Guiding Questions that we are interested in comparing word usage and public sentiment around both the Common Core and Next Gen Science Standards.</p>
+<p>Create a new <code>ngss_tweets_clean</code> data frame consisting of the Next Generation Science Standards tweets we imported earlier by using the code directly above as a guide.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># YOUR CODE HERE</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ngss_tweets_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="merge-data-frames" class="level4">
+<h4 class="anchored" data-anchor-id="merge-data-frames">Merge Data Frames</h4>
+<p>Finally, let’s combine our CCSS and NGSS tweets into a single data frame by using the base R <code>union()</code> function and simply supplying the data frames that you want to combine as arguments:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>ss_tweets <span class="ot">&lt;-</span> <span class="fu">union</span>(ccss_tweets_clean,</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                   ngss_tweets_clean)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>ss_tweets</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that when creating a “union” like this (i.e.&nbsp;stacking one data frame on top of another), <strong>you should have the same number of columns in each data frame and they should be in the exact same order</strong>.</p>
+<p>Alternatively, we could have used the <code>bind_rows()</code> function from {dplyr} as well:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ss_tweets <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(ccss_tweets_clean,</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                       ngss_tweets_clean)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>ss_tweets</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The distinction between these two functions is that union by default removes any duplicate rows that might have shown up in both data frames.However, since both functions returned the same number of rows, it’s clear we do not have any duplicates.</p>
+<p>If we wanted to verify, {dplyr} also has an intersect function to merge the two data frames, but only where they <code>intersect()</code>, or where they have duplicate rows.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>ss_tweets_duplicate <span class="ot">&lt;-</span> <span class="fu">intersect</span>(ccss_tweets_clean,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                                 ngss_tweets_clean)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>ss_tweets_duplicate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="your-turn-5" class="level4">
+<h4 class="anchored" data-anchor-id="your-turn-5"><strong>👉 Your Turn ⤵</strong></h4>
+<p>Finally, let’s take a quick look at both the <code>head()</code> and the <code>tail()</code> of this new <code>ss_tweets</code> data frame to make sure it contains both “ngss” and “ccss” standards and that the values for each are in the correct columns:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># YOUR CODE HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="tokenize-text" class="level4">
+<h4 class="anchored" data-anchor-id="tokenize-text">Tokenize Text</h4>
+<p>We have a couple remaining steps to tidy our text that hopefully should feel familiar by this point. If you recall from <a href="https://www.tidytextmining.com/tidytext.html">Chapter 1 of Text Mining With R</a>,&nbsp;Silge &amp; Robinson describe <strong>tokens</strong> as:</p>
+<blockquote class="blockquote">
+<p>A meaningful unit of text, such as a word, that we are interested in using for analysis, and tokenization is the process of splitting text into tokens. This one-token-per-row structure is in contrast to the ways text is often stored in current analyses, perhaps as strings or in a document-term matrix.</p>
+</blockquote>
+<p>First, let’s tokenize our tweets by using the <code>unnest_tokens()</code> function to split each tweet into a single row to make it easier to analyze:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>tweet_tokens <span class="ot">&lt;-</span> ss_tweets <span class="sc">|&gt;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(<span class="at">output =</span> word, </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">input =</span> text)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice that we’ve included an additional argument in the call to <code>unnest_tokens()</code>. Specifically, we used the specialized&nbsp;<code>“tweets”</code>&nbsp;tokenizer in the <code>tokens =</code> argument that is very useful for dealing with Twitter text or other text from online forums in that it retains hashtags and mentions of usernames with the @ symbol.</p>
+</section>
+<section id="remove-stop-words" class="level4">
+<h4 class="anchored" data-anchor-id="remove-stop-words">Remove Stop Words</h4>
+<p>Now let’s remove stop words like “the” and “a” that don’t help us learn much about what people are tweeting about the state standards.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>tidy_tweets <span class="ot">&lt;-</span> tweet_tokens <span class="sc">|&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words, <span class="at">by =</span> <span class="st">"word"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice that we’ve specified the <code>by =</code> argument to look for matching words in the <code>word</code> column for both data sets and remove any rows from the <code>tweet_tokens</code> dataset that match the <code>stop_words</code> dataset. Remember when we first tokenized our dataset I conveniently chose&nbsp;<code>output = word</code>&nbsp;as the column name because it matches the column name&nbsp;<code>word</code>&nbsp;in the&nbsp;<code>stop_words</code>&nbsp;dataset contained in the <code>tidytext</code> package. This makes our call to&nbsp;<code>anti_join()</code>simpler because&nbsp;<code>anti_join()</code>&nbsp;knows to look for the column named&nbsp;<code>word</code>&nbsp;in each dataset. However this wasn’t really necessary since <code>word</code> is the only matching column name in both datasets and it would have matched those columns by default.</p>
+</section>
+<section id="custom-stop-words" class="level4">
+<h4 class="anchored" data-anchor-id="custom-stop-words">Custom Stop Words</h4>
+<p>Before wrapping up, let’s take a quick count of the most common words in <code>tidy_tweets</code> data frame:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(tidy_tweets, word, <span class="at">sort =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice that the nonsense words like “t.co”, “https”, and “amp” occur in our top tens words. If we use the <code>filter()</code> function and `grep() query from Module 1 on our <code>tweets</code> data frame, we can see that “amp” seems to be some sort of html residue that we might want to get rid of.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(ss_tweets, <span class="fu">grepl</span>(<span class="st">'amp'</span>, text))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s rewrite our stop word code to add a custom stop word to keep only rows that do NOT <code>!</code> have tokens in the <code>word</code> column equal <code>==</code> to “amp” or “https” or “t.co”:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>tidy_tweets <span class="ot">&lt;-</span> tweet_tokens <span class="sc">|&gt;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words, <span class="at">by =</span> <span class="st">"word"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">==</span> <span class="st">"amp"</span>,</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>         <span class="sc">!</span>word <span class="sc">==</span> <span class="st">"https"</span>,</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>         <span class="sc">!</span>word <span class="sc">==</span> <span class="st">"t.co"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that we could simplify and extend this filter to weed out any additional words that don’t carry much meaning but may skew our data by being so prominent, including numerical values “1” through “9.”</p>
+<p>Run the following code to create a vector of words to remove and the by using the <code>c()</code> combine function and the <code>str_detect()</code> function from the <code>dplyr</code> package to remove</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>tidy_tweets <span class="ot">&lt;-</span> tweet_tokens <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words, <span class="at">by =</span> <span class="st">"word"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"amp"</span>, <span class="st">"https"</span>, <span class="st">"t.co"</span>, <span class="fu">as.character</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>))</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>         ) <span class="co"># Exclude any words "in" that vector including characters 1-9</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now let’s run our counts again and confirm they were removed:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(tidy_tweets, word, <span class="at">sort =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Much better!</p>
+</section>
+<section id="your-turn-6" class="level4">
+<h4 class="anchored" data-anchor-id="your-turn-6"><strong>👉 Your Turn ⤵</strong></h4>
+<p>We’ve created some unnecessarily lengthy code to demonstrate some of the steps in the tidying process.</p>
+<p>Complete the following code to rewrite the tokenization and removal of stop words processes into a more compact series of commands and save your data frame as <code>tidy_tweets</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>tidy_tweets <span class="ot">&lt;-</span> ss_tweets <span class="sc">|&gt;</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># YOUR CODE HERE</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>tidy_tweets</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="c.-add-sentiment-values" class="level3">
+<h3 class="anchored" data-anchor-id="c.-add-sentiment-values">2c. Add Sentiment Values</h3>
+<p>Now that we have our tweets nice and tidy, we’re almost ready to begin exploring public sentiment around the CCSS and NGSS standards. For this part of our workflow we introduce two new functions from the {tidytext} and {dplyr} packages respectively:</p>
+<ul>
+<li><code>get_sentiments()</code> returns specific sentiment lexicons with the associated measures for each word in the lexicon</li>
+<li><code>inner_join()</code> return all rows from <code>x</code> where there are matching values in <code>y</code>, and all columns from&nbsp;<code>x</code> and <code>y</code>.</li>
+</ul>
+<p>For a quick overview of the different join functions with helpful visuals, visit: <a href="https://statisticsglobe.com/r-dplyr-join-inner-left-right-full-semi-anti" class="uri">https://statisticsglobe.com/r-dplyr-join-inner-left-right-full-semi-anti</a></p>
+<p>And for a more in-depth look at the different tidyverse joins, visit the chapter on joins from <em>R for Data Science</em>, at: <a href="https://r4ds.hadley.nz/joins.html" class="uri">https://r4ds.hadley.nz/joins.html</a></p>
+<section id="get-sentiments" class="level4">
+<h4 class="anchored" data-anchor-id="get-sentiments">Get Sentiments</h4>
+<p>Recall from our readings that sentiment analysis tries to evaluate words for their emotional association. Silge &amp; Robinson point out that,</p>
+<blockquote class="blockquote">
+<p>… one way to analyze the <strong>sentiment</strong> of a text is to consider the text as a combination of its individual words and the sentiment content of the whole text as the sum of the sentiment content of the individual words.</p>
+</blockquote>
+<p>As our Readings &amp; Discussion illustrate, this isn’t the only way to approach sentiment analysis, but it is an easier entry point into sentiment analysis and often-used in practice.</p>
+<p>The {tidytext} package provides access to several sentiment lexicons based on unigrams, i.e., single words. These lexicons contain many English words and the words are assigned scores or categories for positive/negative sentiment, and some include categories for emotions emotions like joy, anger, sadness, and so forth.</p>
+<p>The three general-purpose lexicons we’ll focus on are:</p>
+<ul>
+<li><p><code>AFINN</code> assigns words with a score that runs between -5 and 5, with negative scores indicating negative sentiment and positive scores indicating positive sentiment.</p></li>
+<li><p><code>bing</code> categorizes words in a binary fashion into positive and negative categories.</p></li>
+<li><p><code>nrc</code> categorizes words in a binary fashion (“yes”/“no”) into categories of positive, negative, anger, anticipation, disgust, fear, joy, sadness, surprise, and trust.</p></li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that if this is your first time using the AFINN and NRC lexicons, you’ll be prompted to download both. <strong>Respond “yes” to the prompt in the Console by entering “1”</strong> and the NRC and AFINN lexicons will download. You’ll only have to do this the first time you use the NRC lexicon.</p>
+</div>
+</div>
+<p>Let’s take a quick look at each of these lexicons using the <code>get_sentiments()</code> function and assign them to their respective names for later use:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>afinn <span class="ot">&lt;-</span> <span class="fu">get_sentiments</span>(<span class="st">"afinn"</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>afinn</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>bing <span class="ot">&lt;-</span> <span class="fu">get_sentiments</span>(<span class="st">"bing"</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>bing</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>nrc <span class="ot">&lt;-</span> <span class="fu">get_sentiments</span>(<span class="st">"nrc"</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>nrc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And just out of curiosity, let’s take a look at the <code>loughran</code> lexicon, which categorizes words with an emphasis on financial and economic contexts, labeling words as positive, negative, uncertainty, litigious, etc.:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>loughran <span class="ot">&lt;-</span> <span class="fu">get_sentiments</span>(<span class="st">"loughran"</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>loughran</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="question" class="level4">
+<h4 class="anchored" data-anchor-id="question">❓Question</h4>
+<p>Take a quick look at <a href="https://www.tidytextmining.com/sentiment#the-sentiments-datasets">Chapter 2 from Text Mining with R</a>and answer the following questions:</p>
+<ol type="1">
+<li>How were these sentiment lexicons actually constructed and validated?
+<ul>
+<li>YOUR RESPONSE HERE</li>
+</ul></li>
+<li>Why should we be cautious when using and interpreting them?
+<ul>
+<li>YOUR RESPONSE HERE</li>
+</ul></li>
+</ol>
+</section>
+<section id="join-sentiments" class="level4">
+<h4 class="anchored" data-anchor-id="join-sentiments">Join Sentiments</h4>
+<p>We’ve reached the final step in our data wrangling process before we can begin exploring our data to address our questions.</p>
+<p>In the previous section, we used&nbsp;<code>anti_join()</code>&nbsp;to remove stop words in our dataset. For sentiment analysis, we’re going use the <code>inner_join()</code> function to do something similar. However, instead of removing rows that contain words matching those in our stop words dictionary, <code>inner_join()</code> allows us to keep only the rows with words that match words in our sentiment lexicons, or dictionaries, along with the sentiment measure for that word from the sentiment lexicon.</p>
+<p>Let’s use <code>inner_join()</code> to combine our two <code>tidy_tweets</code> and <code>afinn</code> data frames, keeping only rows with matching data in the <code>word</code> column:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>sentiment_afinn <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(tidy_tweets, afinn, <span class="at">by =</span> <span class="st">"word"</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>sentiment_afinn <span class="sc">|&gt;</span> </span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(word, value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice that each word in your <code>sentiment_afinn</code> data frame now contains a value ranging from -5 (very negative) to 5 (very positive).</p>
+<p>And just out of curiosity, let’s take a look at the <code>bing</code>, and <code>loughran</code> lexicons, which use word categories instead of numerical values to classify text by sentiment:</p>
+</section>
+<section id="your-turn-7" class="level4">
+<h4 class="anchored" data-anchor-id="your-turn-7"><strong>👉 Your Turn ⤵</strong></h4>
+<p>Create a <code>sentiment_nrc</code> data frame using the code above.</p>
+</section>
+<section id="question-1" class="level4">
+<h4 class="anchored" data-anchor-id="question-1">❓Question</h4>
+<ol type="1">
+<li>What do you notice about the change in the number of observations (i.e.&nbsp;words) between the <code>tidy_tweets</code> and data frames with sentiment values attached?
+<ul>
+<li>YOUR RESPONSE HERE</li>
+</ul></li>
+<li>Why do you think this happened did this happen?
+<ul>
+<li>YOUR RESPONSE HERE</li>
+</ul></li>
+</ol>
+</section>
+</section>
+</section>
+<section id="explore" class="level2">
+<h2 class="anchored" data-anchor-id="explore">3. EXPLORE</h2>
+<p>Now that we have our tweets tidied and sentiments joined, we’re ready for a little data exploration. As highlighted in Module 1, calculating summary statistics, data visualization, and feature engineering (the process of creating new variables from a dataset) are a key part of exploratory data analysis. One goal in this phase is explore questions that drove the original analysis and develop new questions and hypotheses to test in later stages. Topics addressed in Section 3 include:</p>
+<ol type="a">
+<li><strong>Time Series</strong>. We take a quick look at the date range of our tweets and compare number of postings by standards.</li>
+<li><strong>Sentiment Summaries</strong>. We put together some basic summaries of our sentiment values in order to compare public sentiment</li>
+</ol>
+<section id="a.-time-series" class="level3">
+<h3 class="anchored" data-anchor-id="a.-time-series">3a. Time Series</h3>
+<p>Before we dig into sentiment, let’s use the handy {dplyr} and {ggplot2} packaages to take a very quick look at the number of daily tweets over the first 5 months of 2020:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>daily_tweets <span class="ot">&lt;-</span> ss_tweets <span class="sc">%&gt;%</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tweet_date =</span> <span class="fu">as.Date</span>(created_at)) <span class="sc">%&gt;%</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(tweet_date) <span class="sc">%&gt;%</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n</span>())</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Plot a line chart of the number of tweets over time</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(daily_tweets, <span class="fu">aes</span>(<span class="at">x =</span> tweet_date, <span class="at">y =</span> count)) <span class="sc">+</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#CC0000"</span>) <span class="sc">+</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Number of Tweets Over Time"</span>,</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"2020"</span>,</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Tweet Count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now let’s quickly unpack what our code just did:</p>
+<ol type="1">
+<li><p><strong>Convert to date</strong>: the <code>mutate(tweet_date = as.Date(created_at))</code> created a new column, <code>tweet_date</code>, by extracting just the date portion from the <code>created_at</code> column.</p></li>
+<li><p><strong>Group by date</strong>: The <code>group_by(tweet_date)</code> groups all tweets by their date.</p></li>
+<li><p><strong>Count tweets</strong>: The <code>summarise(count = n())</code> counts the number of tweets per date, returning a daily summary in daily_tweets.</p></li>
+<li><p><strong>Plot the results</strong>: The <code>ggplot(...) + geom_line(...)</code> code creates a line chart with the <code>tweet_date</code> on the x-axis and the tweet <code>count</code> on the y-axis, coloring the line in red <code>#CC0000</code> and adding axis labels and a title.</p></li>
+</ol>
+<section id="your-turn-8" class="level4">
+<h4 class="anchored" data-anchor-id="your-turn-8"><strong>👉 Your Turn ⤵</strong></h4>
+<p>Now recycle and modify the code from above to plot each standard separately so we can compare the number of tweets over time by Next Generation Science and Common Core <code>standard</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># YOUR CODE HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="b.-sentiment-summaries" class="level3">
+<h3 class="anchored" data-anchor-id="b.-sentiment-summaries">3b. Sentiment Summaries</h3>
+<p>Since our primary goals is to compare public sentiment around the NGSS and CCSS state standards, in this section we put together some basic numerical summaries using our different lexicons to see whether tweets are generally more positive or negative for each standard as well as differences between the two. To do this, we revisit the following <code>dplyr</code> functions:</p>
+<ul>
+<li><p><a href="https://dplyr.tidyverse.org/reference/count.html?q=count"><code>count()</code></a> lets you quickly count the unique values of one or more variables</p></li>
+<li><p><a href="https://dplyr.tidyverse.org/articles/grouping.html?q=group"><code>group_by()</code></a> takes a data frame and one or more variables to group by</p></li>
+<li><p><a href="https://dplyr.tidyverse.org/reference/summarise.html"><code>summarise()</code></a> creates a numerical summary of data using arguments like <a href="https://rdrr.io/r/base/mean.html"><code>mean()</code></a> and&nbsp;<a href="https://rdrr.io/r/stats/median.html"><code>median()</code></a></p></li>
+<li><p><a href="https://dplyr.tidyverse.org/reference/mutate.html"><code>mutate()</code></a> adds new variables and preserves existing ones</p></li>
+</ul>
+<p>And introduce one new function:</p>
+<ul>
+<li><code>pivot_wider()</code> “widens” data, increasing the number of columns and decreasing the number of rows. The inverse transformation is <a href="https://r4ds.hadley.nz/data-tidy.html#sec-pivoting"><code>pivot_longer()</code></a>.</li>
+</ul>
+<section id="sentiment-counts" class="level4">
+<h4 class="anchored" data-anchor-id="sentiment-counts">Sentiment Counts</h4>
+<p>Let’s start with <code>bing</code>, our simplest sentiment lexicon, and use the <code>count</code> function to count how many times in our <code>sentiment_bing</code> data frame “positive” and “negative” occur in <code>sentiment</code> column and :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>summary_bing <span class="ot">&lt;-</span> <span class="fu">count</span>(sentiment_bing, sentiment, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Collectively, it looks like our combined dataset has more positive words than negative words.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>summary_bing</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Since our main goal is to compare positive and negative sentiment between CCSS and NGSS, let’s use the <code>group_by</code> function again to get <code>sentiment</code> summaries for NGSS and CCSS separately:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>summary_bing <span class="ot">&lt;-</span> sentiment_bing <span class="sc">|&gt;</span> </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(standards) <span class="sc">|&gt;</span> </span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(sentiment) </span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>summary_bing</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Looks like CCSS have far more negative words than positive, while NGSS skews much more positive. So far, pretty consistent with Rosenberg et al.&nbsp;findings!!!</p>
+</section>
+<section id="compare-sentiment-counts" class="level4">
+<h4 class="anchored" data-anchor-id="compare-sentiment-counts">Compare Sentiment Counts</h4>
+<p>Our last step will be calculate a single sentiment “score” for our tweets that we can use for quick comparison and create a new variable indicating which lexicon we used.</p>
+<p>First, let’s untidy our data a little by using the <code>pivot_wider</code> function from the <code>tidyr</code> package to transform our <code>sentiment</code> column into separate columns for <code>negative</code> and <code>positive</code> that contains the <code>n</code> counts for each:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>summary_bing <span class="ot">&lt;-</span> sentiment_bing <span class="sc">|&gt;</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(standards) <span class="sc">|&gt;</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(sentiment, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> sentiment, </span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> n)</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>summary_bing</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Again, let’s quickly unpack the code we just used:</p>
+<ol type="1">
+<li><p><strong>Group by standards:</strong> The <code>group_by()</code> function splits the data so each subsequent operation works within each standard.</p></li>
+<li><p><strong>Count sentiment:</strong> For each of the <code>standards</code>, the <code>count()</code> function calculates how many times each sentiment appears. The sort = TRUE argument orders results by frequency.</p></li>
+<li><p><strong>Pivot to wide format:</strong> Finally, the <code>pivot_wider()</code> function converts the data so each unique sentiment becomes a separate column (using names_from = sentiment), and the count of those sentiments fills the corresponding cells (using values_from = n).</p></li>
+</ol>
+<p>Finally, we’ll use the <code>mutate</code> function to create two new variables: <code>sentiment</code> and <code>lexicon</code> so we have a single sentiment score and the lexicon from which it was derived:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>summary_bing <span class="ot">&lt;-</span> sentiment_bing <span class="sc">|&gt;</span> </span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(standards) <span class="sc">|&gt;</span> </span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(sentiment, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> sentiment, </span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> n) <span class="sc">|&gt;</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sentiment =</span> positive <span class="sc">-</span> negative) <span class="sc">|&gt;</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lexicon =</span> <span class="st">"bing"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(lexicon)</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>summary_bing</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>There we go, now we can see that CCSS scores negative, while NGSS is overall positive.</p>
+</section>
+<section id="compute-sentiment-scores" class="level4">
+<h4 class="anchored" data-anchor-id="compute-sentiment-scores">Compute Sentiment Scores</h4>
+<p>Now let’s calculate a quick score for using the <code>afinn</code> lexicon. Recall that AFINN provides a value from -5 to 5 for each:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sentiment_afinn, <span class="at">n =</span> <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(word, value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To calculate late a summary score, we will need to first group our data by <code>standards</code> again and then use the <code>summarise</code> function to create a new <code>sentiment</code> variable by adding all the positive and negative scores in the <code>value</code> column:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>summary_afinn <span class="ot">&lt;-</span> sentiment_afinn <span class="sc">|&gt;</span> </span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(standards) <span class="sc">|&gt;</span> </span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">sentiment =</span> <span class="fu">sum</span>(value)) <span class="sc">|&gt;</span> </span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lexicon =</span> <span class="st">"AFINN"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(lexicon)</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>summary_afinn</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Again, CCSS is overall negative while NGSS is overall positive!</p>
+</section>
+<section id="your-turn-9" class="level4">
+<h4 class="anchored" data-anchor-id="your-turn-9"><strong>👉 Your Turn ⤵</strong></h4>
+<p>For your final task for this case study is to calculate a single sentiment score for NGSS and CCSS using either the remaining <code>nrc</code> or <code>AFINN</code> lexicons.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>nrc</code> lexicon contains “positive” and “negative” values just like bing, but also includes values like “trust” and “sadness” as shown below. If you use nrc, you will need to use the filter() function to select rows that only contain “positive” and “negative.”</p>
+</div>
+</div>
+</section>
+<section id="question-2" class="level4">
+<h4 class="anchored" data-anchor-id="question-2">❓Question</h4>
+<ol type="1">
+<li>How do these results compare to our findings from the <code>bing</code> lexicon? Include at least two observations in your response.
+<ul>
+<li>OBSERVATION 1</li>
+<li>OBSERVATION 1</li>
+</ul></li>
+</ol>
+</section>
+</section>
+<section id="c.-visualizing-sentiment" class="level3">
+<h3 class="anchored" data-anchor-id="c.-visualizing-sentiment">3c. Visualizing Sentiment</h3>
+<p>Let’s try and replicate as closely as possible the approach Rosenberg et al.&nbsp;used in their analysis. To do that, we can recycle some R code used in section 2a. Tidy Tweets.</p>
+<p>First, let’s rebuild the <code>tweets</code> dataset from our <code>ngss_tweets</code> and <code>ccss_tweets</code> and select both the <code>id</code> that is unique to each tweet, and the <code>text</code> column which contains the actual post:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>ngss_text <span class="ot">&lt;-</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  ngss_tweets <span class="sc">|&gt;</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, text) <span class="sc">|&gt;</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">standards =</span> <span class="st">"ngss"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(standards)</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>ccss_text <span class="ot">&lt;-</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>  ccss_tweets <span class="sc">|&gt;</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, text) <span class="sc">|&gt;</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">standards =</span> <span class="st">"ccss"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(standards)</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>tweets <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(ngss_text, ccss_text)</span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>tweets</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <code>id</code> variable is important because like Rosenberg et al., we want to calculate an overall sentiment score for each tweet, rather than for each word. Later we’ll explore the VADER sentiment model that takes a more sophisticated but similar approach.</p>
+<p>Before we get that far however, let’s to tidy our <code>tweets</code> again and attach our <code>sentiment</code> scores.</p>
+<p>Note that the closest lexicon we have available in our <code>tidytext</code> package to the SentiStrength lexicon used by Rosenberg is the AFINN lexicon which also uses a -5 to 5 point scale.</p>
+<p>So let’s use <code>unnest_tokens</code> to tidy our tweets, remove stop words, and add <code>afinn</code> scores to each word similar to what we did in section <a href="#c.-add-sentiment-values">2c. Add Sentiment Values</a>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>sentiment_afinn <span class="ot">&lt;-</span> tweets <span class="sc">|&gt;</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(<span class="at">output =</span> word, </span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">input =</span> text)  <span class="sc">|&gt;</span> </span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words, <span class="at">by =</span> <span class="st">"word"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">==</span> <span class="st">"amp"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(afinn, <span class="at">by =</span> <span class="st">"word"</span>)</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>sentiment_afinn</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next, let’s calculate a single score for each tweet. To do that, we’ll use the by now familiar <code>group_by</code> and <code>summarize</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>afinn_score <span class="ot">&lt;-</span> sentiment_afinn <span class="sc">|&gt;</span> </span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(standards, id) <span class="sc">|&gt;</span> </span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">value =</span> <span class="fu">sum</span>(value))</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>afinn_score</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And like Rosenberg et al., we’ll add a flag for whether the tweet is “positive” or “negative” using the <code>mutate</code> function to create a new <code>sentiment</code> column to indicate whether that tweets was positive or negative.</p>
+<p>To do this, we introduced the new <code>if_else</code> function from the <code>dplyr</code> package. This <code>if_else</code> function adds “negative” to the <code>sentiment</code> column if the score in the <code>value</code> column of the corresponding row is less than 0. If not, it will add a “positive” to the row.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>afinn_sentiment <span class="ot">&lt;-</span> afinn_score <span class="sc">|&gt;</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(value <span class="sc">!=</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sentiment =</span> <span class="fu">if_else</span>(value <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="st">"negative"</span>, <span class="st">"positive"</span>))</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>afinn_sentiment</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that since a tweet sentiment score equal to 0 is neutral, I used the <code>filter</code> function to remove it from the dataset.</p>
+<p>Finally, we’re ready to compute our ratio. We’ll use the <code>group_by</code> function and <code>count</code> the number of tweets for each of the <code>standards</code> that are positive or negative in the <code>sentiment</code> column. Then we’ll use the <code>spread</code> function to separate them out into separate columns so we can perform a quick calculation to compute the <code>ratio</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>afinn_ratio <span class="ot">&lt;-</span> afinn_sentiment <span class="sc">|&gt;</span> </span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(standards) <span class="sc">|&gt;</span> </span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(sentiment) <span class="sc">|&gt;</span> </span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread</span>(sentiment, n) <span class="sc">|&gt;</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ratio =</span> negative<span class="sc">/</span>positive)</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>afinn_ratio</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally, let’s create a simple pie chart that we can use to visually communicate the proportion of positive and negative tweets:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>afinn_counts <span class="ot">&lt;-</span> afinn_sentiment <span class="sc">|&gt;</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(standards) <span class="sc">|&gt;</span> </span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(sentiment) <span class="sc">|&gt;</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(standards <span class="sc">==</span> <span class="st">"ngss"</span>)</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>afinn_counts <span class="sc">|&gt;</span></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="st">""</span>, <span class="at">y=</span>n, <span class="at">fill=</span>sentiment)) <span class="sc">+</span></span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">width =</span> .<span class="dv">6</span>, <span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Next Gen Science Standards"</span>,</span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Proportion of Positive &amp; Negative Tweets"</span>) <span class="sc">+</span></span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_polar</span>(<span class="at">theta =</span> <span class="st">"y"</span>) <span class="sc">+</span></span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="your-turn-10" class="level4">
+<h4 class="anchored" data-anchor-id="your-turn-10"><strong>👉 Your Turn ⤵</strong></h4>
+<p>In the code chunk below, replicate this process to create a similar pie chart for the CCSS tweets:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># YOUR CODE HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="model" class="level2">
+<h2 class="anchored" data-anchor-id="model">4. MODEL</h2>
+<p>As highlighted in <a href="https://datascienceineducation.com/c03.html">Chapter 3 of Data Science in Education Using R</a>, the <strong>Model</strong> step of the data science process entails “using statistical models, from simple to complex, to understand trends and patterns in the data.” The authors note that while descriptive statistics and data visualization during the <strong>Explore</strong> step can help us to identify patterns and relationships in our data, statistical models can be used to help us determine if relationships, patterns and trends are actually meaningful.</p>
+<p>Recall from the PREPARE section that Rosenberg et al.&nbsp;(2020) study was guided by the following research questions:</p>
+<ol type="1">
+<li><p>What public sentiment is expressed on the social media platform Twitter toward the NGSS?</p></li>
+<li><p>What factors explain variation in this public sentiment?</p></li>
+</ol>
+<p>Similar to our sentiment summary using the AFINN lexicon, the Rosenberg et al.&nbsp;study used the -5 to 5 sentiment score from the SentiStrength lexicon to answer RQ1. To address RQ2 the authors used a mixed-effects model (also known as multi-level or hierarchical linear models via the {lme4} package in R.</p>
+<p>Collectively, the authors found that:</p>
+<ol type="1">
+<li>The SentiStrength scale indicated an overall neutral sentiment for tweets about the Next Generation Science Standards.</li>
+<li>Teachers were more positive in their posts than other participants.</li>
+<li>Posts including #NGSSchat that were posted outside of chats were slightly more positive relative to those that did not include the #NGSSchat hashtag.</li>
+<li>The effect upon individuals of being involved in the #NGSSchat was positive, suggesting that there is an impact on individuals—not tweets—of participating in a community focused on the NGSS.</li>
+<li>Posts about the NGSS became substantially more positive over time.</li>
+</ol>
+<p>Although we won’t be using a mixed-effects model to identify factors that may help to difference in public sentiment, let’s take a look at a popular rule-based model that designed for assigning a sentiment score to an entire tweet, rather than individual words.</p>
+<section id="come-to-the-dark-side" class="level4">
+<h4 class="anchored" data-anchor-id="come-to-the-dark-side">Come to the Dark Side</h4>
+<p><img src="img/dark-side.jpeg" class="img-fluid" style="width:80.0%"></p>
+<p>As noted in the PERPARE section, the {vader} package is for the Valence Aware Dictionary for sEntiment Reasoning (VADER), a rule-based model for general sentiment analysis of social media text and specifically attuned to measuring sentiment in microblog-like contexts such as Twitter.</p>
+<p>The VADER assigns a number of different sentiment measures based on the context of the entire social-media post or in our case a tweet. Ultimately, however, these measures are based on a sentiment lexicon similar to those you just saw above. One benefit of using VADER rather than the approaches described by Silge and Robinson is that we use it with our tweets in their original format and skip the text preprocessing steps demonstrated above.</p>
+<p>One drawback to VADER is that it can take a little while to run since it’s computationally intensive. Instead of analyzing tens of thousands of tweets, let’s read in our original <code>ccss-tweets.csv</code> and take instead just a sample of 500 “untidy” CCSS tweets using the <code>sample_n()</code> function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>ccss_sample <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/ccss-tweets.csv"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">500</span>)</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>ccss_sample</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note above that we passed our <code>read_csv()</code> output directly to our <code>sample()</code> function rather than saving a new data frame object, passing that to <code>sample_n()</code>, and saving as another data frame object. The power of the <code>|&gt;</code> pipe!</p>
+<p>On to the Dark Side. The {vader} package basically has just one function, <code>vader_df()</code> that does one thing and expects just one column from one frame. He’s very single minded! Let’s give VADER our <code>ccss_sample</code> data frame and include the <code>$</code> operator to include only the <code>text</code> column containing our tweets.</p>
+<p>Note, this may take a little while to run.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>vader_ccss <span class="ot">&lt;-</span> <span class="fu">vader_df</span>(ccss_sample<span class="sc">$</span>text)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>vader_ccss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="question-3" class="level4">
+<h4 class="anchored" data-anchor-id="question-3">❓Question</h4>
+<p>Take a look at <code>vader_summary</code> data frame using the <code>View()</code> function in the console and sort by most positive and negative tweets.</p>
+<p>Does it generally seem to accurately identify positive and negative tweets? Could you find any that you think were mislabeled?</p>
+<ul>
+<li>YOUR RESPONSE HERE</li>
+</ul>
+<p>Hutto, C. &amp; Gilbert, E. (2014) provide an excellent summary of the VADER package on their <a href="scores">GitHub repository</a> and I’ve copied and explanation of the scores below:</p>
+<ul>
+<li>The&nbsp;<code>compound</code>&nbsp;score is computed by summing the valence scores of each word in the lexicon, adjusted according to the rules, and then normalized to be between -1 (most extreme negative) and +1 (most extreme positive). This is the most useful metric if you want a single unidimensional measure of sentiment for a given sentence. Calling it a ‘normalized, weighted composite score’ is accurate.</li>
+</ul>
+<p><strong>NOTE:</strong>&nbsp;The&nbsp;<code>compound</code>&nbsp;score is the one most commonly used for sentiment analysis by most researchers, including the authors.</p>
+<p>Let’s take a look at the average compound score for our CCSS sample of tweets:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(vader_ccss<span class="sc">$</span>compound)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="question-4" class="level4">
+<h4 class="anchored" data-anchor-id="question-4">❓Question</h4>
+<p>Overall, do your CCSS tweets sample lean slightly negative or positive or neutral? Is this what you expected?</p>
+<ul>
+<li>YOUR RESPONSE HERE</li>
+</ul>
+<p>What if we wanted to compare these results more easily to our other sentiment lexicons just to check if result are fairly consistent?</p>
+<p>The author’s note that it is also useful for researchers who would like to set standardized thresholds for classifying sentences as either positive, neutral, or negative. Typical threshold values are:</p>
+<ul>
+<li><p><strong>positive sentiment</strong>:&nbsp;<code>compound</code>&nbsp;score &gt;= 0.05</p></li>
+<li><p><strong>neutral sentiment</strong>: (<code>compound</code>&nbsp;score &gt; -0.05) and (<code>compound</code>&nbsp;score &lt; 0.05)</p></li>
+<li><p><strong>negative sentiment</strong>:&nbsp;<code>compound</code>&nbsp;score &lt;= -0.05</p></li>
+</ul>
+<p>Let’s give that a try and see how things shake out:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>vader_ccss_summary <span class="ot">&lt;-</span> vader_ccss <span class="sc">|&gt;</span> </span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sentiment =</span> <span class="fu">ifelse</span>(compound <span class="sc">&gt;=</span> <span class="fl">0.05</span>, <span class="st">"positive"</span>,</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">ifelse</span>(compound <span class="sc">&lt;=</span> <span class="sc">-</span><span class="fl">0.05</span>, <span class="st">"negative"</span>, <span class="st">"neutral"</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(sentiment, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread</span>(sentiment, n) <span class="sc">|&gt;</span> </span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(positive) <span class="sc">|&gt;</span></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ratio =</span> negative<span class="sc">/</span>positive)</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>vader_ccss_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Not quite as bleak as we might have expected according to VADER! But then again, VADER brings an entirely different perspective coming from the dark side</p>
+</section>
+<section id="your-turn-11" class="level4">
+<h4 class="anchored" data-anchor-id="your-turn-11"><strong>👉 Your Turn ⤵</strong></h4>
+<p>In the code chunk below, try using VADER to perform a sentiment analysis of the NGSS tweets and see how they compare:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># YOUR CODE HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="question-5" class="level4">
+<h4 class="anchored" data-anchor-id="question-5">❓Question</h4>
+<p>How do our results compare to the CSSS sample of tweets?</p>
+<ul>
+<li>YOUR RESPONSE HERE</li>
+</ul>
+</section>
+</section>
+<section id="communicate" class="level2">
+<h2 class="anchored" data-anchor-id="communicate">5. COMMUNICATE</h2>
+<p>The final(ish) step in our workflow/process is sharing the results of analysis with wider audience. Krumm et al.&nbsp;(2018) outlined the following 3-step process for communicating with education stakeholders what you have learned through analysis:</p>
+<ol type="1">
+<li><strong>Select</strong>. Communicating what one has learned involves selecting among those analyses that are most important and most useful to an intended audience, as well as selecting a form for displaying that information, such as a graph or table in static or interactive form, i.e.&nbsp;a “data product.”</li>
+<li><strong>Polish</strong>. After creating initial versions of data products, research teams often spend time refining or polishing them, by adding or editing titles, labels, and notations and by working with colors and shapes to highlight key points.</li>
+<li><strong>Narrate</strong>. Writing a narrative to accompany the data products involves, at a minimum, pairing a data product with its related research question, describing how best to interpret the data product, and explaining the ways in which the data product helps answer the research question.</li>
+</ol>
+<section id="a.-select" class="level3">
+<h3 class="anchored" data-anchor-id="a.-select">5a. Select</h3>
+<p>Remember that the questions of interest that we want to focus on our for our selection, polishing, and narration include:</p>
+<ol type="1">
+<li>What is the public sentiment expressed toward the NGSS?</li>
+<li>How does sentiment for NGSS compare to sentiment for CCSS?</li>
+</ol>
+<p>To address questions 1 and 2, I’m going to focus my analyses, data products and sharing format on the following:</p>
+<ol type="1">
+<li><strong>Analyses</strong>. For RQ1, I’m want to try and replicate as closely as possible the analysis by Rosenberg et al.&nbsp;so I will clean up my analysis and calculate a single sentiment score using the AFINN Lexicon for the entire tweet and label it positive or negative based on that score. I also want to highlight how regardless of the lexicon selected, NGSS tweets contain more positive words than negative, so I’ll also polish my previous analyses and calculate percentages of positive and negative words for the</li>
+<li><strong>Data Products</strong>. I know these are shunned in the world of data viz, but I think a <strong>pie chart</strong> will actually be an effective way to quickly communicate the proportion of positive and negative tweets among the Next Generation Science Standards. And for my analyses with the <code>bing</code>, <code>nrc</code>, and <code>loughan</code> lexicons, I’ll create some 100% stacked bars showing the percentage of positive and negative words among all tweets for the NGSS and CCSS.</li>
+<li><strong>Format</strong>. Similar to Module 1, I’ll be using <a href="https://quarto.org">Quarto</a> again to create a <code>revealjs</code> <a href="https://quarto.org/docs/presentations/">slide deck</a>. or short report that documents our independent analysis. Quarto files can also be used to create a <a href="https://quarto.org/docs/guide/">wide range of outputs and formats</a>, including polished PDF or Word documents, websites, web apps, journal articles, online books, interactive tutorials and more.</li>
+</ol>
+</section>
+<section id="b.-polish" class="level3">
+<h3 class="anchored" data-anchor-id="b.-polish">5b. Polish</h3>
+<p>For my polished chart I also wanted to address Question 2 and compare the percentage of positive and negative words contained in the corpus of tweets for the NGSS and CCSS standards using the four different lexicons to see how sentiment compares based on lexicon used.</p>
+<p>I’ll begin by polishing my previous summaries and creating identical summaries for each lexicon that contains the following columns: <code>method</code>, <code>standards</code>, <code>sentiment</code>, and <code>n</code>, or word counts:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>summary_afinn2 <span class="ot">&lt;-</span> sentiment_afinn <span class="sc">|&gt;</span> </span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(standards) <span class="sc">|&gt;</span> </span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(value <span class="sc">!=</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sentiment =</span> <span class="fu">if_else</span>(value <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="st">"negative"</span>, <span class="st">"positive"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(sentiment, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">method =</span> <span class="st">"AFINN"</span>)</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>summary_bing2 <span class="ot">&lt;-</span> sentiment_bing <span class="sc">|&gt;</span> </span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(standards) <span class="sc">|&gt;</span> </span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(sentiment, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">method =</span> <span class="st">"bing"</span>)</span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>summary_nrc2 <span class="ot">&lt;-</span> sentiment_nrc <span class="sc">|&gt;</span> </span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sentiment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"positive"</span>, <span class="st">"negative"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(standards) <span class="sc">|&gt;</span> </span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(sentiment, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">method =</span> <span class="st">"nrc"</span>) </span>
+<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a>summary_loughran2 <span class="ot">&lt;-</span> sentiment_loughran <span class="sc">|&gt;</span> </span>
+<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sentiment <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"positive"</span>, <span class="st">"negative"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(standards) <span class="sc">|&gt;</span> </span>
+<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(sentiment, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">method =</span> <span class="st">"loughran"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next, I’ll combine those four data frames together using the <code>bind_rows</code> function again:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>summary_sentiment <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(summary_afinn2,</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>                               summary_bing2,</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>                               summary_nrc2,</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>                               summary_loughran2) <span class="sc">|&gt;</span></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(method, standards) <span class="sc">|&gt;</span></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(method)</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>summary_sentiment</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then I’ll create a new data frame that has the total word counts for each set of standards and each method and join that to my <code>summary_sentiment</code> data frame:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>total_counts <span class="ot">&lt;-</span> summary_sentiment <span class="sc">|&gt;</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(method, standards) <span class="sc">|&gt;</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">sum</span>(n))</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>sentiment_counts <span class="ot">&lt;-</span> <span class="fu">left_join</span>(summary_sentiment, total_counts)</span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>sentiment_counts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally, I’ll add a new row that calculates the percentage of positive and negative words for each set of state standards:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>sentiment_percents <span class="ot">&lt;-</span> sentiment_counts <span class="sc">|&gt;</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent =</span> n<span class="sc">/</span>total <span class="sc">*</span> <span class="dv">100</span>)</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>sentiment_percents</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now that I have my sentiment percent summaries for each lexicon, I’m going great my 100% stacked bar charts for each lexicon:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>sentiment_percents <span class="sc">|&gt;</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> standards, <span class="at">y =</span> percent, <span class="at">fill=</span>sentiment)) <span class="sc">+</span></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">width =</span> .<span class="dv">8</span>, <span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>method, <span class="at">ncol =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Public Sentiment on Twitter"</span>, </span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"The Common Core &amp; Next Gen Science Standards"</span>,</span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"State Standards"</span>, </span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Percentage of Words"</span>) <span class="sc">+</span></span>
+<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And finished! The chart above clearly illustrates that regardless of sentiment lexicon used, the NGSS contains more positive words than the CCSS lexicon.</p>
+</section>
+<section id="c.-narrate" class="level3">
+<h3 class="anchored" data-anchor-id="c.-narrate">5c. Narrate</h3>
+<p>With our “data products” cleanup complete, we can start pulling together a quick presentation to share with the class. We’ve already seen what a more formal journal article looks like in the PREPARE section of this case study. For your Independent Analysis assignment for Module 2, you’ll be creating either a simple report or slide deck to share out some key findings from our analysis.</p>
+<p>Regardless of whether you plan to talk us through your analysis and findings with a presentation or walk us through with a brief written report, your assignment should address the following questions:</p>
+<ol type="1">
+<li><strong>Purpose</strong>. What question or questions are guiding your analysis? What did you hope to learn by answering these questions and why should your audience care about your findings?</li>
+<li><strong>Methods</strong>. What data did you selected for analysis? What steps did you take took to prepare your data for analysis and what techniques you used to analyze your data? These should be fairly explicit with your embedded code.</li>
+<li><strong>Findings</strong>. What did you ultimately find? How do your “data products” help to illustrate these findings? What conclusions can you draw from your analysis?</li>
+<li><strong>Discussion</strong>. What were some of the strengths and weaknesses of your analysis? How might your audience use this information? How might you revisit or improve upon this analysis in the future?</li>
+</ol>
+</section>
+<section id="references" class="level3 unnumbered">
+
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-rosenberg2020" class="csl-entry" role="listitem">
+Rosenberg, Joshua, Conrad Borchers, Elizabeth B Dyer, Daniel Anderson, and Christian Fischer. 2020. <span>“Understanding Public Sentiment about Educational Reforms: The Next Generation Science Standards on Twitter,”</span> October. <a href="http://dx.doi.org/10.31219/osf.io/xymsd">http://dx.doi.org/10.31219/osf.io/xymsd</a>.
+</div>
+<div id="ref-silge2017text" class="csl-entry" role="listitem">
+Silge, Julia, and David Robinson. 2017. <em>Text Mining with r: A Tidy Approach</em>. " O’Reilly Media, Inc.". <a href="https://www.tidytextmining.com">https://www.tidytextmining.com</a>.
+</div>
+</div></section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

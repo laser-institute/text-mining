@@ -1,0 +1,283 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"Sentiment Analysis with Python\"\n",
+        "subtitle: \"Lab 2: Code-Along\"\n",
+        "format:\n",
+        "  revealjs: \n",
+        "    slide-number: c/t\n",
+        "    progress: true\n",
+        "    chalkboard: \n",
+        "      buttons: false\n",
+        "    preview-links: auto\n",
+        "    logo: img/LASERLogoB.png\n",
+        "    theme: [default, css/laser.scss]\n",
+        "    width: 1920\n",
+        "    height: 1080\n",
+        "    margin: 0.05\n",
+        "    footer: <a href=https://www.go.ncsu.edu/laser-institute>go.ncsu.edu/laser-institute\n",
+        "#resources:\n",
+        "#  - demo.pdf\n",
+        "#bibliography: lit/references.bib\n",
+        "editor: visual\n",
+        "---\n",
+        "\n",
+        "\n",
+        "## Agenda\n",
+        "\n",
+        "1.  Sentiment Analysis\n",
+        "\n",
+        "2.  Python Sentiment Library - VADER\n",
+        "\n",
+        "3.  Perform Sentiment Analysis with VADER Library\n",
+        "\n",
+        "    -   Import and Preprocess Data (Lab 1.2; Lab 1.3)\n",
+        "\n",
+        "    -   Get Sentiment Values\n",
+        "\n",
+        "    -   Sentiment Value Summaries and Visualization\n",
+        "\n",
+        "        -   Sentiment Counts (Lab 1.4)\n",
+        "\n",
+        "        -   Single Sentiment Value (Lab 1.4)\n",
+        "\n",
+        "        -   Sentiment Over Time\n",
+        "\n",
+        "# Sentiment Analysis\n",
+        "\n",
+        "## What is sentiment analysis?\n",
+        "\n",
+        "Sentiment analysis is a natural language processing (NLP) technique used to determine the sentiment or opinion expressed in a piece of text. It involves analyzing the text to classify its polarity as positive, negative, or neutral. This analysis can be applied to various forms of text, such as product reviews, social media posts, customer feedback, user experience and more.\n",
+        "\n",
+        "# Python Sentiment Library - VADER\n",
+        "\n",
+        "## VADER\n",
+        "\n",
+        "**VADER** (Valence Aware Dictionary and sEntiment Reasoner) is a lexicon and rule-based sentiment analysis tool specifically designed for analyzing sentiments in social media texts.\n",
+        "\n",
+        "-   Lexicon-based: VADER uses a lexicon (dictionary) that maps words to sentiment scores (positive, negative, neutral). Each word in the lexicon is rated based on its sentiment polarity.\n",
+        "\n",
+        "-   Rule-based: It incorporates rules to handle intensifiers, degree modifiers, negations, and punctuation in sentiment scoring.\n",
+        "\n",
+        "## VADER - Sentiment Scores\n",
+        "\n",
+        "VADER produces sentiment scores with 4 values for each text input:\n",
+        "\n",
+        "-   pos: the probability of the sentiment to be positive\n",
+        "\n",
+        "-   neu: the probability of the sentiment to be neutral\n",
+        "\n",
+        "-   neg: The probability of the sentiment to be negative\n",
+        "\n",
+        "-   compound: the normalized compound score which calculates the sum of all lexicon ratings and takes values from -1 to 1\n",
+        "\n",
+        "## VADER - Sentiment Scores\n",
+        "\n",
+        "The compound score is particularly useful when we need a single measure of sentiment. The typical threshold values for the compound score are as follows:\n",
+        "\n",
+        "-   positive: compound score \\>=0.05\n",
+        "\n",
+        "-   neutral: compound score between -0.05 and 0.05\n",
+        "\n",
+        "-   negative: compound score \\<=-0.05\n",
+        "\n",
+        "For the purpose of dividing the sentiment into only two categories, the threshold values for the compound score can also be as follows:\n",
+        "\n",
+        "-   positive: compound score \\> 0\n",
+        "\n",
+        "-   negative: compound score \\<= 0\n",
+        "\n",
+        "# Perform Sentiment Analysis with VADER\n",
+        "\n",
+        "## Get Sentiment Values\n"
+      ],
+      "id": "194efab8"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| echo: true\n",
+        "\n",
+        "!pip install nltk matplotlib\n",
+        "import pandas as pd\n",
+        "import nltk\n",
+        "import matplotlib.pyplot as plt"
+      ],
+      "id": "044a7f3f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Get Sentiment Values\n"
+      ],
+      "id": "fe6af6fd"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| echo: true\n",
+        "\n",
+        "# Import SentimentIntensityAnalyzer\n",
+        "from nltk.sentiment.vader import SentimentIntensityAnalyzer\n",
+        "\n",
+        "# Ensure vader_lexicon is downloaded\n",
+        "nltk.download('vader_lexicon')\n",
+        "\n",
+        "# Initialize VADER sentiment analyzer\n",
+        "analyzer = SentimentIntensityAnalyzer()\n",
+        "\n",
+        "# Example text\n",
+        "text = \"VADER is a great tool for sentiment analysis!\"\n",
+        "\n",
+        "# Get sentiment scores\n",
+        "scores = analyzer.polarity_scores(text)\n",
+        "# Display sentiment scores\n",
+        "print(scores)"
+      ],
+      "id": "8ebaf1ce",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Your Turn\n",
+        "\n",
+        "Replace the text with what you are interested, and use VADER to get the sentiment value.\n"
+      ],
+      "id": "4feb8fde"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| echo: true\n",
+        "# YOUR CODE IS HERE"
+      ],
+      "id": "723c426e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Sentiment Over Time\n",
+        "\n",
+        "### How to display the sentiment over time?\n"
+      ],
+      "id": "0104cbe7"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "output-location": "column"
+      },
+      "source": [
+        "#| echo: true\n",
+        "\n",
+        "# Import needed libraries\n",
+        "import pandas as pd\n",
+        "from nltk.sentiment.vader import SentimentIntensityAnalyzer\n",
+        "import matplotlib.pyplot as plt\n",
+        "\n",
+        "# Example dataset\n",
+        "data = {\n",
+        "    'timestamp': ['2021-02-10', '2021-02-11', '2021-02-12'],\n",
+        "    'text': [\n",
+        "        \"What common core equation do they use to arrive at this prediction. Can't wait to rub it in their face when that are wrong AGAIN!\",\n",
+        "        \"I can't help but think that the dumbing down of the American demographic is a direct result of 'common core'; 'no child left behind' as ways of allowing 'good enough for govt work' to be passed off to the next person 'responsible.' Now the passed off own false entitlement\",\n",
+        "        \"I just got an 'explainer' on how to read my child's report card. Now, if I can get an explainer on how to do second-grade common core math, I'll really be in good shape. #hopeful.\"\n",
+        "    ]\n",
+        "}\n",
+        "\n",
+        "# Create DataFrame\n",
+        "df = pd.DataFrame(data)\n",
+        "\n",
+        "# Convert timestamp to datetime\n",
+        "df['timestamp'] = pd.to_datetime(df['timestamp'])\n",
+        "\n",
+        "# Get sentiment values\n",
+        "analyzer = SentimentIntensityAnalyzer()\n",
+        "\n",
+        "# Define a function to get sentiment scores\n",
+        "def get_sentiment_scores(text):\n",
+        "    scores = analyzer.polarity_scores(text)\n",
+        "    return scores['compound']  # Using compound score for overall sentiment\n",
+        "\n",
+        "# Apply sentiment analysis to each row\n",
+        "df['compound_score'] = df['text'].apply(get_sentiment_scores)\n",
+        "\n",
+        "# Resample by time unit and calculate the mean sentiment score (example: daily sentiment average)\n",
+        "sentiment_daily = df.set_index('timestamp').resample('D')['compound_score'].mean()\n",
+        "\n",
+        "# Plot sentiment over time \n",
+        "plt.figure(figsize=(10, 6))\n",
+        "plt.plot(sentiment_daily.index, sentiment_daily, marker='o', linestyle='-', color='b')\n",
+        "plt.title('Sentiment Analysis Over Day')\n",
+        "plt.xlabel('Date')\n",
+        "plt.ylabel('Average Sentiment Score')\n",
+        "plt.grid(True)\n",
+        "plt.xticks(rotation=45)\n",
+        "plt.tight_layout()\n",
+        "plt.show()"
+      ],
+      "id": "49bbabf8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Your Turn\n",
+        "\n",
+        "Instead of sentiment over days, display sentiment over month.\n"
+      ],
+      "id": "d21f7dc6"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| echo: true\n",
+        "# YOUR CODE IS HERE"
+      ],
+      "id": "6a968d91",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "\\\n",
+        "\\\n",
+        "\n",
+        "\\\n",
+        "\\"
+      ],
+      "id": "821b8e5f"
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "/Users/shaun.kellogg/Library/Python/3.9/share/jupyter/kernels/python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}
