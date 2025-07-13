@@ -85,9 +85,7 @@ Specifically, to earn your first badge, you will need to:
 
 3.  **Analyze the data.** I highly recommend creating a new R script in your project space to use as you work through data wrangling and analysis. Your R script will likely contain code that doesn't make it into your Quarto presentation or report since you will likely experiment with different approaches and figure out code that works and code that does not.
 
-4.  **Create a data product.** When you feel you've wrangled and analyzed the data to your satisfaction, create a simple polished chart and/or data table and a brief narrative below that highlights your research question, data source, and key findings and potential implications. Your chart or table should include all code necessary to read, wrangle, and explore your data.
-
-5.  **Share your findings.** Render your data product to a desired output format. I recommend using the example data product I've included in the project folder to create an HTML slide deck like [this example](https://sbkellogg.quarto.pub/what-do-teachers-value-about-online-pd/#/title-slide), but you are welcome to experiment with other formats as well.
+4.  **Create a data product.** When you feel you've wrangled and analyzed the data to your satisfaction, use the code chunk below to create a simple polished chart and/or data table, followed by a brief narrative that highlights your research question, data source, and key findings and potential implications. Your chart or table should include all code necessary to read, wrangle, and explore your data.
 
 I highly recommend creating a new R script to complete this task. When your code is ready to share, use the appropriate code chunk below to share the all the code necessary to reproduce your analysis and create your data product.
 
