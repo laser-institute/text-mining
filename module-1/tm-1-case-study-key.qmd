@@ -1155,6 +1155,8 @@ Regardless of whether you plan to talk us through your analysis and findings wit
 
 You can view my example presentation here: <https://sbkellogg.quarto.pub/what-do-teachers-value-about-online-pd>
 
+I've also provide you with the Quarto file used to create this slide deck in our Posit Cloud Workspace.
+
 #### Render Document
 
 For now, we will wrap up this case study by converting your work to an HTML file that can be published and used to communicate your learning and demonstrate some of your new R skills. To do so, you will need to "render" your document. Rendering a document does two important things, namely when you render a document it:

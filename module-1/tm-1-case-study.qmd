@@ -12,8 +12,8 @@ theme:
   dark: cyborg
 editor: visual
 bibliography: lit/references.bib
-execute:
-  eval: false
+# execute:
+#   eval: false
 ---
 
 ## 0. INTRODUCTION
@@ -1124,6 +1124,8 @@ Regardless of whether you plan to talk us through your analysis and findings wit
 #### Examples and Templates
 
 You can view my example presentation here: <https://sbkellogg.quarto.pub/what-do-teachers-value-about-online-pd>
+
+I've also provide you with the Quarto file used to create this slide deck in our Posit Cloud Workspace.
 
 #### Render Document
 
