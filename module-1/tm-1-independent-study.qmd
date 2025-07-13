@@ -1,6 +1,6 @@
 ---
 title: 'Text Mining Basics'
-subtitle: "ECI 588 Unit 1: Independent Study"
+subtitle: "TM Module 1: Independent Study"
 author: "Dr. Shaun Kellogg"
 date: today
 format:
