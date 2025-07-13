@@ -15,7 +15,7 @@ editor: visual
 
 ## OVERVIEW
 
-For Module 3, our primary goal is to build a basic understanding of topic modeling and how it has been applied to gain insight into text data, and specifically its applications in educational contexts. This week's readings and videos are intended to provide you with a brief introduction to these methods and some general applications across disciplines. Many of the introductory readings come from the [Journal of Digital Humanities (Vol. 2, No. 1 Winter 2012)](#0). The entire issue on Topic Modeling contains many good reads and is worth checking out in its entirety. [The Digital Humanities Contribution to Topic Modeling](#0) article provides a nice overview of the entire issue. Per usual, your course readings, discussion guidelines, and assessment criteria are described below. If you have any questions about this week's assignment, please post them there or email me separately.
+For Module 3, our primary goal is to build a basic understanding of topic modeling and how it has been applied to gain insight into text data, and specifically its applications in educational contexts. This week's readings and videos are intended to provide you with a brief introduction to these methods and some general applications across disciplines. Many of the introductory readings come from the [Journal of Digital Humanities (Vol. 2, No. 1 Winter 2012)](#0). The entire issue on Topic Modeling contains many good reads and is worth checking out in its entirety. [The Digital Humanities Contribution to Topic Modeling](#0) article provides a nice overview of the entire issue.
 
 ## READINGS
 
@@ -23,7 +23,7 @@ To help address our discussion questions for the week, you'll be asked to **read
 
 ### 1. Required
 
-1.  [Topic Modeling: A Basic Introduction](http://journalofdigitalhumanities.org/2-1/topic-modeling-a-basic-introduction-by-megan-r-brett/). Great layman's introduction to the topic of topic modeling by Megan Brett.
+1.  [Topic Modeling: A Basic Introduction](http://journalofdigitalhumanities.org/2-1/topic-modeling-a-basic-introduction-by-megan-r-brett/). Great layman's introduction to the topic of topic modeling by Megan Brett.
 
 ### 2. Instructor-Selected Resources (Choose One)
 

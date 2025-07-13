@@ -1,6 +1,6 @@
 ---
 title: 'Analyzing Sentiment'
-subtitle: "TM Module 2: Badge"
+subtitle: "TM Module 3: Badge"
 author: "LASER Institute"
 date: today 
 format:
@@ -15,7 +15,7 @@ editor: visual
 bibliography: lit/references.bib
 ---
 
-![](img/dm.png){width="40%"}
+![](img/tm.png){width="40%"}
 
 The final activity for each learning module provides space to work with data and to reflect on how the concepts and techniques introduced in each module might apply to your own research.
 
@@ -27,7 +27,7 @@ To earn a badge for each module, you are required to respond to a set of prompts
 
 ### Part I: Reflect and Plan
 
-Use your institutional library, [Google Scholar](https://scholar.google.com/), or search engine of your choice to locate a research article, presentation, or resource that applies text mining to an educational context or topic of interest. More specifically, **locate a research study that makes use of dictionary-based methods like those demonstrated in our Module 2 Case Study.** You are also welcome to select one of the research papers listed in the [essential readings](https://laser-institute.github.io//text-mining/module-2/tm-2-readings.html) that may have piqued your interest.
+Use your institutional library, [Google Scholar](https://scholar.google.com/), or search engine of your choice to locate a research article, presentation, or resource that applies text mining to an educational context or topic of interest. More specifically, **locate a research study that makes use of topic modeling techniques like those demonstrated in our Module 3 Case Study.** You are also welcome to select one of the research papers listed in the [essential readings](https://laser-institute.github.io//text-mining/module-3/tm-3-readings.html) that may have piqued your interest.
 
 1.  Provide an APA citation for your selected study.
 
@@ -37,7 +37,7 @@ Use your institutional library, [Google Scholar](https://scholar.google.com/), o
 
     -   
 
-3.  How was the dictionary-based methods **defined** and/or characterized?
+3.  How was Topic Modeling **defined** and/or characterized?
 
     -   
 
@@ -53,7 +53,7 @@ Use your institutional library, [Google Scholar](https://scholar.google.com/), o
 
     -   
 
-Draft a research question that would be of interest to educational researchers and that would make use of dictionary-based methods, then answer the following questions:
+Draft a research question that would be of interest to educational researchers and that would make use of topic modeling, then answer the following questions:
 
 1.  What text-based data would need to be collected?
 
@@ -73,9 +73,9 @@ Draft a research question that would be of interest to educational researchers a
 
 ### Part II: Data Product
 
-For your second TM badge, your goal is to distill the analysis from our case study into a simple "data product" designed to illustrate a key finding from our analysis that has not already been covered in the case study. **Your primary goal is to analyze a text-based data using dictionary-based methods** by applying the knowledge and skills acquired from the course readings and case study. To complete your badge, you will need to:
+For your third TM badge, your goal is to distill the analysis from our case study into a simple "data product" designed to illustrate a key finding from our analysis that has not already been covered in the case study. **Your primary goal is to analyze a text-based data using topic-modeling methods** by applying the knowledge and skills acquired from the course readings and case study. To complete your badge, you will need to:
 
-1.  **Identity a data source.** I've included the `ccss-tweets.csv` and `ccss-tweets.csv`data files from our case study the Module 2 data folder. You are also welcome to identify your own text-based data source related to an area of personal or professional interest. However, if you choose to use an alternative data source, you will need to specify the context in which it was collected and the audience for whom your analysis intended.
+1.  **Identity a data source.** I've included the `ts_forum_data.csv` from our case study in a data folder located the Module 3 data folder. You are also welcome to identify your own text-based data source related to an area of personal or professional interest. However, if you choose to use an alternative data source, you will need to specify the context in which it was collected and the audience for whom your analysis intended.
 
 2.  **Formulate a question.** I recommend keeping this simple and limiting to no more than one or two questions. Your question(s) should be appropriate to your data set and ideally be answered by applying concepts and skills from our course readings and case study.
 
