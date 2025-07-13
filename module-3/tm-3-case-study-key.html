@@ -1,0 +1,2064 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dr.&nbsp;Shaun Kellogg">
+<meta name="dcterms.date" content="2025-07-13">
+
+<title>Topic Modeling in MOOC-Eds</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="tm-3-case-study-key_files/libs/clipboard/clipboard.min.js"></script>
+<script src="tm-3-case-study-key_files/libs/quarto-html/quarto.js"></script>
+<script src="tm-3-case-study-key_files/libs/quarto-html/popper.min.js"></script>
+<script src="tm-3-case-study-key_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="tm-3-case-study-key_files/libs/quarto-html/anchor.min.js"></script>
+<link href="tm-3-case-study-key_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="tm-3-case-study-key_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="tm-3-case-study-key_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="tm-3-case-study-key_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="tm-3-case-study-key_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="tm-3-case-study-key_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="tm-3-case-study-key_files/libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">0. INTRODUCTION</a>
+  <ul class="collapse">
+  <li><a href="#case-study-focus" id="toc-case-study-focus" class="nav-link" data-scroll-target="#case-study-focus">Case Study Focus</a></li>
+  </ul></li>
+  <li><a href="#prepare" id="toc-prepare" class="nav-link" data-scroll-target="#prepare">1. PREPARE</a>
+  <ul class="collapse">
+  <li><a href="#a.-context" id="toc-a.-context" class="nav-link" data-scroll-target="#a.-context">1a. Context</a></li>
+  <li><a href="#b.-guiding-questions" id="toc-b.-guiding-questions" class="nav-link" data-scroll-target="#b.-guiding-questions">1b. Guiding Questions</a></li>
+  <li><a href="#c.-load-libraries" id="toc-c.-load-libraries" class="nav-link" data-scroll-target="#c.-load-libraries">1c. Load Libraries</a></li>
+  </ul></li>
+  <li><a href="#wrangle" id="toc-wrangle" class="nav-link" data-scroll-target="#wrangle">2. WRANGLE</a>
+  <ul class="collapse">
+  <li><a href="#a.-import-forum-data" id="toc-a.-import-forum-data" class="nav-link" data-scroll-target="#a.-import-forum-data">2a. Import Forum Data</a></li>
+  <li><a href="#b.-cast-a-document-term-matrix" id="toc-b.-cast-a-document-term-matrix" class="nav-link" data-scroll-target="#b.-cast-a-document-term-matrix">2b. Cast a Document Term Matrix</a></li>
+  <li><a href="#c.-to-stem-or-not-to-stem" id="toc-c.-to-stem-or-not-to-stem" class="nav-link" data-scroll-target="#c.-to-stem-or-not-to-stem">2c. To Stem or not to Stem?</a></li>
+  </ul></li>
+  <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model">3. MODEL</a>
+  <ul class="collapse">
+  <li><a href="#a.-fitting-a-topic-modeling-with-lda" id="toc-a.-fitting-a-topic-modeling-with-lda" class="nav-link" data-scroll-target="#a.-fitting-a-topic-modeling-with-lda">3a. Fitting a Topic Modeling with LDA</a></li>
+  <li><a href="#b.-fitting-a-structural-topic-model" id="toc-b.-fitting-a-structural-topic-model" class="nav-link" data-scroll-target="#b.-fitting-a-structural-topic-model">3b. Fitting a Structural Topic Model</a></li>
+  <li><a href="#c.-finding-k" id="toc-c.-finding-k" class="nav-link" data-scroll-target="#c.-finding-k">3c. Finding <em>K</em></a></li>
+  </ul></li>
+  <li><a href="#explore" id="toc-explore" class="nav-link" data-scroll-target="#explore">4. EXPLORE</a>
+  <ul class="collapse">
+  <li><a href="#a.-exploring-beta-values" id="toc-a.-exploring-beta-values" class="nav-link" data-scroll-target="#a.-exploring-beta-values">4a. Exploring Beta Values</a></li>
+  <li><a href="#b.-exploring-gamma-values" id="toc-b.-exploring-gamma-values" class="nav-link" data-scroll-target="#b.-exploring-gamma-values">4b. Exploring Gamma Values</a></li>
+  <li><a href="#c.-reading-the-tea-leaves" id="toc-c.-reading-the-tea-leaves" class="nav-link" data-scroll-target="#c.-reading-the-tea-leaves">4c. Reading the Tea Leaves</a></li>
+  </ul></li>
+  <li><a href="#communicate" id="toc-communicate" class="nav-link" data-scroll-target="#communicate">5. COMMUNICATE</a>
+  <ul class="collapse">
+  <li><a href="#congratulations" id="toc-congratulations" class="nav-link" data-scroll-target="#congratulations">Congratulations!</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Topic Modeling in MOOC-Eds</h1>
+<p class="subtitle lead">TM Module 3: Case Study</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr.&nbsp;Shaun Kellogg </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">July 13, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">0. INTRODUCTION</h2>
+<p>The Module 3 case study extends previous research and evaluation work by myself and some of my colleagues at the Friday Institute for Educational Innovation at North Carolina State University. In addition to many other areas of inquiry, our work was aimed at understanding and improving peer interaction and discussion in the Friday Institute’s Massively Open Online Courses for Educators (MOOC-Ed) and Online Professional Learning programs. To learn more about these courses and programs, visit: <a href="https://place.fi.ncsu.edu" class="uri">https://place.fi.ncsu.edu</a></p>
+<section id="case-study-focus" class="level3">
+<h3 class="anchored" data-anchor-id="case-study-focus">Case Study Focus</h3>
+<p>Our focus this week will be on identifying “topics” by examining how words cohere into different latent, or hidden, “themes” based on patterns of co-occurrence of words within documents. With a bit of tongue-in-cheek,&nbsp;<a href="http://journalofdigitalhumanities.org/2-1/dh-contribution-to-topic-modeling/">Meeks and Weingart (2012)</a> describe topic modeling as:&nbsp;</p>
+<blockquote class="blockquote">
+<p><em>…focused on corpora and not individual texts, treating the works themselves as unceremonious ‘buckets of words,’ and providing seductive but obscure results in the forms of easily interpreted (and manipulated) ‘topics’…. To achieve its results, it leverages occult statistical methods like ‘dirichlet priors’ and ‘bayesian models.’</em></p>
+</blockquote>
+<p>That being said, <a href="http://journalofdigitalhumanities.org/2-1/dh-contribution-to-topic-modeling/">Weingart</a> also noted that “a topic model is a”clever and exceptionally versatile little algorithm that can be customized to all sorts of applications” and <a href="https://sicss.io/2020/materials/day3-text-analysis/topic-modeling/rmarkdown/Topic_Modeling.html#running-your-first-topic-model">Bail (2020)</a> added that topic modeling can be “a powerful tool for identifying general trends in a corpus that can then be analyzed in a more granular manner using other techniques” such as more traditional qualitative methods.</p>
+<p>With respect to the actual R workflow of applying topic models to documents and text of interests, Silge &amp; Robinson <span class="citation" data-cites="silge2017text">Silge and Robinson (<a href="#ref-silge2017text" role="doc-biblioref">2017</a>)</span> added a new bottom row their flowchart consisting of three new terms, including new data structures (i.e., a <strong>corpus</strong> object and <strong>document-term matrix</strong>) and the <strong>Latent Dirichlet Allocation (LDA)</strong> model:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://www.tidytextmining.com/topicmodeling.html"><img src="img/tm_flow.png" title="A flowchart of a text analysis that incorporates topic modeling. The topicmodels package takes a Document-Term Matrix as input and produces a model that can be tided by tidytext, such that it can be manipulated and visualized with dplyr and ggplot2." class="img-fluid figure-img" style="width:90.0%" alt="Figure&nbsp;source:&nbsp;Silge,&nbsp;J.,&nbsp;&amp;&nbsp;Robinson,&nbsp;D.&nbsp;(2017).&nbsp;Text&nbsp;mining&nbsp;with&nbsp;R:&nbsp;A&nbsp;tidy&nbsp;approach.&nbsp;O’Reilly&nbsp;Media,&nbsp;Inc.&nbsp;Retrieved from: https://www.tidytextmining.com/topicmodeling.html"></a></p>
+<figcaption>Figure&nbsp;source:&nbsp;Silge,&nbsp;J.,&nbsp;&amp;&nbsp;Robinson,&nbsp;D.&nbsp;(2017).&nbsp;Text&nbsp;mining&nbsp;with&nbsp;R:&nbsp;A&nbsp;tidy&nbsp;approach.&nbsp;O’Reilly&nbsp;Media,&nbsp;Inc.&nbsp;Retrieved from: https://www.tidytextmining.com/topicmodeling.html</figcaption>
+</figure>
+</div>
+<p>This week will be also be our first introduction to the “Model” process of the data-intensive workflow described in our course text, <a href="https://catalog.lib.ncsu.edu/catalog/NCSU4862134"><em>Learning Analytics Goes to School</em></a><em>.</em> As noted by Krumm and Means <span class="citation" data-cites="krumm2018">Krumm, Means, and Bienkowski (<a href="#ref-krumm2018" role="doc-biblioref">2018</a>)</span>, this workflow is not always a linear process and there is often a great deal of iteration that occurs within and between wrangling, exploring, and modeling. As illustrated by our workflow below, this week we will primarily explore our data <strong><em>after</em></strong> the modeling process in order to gain some additional insight into the topics generated by our model.</p>
+<p>More specifically, our Module 3 case study covers the following concepts and skills:</p>
+<ol type="1">
+<li><strong>Prepare</strong>: Prior to analysis, we’ll take a quick look at some of the related MOOC-Ed research and evaluation work to gain some context for our analysis. This should aid in the interpretation of our results and help guide decisions as we tidy, model, and visualize our data.</li>
+<li><strong>Wrangle</strong>: In section 2 we again revisit the process of tidying and tokenizing text using the {<a href="https://cran.r-project.org/web/packages/tidytext/vignettes/tidytext.html">tidytext</a>} package, but we also introduce the <code>stm</code> package. This package makes use of the {<a href="https://cran.r-project.org/web/packages/tm/index.html">tm</a>} text mining package to preprocess text and will also be our first introduction to word “stemming.”</li>
+<li><strong>Model</strong>: We next take a look at two different approaches to topic modeling: Latent Dirichlet Allocation (LDA) and Structural Topic Modeling (STM) via the {<a href="http://www.structuraltopicmodel.com">stm</a>} package. STM is very similar to LDA but can use metadata about documents to improve the assignment of words to “topics” in a corpus by examine relationships between topics and other variables.</li>
+<li><strong>Explore</strong>: Finally, we further explore the results of our topic model using several handy functions from the {<a href="https://cran.r-project.org/web/packages/topicmodels/index.html">topicmodels</a>} and {stm} packages, including the <code>findThoughts</code> function for viewing documents assigned to a given topic and the <code>toLDAvis</code> function for visually exploring topics and word distributions.</li>
+</ol>
+</section>
+</section>
+<section id="prepare" class="level2">
+<h2 class="anchored" data-anchor-id="prepare">1. PREPARE</h2>
+<p>To help us better understand the context, questions, and data sources we’ll be using in Module 3, this section will focus on the following topics:</p>
+<ol type="a">
+<li><strong>Context</strong>. As context for our analysis this week, we’ll review several related papers by myself and some of my current and former colleagues relevant to our analysis of MOOC-Ed discussion forums.</li>
+<li><strong>Questions.</strong> We’ll also examine what insight topic modeling can provide to a question that we asked participants to answer in their professional learning teams (PLTs).</li>
+<li><strong>Project Setup.</strong> This should be very familiar by now, but we’ll also learn about load the required packages for the topic modeling case study.</li>
+</ol>
+<section id="a.-context" class="level3">
+<h3 class="anchored" data-anchor-id="a.-context">1a. Context</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://place.fi.ncsu.edu/local/catalog/course.php?id=4&amp;ref=1"><img src="img/tsdi.png" title="Our world is rich with data sources, and technology makes data more accessible than ever before! To help ensure students are future ready to use data for making informed decisions, many countries around the world have increased the emphasis on statistics and data analysis in school curriculum–from elementary/primary grades through college. This course allows you to learn, along with colleagues from other schools, an investigation cycle to teach statistics and to help students explore data to make evidence-based claims. To learn more about engaging learners in making inferences and claims supported by data and how to emphasize inferential reasoning in teaching statistics through posing different types of investigative questions, enroll in our Teaching Statistics through Inferential Reasoning MOOC-Ed." class="img-fluid figure-img" style="width:50.0%" alt="Akoglu, K., Lee, H. &amp; Kellogg, S. (2019). Participating in a MOOC and Professional Learning Team: How a Blended Approach to Professional Development Makes a Difference.&nbsp;Journal of Technology and Teacher Education, 27(2), 129-163. Retrieved from [https://www.learntechlib.org/primary/p/195234/](#0)."></a></p>
+<figcaption>Akoglu, K., Lee, H. &amp; Kellogg, S. (2019). Participating in a MOOC and Professional Learning Team: How a Blended Approach to Professional Development Makes a Difference.&nbsp;Journal of Technology and Teacher Education, 27(2), 129-163. Retrieved from [https://www.learntechlib.org/primary/p/195234/](#0).</figcaption>
+</figure>
+</div>
+<p><strong>Abstract</strong></p>
+<p>Massive Open Online Courses for Educators (MOOC-Eds) provide opportunities for using research-based learning and teaching practices, along with new technological tools and facilitation approaches for delivering quality online professional development. The Teaching Statistics Through Data Investigations MOOC-Ed was built for preparing teachers in pedagogy for teaching statistics, and it has been offered to participants from around the world. During 2016-2017, professional learning teams (PLTs) were formed from a subset of MOOC-Ed participants. These teams met several times to share and discuss their learning and experiences. This study focused on examining the ways that a blended approach to professional development may result in similar or different patterns of engagement to those who only participate in a large-scale online course. Results show the benefits of a blended learning environment for retention, engagement with course materials, and connectedness within the online community of learners in an online professional development on teaching statistics. The findings suggest the use of self-forming autonomous PLTs for supporting a deeper and more comprehensive experience with self-directed online professional developments such as MOOCs. Other online professional development courses, such as MOOCs, may benefit from purposely suggesting and advertising, and perhaps facilitating, the formation of small face-to-face or virtual PLTs who commit to engage in learning together.</p>
+<p><strong>Data Source &amp; Analysis</strong></p>
+<p>All peer interaction, including peer discussion, take place within discussion forums of MOOC-Eds, which are hosted using the Moodle Learning Management System. To build the dataset you’ll be using for this case study, I wrote a query for Moodle’s MySQL database, which records participants’ user-logs of activity in the online forums. This sql query combines separate database tables containing postings and comments including participant IDs, timestamps, discussion text and other attributes or “metadata.”</p>
+<p>For further description of the forums and data retrieval process, see also the following papers:</p>
+<ul>
+<li><p>Kellogg, S., &amp; Edelmann, A. (2015). <a href="https://bera-journals.onlinelibrary.wiley.com/doi/pdfdirect/10.1111/bjet.12312">Massively Open Online Course for Educators (MOOC‐Ed) network dataset</a>.&nbsp;<em>British journal of educational technology</em>,&nbsp;<em>46</em>(5), 977-983.</p></li>
+<li><p>Ezen-Can, A., Boyer, K. E., Kellogg, S., &amp; Booth, S. (2015, March). <a href="https://dl.acm.org/doi/pdf/10.1145/2723576.2723589">Unsupervised modeling for understanding MOOC discussion forums: a learning analytics approach</a>. In&nbsp;<em>Proceedings of the fifth international conference on learning analytics and knowledge</em>&nbsp;(pp.&nbsp;146-150).</p></li>
+<li><p>Kellogg, S., Booth, S., &amp; Oliver, K. (2014). <a href="https://www.erudit.org/en/journals/irrodl/1900-v1-n1-irrodl04945/1065545ar.pdf">A social network perspective on peer supported learning in MOOCs for educators.</a>&nbsp;<em>International Review of Research in Open and Distributed Learning</em>,&nbsp;<em>15</em>(5), 263-289.</p></li>
+</ul>
+<p>Also, for a more recent paper on topic modeling in MOOC-Eds, see:</p>
+<ul>
+<li>Barker, H. A., Lee, H. S., Kellogg, S., &amp; Anderson, R. (2024). The Viability of Topic Modeling to Identify Participant Motivations for Enrolling in Online Professional Development.&nbsp;<em>Online Learning</em>,&nbsp;<em>28</em>(1), 175-195. Retrieved from: <a href="https://files.eric.ed.gov/fulltext/EJ1418006.pdf" class="uri">https://files.eric.ed.gov/fulltext/EJ1418006.pdf</a></li>
+</ul>
+<p><strong>Summary of Key Findings</strong></p>
+<p>The following highlight some key findings related to the discussion forums in the papers cited above:</p>
+<ol type="1">
+<li>MOOCs designed specifically for K-12 teachers can provide positive self-directed learning experiences and rich engagement in discussion forums that help form online communities for educators.</li>
+<li>Analysis of discussion forum data in TSDI provided a very clear picture of how enthusiastic many PLT members and leaders were to talk to others in the online community. They posed their questions and shared ideas with others about teaching statistics throughout the units, even though they were also meeting synchronously several times with their colleagues in small group PLTs.</li>
+<li>Findings on knowledge construction demonstrated that over half of the discussions in both courses moved beyond sharing information and statements of agreement and entered a process of dissonance, negotiation and co-construction of knowledge, but seldom moved beyond this phase in which new knowledge was tested or applied. These findings echo similar research on difficulties in promoting knowledge construction in online settings.</li>
+<li>Topic modeling provides more interpretable and cohesive models for discussion forums than other popular unsupervised modeling techniques such as k-means and k-medoids clustering algorithms.</li>
+<li>The unsupervised approach to topic modeling (LDA) provides some general insight into the distribution of topics across large data sets but requires manual interpretation to determine meaningful themes.</li>
+</ol>
+</section>
+<section id="b.-guiding-questions" class="level3">
+<h3 class="anchored" data-anchor-id="b.-guiding-questions">1b. Guiding Questions</h3>
+<p>For the paper, <a href="https://www.learntechlib.org/p/195234/"><em>Participating in a MOOC and Professional Learning Team: How a Blended Approach to Professional Development Makes a Difference</em></a>, we were interested in unpacking how participants who enrolled in the Teaching Statistics through Data Investigations MOOC-Ed might benefit from also being in a smaller group of professionals committed to engaging in the same professional development. Our specific research question for this paper was:</p>
+<blockquote class="blockquote">
+<p>What are the similarities and differences between how PLT members and Non-PLT online participants engage and meet course goals in a MOOC-Ed designed for educators in secondary and collegiate settings?</p>
+</blockquote>
+<p>Dr.&nbsp;Hollylynne Lee and the TSDI team also developed a facilitation guide designed specifically for PLT teams to help groups synthesize the ideas in the course and make plans for how to implement new strategies in their classroom in order to impact students’ learning of statistics. One question PLT members were asked to address was:</p>
+<blockquote class="blockquote">
+<p>What topics emerged in the discussion forums this past week?</p>
+</blockquote>
+<p>For this case study, we will further examine that question through the use of topic modeling.</p>
+<p>And just to reiterate yet again from Module 1, one overarching question we’ll explore throughout this course, and that Silge and Robinson (2018) identify as a central question to text mining and natural language processing, is:</p>
+<blockquote class="blockquote">
+<p>How do we to <strong>quantify</strong> what a document or collection of documents is about?</p>
+</blockquote>
+</section>
+<section id="c.-load-libraries" class="level3">
+<h3 class="anchored" data-anchor-id="c.-load-libraries">1c. Load Libraries</h3>
+<p>In addition to the use of the {tidyverse} and {tidytext} packages for text mining, we’ll make use of several specialized R packages facilitate topic modeling, visualization, and result interpretation.</p>
+<p>Below is a brief introduction to key packages commonly used in the topic modeling diagram shared earlier:</p>
+<p><strong>1. Text Preprocessing</strong></p>
+<ul>
+<li><strong>SnowballC</strong>&nbsp;– Provides stemming capabilities to reduce words to their root forms, improving consistency in topic modeling.</li>
+</ul>
+<p><strong>2. Topic Modeling Algorithms</strong></p>
+<ul>
+<li><p><strong>topicmodels</strong>&nbsp;– Implements Latent Dirichlet Allocation (LDA) and Correlated Topic Models (CTM) for extracting topics from text data.</p></li>
+<li><p><strong>stm</strong>&nbsp;– Extends LDA by incorporating document metadata (e.g., time, author, demographic variables), allowing for more context-aware topic modeling.</p></li>
+</ul>
+<p><strong>3. Model Selection &amp; Optimization</strong></p>
+<ul>
+<li><strong>ldatuning</strong>&nbsp;– Helps determine the optimal number of topics for LDA models using various evaluation metrics.</li>
+</ul>
+<p><strong>4. Visualization &amp; Interpretation</strong></p>
+<ul>
+<li><strong>LDAvis</strong>&nbsp;– Provides an interactive visualization tool for exploring LDA topic distributions and word associations.</li>
+</ul>
+<section id="your-turn" class="level4">
+<h4 class="anchored" data-anchor-id="your-turn"><strong>👉 Your Turn ⤵</strong></h4>
+<p>Use the code chunk below to load the packages highlighted above:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SnowballC)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(topicmodels)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stm)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ldatuning)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LDAvis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="wrangle" class="level2">
+<h2 class="anchored" data-anchor-id="wrangle">2. WRANGLE</h2>
+<p>As noted previously, data wrangling involves some combination of cleaning, reshaping, transforming, and merging data <span class="citation" data-cites="wickham2023r">(<a href="#ref-wickham2023r" role="doc-biblioref">Wickham, Çetinkaya-Rundel, and Grolemund 2023</a>)</span>. This week we’ll revisit tidying and tokenizing text using the {tidytext} package, but are also introduced to the the {stm} package. This package makes use of {tm} text mining package to preprocess text (e.g., removing punctuation, stop words, etc.) and will also be our first introduction to word stemming.</p>
+<ol type="a">
+<li><strong>Import Data</strong>. We’ll be working with .csv files this week and the <code>read_csv()</code> function and will revisit the argument for changing column types.</li>
+<li><strong>Cast a DTM</strong>. We’ll also revisit the {tidytext} package to “tidy” and tokenize our forum data and introduce the <code>cast_dtm()</code> function to create the document term matrix (dtm) need for topic modeling.</li>
+<li><strong>To Stem or not to STEM?</strong> We conclude our data wrangling by also introducing the <code>textProcessor()</code> function for preprocessing and discuss the pros and cons of word stemming.</li>
+</ol>
+<section id="a.-import-forum-data" class="level3">
+<h3 class="anchored" data-anchor-id="a.-import-forum-data">2a. Import Forum Data</h3>
+<p>To get started, we need to import, or “read”, our data into R. The function used to import your data will depend on the file format of the data you are trying to import. First, however, check your Files tab in RStudio to verify that there is indeed file named <code>ts_forum_data.csv</code> in your <code>data</code> folder.</p>
+<p>Now let’s read our data into our Environment using the <code>read_csv()</code> function and assign it to a variable named <code>ts_forum_data</code> so we can work with it like any other object in R.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ts_forum_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/ts_forum_data.csv"</span>, </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">course_id =</span> <span class="fu">col_character</span>(),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">forum_id =</span> <span class="fu">col_character</span>(), </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">discussion_id =</span> <span class="fu">col_character</span>(), </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">post_id =</span> <span class="fu">col_character</span>()</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                   )</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>By default, many of the columns like <code>course_id</code> and <code>forum_id</code> are read in as numeric data. For our purposes, we plan to treat them as unique identifiers or names for out courses, forums, discussions, and posts. The <code>read_csv()</code> function has a handy <code>col_types =</code> argument changing the column types from numeric to characters.</p>
+<section id="your-turn-1" class="level4">
+<h4 class="anchored" data-anchor-id="your-turn-1"><strong>👉 Your Turn ⤵</strong></h4>
+<p>Use the code chunk below to inspect the data frame you just imported using a function of your choosing and answer the questions that follow:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ts_forum_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5,788 × 14
+   course_id course_name       forum_id forum_name discussion_id discussion_name
+   &lt;chr&gt;     &lt;chr&gt;             &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;         &lt;chr&gt;          
+ 1 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+ 2 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+ 3 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+ 4 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+ 5 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+ 6 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+ 7 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+ 8 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+ 9 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+10 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+# ℹ 5,778 more rows
+# ℹ 8 more variables: discussion_creator &lt;dbl&gt;, discussion_poster &lt;dbl&gt;,
+#   discussion_reference &lt;chr&gt;, parent_id &lt;dbl&gt;, post_date &lt;chr&gt;,
+#   post_id &lt;chr&gt;, post_title &lt;chr&gt;, post_content &lt;chr&gt;</code></pre>
+</div>
+</div>
+<p>In this case study, we are exploring the use of topic modeling to analyze online discussions in an online course for educators. One critical step in preparing data for analysis is creating a codebook, which serves as a reference document that defines each variable in a dataset, including its meaning, format, and potential values.</p>
+<p>In the table, provide a short description for each variable based on what you think the values for each column represent. The fist one has been completed for you:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable Name</th>
+<th>Short Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>course_id</td>
+<td>A unique identifier for the course.</td>
+</tr>
+<tr class="even">
+<td>course_name</td>
+<td>Name of the MOOC-Ed course.</td>
+</tr>
+<tr class="odd">
+<td>forum_id</td>
+<td>Unique identifier for the forum within a course.</td>
+</tr>
+<tr class="even">
+<td>forum_name</td>
+<td>Name of the forum (e.g., specific discussion topics).</td>
+</tr>
+<tr class="odd">
+<td>discussion_id</td>
+<td>Unique identifier for each discussion thread.</td>
+</tr>
+<tr class="even">
+<td>discussion_name</td>
+<td>Title of the discussion thread.</td>
+</tr>
+<tr class="odd">
+<td>discussion_creator</td>
+<td>Unique identifier of the user who started the discussion.</td>
+</tr>
+<tr class="even">
+<td>discussion_poster</td>
+<td>Unique identifier of the user who posted within a discussion.</td>
+</tr>
+<tr class="odd">
+<td>discussion_reference</td>
+<td>ID of the discussion being referenced (if applicable).</td>
+</tr>
+<tr class="even">
+<td>parent_id</td>
+<td>ID of the parent post if this post is a reply.</td>
+</tr>
+<tr class="odd">
+<td>post_date</td>
+<td>Timestamp indicating when the post was made (format: YY/MM/DD HH:MM:SS).</td>
+</tr>
+<tr class="even">
+<td>post_id</td>
+<td>Unique identifier for each forum post.</td>
+</tr>
+<tr class="odd">
+<td>post_title</td>
+<td>Title of the forum post.</td>
+</tr>
+<tr class="even">
+<td>post_content</td>
+<td>Full text of the forum post.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="b.-cast-a-document-term-matrix" class="level3">
+<h3 class="anchored" data-anchor-id="b.-cast-a-document-term-matrix">2b. Cast a Document Term Matrix</h3>
+<p>In this section we’ll revisit some familiar <code>tidytext</code> functions used in Modules 1 &amp; 2 for tidying and tokenizing text and introduce some new functions from the {stm} package for processing text and transforming our data frames into new data structures required for topic modeling.</p>
+<section id="functions-used" class="level4">
+<h4 class="anchored" data-anchor-id="functions-used">Functions Used</h4>
+<p><strong><code>tidytext</code> functions</strong></p>
+<ul>
+<li><code>unnest_tokens()</code> splits a column into tokens</li>
+<li><code>anti_join()</code> returns all rows from x without a match in y and used to remove <code>stop words</code> from out data.</li>
+<li><code>cast_dtm()</code> takes a tidied data frame take and “casts” it into a document-term matrix (dtm)</li>
+</ul>
+<p><strong><code>dplyr</code></strong> <strong>functions</strong></p>
+<ul>
+<li><code>count()</code> lets you quickly count the unique values of one or more variables</li>
+<li><code>group_by()</code> takes a data frame and one or more variables to group by</li>
+<li><code>summarise()</code> creates a summary of data using arguments like sum and mean</li>
+</ul>
+<p><strong><code>stm</code> functions</strong></p>
+<ul>
+<li><code>textProcessor()</code> takes in a vector or column of raw texts and performs text processing like removing punctuation and word stemming.</li>
+<li><code>prepDocuments()</code> performs several corpus manipulations including removing words and renumbering word indices</li>
+</ul>
+</section>
+<section id="tidying-text" class="level4">
+<h4 class="anchored" data-anchor-id="tidying-text">Tidying Text</h4>
+<p>Prior to topic modeling, we have a few remaining steps to tidy our text that hopefully should feel familiar by this point. If you recall from <a href="https://www.tidytextmining.com/tidytext.html">Chapter 1 of Text Mining With R</a>, these preprocessing steps include:</p>
+<ol type="1">
+<li>Transforming our text into “tokens”</li>
+<li>Removing unnecessary characters, punctuation, and whitespace</li>
+<li>Converting all text to lowercase</li>
+<li>Removing stop words such as “the”, “of”, and “to”</li>
+</ol>
+<p>Let’s tokenize our forum text and by using the familiar <code>unnest_tokens()</code> and remove stop words per usual:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>forums_tidy <span class="ot">&lt;-</span> ts_forum_data <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(<span class="at">output =</span> word, <span class="at">input =</span> post_content) <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words, <span class="at">by =</span> <span class="st">"word"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>forums_tidy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 192,159 × 14
+   course_id course_name       forum_id forum_name discussion_id discussion_name
+   &lt;chr&gt;     &lt;chr&gt;             &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;         &lt;chr&gt;          
+ 1 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+ 2 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+ 3 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+ 4 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+ 5 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+ 6 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+ 7 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+ 8 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+ 9 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+10 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+# ℹ 192,149 more rows
+# ℹ 8 more variables: discussion_creator &lt;dbl&gt;, discussion_poster &lt;dbl&gt;,
+#   discussion_reference &lt;chr&gt;, parent_id &lt;dbl&gt;, post_date &lt;chr&gt;,
+#   post_id &lt;chr&gt;, post_title &lt;chr&gt;, word &lt;chr&gt;</code></pre>
+</div>
+</div>
+<p>Now let’s do a quick word count to see some of the most common words used throughout the forums. This should get a sense of what we’re working with and later we’ll need these word counts for creating our document term matrix for topic modeling:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>forums_tidy <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 13,620 × 2
+   word           n
+   &lt;chr&gt;      &lt;int&gt;
+ 1 students    6841
+ 2 data        4365
+ 3 statistics  3103
+ 4 school      1488
+ 5 questions   1470
+ 6 class       1426
+ 7 font        1311
+ 8 span        1267
+ 9 time        1253
+10 style       1150
+# ℹ 13,610 more rows</code></pre>
+</div>
+</div>
+<p>Terms like “students,” “data,” and “class” are about what we would have expected from a course teaching statistics. The term “agree” and “time” however, are not so intuitive and worth a quick look as well.</p>
+</section>
+<section id="your-turn-2" class="level4">
+<h4 class="anchored" data-anchor-id="your-turn-2"><strong>👉 Your Turn ⤵</strong></h4>
+<p>Use the <code>filter()</code> and <code>grepl()</code> functions introduced in <a href="https://sbkellogg.github.io/eci-588/unit-1/unit-1-walkthrough.html#b.-word-search">Module 1. Section 3b</a> to filter for rows in our <code>ts_forum_data</code> data frame that contain a term or terms of your choosing. Select a random sample of 10 posts using the <code>sample_n()</code> function for your term(s) and answer the questions below.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 1
+   post_content                                                                 
+   &lt;chr&gt;                                                                        
+ 1 "In my experience  students rarely find Statistics boring if the data we are…
+ 2 "I too enjoyed the School Census.  I think that this will be really helpful …
+ 3 "My goal for this course is to explore ideas on how to engage students explo…
+ 4 "Dear Awesome Teacher of Statistics  APOLOGIES FOR MULTIPLE POSTING DUE TO S…
+ 5 "It is amazing how quick we can recall things we learned years ago!  I somet…
+ 6 "aggree that integration of statistics into everyday experiences is essentia…
+ 7 "&lt;p style=\\text-indent: -14px;\\\"&gt;  Airport Data     &lt;ol&gt;&lt;li&gt;What learning…
+ 8 "It was an unique opportunity for me and I have learn a lot specifically fro…
+ 9 "Dear all   I am very happy to learn that so many online tools are available…
+10 "At first I was not very interested in the Jane age investigation.  It lacke…</code></pre>
+</div>
+</div>
+<p>Your output should look something like this:</p>
+<p><img src="img/sample-posts.png" class="img-fluid" style="width:100.0%"></p>
+</section>
+<section id="questions" class="level4">
+<h4 class="anchored" data-anchor-id="questions">❓Questions</h4>
+<ol type="1">
+<li><p>What, if anything, do these posts have in common?</p>
+<ul>
+<li>YOUR RESPONSE HERE</li>
+</ul></li>
+<li><p>What topics or themes might be apparent, or do you anticipate emerging, from our topic modeling?</p>
+<ul>
+<li>YOUR RESPONSE HERE</li>
+</ul></li>
+</ol>
+</section>
+<section id="creating-a-document-term-matrix" class="level4">
+<h4 class="anchored" data-anchor-id="creating-a-document-term-matrix">Creating a Document Term Matrix</h4>
+<p>As highlighted in <a href="https://www.tidytextmining.com/dtm.html#cast-dtm">Chapter 5 of Text Mining with R</a>, the {topicmodels} package and the <a href="https://www.tidytextmining.com/topicmodeling.html#latent-dirichlet-allocation">Latent Dirichlet allocation (LDA)</a> algorithm and <code>LDA()</code> function it uses expects document-term matrix as the data input.</p>
+<p>Before we create a our document-term matrix, however, we have an important decision to make:</p>
+<blockquote class="blockquote">
+<p><strong>What do we consider to be a “document” in a MOOC-Ed discussion forum?</strong></p>
+</blockquote>
+<p>For example, we could consider each individual discussion post, or <code>post_id</code> in our data frame, as a document. It might also make sense to combine texts from all posts within each discussion, or <code>disccussion_id</code>, and consider that as our “document” since these posts are often interconnected an build off one another. For now, however, let treat each individual post as a unique document.</p>
+<p>To create our document term matrix, we’ll need to first <code>count()</code> how many times each <code>word</code> occurs in each document, or <code>post_id</code> in our case, like so:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>forums_tidy <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(post_id, word) <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 142,641 × 3
+   post_id word       n
+   &lt;chr&gt;   &lt;chr&gt;  &lt;int&gt;
+ 1 20198   0        226
+ 2 50804   td       196
+ 3 20198   style    184
+ 4 34853   td       150
+ 5 20198   border   145
+ 6 20198   span     128
+ 7 20198   0px      126
+ 8 20198   color    125
+ 9 20198   rgb      124
+10 20198   153      118
+# ℹ 142,631 more rows</code></pre>
+</div>
+</div>
+<p>Once we have created a count of each word contained in a document, we next create a “tidy” matrix that contains one row per post as our original data frame did, but now contains a column for each <code>word</code> in the entire corpus and a value of <code>n</code> for how many times that word occurs in each post.</p>
+<p>Let’s create this document term matrix from our post counts, we’ll use the <code>cast_dtm()</code> function and assign it to the variable <code>forums_dtm</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>forums_dtm <span class="ot">&lt;-</span> forums_tidy <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(post_id, word) <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cast_dtm</span>(post_id, word, n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="your-turn-3" class="level4">
+<h4 class="anchored" data-anchor-id="your-turn-3"><strong>👉 Your Turn ⤵</strong></h4>
+<p>Use the code chunk below to print the <code>forums_dtm</code> object in the console and answer the following question:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(forums_dtm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;&lt;DocumentTermMatrix (documents: 5766, terms: 13620)&gt;&gt;
+Non-/sparse entries: 142641/78390279
+Sparsity           : 100%
+Maximal term length: NA
+Weighting          : term frequency (tf)</code></pre>
+</div>
+</div>
+<ol type="1">
+<li>What “class” of object is <code>forums_dtm</code>?</li>
+<li>How many unique documents and terms are included our matrix?</li>
+<li>Why might there be fewer documents/posts than were in our original data frame?</li>
+<li>What exactly is meant by “sparsity”?</li>
+</ol>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "DocumentTermMatrix"    "simple_triplet_matrix"</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;&lt;DocumentTermMatrix (documents: 5766, terms: 13620)&gt;&gt;
+Non-/sparse entries: 142641/78390279
+Sparsity           : 100%
+Maximal term length: NA
+Weighting          : term frequency (tf)</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="c.-to-stem-or-not-to-stem" class="level3">
+<h3 class="anchored" data-anchor-id="c.-to-stem-or-not-to-stem">2c. To Stem or not to Stem?</h3>
+<p>Next we’ll need to prepare our original data set for structural topic modeling using the <code>textProcessor()</code> function. The {stm} package has a number of features that extend the functionality of the <code>topicmodels</code> package, including an argument for “stemming” words, which <a href="https://direct.mit.edu/tacl/article/doi/10.1162/tacl_a_00099/43370/Comparing-Apples-to-Apple-The-Effects-of-Stemmers">Schofield and Mimno (2016)</a> describe as follows:</p>
+<blockquote class="blockquote">
+<p>Stemming is a popular way to reduce the size of a vocabulary in natural language tasks by conflating words with related meanings. Specifically, stemming aims to convert words with the same “stem” or root (e.g “creative” and “creator”) to a single word type (“create”). Though originally developed in the context of information retrieval (IR) systems, stemmers are now commonly used as a preprocessing step in unsupervised machine learning tasks.</p>
+</blockquote>
+<p>The rationale behind stemming is that it can dramatically reduce the number of words or terms to be modeled, which in theory should help simplify and improve the performance of your model. We’ll explore this assumption a little later in this section.</p>
+<section id="processing-and-stemming-for-stm" class="level4">
+<h4 class="anchored" data-anchor-id="processing-and-stemming-for-stm">Processing and Stemming for STM</h4>
+<p>Like <code>unnest_tokens()</code>, the <code>textProcessor()</code> function includes several useful arguments for processing text like converting text to lowercase and removing punctuation and numbers. I’ve included several of these in the script below along with their defaults used if you do not explicitly specify in your function. Most of these are pretty intuitive and you can learn more by viewing the <code>?textProcessor</code> documentation.</p>
+<p>Let’s go ahead and process our discussion forum <code>post_content</code> in preparation for our structural topic modeling that we’ll introduce later:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">textProcessor</span>(ts_forum_data<span class="sc">$</span>post_content, </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">metadata =</span> ts_forum_data,  </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">lowercase=</span><span class="cn">TRUE</span>, </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">removestopwords=</span><span class="cn">TRUE</span>, </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">removenumbers=</span><span class="cn">TRUE</span>,  </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">removepunctuation=</span><span class="cn">TRUE</span>, </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">wordLengths=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="cn">Inf</span>),</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">stem=</span><span class="cn">TRUE</span>,</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">onlycharacter=</span> <span class="cn">FALSE</span>, </span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">striphtml=</span><span class="cn">TRUE</span>, </span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">customstopwords=</span><span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Building corpus... 
+Converting to Lower Case... 
+Removing punctuation... 
+Removing stopwords... 
+Removing numbers... 
+Stemming... 
+Creating Output... </code></pre>
+</div>
+</div>
+<p>Note that the first argument the <code>textProcessor</code> function expects is the column in our data frame that contains the text to be processed, in our case it’s the column <code>post_content</code>, which is extracted from <code>ts_forum_data</code> the using the <code>$</code> operator.</p>
+<p>The second argument <code>metadata =</code> expects the data frame that contains the text of interest and uses the column names to label the metadata such as course ids and forum names. This meatdata can be used to to improve the assignment of words to topics in a corpus and examine the relationship between topics and various covariates of interest.</p>
+<p>Unlike the <code>unnest_tokens()</code> function, the output is not a nice tidy data frame. Topic modeling using the {stm} package requires a very unique set of inputs that are specific to the package. The following code will pull elements from the <code>temp</code> list that was created, which will be required for the <code>stm()</code> function we’ll use in Section 4:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>meta <span class="ot">&lt;-</span> temp<span class="sc">$</span>meta</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>vocab <span class="ot">&lt;-</span> temp<span class="sc">$</span>vocab</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>docs <span class="ot">&lt;-</span> temp<span class="sc">$</span>documents</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="stemming-tidy-text" class="level4">
+<h4 class="anchored" data-anchor-id="stemming-tidy-text">Stemming Tidy Text</h4>
+<p>Notice that the <code>textProcessor</code> stem argument we used above is set to <code>TRUE</code> by default. We haven’t introduced word stemming at this point because there is some debate about the actual value of this process. Words like “students” and “student” might make sense to collapse into their base word and actually make analyses and visualizations more concise and easier to interpret. <a href="https://smltar.com/stemming.html">Hvitfeldt and Silge (2021)</a> note, however, that words like the following have dramatic differences in meaning, semantics, and use and could result in poor models or misinterpreted results:</p>
+<ul>
+<li>meaning and mean</li>
+<li>likely, like, liking</li>
+<li>university and universe</li>
+</ul>
+<p>The first word pair is particularly relevant to discussion posts from our Teaching Statistics course data. In addition, collapsing words like “teachers” and “teaching” could dramatically alter the results from a topic model.</p>
+<p><a href="https://direct.mit.edu/tacl/article/doi/10.1162/tacl_a_00099/43370/Comparing-Apples-to-Apple-The-Effects-of-Stemmers">Schofield and Mimno (2016)</a> specifically noted that:</p>
+<blockquote class="blockquote">
+<p><em>Despite their frequent use in topic modeling, we find that stemmers produce no meaningful improvement in likelihood and coherence and in fact can degrade topic stability.</em></p>
+</blockquote>
+<p>For now, we will leave as is the <code>forums_dtm</code> we created earlier with words unstemmed, but what if we wanted to stem words in a “tidy” way?</p>
+<p>Since the <code>unnest_tokens()</code> function does not (intentionally I believe) include a stemming function, one approach would be to use the <code>wordStem()</code> function from the <code>snowballC</code> package to either replace our <code>words</code> column with a word stems or create a new variable called <code>stem</code> with our stemmed words using the <code>mutate()</code> function.</p>
+<p>Let’s do the latter and take a look at the original words and the stem that was produced:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>stemmed_forums <span class="ot">&lt;-</span> ts_forum_data <span class="sc">|&gt;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(<span class="at">output =</span> word, <span class="at">input =</span> post_content) <span class="sc">|&gt;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words, <span class="at">by =</span> <span class="st">"word"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">stem =</span> <span class="fu">wordStem</span>(word))</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>stemmed_forums</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 192,159 × 15
+   course_id course_name       forum_id forum_name discussion_id discussion_name
+   &lt;chr&gt;     &lt;chr&gt;             &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;         &lt;chr&gt;          
+ 1 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+ 2 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+ 3 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+ 4 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+ 5 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+ 6 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+ 7 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+ 8 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+ 9 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+10 9         Teaching Statist… 126      Investiga… 6822          Not much compa…
+# ℹ 192,149 more rows
+# ℹ 9 more variables: discussion_creator &lt;dbl&gt;, discussion_poster &lt;dbl&gt;,
+#   discussion_reference &lt;chr&gt;, parent_id &lt;dbl&gt;, post_date &lt;chr&gt;,
+#   post_id &lt;chr&gt;, post_title &lt;chr&gt;, word &lt;chr&gt;, stem &lt;chr&gt;</code></pre>
+</div>
+</div>
+<p>You can see that words like “activity” and “activities” that occur frequently in our discussions have been reduced to the word stem “activ”. If you are interested in learning other approaches for word stemming in R, as well as reading a more in depth description of the stemming process, I highly recommend the <a href="https://smltar.com/stemming.html">Chapter 4 Stemming</a> from Hvitfeldt and Silge (2021) book, <em>Supervised Machine Learning for Text Analysis in R</em>.</p>
+</section>
+<section id="your-turn-4" class="level4">
+<h4 class="anchored" data-anchor-id="your-turn-4"><strong>👉 Your Turn ⤵</strong></h4>
+<p>Complete the following code using what we learned in the section on <a href="#creating-a-document-term-matrix">Creating a Document Term Matrix</a> and answer the questions below:</p>
+<p><strong>Hint:</strong> Make sure your code includes stem counts rather than word counts.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>stemmed_dtm <span class="ot">&lt;-</span> ts_forum_data <span class="sc">|&gt;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(<span class="at">output =</span> word, <span class="at">input =</span> post_content) <span class="sc">|&gt;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(stop_words, <span class="at">by =</span> <span class="st">"word"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">stem =</span> <span class="fu">wordStem</span>(word)) <span class="sc">|&gt;</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">______</span>() <span class="sc">|&gt;</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">______</span>() <span class="sc">|&gt;</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>stemmed_dtm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;&lt;DocumentTermMatrix (documents: 5766, terms: 10001)&gt;&gt;
+Non-/sparse entries: 136185/57529581
+Sparsity           : 100%
+Maximal term length: NA
+Weighting          : term frequency (tf)</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;&lt;DocumentTermMatrix (documents: 5766, terms: 13620)&gt;&gt;
+Non-/sparse entries: 142641/78390279
+Sparsity           : 100%
+Maximal term length: NA
+Weighting          : term frequency (tf)</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10,001 × 2
+   stem         n
+   &lt;chr&gt;    &lt;int&gt;
+ 1 student   7354
+ 2 data      4365
+ 3 statist   4161
+ 4 question  2470
+ 5 teach     1858
+ 6 class     1738
+ 7 school    1606
+ 8 time      1457
+ 9 learn     1372
+10 font      1311
+# ℹ 9,991 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="questions-1" class="level4">
+<h4 class="anchored" data-anchor-id="questions-1">❓Questions</h4>
+<ol type="1">
+<li>How many fewer terms are in our stemmed document term matrix?
+<ul>
+<li>YOUR RESPONSE HERE</li>
+</ul></li>
+<li>Which words were clearly stemmed? Provide 3 examples:
+<ul>
+<li>EXAMPLE 1</li>
+<li>EXAMPLE 2</li>
+<li>EXAMPLE 3</li>
+</ul></li>
+<li>Did stemming words significantly reduce the sparsity of the network?
+<ul>
+<li>YOUR RESPONSE HERE</li>
+</ul></li>
+</ol>
+</section>
+</section>
+</section>
+<section id="model" class="level2">
+<h2 class="anchored" data-anchor-id="model">3. MODEL</h2>
+<p>This module provides our first opportunity (VADER aside) for modeling text as data. In very simple terms, modeling involves developing a mathematical summary of a dataset. These summaries can help us further explore trends and patterns in our data.</p>
+<p>In their book, <em>Learning Analytics Goes to School,</em> Krumm and Means <span class="citation" data-cites="krumm2018">Krumm, Means, and Bienkowski (<a href="#ref-krumm2018" role="doc-biblioref">2018</a>)</span> describe two general types of modeling approaches used in the Data-Intensive Research workflow: unsupervised and supervised learning. In distinguishing between the two, they note:</p>
+<blockquote class="blockquote">
+<p><em><strong>Unsupervised</strong> learning algorithms can be used to understand the structure of one’s dataset. <strong>Supervised</strong> models, on the other hand, help to quantify relationships between features and a known outcome. Known outcomes are also commonly referred to as labels or dependent variables.</em></p>
+</blockquote>
+<p>In Section 3 we focus on Topic Modeling, an unsupervised learning approach to automatically identify topics in a collection of documents. In fact, we’ll explore two different approaches to topic modeling, as well as strategies for identifying the “right” number of topics:</p>
+<ol type="a">
+<li><strong>Fitting a Topic Modeling with LDA</strong>. In this section we learn to use the {topicmodels} package and associated <code>LDA()</code> function for unsupervised classification of our forum discussions to find natural groupings of words, or topics.</li>
+<li><strong>Fitting a Structural Topic Model</strong>. We then explore the use of the {stm} package and <code>stm()</code> function to fit our model and uses metadata about documents to improve the assignment of words to “topics” in a corpus.</li>
+<li><strong>Choosing K.</strong> Finally, we wrap up Section 3 by learning about diagnostic properties like exclusivity, semantic coherence, and heldout likelihood for helping to select an appropriate number of topics.</li>
+</ol>
+<section id="a.-fitting-a-topic-modeling-with-lda" class="level3">
+<h3 class="anchored" data-anchor-id="a.-fitting-a-topic-modeling-with-lda">3a. Fitting a Topic Modeling with LDA</h3>
+<p>Before running our first topic model using the <code>LDA()</code> function, let’s quick recap from our readings some basic principles behind Latent Dirichlet Allocation and why LDA is of preferred over other automatic classification or clustering approaches.</p>
+<p>Unlike simple forms of cluster analysis such as k-means clustering, LDA is a <strong>“mixture” model</strong>, which in our context means that:</p>
+<ol type="1">
+<li><strong>Every <u>document</u> contains a mixture of topics.</strong> Unlike algorithms like k-means, LDA treats each document as a mixture of topics, which allows documents to “overlap” each other in terms of content, rather than being separated into discrete groups. So in practice, this means that a discussion forum post could have an estimated topic proportion of 70% for Topic 1 (e.g.&nbsp;be mostly about a Topic 1), but also be partly about Topic 2.</li>
+<li><strong>Every <u>topic</u> contains a mixture of words.</strong>&nbsp;For example, if we specified in our LDA model just 2 topics for our discussion posts, we might find that one topic seems to be about pedagogy while another is about learning. The most common words in the pedagogy topic might be “teacher”, “strategies”, and “instruction”, while the learning topic may be made up of words like “understanding” and “students”. However, words can be shared between topics and words like “statistics” or “assessment” might appear in both equally.</li>
+</ol>
+<p>Similar to k-means other other simple clustering approaches, however, LDA does require us to specify beforehand a value for <em>k</em>, i.e., the number of topics in our corpus. Selecting <em>k</em> is no trivial matter and can greatly impact your results.</p>
+<p>Since we don’t have a have strong rationale about the number of topics that might exist in discussion forums, let’s use the <code>n_distinct()</code> function from the <code>dplyr</code> package to find the number of unique forum names in our course data and use that as a starting point:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">n_distinct</span>(ts_forum_data<span class="sc">$</span>forum_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 21</code></pre>
+</div>
+</div>
+<p>Since it looks like there are about 20 distinct discussion forums, we’ll use that as our value for the <code>k =</code> argument of the <code>LDA()</code>. Be patient while this runs, since the default setting of is to perform a large number of iterations and can take several minutes to “fit” a model to the data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">n_distinct</span>(ts_forum_data<span class="sc">$</span>forum_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 21</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>forums_lda <span class="ot">&lt;-</span> <span class="fu">LDA</span>(forums_dtm, </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">k =</span> <span class="dv">20</span>,</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">"VEM"</span>,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">seed =</span> <span class="dv">588</span>),</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>                  )</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>forums_lda</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>A LDA_VEM topic model with 20 topics.</code></pre>
+</div>
+</div>
+<p>Note that we used the <code>control =</code> argument to pass a random number (<code>588</code>) to seed the assignment of topics to each word in our corpus. Since LDA is a <a href="https://machinelearningmastery.com/stochastic-in-machine-learning/">stochastic algorithm</a> that could have different results depending on where the algorithm starts, specified a <code>seed</code> for reproducibility and so we’re all seeing the same results every time we specify the same number of topics.</p>
+<p>By default, the <code>LDA()</code> function uses the <code>method =</code> “VEM” (Variational Expectation Maximization) estimation method, which is generally faster and more scalable. However, there is “Gibbs” (Gibbs Sampling) method, which is more accurate but computationally intensive, as well as the “CTM” (Correlated Topic Model) method, a variation of LDA with correlated topics.</p>
+<p>Finally, tying back to our work in Module 1, Chris Bail (2020) notes that topic assignments for each word are updated in an iterative fashion and that LDA employs the Term Frequency-Inverse Document Frequency (TF-IDF) metric to assign probabilities.</p>
+<section id="viewing-topic-terms" class="level4">
+<h4 class="anchored" data-anchor-id="viewing-topic-terms">Viewing Topic Terms</h4>
+<p>Before moving on, let’s view the top 5 words in each topic using the dead simple <code>terms()</code> function. We’ll also send this to the <code>as_tibble()</code> function to make the output a little easier to read:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">terms</span>(forums_lda, <span class="dv">5</span>) <span class="sc">|&gt;</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 20
+  `Topic 1` `Topic 2`  `Topic 3` `Topic 4`  `Topic 5` `Topic 6`  `Topic 7` 
+  &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;     
+1 dice      resources  students  statistics survey    stats      div       
+2 fair      statistics kids      students   time      class      science   
+3 trials    unit       nice      math       minutes   students   statistics
+4 die       teaching   idea      teaching   idea      ap         sharing   
+5 rolls     mooc       standard  teach      class     statistics students  
+# ℹ 13 more variables: `Topic 8` &lt;chr&gt;, `Topic 9` &lt;chr&gt;, `Topic 10` &lt;chr&gt;,
+#   `Topic 11` &lt;chr&gt;, `Topic 12` &lt;chr&gt;, `Topic 13` &lt;chr&gt;, `Topic 14` &lt;chr&gt;,
+#   `Topic 15` &lt;chr&gt;, `Topic 16` &lt;chr&gt;, `Topic 17` &lt;chr&gt;, `Topic 18` &lt;chr&gt;,
+#   `Topic 19` &lt;chr&gt;, `Topic 20` &lt;chr&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="your-turn-5" class="level4">
+<h4 class="anchored" data-anchor-id="your-turn-5"><strong>👉 Your Turn ⤵</strong></h4>
+<p>Use the code chunk below to increase the number of terms associated with each “Topic” and answer the prompt that follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">terms</span>(forums_lda, <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 20
+   `Topic 1`  `Topic 2`  `Topic 3`  `Topic 4`   `Topic 5` `Topic 6`  `Topic 7`  
+   &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;      
+ 1 dice       resources  students   statistics  survey    stats      div        
+ 2 fair       statistics kids       students    time      class      science    
+ 3 trials     unit       nice       math        minutes   students   statistics 
+ 4 die        teaching   idea       teaching    idea      ap         sharing    
+ 5 rolls      mooc       standard   teach       class     statistics students   
+ 6 rolling    ideas      understand school      semester  school     love       
+ 7 unfair     learning   language   level       student   math       http       
+ 8 6          teachers   agree      teachers    worry     teach      mathematics
+ 9 conclusion activities deviation  mathematics sites     college    class      
+10 roll       learn      english    agree       sleep     project    teachers   
+# ℹ 13 more variables: `Topic 8` &lt;chr&gt;, `Topic 9` &lt;chr&gt;, `Topic 10` &lt;chr&gt;,
+#   `Topic 11` &lt;chr&gt;, `Topic 12` &lt;chr&gt;, `Topic 13` &lt;chr&gt;, `Topic 14` &lt;chr&gt;,
+#   `Topic 15` &lt;chr&gt;, `Topic 16` &lt;chr&gt;, `Topic 17` &lt;chr&gt;, `Topic 18` &lt;chr&gt;,
+#   `Topic 19` &lt;chr&gt;, `Topic 20` &lt;chr&gt;</code></pre>
+</div>
+</div>
+<p>As you can see form the output, each “Topic” is essentially a “bag-of-words” that typically occur together across documents. Pick two topics from the table above and use a short phrase or sentence that you think describes the topic.</p>
+<ul>
+<li><p>TOPIC X: YOUR DESCRIPTION HERE</p></li>
+<li><p>TOPIC X: YOUR DESCRIPTION HERE</p></li>
+</ul>
+</section>
+</section>
+<section id="b.-fitting-a-structural-topic-model" class="level3">
+<h3 class="anchored" data-anchor-id="b.-fitting-a-structural-topic-model">3b. Fitting a Structural Topic Model</h3>
+<p>Bail notes that LDA, while perhaps the most common approach to topic modeling, is just one of many different types, including Dynamic Topic Models, Correlated Topic Models, Hierarchical Topic Models, and more recently, Structural Topic Modeling (STM). He argues that one reason STM has risen in popularity and use is that it employs meta data about documents to improve the assignment of words to topics in a corpus and can be used to examine relationships between covariates and documents.</p>
+<p>Also, since Julia Silge has indicated that STM is, “my current favorite implementation of topic modeling in R” and has built supports in the <code>tidytext</code> package for building structural topic models, this package is definitely worth discussing in this case study. I also highly recommend her own case study of the <code>stm</code> package: <a href="https://juliasilge.com/blog/sherlock-holmes-stm/">The game is afoot! Topic modeling of Sherlock Holmes stories</a> as well as her follow up post, <a href="https://juliasilge.com/blog/evaluating-stm/">Training, evaluating, and interpreting topic models</a>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>LLM-Based Approaches to Topic Modeling</strong></p>
+<p>Large Language Models (LLMs), such as GPT-4, BERT, and T5, which leverage deep learning and contextual embeddings, have also emerged as promising approaches for modeling topics within a corpus. Unlike traditional Latent Dirichlet Allocation (LDA), LLM-based topic modeling approaches and libraries such as {<a href="https://maartengr.github.io/BERTopic/index.html"><strong>BERTopic</strong></a>} use pre-trained transformers, embeddings, and clustering techniques to extract meaningful topics.</p>
+</div>
+</div>
+<section id="the-stm-package" class="level4">
+<h4 class="anchored" data-anchor-id="the-stm-package">The <code>stm</code> Package</h4>
+<p>As we’ve seen above, STM uses an unusual <code>temp</code> textProcessor output that is unique to the <code>stm</code> package. And as you’ve probably already guessed, the <code>stm()</code> function for fitting a structural topic model does not take a fairly standard document term matrix like the <code>LDA()</code> function.</p>
+<p>Before we fit our model, we’ll have to extract the elements from the <code>temp</code> object created after we processed our text. Specifically, the <code>stm()</code> function expects the following arguments:</p>
+<ul>
+<li><code>documents =</code> the document term matrix to be modeled in the native stm format</li>
+<li><code>data =</code> an optional data frame containing meta data for the prevalence and/or content covariates to include in the model</li>
+<li><code>vocab =</code> a character vector specifying the words in the corpus in the order of the vocab indices in documents.</li>
+</ul>
+<p>Let’s go ahead and extract these elements:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>docs <span class="ot">&lt;-</span> temp<span class="sc">$</span>documents </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>meta <span class="ot">&lt;-</span> temp<span class="sc">$</span>meta </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>vocab <span class="ot">&lt;-</span> temp<span class="sc">$</span>vocab </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And now use these elements to fit the model using the same number of topics for <em>K</em> that we specified for our LDA topic model. Let’s also take advantage of the fact that we can include the <code>course_id</code> and <code>forum_id</code> covariates in the <code>prevealence =</code> argument to help improve, in theory, our model fit:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>forums_stm <span class="ot">&lt;-</span> <span class="fu">stm</span>(<span class="at">documents=</span>docs, </span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">data=</span>meta,</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">vocab=</span>vocab, </span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">prevalence =</span><span class="sc">~</span> course_id <span class="sc">+</span> forum_id,</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">K=</span><span class="dv">20</span>,</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">max.em.its=</span><span class="dv">25</span>,</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>forums_stm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>A topic model with 20 topics, 5781 documents and a 7820 word dictionary.</code></pre>
+</div>
+</div>
+<p>As noted earlier, the <code>stm</code> package has a number of handy features. One of these is the <code>plot.STM()</code> function for viewing the most probable words assigned to each topic.</p>
+<p>By default, it only shows the first 3 terms so let’s change that to 5 to help with interpretation:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.STM</span>(forums_stm, <span class="at">n =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="tm-3-case-study-key_files/figure-html/plot-stm-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Note that you can also just use the base R <code>plot()</code> function as well:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(forums_stm, <span class="at">n =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="tm-3-case-study-key_files/figure-html/plot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>You should see an output that looks something like the image below:</p>
+<p><img src="img/stm-topics.png" class="img-fluid" style="width:100.0%"></p>
+<p>Let’s break down what we’re seeing:</p>
+<ul>
+<li><p><strong>Title: “Top Topics”</strong></p>
+<ul>
+<li>This indicates that the visualization represents the most prominent topics identified by the STM model.</li>
+</ul></li>
+<li><p><strong>Topic Labels and Keywords</strong></p>
+<ul>
+<li><p>Each topic is listed as <code>Topic X</code>&nbsp;(e.g.,&nbsp;<code>Topic 19</code>,&nbsp;<code>Topic 1</code>, etc.), followed by its <strong>most representative words</strong>.</p></li>
+<li><p>The words are <strong>stemmed</strong> (e.g.,&nbsp;<em>statist</em>&nbsp;→&nbsp;<em>statistics</em>,&nbsp;<em>cours</em>&nbsp;→&nbsp;<em>course</em>), indicating preprocessing steps such as stemming or lemmatization.</p></li>
+<li><p>The keywords reflect the <strong>semantic content</strong>, or “signature,” of each topic and provide a snapshot of what each topic represents.</p></li>
+</ul></li>
+<li><p><strong>Horizontal Bars</strong></p>
+<ul>
+<li><p>Each horizontal bar represents the <strong>expected topic proportion</strong>, i.e., how prevalent each topic is in the corpus, i.e., our entire body of posts.</p></li>
+<li><p>The <strong>longer the bar</strong>, the more dominant the topic is across documents.</p></li>
+</ul></li>
+<li><p><strong>X-Axis: “Expected Topic Proportions”</strong></p>
+<ul>
+<li><p>This represents the proportion of the dataset that each topic occupies.</p></li>
+<li><p>Topics with higher proportions are more frequently discussed in the corpus.</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="your-turn-6" class="level4">
+<h4 class="anchored" data-anchor-id="your-turn-6"><strong>👉 Your Turn ⤵</strong></h4>
+<p>Fit a model for both LDA and STM using different values for K and answer the questions below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># YOUR CODE HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol type="1">
+<li>What topics appear to be similar to those using 20 topics for K?
+<ul>
+<li>YOUR RESPONSE HERE</li>
+</ul></li>
+<li>Knowing that you don’t have as much context as I do, how might you interpret one of these latent topics or themes using the key terms assigned?
+<ul>
+<li>YOUR RESPONSE HERE</li>
+</ul></li>
+<li>What topic emerged that seem dramatically different and how might you interpret this topic?
+<ul>
+<li>YOUR RESPONSE HERE</li>
+</ul></li>
+</ol>
+</section>
+</section>
+<section id="c.-finding-k" class="level3">
+<h3 class="anchored" data-anchor-id="c.-finding-k">3c. Finding <em>K</em></h3>
+<p>As alluded to earlier, selecting the number of topics for your model is a non-trivial decision and can dramatically impact your results. Bail (2018) notes that</p>
+<blockquote class="blockquote">
+<p><em>The results of topic models should not be over-interpreted unless the researcher has strong theoretical apriori about the number of topics in a given corpus, or if the researcher has carefully validated the results of a topic model using both the quantitative and qualitative techniques described above.</em></p>
+</blockquote>
+<p>There are several approaches to estimating a value for K and we’ll take a quick look at one from the {ldatuning} package and one from our <code>stm</code> package.</p>
+<section id="the-findtopicsnumber-function" class="level4">
+<h4 class="anchored" data-anchor-id="the-findtopicsnumber-function">The <code>FindTopicsNumber()</code> Function</h4>
+<p>The {ldatuning} package has functions for both calculating and plotting different metrics that can be used to estimate the most preferable number of topics for LDA model. It also conveniently takes the standard document term matrix object that we created from out tidy text and has the added benefit of running fairly quickly, especially compared to the function for finding <em>K</em> from the {stm} package.</p>
+<p>Let’s use the defaults specified in the <code>?FindTopicNumber</code> documentation and modify slightly get metrics for a sequence of topics from 10-75 counting by 5 and plot the output we saved using the <code>FindTopicsNumber_plot()</code> function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>k_metrics <span class="ot">&lt;-</span> <span class="fu">FindTopicsNumber</span>(</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  forums_dtm,</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">topics =</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">75</span>, <span class="at">by =</span> <span class="dv">5</span>),</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">metrics =</span> <span class="st">"Griffiths2004"</span>,</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"Gibbs"</span>,</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(),</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">mc.cores =</span> <span class="cn">NA</span>,</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">return_models =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">libpath =</span> <span class="cn">NULL</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a><span class="fu">FindTopicsNumber_plot</span>(k_metrics)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that the <code>FindTopicNumbers()</code> function contains three additional metrics for calculating metrics that can be used to estimate the most preferable number of topics for LDA model. We used the Griffiths2004 metrics included in the default example and I’ve also found this to produce the most interpretable results as show in the figure below:</p>
+<p><img src="img/k-metrics.png" class="img-fluid" style="width:100.0%"></p>
+<p>As a general rule of thumb and overly simplistic heuristic, we’re looking for an inflection point in our plot which indicates an optimal number of topics to select for a value of K.</p>
+</section>
+<section id="the-findingk-function" class="level4">
+<h4 class="anchored" data-anchor-id="the-findingk-function">The findingK() Function</h4>
+<p>Finally, Bail (2018) notes that the<code>stm</code> package has a useful function called <code>searchK</code> which allows us to specify a range of values for <code>k</code> and outputs multiple goodness-of-fit measures that are “very useful in identifying a range of values for <code>k</code> that provide the best fit for the data.”</p>
+<p>The syntax of this function is very similar to the <code>stm()</code> function we used above, except that we specify a range for <code>k</code> as one of the arguments. In the code below, we search all values of <code>k</code> between 10 and 30.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>findingk <span class="ot">&lt;-</span> <span class="fu">searchK</span>(docs, </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>                    vocab, </span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">K =</span> <span class="fu">c</span>(<span class="dv">5</span><span class="sc">:</span><span class="dv">15</span>),</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data =</span> meta, </span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">verbose=</span><span class="cn">FALSE</span>)</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(findingk)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Computationally Intensive!</strong></p>
+<p>Note that running the <code>searchK()</code> function on this corpus took all night on a pretty powerful MacBook Pro and crashed once as well, so I do not expect you to run this for the case study.</p>
+</div>
+</div>
+<p>After a couple iterations <code>searchK()</code> landed on between 5 and 15 with an optimal number of topics somewhere around 14:</p>
+<p><img src="img/searchk_results.png" class="img-fluid" style="width:90.0%"></p>
+<p>Given the somewhat conflicting results – also somewhat selfishly and for the same of simplicity for this case study – I’m just going to stick with the rather arbitrary selection of 20 topics for the remainder of this case study.</p>
+</section>
+<section id="the-ldavis-explorer" class="level4">
+<h4 class="anchored" data-anchor-id="the-ldavis-explorer">The LDAvis Explorer</h4>
+<p>One final tool that I want to introduce from the <code>stm</code> package is the <code>toLDAvis()</code> function which provides a great visualizations for exploring topic and word distributions using <code>LDAvis</code> topic browser:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toLDAvis</span>(<span class="at">mod =</span> forums_stm, <span class="at">docs =</span> docs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required namespace: servr</code></pre>
+</div>
+</div>
+<p>As you can see from the browser screen shot below, our current STM with 20 topics is resulting in a lot of overlap among topics and suggest that 20 may not be an optimal number of topics, as other approaches for finding k also suggests:</p>
+<p><img src="img/ldavis.png" class="img-fluid"></p>
+</section>
+</section>
+</section>
+<section id="explore" class="level2">
+<h2 class="anchored" data-anchor-id="explore">4. EXPLORE</h2>
+<p>Silge and Robinson (2018) note that fitting at topic model is the “easy part.” The hard part is making sense of the model results and that the rest of the analysis involves exploring and interpreting the model using a variety of approaches which we’ll case study in in this section.</p>
+<p>Bail (2018) cautions, however, that:</p>
+<blockquote class="blockquote">
+<p><em>…post-hoc interpretation of topic models is rather dangerous… and can quickly come to resemble the process of “<strong>reading tea leaves</strong>,” or finding meaning in patterns that are in fact quite arbitrary or even random.</em></p>
+</blockquote>
+<section id="a.-exploring-beta-values" class="level3">
+<h3 class="anchored" data-anchor-id="a.-exploring-beta-values">4a. Exploring Beta Values</h3>
+<p>Hidden within this <code>forums_lda</code> topic model object we created are per-topic-per-word probabilities, called β (“beta”). It is the probability of a term (word) belonging to a topic.&nbsp;</p>
+<p>Let’s take a look again at the 5 most likely terms assigned to each topic, i.e.&nbsp;those with the largest β values using the <code>terms()</code> function from the <code>topicmodels</code> package:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">terms</span>(forums_lda, <span class="dv">5</span>) <span class="sc">|&gt;</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 20
+  `Topic 1` `Topic 2`  `Topic 3` `Topic 4`  `Topic 5` `Topic 6`  `Topic 7` 
+  &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;     
+1 dice      resources  students  statistics survey    stats      div       
+2 fair      statistics kids      students   time      class      science   
+3 trials    unit       nice      math       minutes   students   statistics
+4 die       teaching   idea      teaching   idea      ap         sharing   
+5 rolls     mooc       standard  teach      class     statistics students  
+# ℹ 13 more variables: `Topic 8` &lt;chr&gt;, `Topic 9` &lt;chr&gt;, `Topic 10` &lt;chr&gt;,
+#   `Topic 11` &lt;chr&gt;, `Topic 12` &lt;chr&gt;, `Topic 13` &lt;chr&gt;, `Topic 14` &lt;chr&gt;,
+#   `Topic 15` &lt;chr&gt;, `Topic 16` &lt;chr&gt;, `Topic 17` &lt;chr&gt;, `Topic 18` &lt;chr&gt;,
+#   `Topic 19` &lt;chr&gt;, `Topic 20` &lt;chr&gt;</code></pre>
+</div>
+</div>
+<p>Even though we’ve somewhat arbitrarily selected the number of topics for our corpus, some these topics or themes are fairly intuitive to interpret. For example:</p>
+<ul>
+<li><p><strong>Topic 11</strong> (technology, students, software, program, excel) seems to be about students use of technology including software programs like excel;</p></li>
+<li><p><strong>Topic 9</strong> (questions, kids, love, gapminder, sharing) seems to be about the gapminder activity from the MOOC-Ed and kids enjoyment of it; and</p></li>
+<li><p><strong>Topic 18</strong> (data, students, collect, real, sets) seems to be about student collection and use of real world data sets.</p></li>
+</ul>
+<p>Not surprisingly, the <code>tidytext</code> package has a handy function conveniently name <code>tidy()</code> to convert our LDA model to a tidy data frame containing these beta values for each term:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>tidy_lda <span class="ot">&lt;-</span> <span class="fu">tidy</span>(forums_lda)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>tidy_lda</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 272,400 × 3
+   topic term       beta
+   &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt;
+ 1     1 2015  4.61e-267
+ 2     2 2015  1.05e-  3
+ 3     3 2015  4.93e- 42
+ 4     4 2015  1.20e- 63
+ 5     5 2015  2.55e- 30
+ 6     6 2015  7.84e- 35
+ 7     7 2015  8.17e- 33
+ 8     8 2015  6.25e- 33
+ 9     9 2015  1.10e-  4
+10    10 2015  6.75e-  5
+# ℹ 272,390 more rows</code></pre>
+</div>
+</div>
+<p>Obviously, it’s not very easy to interpret what the topics are about from a data frame like this so let’s borrow code again from <a href="https://www.tidytextmining.com/nasa.html?q=beta#interpreting-the-topic-model">Chapter 8.4.3 Interpreting the topic model</a> in Text Mining with R to examine the top 5 terms for each topic and then look at this information visually:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>top_terms <span class="ot">&lt;-</span> tidy_lda <span class="sc">|&gt;</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(topic) <span class="sc">|&gt;</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(beta, <span class="at">n =</span> <span class="dv">5</span>, <span class="at">with_ties =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(topic, <span class="sc">-</span>beta)</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>top_terms <span class="sc">|&gt;</span></span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">term =</span> <span class="fu">reorder_within</span>(term, beta, topic)) <span class="sc">|&gt;</span></span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(topic, term) <span class="sc">|&gt;</span>    </span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(beta)) <span class="sc">|&gt;</span>  </span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(beta, term, <span class="at">fill =</span> <span class="fu">as.factor</span>(topic))) <span class="sc">+</span></span>
+<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_reordered</span>() <span class="sc">+</span></span>
+<span id="cb50-15"><a href="#cb50-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Top 5 terms in each LDA topic"</span>,</span>
+<span id="cb50-16"><a href="#cb50-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="fu">expression</span>(beta), <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb50-17"><a href="#cb50-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> topic, <span class="at">ncol =</span> <span class="dv">4</span>, <span class="at">scales =</span> <span class="st">"free"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="tm-3-case-study-key_files/figure-html/top_terms-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="b.-exploring-gamma-values" class="level3">
+<h3 class="anchored" data-anchor-id="b.-exploring-gamma-values">4b. Exploring Gamma Values</h3>
+<p>Now that we have a sense of the most common words associated with each topic, let’s take a look at the topic prevalence in our MOOC-Ed discussion forum corpus, including the words that contribute to each topic we examined above.</p>
+<p>Also, hidden within our <code>forums_lda</code> topic model object we created are per-document-per-topic probabilities, called γ (“gamma”). This provides the probabilities that each document is generated from each topic, that gamma matrix. We can combine our beta and gamma values to understand the topic prevalence in our corpus, and which words contribute to each topic.</p>
+<p>To do this, we’re going to again borrow some code from the Silge (2018) post, <a href="https://juliasilge.com/blog/evaluating-stm/">Training, evaluating, and interpreting topic models</a>.</p>
+<p>First, let’s create two tidy data frames for our beta and gamma values</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>td_beta <span class="ot">&lt;-</span> <span class="fu">tidy</span>(forums_lda)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>td_gamma <span class="ot">&lt;-</span> <span class="fu">tidy</span>(forums_lda, <span class="at">matrix =</span> <span class="st">"gamma"</span>)</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>td_beta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 272,400 × 3
+   topic term       beta
+   &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt;
+ 1     1 2015  4.61e-267
+ 2     2 2015  1.05e-  3
+ 3     3 2015  4.93e- 42
+ 4     4 2015  1.20e- 63
+ 5     5 2015  2.55e- 30
+ 6     6 2015  7.84e- 35
+ 7     7 2015  8.17e- 33
+ 8     8 2015  6.25e- 33
+ 9     9 2015  1.10e-  4
+10    10 2015  6.75e-  5
+# ℹ 272,390 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>td_gamma</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 115,320 × 3
+   document topic    gamma
+   &lt;chr&gt;    &lt;int&gt;    &lt;dbl&gt;
+ 1 11295        1 0.00196 
+ 2 12711        1 0.000248
+ 3 12725        1 0.0262  
+ 4 12733        1 0.00229 
+ 5 12743        1 0.00777 
+ 6 12744        1 0.00391 
+ 7 12756        1 0.0262  
+ 8 12757        1 0.00289 
+ 9 12775        1 0.00289 
+10 12816        1 0.00289 
+# ℹ 115,310 more rows</code></pre>
+</div>
+</div>
+<p>Next, we’ll adopt Julia’s code wholesale to create a filtered data frame of our <code>top_terms</code>, join this to a new data frame for <code>gamma-terms</code> and create a nice clean table using the <code>kabel()</code> function <code>knitr</code> package:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>top_terms <span class="ot">&lt;-</span> td_beta <span class="sc">|&gt;</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(beta) <span class="sc">|&gt;</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(topic) <span class="sc">|&gt;</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">7</span>, beta) <span class="sc">|&gt;</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span>beta) <span class="sc">|&gt;</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(topic, term) <span class="sc">|&gt;</span></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">terms =</span> <span class="fu">list</span>(term)) <span class="sc">|&gt;</span></span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">terms =</span> <span class="fu">map</span>(terms, paste, <span class="at">collapse =</span> <span class="st">", "</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: `cols` is now required when using `unnest()`.
+ℹ Please use `cols = c(terms)`.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>gamma_terms <span class="ot">&lt;-</span> td_gamma <span class="sc">|&gt;</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(topic) <span class="sc">|&gt;</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">gamma =</span> <span class="fu">mean</span>(gamma)) <span class="sc">|&gt;</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(gamma)) <span class="sc">|&gt;</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(top_terms, <span class="at">by =</span> <span class="st">"topic"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">topic =</span> <span class="fu">paste0</span>(<span class="st">"Topic "</span>, topic),</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">topic =</span> <span class="fu">reorder</span>(topic, gamma))</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>gamma_terms <span class="sc">|&gt;</span></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(topic, gamma, terms) <span class="sc">|&gt;</span></span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>, </span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Topic"</span>, <span class="st">"Expected topic proportion"</span>, <span class="st">"Top 7 terms"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 23%">
+<col style="width: 68%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Topic</th>
+<th style="text-align: right;">Expected topic proportion</th>
+<th style="text-align: left;">Top 7 terms</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Topic 4</td>
+<td style="text-align: right;">0.087</td>
+<td style="text-align: left;">statistics, students, math, teaching, teach, school, level</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Topic 2</td>
+<td style="text-align: right;">0.080</td>
+<td style="text-align: left;">resources, statistics, unit, teaching, mooc, ideas, learning</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Topic 9</td>
+<td style="text-align: right;">0.079</td>
+<td style="text-align: left;">students, questions, understanding, assessment, concepts, test, statistical</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Topic 6</td>
+<td style="text-align: right;">0.078</td>
+<td style="text-align: left;">stats, class, students, ap, statistics, school, math</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Topic 15</td>
+<td style="text-align: right;">0.078</td>
+<td style="text-align: left;">data, students, questions, sets, collect, question, real</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Topic 20</td>
+<td style="text-align: right;">0.070</td>
+<td style="text-align: left;">students, data, task, activity, tasks, question, cycle</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Topic 14</td>
+<td style="text-align: right;">0.064</td>
+<td style="text-align: left;">students, technology, software, time, data, agree, real</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Topic 13</td>
+<td style="text-align: right;">0.059</td>
+<td style="text-align: left;">questions, question, students, answer, answers, correct, results</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Topic 8</td>
+<td style="text-align: right;">0.053</td>
+<td style="text-align: left;">gapminder, students, videos, td, data, video, site</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Topic 12</td>
+<td style="text-align: right;">0.049</td>
+<td style="text-align: left;">students, school, time, technology, middle, video, student</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Topic 3</td>
+<td style="text-align: right;">0.045</td>
+<td style="text-align: left;">students, kids, nice, idea, standard, understand, language</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Topic 18</td>
+<td style="text-align: right;">0.038</td>
+<td style="text-align: left;">students, sample, size, activity, lesson, data, results</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Topic 17</td>
+<td style="text-align: right;">0.038</td>
+<td style="text-align: left;">students, statistical, quot, span, mind, level, reasoning</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Topic 7</td>
+<td style="text-align: right;">0.033</td>
+<td style="text-align: left;">div, science, statistics, sharing, students, love, http</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Topic 11</td>
+<td style="text-align: right;">0.033</td>
+<td style="text-align: left;">test, td, hypothesis, testing, sample, difference, results</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Topic 19</td>
+<td style="text-align: right;">0.030</td>
+<td style="text-align: left;">data, plots, graph, box, class, median, plot</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Topic 10</td>
+<td style="text-align: right;">0.030</td>
+<td style="text-align: left;">li, href, strong, https, target, _blank, statistics</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Topic 16</td>
+<td style="text-align: right;">0.023</td>
+<td style="text-align: left;">font, style, span, text, normal, 0px, color</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Topic 5</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: left;">survey, time, minutes, idea, class, semester, student</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Topic 1</td>
+<td style="text-align: right;">0.014</td>
+<td style="text-align: left;">dice, fair, trials, die, rolls, rolling, unfair</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>And let’s also compare this to the most prevalent topics and terms from our <code>forums_stm</code> model that we created using the <code>plot()</code> function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(forums_stm, <span class="at">n =</span> <span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="tm-3-case-study-key_files/figure-html/plot_stm-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="c.-reading-the-tea-leaves" class="level3">
+<h3 class="anchored" data-anchor-id="c.-reading-the-tea-leaves">4c. Reading the Tea Leaves</h3>
+<p>Recognizing that topic modeling is best used as a “tool for reading” and provides only an incomplete answer to our overarching, <strong>“How do we quantify what a corpus is about?”</strong>, the results do suggest some potential topics that have emerged, as well as some areas worth following up on.</p>
+<p>Specifically, looking at some of the common clusters of words for the more prevalent topics suggest that some key topics or “latent themes” (renamed in bold) might include:</p>
+<ul>
+<li><strong>Teaching Statistics:</strong> Unsurprising, given the course title, the topics most prevalent in both the <code>forums_stm</code> and <code>forums_lda</code> models contains the terms “teach”, “students”, “statistics”. This could be an “overarching theme” but more likely may simply just be residue from the course title being sprinkled throughout the forums and deserves some follow up. Topics 8 from the LDA model may overlap with this topic as well.</li>
+<li><strong>Course Utility:</strong> The second most prevalent Topics (13 and 2) in the <code>lda</code> and <code>stm</code> models respectively, seem to potentially be about the usefulness of course “resources” like lessons, tools, videos, and activities. I’m wagering this might be a forum dedicated to course feedback. Topic 15 from the STM model also suggest this may be a broader theme.</li>
+<li><strong>Using Real-World Data:</strong> Topics 18 &amp; 12 from the LDA model particularly intrigued me and I’m wagering this is pretty positive sentiment among participants about the value and benefit of having students collect and analyze real data sets (e.g.&nbsp;Census data in Topic 1) and work on projects relevant to their real life. Will definitely follow up on this one.</li>
+<li><strong>Technology Use:</strong> Several topics (6 &amp; 11 from LDA and 8 &amp; 19 from STM) appear to be about student use of technology and software like calculators and Excel for teaching statistics and using simulations. Topic 16 from LDA also suggest the use of the Common Online Data Analysis Platform (<a href="https://codap.concord.org">CODAP</a>).</li>
+<li><strong>Student Struggle &amp; Engagement:</strong> Topic 15 from LDA and Topic 16 from STM also intrigue me and appear to be two opposite sides of perhaps the same coin. The former includes “struggle” and “reading” which suggests perhaps a barrier to teaching statistics while Topic 16 contains top stems like “engage”, “activ”, and “think” and may suggest participants anticipate activities may engage students.</li>
+</ul>
+<p>To serve as a check on my tea leaf reading, I’m going to follow Bail’s recommendation to examine some of these topics qualitatively. The <code>stm</code> package has another useful (though exceptionally fussy) function called <code>findThoughts</code> which extracts passages from documents within the corpus associate with topics that you specify.</p>
+<p>The first line of code may not be necessary for your independent analysis, but because the <code>textProcessor()</code> function removed several documents during processing, the <code>findthoughts()</code> function can’t properly index the processed docs. This <a href="https://stackoverflow.com/questions/43492667/r-stm-number-of-provided-texts-and-number-of-documents-modeled-do-not-match">line of code found on stackoverflow</a> removes documents from original <code>ts_forum_data</code> source that were removed during processing so there is a one-to-one correspondence with <code>forums_stm</code> and so you can use the function to find posts associated with a given topic.</p>
+<p>Let’s slightly reduce our original data set to match our STM model, pass both to the <code>findThoughts()</code> function, and set our arguments to return <code>n =10</code> posts from <code>topics = 2</code> (i.e.&nbsp;Topic 2) that have at least 50% or <code>thresh = 0.5</code> as a minimum threshold for the estimated topic proportion.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>ts_forum_data_reduced <span class="ot">&lt;-</span>ts_forum_data<span class="sc">$</span>post_content[<span class="sc">-</span>temp<span class="sc">$</span>docs.removed]</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="fu">findThoughts</span>(forums_stm,</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">texts =</span> ts_forum_data_reduced,</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">topics =</span> <span class="dv">2</span>, </span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">n =</span> <span class="dv">10</span>,</span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">thresh =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ Topic 2: 
+     Thank you for providing these links and resources. The resources you provided in this MOOC have been very beneficial. I look forward to utilizing them in future lessons.
+    Ronald-  We are glad that you have identied resources that you want to return to. If you do bookmark the urls they are available on the web after the course is closed.
+    Thank you for sharing this resource.  I look forward to exploring it further.
+    My students use iNZight a lot  which is free  and is a less cumbersome  more student-friendly version of R:  https://www.stat.auckland.ac.nz/~wild/iNZight/index.php  The online version is also available:  http://docker.stat.auckland.ac.nz/
+    will download a preview to explore it. Thank you for the recommendation.
+    I would download all pdfs and bookmark sites you might want in the future.
+    Thanks for the info.  I will definitely download many of the resources I liked for future use.  Having a bank of resources for statistics is crucial.
+    I'll add my voice to the chorus of gratitude.  I've already used a couple of the activities presented here in my fall quarter course  and I will definitely bookmark as many of the resources as possible to try to use in the future.  Thank you!
+    Thank you for sharing!  I look forward to using this in my class.
+    Great resource  thanks for sharing!</code></pre>
+</div>
+</div>
+<p>Duplicate posts aside, this <strong>Course Utility</strong> topic returns posts there were expected based on my interpretation of the key terms for Topic 2. It looks like I may have read those tea leaves correctly!</p>
+<p>Now let’s take a look at Topic 16 that we thought might be related to student engagement:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">findThoughts</span>(forums_stm,</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">texts =</span> ts_forum_data_reduced,</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">topics =</span> <span class="dv">16</span>, </span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">n =</span> <span class="dv">10</span>,</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">thresh =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ Topic 16: 
+     Hi Folks   One of the discussions that needs to occur when studying the travel time of walking vs. driving by car vs riding on a school bus is the number of stops the bus must make in order to pick up students.  One of my previous careers was that of a school bus driver.  At each stop I was required to stop the bus  put on the flashing lights  put on the emergency brake  look through all of the mirrors to determine all of the cars had stopped  open the bus door  then pick up the microphone (which could be heard inside and outside of the bus) to tell the students it was now safe to cross the road and enter the bus.  After waiting for all students to get on the bus and take a seat and for the bus monitor to check under the bus and get on the bus again; I would then close the bus door and take off the emergency brake.  Next  I would check all of my mirrors to make sure it was safe pull completely back into the lane of travel and continue on my bus route. All of these actions increased the amount of time it took to get to school.  What is the purpose of this investigation?  I would want to know if the students with the longer travel time to and from school are impacted by the amount of time spent traveling each day.  What are the grades of the students with the longest travel time how do those grades compare to students with the least travel time? What behaviors are exhibited by students in school who spend the most time traveling to and from school? Are they more likely to exhibit behaviors that result in disciplinary referrals? Does travel time negatively impact the academic and behavioral performance of these students in school? On the flip slide  does longer travel time provide the opportunity for students to engage in preferred activities of talking to their friends on the bus or engaging in their electronic device to listen to music or play games and does this provide a beginning and end of the day relaxation experience for the students. Do these students have better grades and less disciplinary referrals?
+    A couple of other thoughts I had on the travel times as I went through the videos:  1. I did ask students about travel time one year and observed an interesting tendency for the very short travel times e.g. 5 minutes  8 minutes  12 minutes  to be reported with higher accuracy than longer travel times e.g. 60 minutes  775 minutes  90 minutes.  2. I wonder about the day-to-day variability that is hidden when students report  as they do here  a \typical\" travel time. I used to walk to university and once I had established that the walk took about 35 minutes  I could speed up or slow down so that my walk time took about 35 minutes every single day  as I would leave home 36 minutes before my first class every day! The point being  that a walk time is likely to be less variable than a car or bus time  as well as being shorter on average.  "
+    In the county system that I teach in  students live several miles away from our rural school.  They can ride a bus for 20 minutes or more before the 1st stop.  Some parents choose to bring their kids to school due to behaviors on buses or lengths of time their child would have to be on a bus.  None of our students walk to school.
+    These machine-generated animations bug me.  Is there any evidence that they are at least a non-issue to students?  I'm so annoyed by the stilted speech and missing limbs that I'd be hard pressed to grapple with fresh content too.
+    Nina   Each state has an average teacher salary  so we're comparing average teacher salaries from state to state. Therefore  each state's average becomes a single value that we're comparing. It doesn't matter that some states are bigger or smaller since it's the average that we're comparing.    If we wanted to get the national average  then yes  we would have to take into account the number of teachers for each state. In that case  we would look at the frequency distribution (each state average and # of teachers) to calculate the overall  or national average.
+    The Statkey home website has a ton of csv files and other formats too.  I haven't tried it  but I bet at least one of the file types would work.&lt;table border=\1\" cellspacing=\"0\" cellpadding=\"1\" width=\"420\"&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt; CSV&lt;/td&gt;&lt;td&gt;Excel&lt;/td&gt;&lt;td&gt;ASCII&lt;/td&gt;&lt;td&gt;  R  &lt;/td&gt;&lt;td&gt;Minitab&lt;/td&gt;&lt;td&gt;Fathom&lt;/td&gt;&lt;td&gt;  JMP&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;   http://www.lock5stat.com/datapage.html        "
+    Beverly   I used the animations with preservice teachers. Since my animation was short and it was their first time watching one we watched it once just for them to laugh at the speech and missing limbs. But after that we watched it again and they took it seriously and it wasn't a problem since they knew it was made from students' real work. Also  a few of the animations in the MOOC of real voices. Do you like those better? Those just take a little longer since you have to get kids to volunteer! :)
+    Hi MIchelle  I too found the Gapminder and the someone named Jane quite compelling. What intrigued me was the variety of approaches each student implemented to answer the question.  Furthermore  I googled the top 20 fave people named Ralph  were Ralph Lauren and Ralph Fiennes.
+    Have you looked at the BrainPop videos?  They are all animations and the students like them so much.  I think student thinking has evolved over the past 10 years.  Ten years ago my students found the Brain Pop videos as annoying as I do.  Now they always want more.  It must be that digital native orientation to life.
+    I just saved the entire page to my documents folder so I could draw on repeatedly next year.</code></pre>
+</div>
+</div>
+<p>It looks like my tea reading was a partially correct for Topic 16, though the results seem to be about a specific “Pepsi challenge” activity conducted with students.</p>
+<p>Finally, let’s look at posts from Topic 3 which we though might be an overarching theme about teaching statistics:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>ts_forum_data_reduced <span class="ot">&lt;-</span>ts_forum_data<span class="sc">$</span>post_content[<span class="sc">-</span>temp<span class="sc">$</span>docs.removed]</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="fu">findThoughts</span>(forums_stm,</span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">texts =</span> ts_forum_data_reduced,</span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">topics =</span> <span class="dv">3</span>, </span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">n =</span> <span class="dv">10</span>,</span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">thresh =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ Topic 3: 
+     I think a crucial thing for students to identify is where the data is coming from and how it was collected. Without knowing the origins of the data is important for students to remain skeptical about how realistic the results are that the data is implying. This mindset is important for students to employ especially when they apply it to their daily lives such as when looking at surveys and data results in newspapers. It's important to look at who collected the data and the reasons behind collecting. This may lead to realization that the people collecting the data may be pushing you towards a certain conclusion.
+    This is an interesting conversation thread. I see the value in exposing students to relevant  serious datasets. Learning to pose questions  clean data  analyze real data  and interpret results in the context of a real problem is one of the most valuable experiences a statistician should undergo. However  many of the real  societally-relevant datasets contain so many variables and observations that a K-12 student would be easily overwhelmed.   Having students collect data on shoe size  or some other 'fun' constructed task would yield a dataset that is much easier to deal with in a classroom setting. Many students might become interested in statistics from such exercises.  How do you think you could make serious  real-world problems accessible to students at all levels?   One possibility would be to take a subset of real-world data  do a bit of data cleaning  and present the subset of data to students. I do believe that many students are motivated by important  relevant problems  but those problems should be presented at an appropriate level.
+    Our textbook also instructs to analyze data with and without outliers.  I think students can then say \Here's what the data indicates\" and then be skeptical and say they are suspicious of certain data points and why and analyze the data without outliers.  That allows our students to think critically and be skeptical  while still being objective.  "
+    I had the aha moment that context is crucial and how data was collected was crucial.
+    I agree with you on the importance of cleaning up data.  Our curriculum in NYS has always been so clean  especially on the state assessments. This always drove me nuts  because it is not very realistic. When students collect their own data  more thought and effort has to go into the data and how to interpret it.  However  this is the direction statistics are going these days.  More of an emphasis on the analyzing of the data  and how to interpret it.
+    I agree! I love the messiness of the data because it gives students a chance to reason critically about how to process the information. This aspect of data analysis is often left out when we provide clean data sets to students  but it is valuable to teach students such skills.
+    If my students were to  utilize the Census at School data I think they would have a hard time posing  questions since there are so many variables to consider.  Once the students had refined a question to investigate   I think it would be challenging for the students to deal with a large messy  data set.  It would be very interesting  to listen to group discussions on how to clean up the data.        I think students would benefit  from dealing with messy data sets that were smaller to gain insight on how to  clean up data in general before working with the Census at School data.  I think scaffolding of leaning prior to using  the Census at School data would be very important.
+    I have to agree here.  I feel that statistics and statisticians can sometimes receive a bad reputation for what we just saw here.  The skewing of data whether intentional or not can really hurt business  politicians etc.  I remember a census group that was hired by Obama while he was running for office.  The census group reported back that he was well in the lead in a certain area.  Some news agency discovered that the census group was mostly young twenty-year-olds  and that they tended to poll people closer to their age  and neglect older voters.  This skewed the data in Obama's favor  and did not give Obama a clear idea of where to campaign.  My point is that good statistics happens all the time  and instances such as this give a bad name for statisticians.  I feel its important to teach students to be skeptic and to really address whether an observation can truly be removed.  As you said  there must be context  context  context!
+    Part of the benefut in using previously collected data bases  is learning about what other people think are  interesting topics for analysis.
+    I really liked the emphasis on recognizing that \clean data\" presented to our students is not real data and we should be aware of the effort involved in designing appropriate studies to collect data not just analyze data sets. "</code></pre>
+</div>
+</div>
+<p>Looking at just the 10 posts returned, perhaps a better name for this topic would be <strong>Course Reflections on Teaching Statistics</strong>.</p>
+<section id="key-takeaways" class="level4">
+<h4 class="anchored" data-anchor-id="key-takeaways">Key Takeaways</h4>
+<p>In addition to some useful R packages and functions for the actual process of topic modeling, hopefully there are two main lessons I’m hoping you take away from this case study:</p>
+<ol type="1">
+<li><strong>Topic modeling requires a lot of decisions.</strong> Beyond deciding on a value for K, there are a number of key decisions that you have to make that can dramatically affect your results. For example, to stem or not to stem? What qualifies as a document? What flavor of topic modeling is best suited to your data and research questions? How many iterations should you run?</li>
+<li><strong>Topic modeling is as much art as (data) science.</strong> As Bail (2018) noted, the term “topic” is somewhat ambitious, and topic models do not produce highly nuanced classification of texts. Once you’ve fit your model, interpreting your model requires some mental gymnastics and ideally some knowledge of the context from which the data came to help with interpretation of your topics. Moreover, the quantitative approaches for making the decisions highlighted above are imperfect and a good deal of human judgment required.</li>
+</ol>
+</section>
+<section id="your-turn-7" class="level4">
+<h4 class="anchored" data-anchor-id="your-turn-7"><strong>👉 Your Turn ⤵</strong></h4>
+<p>Using the STM model you fit in Section 3 with a different value for K, use the approaches demonstrated in Section 4 to explore and interpret your topics and terms and answer the question below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co"># YOUR CODE HERE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="communicate" class="level2">
+<h2 class="anchored" data-anchor-id="communicate">5. COMMUNICATE</h2>
+<p>Recall that the final(ish) step in our workflow/process is sharing the results of analysis with wider audience. Krumm et al.&nbsp;(2018) outlined the following 3-step process for communicating with education stakeholders what you have learned through analysis:</p>
+<ol type="1">
+<li><strong>Select</strong>. Communicating what one has learned involves selecting among those analyses that are most important and most useful to an intended audience, as well as selecting a form for displaying that information, such as a graph or table in static or interactive form, i.e.&nbsp;a “data product.”</li>
+<li><strong>Polish</strong>. After creating initial versions of data products, research teams often spend time refining or polishing them, by adding or editing titles, labels, and notations and by working with colors and shapes to highlight key points.</li>
+<li><strong>Narrate</strong>. Writing a narrative to accompany the data products involves, at a minimum, pairing a data product with its related research question, describing how best to interpret the data product, and explaining the ways in which the data product helps answer the research question.</li>
+</ol>
+<p>In this case study, we focused applying some fairly standard topic modeling approaches to help us understand topics that emerged in online discussion forums as part of a online course for statistics educators. Specifically, we made our very first attempt at fitting both LDA and STM topic models to identify the key words .</p>
+<p>For this case study, let’s focus on returning to our research question and communicating our findings to the MOOC-Ed team:</p>
+<blockquote class="blockquote">
+<p>What topics emerged in the discussion forums?</p>
+</blockquote>
+<section id="your-turn-8" class="level4">
+<h4 class="anchored" data-anchor-id="your-turn-8"><strong>👉 Your Turn</strong> <strong>⤵</strong></h4>
+<p>Imagine that your are part of the MOOC-Ed research team responsible for communicating your work to the instructional developers and course facilitators on the team. Based on the analyses conducted in Sections 3 &amp; 4, write a brief summary for three key findings from our topic modeling that you think would be interesting and potentially actionable for the team.</p>
+<ol type="1">
+<li><p>KEY FINDING</p></li>
+<li><p>KEY FINDING</p></li>
+<li><p>KEY FINDING</p></li>
+</ol>
+</section>
+<section id="congratulations" class="level3">
+<h3 class="anchored" data-anchor-id="congratulations">Congratulations!</h3>
+<p>You’ve completed the Module 3 Case Study: Topic Modeling in MOOC-Eds. <strong>To “turn in” your work, you can click the “Render” icon in the menu bar above.</strong> This will create a HTML report in your Files pane that serves as a record of your completed assignment and that can be opened in a browser or shared on the web.</p>
+</section>
+<section id="references" class="level3 unnumbered">
+
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-krumm2018" class="csl-entry" role="listitem">
+Krumm, Andrew, Barbara Means, and Marie Bienkowski. 2018. <em>Learning Analytics Goes to School</em>. Routledge. <a href="https://doi.org/10.4324/9781315650722">https://doi.org/10.4324/9781315650722</a>.
+</div>
+<div id="ref-silge2017text" class="csl-entry" role="listitem">
+Silge, Julia, and David Robinson. 2017. <em>Text Mining with r: A Tidy Approach</em>. " O’Reilly Media, Inc.". <a href="https://www.tidytextmining.com">https://www.tidytextmining.com</a>.
+</div>
+<div id="ref-wickham2023r" class="csl-entry" role="listitem">
+Wickham, Hadley, Mine Çetinkaya-Rundel, and Garrett Grolemund. 2023. <em>R for Data Science</em>. " O’Reilly Media, Inc.". <a href="https://r4ds.hadley.nz">https://r4ds.hadley.nz</a>.
+</div>
+</div></section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

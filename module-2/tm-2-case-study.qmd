@@ -12,8 +12,8 @@ theme:
   dark: cyborg
 editor: visual
 bibliography: lit/references.bib
-execute: 
-  eval: false
+# execute: 
+#   eval: false
 ---
 
 ## 0. INTRODUCTION
