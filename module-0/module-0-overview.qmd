@@ -185,29 +185,109 @@ Yep, a wordcloud, the pie chart of text mining.
 TBD
 :::
 
-## Dictionary-Based Methods
+## Module 2 - Dictionary-Based Methods
 
 ::::: columns
 ::: {.column width="50%"}
-Dictionary-based text analysis uses predefined list of words, or **lexicons**, to assign a particular meaning, value, or category to each word in you data:
+Dictionary-based text analysis[^3] uses predefined list of words, or **lexicons**, to assign a particular meaning, value, or category to each word in you data:
 
+-   Sentiment Lexicons
 -   Custom Dictionaries
 -   Stop Words
--   Sentiment Lexicons
 -   Linguistic Inquiry Word Count (LIWC)
 :::
 
 ::: {.column width="50%"}
+Bing Sentiment Lexicon Example: \
+\
 
-![](img/word-cloud.png)
-
-Yep, a wordcloud, the pie chart of text mining.
+```{r, echo=F, message=FALSE, warning=FALSE}
+library(tidytext)
+library(dplyr)
+library(DT)
+knitr::kable(sample_n(get_sentiments("bing"), 5))
+```
 :::
 :::::
 
+[^3]: . @bail_dictionary. [*Dictionary-Based Text Analysis in* R](https://cbail.github.io/textasdata/dictionary-methods/rmarkdown/Dictionary-Based_Text_Analysis.html). Text as Data.
+
+::: notes
 **Speaker Notes:**
 
 TBD
+:::
+
+## Module 3 - Topic Modeling
+
+::::: columns
+::: {.column width="50%"}
+With a bit of tongue-in-cheek[^4], Meeks and Weingart describe topic modeling as:
+
+> leveraging occult statistical methods like 'dirichlet priors' and 'bayesian models'... to provide seductive but obscure results in the form of easily interpreted (and manipulated) 'topics.'
+:::
+
+::: {.column width="50%"}
+![](img/topic-model.png) \
+:::
+:::::
+
+[^4]: . @vayansky2020review. [*A review of topic modeling methods*.](https://www.sciencedirect.com/science/article/pii/S0306437920300703?casa_token=o9sh0a7PIesAAAAA:_6LdKTPZL8OB8kQpuz9J2zd25PMkQQzZRBpdjREcCjADeUVgRUXVNBsUKYz1xNHetj9sEOH_VA) Information Systems, 94, 101582.
+
+::: notes
+**Speaker Notes:**
+
+TBD
+:::
+
+## Supervised Machine Learning for Text Analysis
+
+::::: columns
+::: {.column width="40%"}
+![](img/smltar.jpeg){fig-align="center" width="500"}
+:::
+
+::: {.column width="60%"}
+Supervised machine learning using text involves building a statistical model to predict some output from input that includes language.[^5] Outputs may be:
+
+-   numeric or continuous, such as predicting the year of a United States Supreme Court opinion from text of that opinion.
+
+-   discrete quantities or class labels, such as predicting whether a GitHub issue is about documentation.
+:::
+:::::
+
+[^5]:  @hvitfeldt2022smltar *Supervised Machine Learning for Text Analysis in R*.
+
+::: notes
+**Speaker Notes:**
+
+TBD
+:::
+
+## Module 4 - Text as Networks
+
+::::: columns
+::: column
+Text data can also be quantified and represented as relational data in the form of networks, as in the case of:
+
+-   **Text Networks** where ***individual words*** are the nodes
+
+-   Epistemic Network Analysis where human or automated ***coded text*** are the nodes
+
+And the edges between them describe the regularity with which they co-occur in documents.
+:::
+
+::: column
+
+[![Network illustrating principals' epistemic frames of characteristics used for the selection of Advanced Teachers. go.ncsu.edu/atr-study](img/ena.png){fig-align="center" width="800"}](https://fi.ncsu.edu/projects/the-selection-and-evaluation-of-advanced-teachers/)
+:::
+:::::
+
+::: notes
+**Speaker Notes:**
+
+TBD
+:::
 
 # Key Terms
 

@@ -543,23 +543,165 @@
           display:block!important;
       }</style></aside>
 <aside><ol class="aside-footnotes"><li id="fn2"><p><span class="citation" data-cites="underwood2013wordcounts">Underwood (<a href="#/references" role="doc-biblioref" onclick="">2013</a>)</span> <a href="https://tedunderwood.com/2013/02/20/wordcounts-are-amazing/">Wordcounts are amazing</a>. The Stone and the Shell.</p></li></ol></aside></section>
-<section id="dictionary-based-methods" class="slide level2">
-<h2>Dictionary-Based Methods</h2>
+<section id="module-2---dictionary-based-methods" class="slide level2">
+<h2>Module 2 - Dictionary-Based Methods</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p>Dictionary-based text analysis uses predefined list of words, or <strong>lexicons</strong>, to assign a particular meaning, value, or category to each word in you data:</p>
+<p>Dictionary-based text analysis<sup>1</sup> uses predefined list of words, or <strong>lexicons</strong>, to assign a particular meaning, value, or category to each word in you data:</p>
 <ul>
+<li>Sentiment Lexicons</li>
 <li>Custom Dictionaries</li>
 <li>Stop Words</li>
-<li>Sentiment Lexicons</li>
 <li>Linguistic Inquiry Word Count (LIWC)</li>
 </ul>
 </div><div class="column" style="width:50%;">
-<p><img data-src="img/word-cloud.png"></p>
-<p>Yep, a wordcloud, the pie chart of text mining.</p>
+<p>Bing Sentiment Lexicon Example:<br>
+<br>
+</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">word</th>
+<th style="text-align: left;">sentiment</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">nourishment</td>
+<td style="text-align: left;">positive</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">fastest-growing</td>
+<td style="text-align: left;">positive</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">stormy</td>
+<td style="text-align: left;">negative</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">inordinately</td>
+<td style="text-align: left;">negative</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">graciousness</td>
+<td style="text-align: left;">positive</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div></div>
+<aside class="notes">
 <p><strong>Speaker Notes:</strong></p>
 <p>TBD</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><ol class="aside-footnotes"><li id="fn3"><p>. <span class="citation" data-cites="bail_dictionary">Bail (<a href="#/references" role="doc-biblioref" onclick="">2017</a>)</span>. <a href="https://cbail.github.io/textasdata/dictionary-methods/rmarkdown/Dictionary-Based_Text_Analysis.html"><em>Dictionary-Based Text Analysis in</em> R</a>. Text as Data.</p></li></ol></aside></section>
+<section id="module-3---topic-modeling" class="slide level2">
+<h2>Module 3 - Topic Modeling</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>With a bit of tongue-in-cheek<sup>1</sup>, Meeks and Weingart describe topic modeling as:</p>
+<blockquote>
+<p>leveraging occult statistical methods like ‘dirichlet priors’ and ‘bayesian models’… to provide seductive but obscure results in the form of easily interpreted (and manipulated) ‘topics.’</p>
+</blockquote>
+</div><div class="column" style="width:50%;">
+<p><img data-src="img/topic-model.png"><br>
+</p>
+</div></div>
+<aside class="notes">
+<p><strong>Speaker Notes:</strong></p>
+<p>TBD</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><ol class="aside-footnotes"><li id="fn4"><p>. <span class="citation" data-cites="vayansky2020review">Vayansky and Kumar (<a href="#/references" role="doc-biblioref" onclick="">2020</a>)</span>. <a href="https://www.sciencedirect.com/science/article/pii/S0306437920300703?casa_token=o9sh0a7PIesAAAAA:_6LdKTPZL8OB8kQpuz9J2zd25PMkQQzZRBpdjREcCjADeUVgRUXVNBsUKYz1xNHetj9sEOH_VA"><em>A review of topic modeling methods</em>.</a> Information Systems, 94, 101582.</p></li></ol></aside></section>
+<section id="supervised-machine-learning-for-text-analysis" class="slide level2">
+<h2>Supervised Machine Learning for Text Analysis</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="img/smltar.jpeg" class="quarto-figure quarto-figure-center" width="500"></p>
+</figure>
+</div>
+</div><div class="column" style="width:60%;">
+<p>Supervised machine learning using text involves building a statistical model to predict some output from input that includes language.<sup>1</sup> Outputs may be:</p>
+<ul>
+<li><p>numeric or continuous, such as predicting the year of a United States Supreme Court opinion from text of that opinion.</p></li>
+<li><p>discrete quantities or class labels, such as predicting whether a GitHub issue is about documentation.</p></li>
+</ul>
+</div></div>
+<aside class="notes">
+<p><strong>Speaker Notes:</strong></p>
+<p>TBD</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><ol class="aside-footnotes"><li id="fn5"><p><span class="citation" data-cites="hvitfeldt2022smltar">Hvitfeldt and Silge (<a href="#/references" role="doc-biblioref" onclick="">2022</a>)</span> <em>Supervised Machine Learning for Text Analysis in R</em>.</p></li></ol></aside></section>
+<section id="module-4---text-as-networks" class="slide level2">
+<h2>Module 4 - Text as Networks</h2>
+<div class="columns">
+<div class="column">
+<p>Text data can also be quantified and represented as relational data in the form of networks, as in the case of:</p>
+<ul>
+<li><p><strong>Text Networks</strong> where <strong><em>individual words</em></strong> are the nodes</p></li>
+<li><p>Epistemic Network Analysis where human or automated <strong><em>coded text</em></strong> are the nodes</p></li>
+</ul>
+<p>And the edges between them describe the regularity with which they co-occur in documents.</p>
+</div><div class="column">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="https://fi.ncsu.edu/projects/the-selection-and-evaluation-of-advanced-teachers/"><img data-src="img/ena.png" class="quarto-figure quarto-figure-center" width="800" alt="Network illustrating principals’ epistemic frames of characteristics used for the selection of Advanced Teachers. go.ncsu.edu/atr-study"></a></p>
+</figure>
+</div>
+<figcaption>Network illustrating principals’ epistemic frames of characteristics used for the selection of Advanced Teachers. go.ncsu.edu/atr-study</figcaption>
+</figure>
+</div>
+</div></div>
+<aside class="notes">
+<p><strong>Speaker Notes:</strong></p>
+<p>TBD</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section></section>
 <section>
 <section id="key-terms" class="title-slide slide level1 center">
@@ -814,14 +956,23 @@
 </a></div><a href="https://www.go.ncsu.edu/laser-institute">
 </a></div><a href="https://www.go.ncsu.edu/laser-institute">
 </a><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list"><a href="https://www.go.ncsu.edu/laser-institute">
-</a><div id="ref-krumm2018" class="csl-entry" role="listitem"><a href="https://www.go.ncsu.edu/laser-institute">
-Krumm, Andrew, Barbara Means, and Marie Bienkowski. 2018. <em>Learning Analytics Goes to School</em>. Routledge. </a><a href="https://doi.org/10.4324/9781315650722">https://doi.org/10.4324/9781315650722</a>.
+</a><div id="ref-bail_dictionary" class="csl-entry" role="listitem"><a href="https://www.go.ncsu.edu/laser-institute">
+Bail, Christopher. 2017. <span>“Dictionary-Based Text Analysis.”</span> </a><a href="https://cbail.github.io/textasdata/dictionary-methods/rmarkdown/Dictionary-Based_Text_Analysis.html" class="uri">https://cbail.github.io/textasdata/dictionary-methods/rmarkdown/Dictionary-Based_Text_Analysis.html</a>.
+</div>
+<div id="ref-hvitfeldt2022smltar" class="csl-entry" role="listitem">
+Hvitfeldt, Emil, and Julia Silge. 2022. <span>“Supervised Machine Learning for Text Analysis in r.”</span> May 11, 2022. <a href="https://smltar.com">https://smltar.com</a>.
+</div>
+<div id="ref-krumm2018" class="csl-entry" role="listitem">
+Krumm, Andrew, Barbara Means, and Marie Bienkowski. 2018. <em>Learning Analytics Goes to School</em>. Routledge. <a href="https://doi.org/10.4324/9781315650722">https://doi.org/10.4324/9781315650722</a>.
 </div>
 <div id="ref-silge2017text" class="csl-entry" role="listitem">
 Silge, Julia, and David Robinson. 2017. <em>Text Mining with r: A Tidy Approach</em>. " O’Reilly Media, Inc.". <a href="https://www.tidytextmining.com">https://www.tidytextmining.com</a>.
 </div>
 <div id="ref-underwood2013wordcounts" class="csl-entry" role="listitem">
 Underwood, Ted. 2013. <span>“Wordcounts Are Amazing.”</span> <em>The Stone and the Shell</em>. <a href="https://tedunderwood.com/2013/02/20/wordcounts-are-amazing/">https://tedunderwood.com/2013/02/20/wordcounts-are-amazing/</a>.
+</div>
+<div id="ref-vayansky2020review" class="csl-entry" role="listitem">
+Vayansky, Ike, and Sathish A. P. Kumar. 2020. <span>“A Review of Topic Modeling Methods.”</span> <em>Information Systems</em> 94: 101582. <a href="https://doi.org/10.1016/j.is.2020.101582">https://doi.org/10.1016/j.is.2020.101582</a>.
 </div>
 </div>
 </section></section>
@@ -1038,6 +1189,44 @@ Underwood, Ted. 2013. <span>“Wordcounts Are Amazing.”</span> <em>The Stone a
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {
