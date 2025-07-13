@@ -1,0 +1,210 @@
+---
+title: "Unit 2 Readings: Dictionary-Based Methods"
+subtitle: "ECI 588: Text Mining in Education"
+author: "Dr. Shaun Kellogg"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 4
+theme:
+  light: simplex
+  dark: cyborg
+editor: visual
+---
+
+## OVERVIEW
+
+The primary goal of the Unit 2 readings and discussion is to develop an understanding of dictionary-based approaches for text analysis, the limitations of these methods, and their applications in educational contexts and beyond. The required and self-selected readings for this week provide an introduction to dictionary-based methods for text classification, with an emphasis on a popular and widely used technique call sentiment analysis. A secondary goal of readings and discussion is to help you start generating ideas for independent analyses and/or your final course project.
+
+## READINGS
+
+To help address our discussion questions for the week, you'll be asked to **read or view 3 resources**, including: 1) a required journal article, 2) an instructor-selected resource, and 3) a self-selected resource such as a journal article, video, news article, podcast, or blog post.
+
+### 1. Required
+
+The article, *Text as data*, is a required read for this week, though you only need to read through Section 5.1 Dictionary-Based Methods. Grimmer and Stewart not only discuss the promises and pitfalls of dictionary methods (pp. 8 - 9), but of automated text analysis more broadly. I also recommend this [video](https://www.youtube.com/watch?v=wSIi2ZRKjaE) and [brief article](https://sicss.io/2019/materials/day3-text-analysis/dictionary-methods/rmarkdown/Dictionary-Based_Text_Analysis.html) by our local computational social scientist, Dr. Chris Bail, at Duke.
+
+1.  Grimmer, J., & Stewart, B. M. (2013). [Text as data: The promise and pitfalls of automatic content analysis methods for political texts](https://moodle-courses2021.wolfware.ncsu.edu/pluginfile.php/1727252/mod_forum/post/1026361/Grimmer_Stewart_2013.pdf). *Political Analysis*, *21*(3), 267–297. doi:10.1093/pan/mps028
+
+### 2. Instructor-Selected Resources (Choose One)
+
+These curated readings and videos offer a broad overview of sentiment analysis and text mining methods, ranging from traditional dictionary-based approaches to cutting-edge machine learning techniques. Bail introduces key concepts of dictionary-based text analysis, while Gupta (2018) argues for the move toward machine learning strategies. Berkowitz and Benoit provide accessible video demonstrations of how to detect sentiment in text, illustrating both the complexities and potential of automated analysis. Shaik et al. and Zhou and Ye place sentiment analysis in an educational research context, highlighting how these methods can yield valuable insights into student experiences and learning outcomes. Finally, the introduction to LIWC and the article by Tausczik and Pennebaker emphasize the psychological dimensions of language, offering a framework for understanding how word choices reflect underlying thoughts and emotions.
+
+1.  Bail, C. (2020). [Dictionary-Based Text Analysis](https://www.youtube.com/watch?v=wSIi2ZRKjaE). YouTube. https://www.youtube.com/watch?v=wSIi2ZRKjaE
+
+2.  Gupta, S. (2018). [Reasons to replace dictionary based text mining with machine learning techniques](https://hackernoon.com/reasons-to-replace-dictionary-based-text-mining-with-machine-learning-techniques-27537835e1bf). https://hackernoon.com/reasons-to-replace-dictionary-based-text-mining-with-machine-learning-techniques-27537835e1bf
+
+3.  Shaik, T., Tao, X., Dann, C., Xie, H., Li, Y., & Galligan, L. (2023). [Sentiment analysis and opinion mining on educational data: A survey](https://www.sciencedirect.com/science/article/pii/S2949719122000036). *Natural Language Processing Journal*, *2*, 100003. https://www.sciencedirect.com/science/article/pii/S2949719122000036
+
+4.  Zhou, J., & Ye, J. M. (2023). [Sentiment analysis in education research: a review of journal publications](https://www.researchgate.net/profile/Jin-Zhou-24/publication/346040805_Sentiment_analysis_in_education_research_a_review_of_journal_publications/links/603f048b4585154e8c72512c/Sentiment-analysis-in-education-research-a-review-of-journal-publications.pdf). *Interactive learning environments*, *31*(3), 1252-1264. https://www.researchgate.net/profile/Jin-Zhou-\
+    24/publication/346040805_Sentiment_analysis_in_education_research_a_review_of_journal_publications\
+    /links/603f048b4585154e8c72512c/Sentiment-analysis-in-education-research-a-review-of-journal-publications.pdf
+
+5.  Berkowitz, R. (2017). [Introduction to sentiment analysis](#0). Retrieved from https://youtu.be/65RP29Jll80
+
+6.  Benoit, K. (2022). [Detecting the Sentiment of Text](https://youtu.be/9TegGBY2PkU?si=BpRNVEJbQsZYVujY). YouTube. https://youtu.be/9TegGBY2PkU?si=BpRNVEJbQsZYVujY
+
+7.  LIWC. (n.d.). [LIWC: How it works](https://www.liwc.app/help/howitworks). Retrieved February 3, 2019, from https://liwc.wpengine.com/how-it-works/
+
+8.  Tausczik, Y. R., & Pennebaker, J. W. (2009). [The psychological meaning of words: LIWC and computerized text analysis methods](https://journals.sagepub.com/doi/abs/10.1177/0261927x09351676?casa_token=kBtqYgaxM_wAAAAA:BabMsE8wSnc-aSfw-B-plutA2JF9H9MW0LFZ1IIG4qS_r2Wfw6w9-bmGGfTCmjMD5pVKYIihH33zgA&casa_token=qilWwaHomqQAAAAA:2z8rzpATHOVxOwCnFXXtjOaIX2LvBqJnWO1WQmmEllkUAllwCmowDcPMo32nAt82fB3ZeTY9n58aHA). Journal of Language and Social Psychology, 29(1), 24–54. http://doi.org/10.1177/0261927x09351676
+
+### 3. Self-Selected Resource
+
+Use the [NCSU Library](#0), [Google Scholar](#0) or search engine of your choice to locate a journal article, presentation, website or other scholarly resource. **Your selection should discuss some form of dictionary-based text mining method and address one or more of the discussion topics/questions provided below**. In addition, you are welcome to find less formal resources such as videos or shorter online articles to share with the class and that help us better understand this week's topics for discussion.
+
+You are also free to choose from one of the curated resources on Sentiment Analysis and LIWC that I've included below.
+
+#### **Sentiment Analysis in Education**
+
+The first article is co-authored by [Tiffany Barnes](https://www.csc.ncsu.edu/people/tmbarnes), professor of Computer Science at NCSU, and provides a nice bridge to our articles on LIWC. The second by faculty at Michigan State University demonstrates the use of sentiment analysis to explore tweets from two education conferences and provides an excellent discussion of some general applications for SA in education. The third artilce is by my colleague, [Josh Rosenberg](https://joshuamrosenberg.com), and ties in with our Unit 2 Case Study. The last three articles show how SA has been applied to teacher evaluation surveys, student writing, and online course discussions respectively.
+
+1.  Crossley, S. A., Mcnamara, D. S., Baker, R. S., Wang, Y., Paquette, L., Barnes, T., & Bergner, Y. (2015). [Language to completion - Success in an educational data mining massive open online class](https://files.eric.ed.gov/fulltext/ED560771.pdf). Presented at the 8th International Conference on Educational Data Mining. https://files.eric.ed.gov/fulltext/ED560771.pdf
+
+2.  Koehler, M. J., Greenhalgh, S., & Zellner, A. (2015). [Potential applications of sentiment analysis in educational research and practice – Is SITE the friendliest conference?](http://matt-koehler.com/publications/koehler_et_al_2015.pdf) (pp. 1–7). <http://matt-koehler.com/publications/koehler_et_al_2015.pdf>
+
+3.  Rosenberg, J. M., Borchers, C., Dyer, E. B., Anderson, D., & Fischer, C. (2021). [Understanding public sentiment about educational reforms: The next generation science standards on Twitter](https://journals.sagepub.com/doi/pdf/10.1177/23328584211024261). *AERA open*, *7*, 23328584211024261. https://journals.sagepub.com/doi/pdf/10.1177/23328584211024261
+
+4.  Munezero, M. , Montero, C. S., Mozgovoy, M., & Sutinen, E. (2013). [Exploiting sentiment analysis to track emotions in students' learning diaries](http://doi.org/10.1145/2526984). Koli Calling. Retrieved from http://doi.org/10.1145/2526984
+
+5.  Rajput, Q., Haider, S., & Ghani, S. (2016). [Lexicon-based sentiment analysis of teachers’ evaluation](http://doi.org/10.1155/2016/2385429). *Applied Computational Intelligence and Soft Computing*, 2016(3), 1–12. http://doi.org/10.1155/2016/2385429
+
+6.  Sigman, B. P., Garr, W., Pongsajapan, R., Selvanadin, M., McWilliams, M., & Bolling, K. (2016). [Visualization of Twitter Data in the Classroom](https://onlinelibrary.wiley.com/doi/abs/10.1111/dsji.12108). *Decision Sciences Journal of Innovative Education*, *14*(4), 362-381. https://onlinelibrary.wiley.com/doi/abs/10.1111/dsji.12108
+
+#### **LIWC in Education**
+
+The last set of articles focus on the use of LIWC. While LIWC is a proprietary tool and there is no official R package for using LIWC -- though the [quanteda package](https://quanteda.io/) does include a LIWC dictionary -- these articles provide some good examples of how LIWC can can be used to provide insight into educational contexts. The first is a very quick demonstration of how LIWC was applied to analyze tweets from high profile ed policy people. The second article demonstrates the use of both LIWC and [Coh-Metrix](#0) to examine the relationship between linguistic features and ratings of student essays while the third how LIWC can be used to predict course performance. The final resource by [Rob Moore](https://education.ufl.edu/faculty/moore-rob/), a former NCSU student and now faculty member at the University of Florida. Obviously a lengthy read but does provide a nice overview LIWC as well as a detailed process for its application in research.  
+
+1.  Petrilli, M. (2015). [What twitter says about the education policy debate](http://educationnext.org/files/ednext_XV_4_what_next.pdf). *Education Next*. http://educationnext.org/files/ednext_XV_4_what_next.pdf
+
+2.  Varner, L. K., Roscoe, R. D., & McNamara, D. S. (2013). [Evaluative misalignment of 10th-grade student and teacher criteria for essay quality: An automated textual analysis](#0). *Journal of Writing Research, 5(1), 35–59.* http://doi.org/10.17239/jowr-2013.05.01.2
+
+3.  Robinson, R. L., Navea, R., & Ickes, W. (2013). [Predicting final course performance from students' written self-introductions: A LIWC analysis(opens in new window)](https://moodle-courses1819.wolfware.ncsu.edu/draftfile.php/39302/user/draft/457985792/Robinson%202013%20Predicting%20final%20course%20performance%20from%20students%20written%20self-introductions%20A%20LIWC%20analysis.pdf). *Journal of Language and Social Psychology*. http://doi.org/10.1177/0261927X13476869
+
+4.  Moore, R. L., Yen, C. J., & Powers, F. E. (2021). [Exploring the relationship between clout and cognitive processing in MOOC discussion forums](https://doi.org/10.1111/bjet.13033). *British Journal of Educational Technology*, *52*(1), 482-497. https://doi.org/10.1111/bjet.13033
+
+## DISCUSSION
+
+In lieu of the peer interaction and discussion of course materials that normally take place "in class", you'll be asked to log in this week and engage with other members of our learning community through the course discussion forum. To help guide our discussions, **we will collectively address a set of guiding questions provided in each forum**. You are also welcome to add your own topics or questions for the class to discuss.
+
+With the exception of the Self-Selected resource, **you are not required to post to every thread or address every question listed below**, particularly if you feel others in the class have thoroughly addressed the topic or questions. Our primary goal for these discussions is to collectively build our understanding of this week's topics through back-and-forth dialogue and avoid a "collective monologue" in which we see 20 variations of the same post.
+
+### Guiding Questions
+
+#### Topic 1: Definitions & Key Terminology
+
+Reflecting on the course text and your self-selected reading, answer one or more of the following questions:
+
+1.  What exactly are "dictionary methods"?
+
+2.  What types of dictionary-based methods were described in your readings?
+
+3.  What are some new terms, words, concepts that you have come across in the resources that were unfamiliar to you, or that you had come across before but feel you have a better understanding of after this week?
+
+#### Topic 2: Applications in Education
+
+Reflecting on the course text and your self-selected reading, answer one or more of the following questions:
+
+1.  How has text mining be applied to educational contexts, or in other fields that might be relevant to education? 
+
+2.  How have/could these methods be applied to better understand and improve student learning and the contexts in which learning occurs?  
+
+3.  How might text mining be applied in your professional context?
+
+4.  How has/could text mining be applied to address systemic issues or persistent problems in Education?
+
+#### Topic 3: Lexicons and Measures
+
+1.  What kinds of dictionaries or lexicons were described in your reading and how are these dictionaries created?
+
+2.  How can lexicons be used to classify, quantify, and/or measure a collection of documents? 
+
+3.  How have/could these lexicons or measures be used to better understand and improve teaching and learning?
+
+4.  Under what conditions or contexts are lexicons and/or associated measures more or less trustworthy?
+
+5.  What lexicon might be useful to create in your own professional context?
+
+#### Topic 4: Affordances, Limitations, & Ethical Issues
+
+Reflecting on the course text and your self-selected reading, answer one or more of the following questions:
+
+1.  What are some of the advantages of dictionary-based approaches compared to approaches we examined in Unit 1?
+
+2.  What are some of the advantages compared to more traditional qualitative approaches to coding, classifying, or labeling text?
+
+3.  What are some of the issues, challenges, and limitations of dictionary-based methods?
+
+#### Topic 5: Text-Based Data Sources
+
+Reflecting on the course text and your self-selected reading, answer one or more of the following questions:
+
+1.  What data sources were described in your readings or selections?
+
+2.  Are some data sources more suitable or appropriate for dictionary-based methods than others?
+
+3.  What data sources in education might be particularly suitable for dictionary-based approaches to analysis?
+
+4.  What sources of data are you interested in potentially exploring for an independent analysis in this Unit or for a final course project?
+
+#### Student-Selected Resources
+
+Provide a brief overview of your self-selected resource that includes the following:
+
+-   APA Citation (note: this can be easily [retrieved via Google Scholar](#0))
+
+-   What was the **purpose** of your article?
+
+-   How were Text Mining methods **defined** and/or characterized?
+
+-   What **data source(s)** were analyzed or discussed?
+
+-   How, if at all, did your article touch upon the **application(s)** of text mining to "understand and improve learning and the contexts in which learning occurs?"
+
+-   Did your selection address any **ethical or legal considerations** of text mining?
+
+## ASSESSMENT
+
+### Grading
+
+Grading for this week is fairly lenient, provided that it's fairly clear from your posts that you've done the required reading. Readings and discussion for each unit are worth 6 points and judged based on three criteria: quantity, quality, and connections to readings.
+
+In term of **quantity** (2 points), you'll be expected to add at least 4 posts over the course of the week and spread across at least two different days. *Your initial post should be shared by Friday* to help facilitate discussion.
+
+In terms of **quality** (2 points), your posts over the next week should provide new or insightful contributions to the division questions or topics (see [Gao's productive online discussion model](https://scholarworks.bgsu.edu/cgi/viewcontent.cgi?article=1040&&context=vcte_pub&&sei-redir=1&referer=https%253A%252F%252Fscholar.google.com%252Fscholar%253Fhl%253Den%2526as_sdt%253D0%25252C34%2526q%253DGao%252Bproductive%252Bonline%252Bdiscussion%252Bmodel%2526btnG%253D#search=%22Gao%20productive%20online%20discussion%20model%22) summarized below). There is no requisite for the length of each posting; in fact short conversational exchanges (1-3 paragraphs) are highly encouraged.
+
+In terms of **connections** (2 points), your collective posts should help us interpret or elaborate on discussion topics, questions, or ideas other have shared by "making connection to the learning materials" as illustrated in Gao's Disposition 1: Discussion to Comprehend. Your posts should tie in to at least 3 different resources.
+
+### Productive Online Discussion Model
+
+#### Disposition 1: Discuss to Comprehend
+
+Actively engage in such cognitive processes as interpretation, elaboration, **making connections to** prior knowledge.
+
+-   Interpreting or elaborating the ideas by making connection to the **learning materials**
+-   Interpreting or elaborating the ideas by making connection to **personal experience**
+-   Interpreting or elaborating the ideas by making connection to other **ideas, sources, or references**
+
+#### Disposition 2: Discuss to Critique
+
+Carefully **examine other people's views**, and be sensitive and analytical to conflicting views.
+
+-   Building or **adding new insights or ideas** to others' posts
+-   **Challenging ideas** in the texts
+-   Challenging ideas **in others' posts**
+
+#### Disposition 3: Discuss to Construct Knowledge
+
+Actively **negotiate meanings**, and be ready to reconsider, refine and sometimes revise their thinking.
+
+-   **Comparing views** from the texts or others' posts
+-   Facilitating thinking and discussions by **raising questions**
+-   Refining and **revising one's own view** based on the texts or others' posts
+
+#### Disposition 4: Discuss to Share Improved Understanding
+
+Actively **synthesize knowledge** and explicitly express improved understanding based on a review of previous discussions.
+
+-   **Summarizing personal learning** experiences of online discussions
+-   **Synthesizing content** of discussion
+-   **Generating new topics** based on a review of previous discussions

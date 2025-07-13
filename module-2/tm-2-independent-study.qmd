@@ -1,0 +1,86 @@
+---
+title: 'Unit 2 Independent Study: Analyzing Sentiment'
+subtitle: "ECI 588: Text Mining in Education "
+author: "Dr. Shaun Kellogg"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+theme:
+  light: simplex
+  dark: cyborg
+editor: visual
+bibliography: lit/references.bib
+---
+
+The final week of each unit is designed to provide you some space for gaining proficiency with R and conducting an independent analysis. Depending on your prior experience with R, there are two assignment options this week:
+
+1.  **Independent Analysis**: For students who have completed ECI 586 or are comfortable with R basics, you will have the option to create a simple "data product" designed to illustrate your ability to apply basic sentiment analysis techniques demonstrated in the case study.
+
+2.  **Datacamp Tutorials**: For students who have not completed ECI 586: Intro to Learning Analytics or would like to dive deeper into Sentiment Analysis using R, you will have the option to complete three Datacamp tutorials focused on the use of the {[qdap](https://trinker.github.io/qdap/)} package for text mining and sentiment analysis in R, and dive deeper into [sentiment analysis the tidyverse way](https://www.tidytextmining.com/sentiment).
+
+## Datacamp Tutorials (R Beginners)
+
+For students new to R, the third week of each unit consists of tutorials for working with R packages and functions used import, wrangle, explore, and model data. The primary goal of these tutorials is to support familiarity and fluency with R syntax and key functions for data analysis.
+
+### Assignment
+
+Your assignment this week is to complete the following Datacamp tutorials:
+
+1.  [**Data Manipulation with dplyr**](https://app.datacamp.com/learn/courses/data-manipulation-with-dplyr). This course introduces the {[dplyr](https://dplyr.tidyverse.org)} package, a essential tool in the [Tidyverse](https://www.tidyverse.org) toolbox for [data transformations](https://r4ds.hadley.nz/data-transform). In this tutorial you'll learn to aggregate data and add, remove, or change variables.
+2.  [**Jumping into Text Mining with Bag-of-Words**](https://app.datacamp.com/learn/courses/text-mining-with-bag-of-words-in-r). This chapter introduces an alternative to the tidy text approach to text mining using the {[qdap](https://trinker.github.io/qdap/)} package and lays the ground work for the using this package for creating a document-term matrix (DTM).
+3.  [**Sentiment Analysis in R**](https://app.datacamp.com/learn/courses/sentiment-analysis-in-r). This course dives deeper into using the {[qdap](https://trinker.github.io/qdap/)} and {[tidytext](https://juliasilge.github.io/tidytext/)} packages for a "bag-of-word" approache to sentiment analysis using predefined dictionaries or lexicons.
+
+### Assessment
+
+This is assignment is worth 6 points and you will receive full credit upon successful completion of each tutorial.
+
+## Independent Analysis (ECI 586 Students or R Users)
+
+For those who completed ECI 586 or are already comfortable with R, you will be required to conducted an independent analysis and create a simple "data product" designed to illustrate key insights about sentiment present in a data set of your choosing.
+
+### Assignment
+
+For your independent analysis, you will demonstrate your ability to formulate a basic research question, wrangle and analyze relational data, and create a simple data product to illustrate key findings. **Your primary goal is to analyze a text-based data** by applying the knowledge and skills acquired from the course readings and case study. Specifically, your assignment this week is to:
+
+1.  **Identity a data source.** I've included the `ccss-tweets.csv` and `ccss-tweets.csv`data files from our case study in a data folder located the Unit 2 Analysis project in our [Posit Cloud ECI 588 Workspace](https://posit.cloud/spaces/597706/join?access_code=weMxPiHe3BsKRsQOtUOnlD9NwbNG3L1G7NsuBanV). You are also welcome to identify your own text-based data source related to an area of personal or professional interest. However, if you choose to use an alternative data source, you will need to specify the context in which it was collected and the audience for whom your analysis intended.
+
+2.  **Formulate a question.** I recommend keeping this simple and limiting to no more than one or two questions. Your question(s) should be appropriate to your data set and ideally be answered by applying concepts and skills from our course readings and case study.
+
+3.  **Analyze the data.** I highly recommend creating a new R script in your project space to use as you work through data wrangling and analysis. Your R script will likely contain code that doesn't make it into your Quarto presentation or report since you will likely experiment with different approaches and figure out code that works and code that does not.
+
+4.  **Create a data product.** When you feel you've wrangled and analyzed the data to your satisfaction, create an Quarto file that includes a polished graph and/or data table and a narrative highlighting your research question, data source, and key findings and potential implications. Your file should include all code necessary to read, wrangle, and explore your data.
+
+5.  **Share your findings.** Render your data product to a desired output format. I recommend using the example data product I've included in the project folder to create an HTML slide deck like [this example](https://sbkellogg.quarto.pub/what-do-teachers-value-about-online-pd/#/title-slide), but you are welcome to experiment with other formats as well.
+
+### Student Examples
+
+To help provide some inspiration for you analysis, here are a few examples form past students:
+
+1.  **Jennifer Houchins**: [Academic Mental Health on Twitter](https://jennhouchins.github.io/Sentiments/SentimentAnalysisinR.html#1) \[[code](https://github.com/jennhouchins/Sentiments)\]
+2.  **Tori Culler**: [NC Goes Back-2-School](https://cullerth.github.io/wk_7_indpndnt_analysis/wk_7_presentation.html#1) \[[code](https://github.com/cullerth/wk_7_indpndnt_analysis/blob/main/wk_7_presentation.Rmd)\]
+3.  **Soraya Campbell**: [Study Abroad and COVID Sentiment](https://sorayaworldwide.github.io/studyabroad_covid19.html#1) \[[code](https://github.com/sorayaworldwide/studyabroadcovid)\]
+
+### Assessment
+
+This assignment is worth a total of 6 points and will be assessed based on the following criteria.
+
+1.  **Polished Graph (2 points).** The graph you selected to share should be visually appealing and help to clearly illustrate for your audience key findings from your analysis.
+
+2.  **Clear Narrative (2 points).** Include slides with bullet points, or a brief narrative, to accompany your visualization and/or table. Your narrative should includes the following:
+
+    -   The question or questions guiding the analysis;
+    -   The conclusions you've reached based on our findings;
+    -   How your audience might use this information;
+    -   How you might revisit or improve upon this analysis in the future.
+
+3.  **Peer Feedback (2 points).** Finally, take look at the posted data products of your peers and provide some brief (1 paragraph) but constructive feedback to at least two of your peers. Your feedback should include one thing you liked about their data product and why and one suggestion for improvement or extension of the analysis.
+
+## Troubleshooting
+
+If you have any questions about the assignment or run into any technical issues, don't hesitate to email me at [sbkellog\@ncsu.edu](#0) or set up a Zoom meeting at [calendly.com/sbkellogg](#0).
+
+I also encourage you to post to the **Questions & Troubleshooting** thread, especially if others might benefit from the response to your question or issue. You are also more than welcome to respond to the questions posted by your peers.
+
+## References
