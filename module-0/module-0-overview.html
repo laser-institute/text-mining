@@ -378,8 +378,9 @@
       }</style></aside>
 </section>
 <section>
-<section id="why-text-mining-and-what-is-text-mining" class="title-slide slide level1 center">
-<h1>Why Text Mining and What is Text Mining?</h1>
+<section id="a-brief-why-and-what" class="title-slide slide level1 center">
+<h1>1. A Brief Why and What</h1>
+<p>Data Sources, Research Opportunities, &amp; Simple Definitions</p>
 <aside class="notes">
 <p><strong>Speaker Notes</strong>:</p>
 <p>TBD</p>
@@ -436,7 +437,7 @@
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<aside><ol class="aside-footnotes"><li id="fn1"><p>Krumm, A., Means, B., &amp; Bienkowski, M. (2018). <a href="https://www.taylorfrancis.com/books/mono/10.4324/9781315650722/learning-analytics-goes-school-andrew-krumm-barbara-means-marie-bienkowski">Learning analytics goes to school: A collaborative approach to improving education.</a> Routledge.</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn1"><p><span class="citation" data-cites="krumm2018">Krumm, Means, and Bienkowski (<a href="#/references" role="doc-biblioref" onclick="">2018</a>)</span> <a href="https://www.taylorfrancis.com/books/mono/10.4324/9781315650722/learning-analytics-goes-school-andrew-krumm-barbara-means-marie-bienkowski">Learning analytics goes to school: A collaborative approach to improving education.</a> Routledge.</p></li></ol></aside></section>
 <section id="what-is-text-mining" class="slide level2">
 <h2>What is Text Mining</h2>
 <p>According to my graduate students…</p>
@@ -506,32 +507,30 @@
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+</section></section>
+<section>
+<section id="ii.-techniques-to-quantify-text" class="title-slide slide level1 center">
+<h1>II. Techniques to Quantify Text</h1>
+<p>Frequency, Dictionaries, Topics, &amp; Networks</p>
 </section>
-<section id="mathematically-based" class="slide level2">
-<h2>Mathematically-Based</h2>
+<section id="module-1-basic-text-analysis" class="slide level2">
+<h2>Module 1 – Basic Text Analysis</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><strong>Network Stats (Describe)</strong></p>
+<p>“… it’s a mistake to imagine that text mining is now in a sort of crude infancy, whose real possibilities will only be revealed after NLP matures… <strong>Wordcounts are amazing!</strong><sup>1</sup></p>
 <ul>
-<li>Size</li>
-<li>Centrality</li>
-<li>Reciprocity</li>
-<li>Density</li>
+<li>Text Preprocessing</li>
+<li>Word Counts</li>
+<li>Term Frequencies</li>
+<li>TF-IDF</li>
 </ul>
 </div><div class="column" style="width:50%;">
-<p><strong>Network Models (Test &amp; Predict)</strong></p>
-<ul>
-<li><p>CONCOR</p></li>
-<li><p>QAP</p></li>
-<li><p>ERGMS</p></li>
-<li><p>Regression</p></li>
-</ul>
+<p><img data-src="img/word-cloud.png"></p>
+<p>Yep, a wordcloud, the pie chart of text mining.</p>
 </div></div>
 <aside class="notes">
 <p><strong>Speaker Notes:</strong></p>
-<p>SNA like other research methods relies on the use of mathematical and/or computational models to succinctly represent the complexity of social relationships.</p>
-<p>Descriptive measures such as size, centrality, reciprocity, and density are used to describe characteristics of individuals or groups in a network and the network as a whole. We’ll explore these measures in Module 2.</p>
-<p>SNA also has a wide range of statistical models tailored to working with relational data for hypothesis testing and building predictive models, which we’ll explore Module 3.</p>
+<p>TBD</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -543,6 +542,24 @@
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+<aside><ol class="aside-footnotes"><li id="fn2"><p><span class="citation" data-cites="underwood2013wordcounts">Underwood (<a href="#/references" role="doc-biblioref" onclick="">2013</a>)</span> <a href="https://tedunderwood.com/2013/02/20/wordcounts-are-amazing/">Wordcounts are amazing</a>. The Stone and the Shell.</p></li></ol></aside></section>
+<section id="dictionary-based-methods" class="slide level2">
+<h2>Dictionary-Based Methods</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Dictionary-based text analysis uses predefined list of words, or <strong>lexicons</strong>, to assign a particular meaning, value, or category to each word in you data:</p>
+<ul>
+<li>Custom Dictionaries</li>
+<li>Stop Words</li>
+<li>Sentiment Lexicons</li>
+<li>Linguistic Inquiry Word Count (LIWC)</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><img data-src="img/word-cloud.png"></p>
+<p>Yep, a wordcloud, the pie chart of text mining.</p>
+</div></div>
+<p><strong>Speaker Notes:</strong></p>
+<p>TBD</p>
 </section></section>
 <section>
 <section id="key-terms" class="title-slide slide level1 center">
@@ -797,8 +814,14 @@
 </a></div><a href="https://www.go.ncsu.edu/laser-institute">
 </a></div><a href="https://www.go.ncsu.edu/laser-institute">
 </a><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list"><a href="https://www.go.ncsu.edu/laser-institute">
-</a><div id="ref-silge2017text" class="csl-entry" role="listitem"><a href="https://www.go.ncsu.edu/laser-institute">
-Silge, Julia, and David Robinson. 2017. <em>Text Mining with r: A Tidy Approach</em>. " O’Reilly Media, Inc.". </a><a href="https://www.tidytextmining.com">https://www.tidytextmining.com</a>.
+</a><div id="ref-krumm2018" class="csl-entry" role="listitem"><a href="https://www.go.ncsu.edu/laser-institute">
+Krumm, Andrew, Barbara Means, and Marie Bienkowski. 2018. <em>Learning Analytics Goes to School</em>. Routledge. </a><a href="https://doi.org/10.4324/9781315650722">https://doi.org/10.4324/9781315650722</a>.
+</div>
+<div id="ref-silge2017text" class="csl-entry" role="listitem">
+Silge, Julia, and David Robinson. 2017. <em>Text Mining with r: A Tidy Approach</em>. " O’Reilly Media, Inc.". <a href="https://www.tidytextmining.com">https://www.tidytextmining.com</a>.
+</div>
+<div id="ref-underwood2013wordcounts" class="csl-entry" role="listitem">
+Underwood, Ted. 2013. <span>“Wordcounts Are Amazing.”</span> <em>The Stone and the Shell</em>. <a href="https://tedunderwood.com/2013/02/20/wordcounts-are-amazing/">https://tedunderwood.com/2013/02/20/wordcounts-are-amazing/</a>.
 </div>
 </div>
 </section></section>
