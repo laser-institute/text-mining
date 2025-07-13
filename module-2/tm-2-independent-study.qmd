@@ -1,6 +1,6 @@
 ---
-title: 'Unit 2 Independent Study: Analyzing Sentiment'
-subtitle: "ECI 588: Text Mining in Education "
+title: 'Analyzing Sentiment'
+subtitle: "Module 2: Independent Study"
 author: "Dr. Shaun Kellogg"
 date: today
 format:
@@ -16,9 +16,9 @@ bibliography: lit/references.bib
 
 The final week of each unit is designed to provide you some space for gaining proficiency with R and conducting an independent analysis. Depending on your prior experience with R, there are two assignment options this week:
 
-1.  **Independent Analysis**: For students who have completed ECI 586 or are comfortable with R basics, you will have the option to create a simple "data product" designed to illustrate your ability to apply basic sentiment analysis techniques demonstrated in the case study.
+1.  **Independent Analysis**: For students who have completed are comfortable with R basics, you will have the option to create a simple "data product" designed to illustrate your ability to apply basic sentiment analysis techniques demonstrated in the case study.
 
-2.  **Datacamp Tutorials**: For students who have not completed ECI 586: Intro to Learning Analytics or would like to dive deeper into Sentiment Analysis using R, you will have the option to complete three Datacamp tutorials focused on the use of the {[qdap](https://trinker.github.io/qdap/)} package for text mining and sentiment analysis in R, and dive deeper into [sentiment analysis the tidyverse way](https://www.tidytextmining.com/sentiment).
+2.  **Datacamp Tutorials**: For students who are new to R or would like to dive deeper into Sentiment Analysis using R, you will have the option to complete three Datacamp tutorials focused on the use of the {[qdap](https://trinker.github.io/qdap/)} package for text mining and sentiment analysis in R, and dive deeper into [sentiment analysis the tidyverse way](https://www.tidytextmining.com/sentiment).
 
 ## Datacamp Tutorials (R Beginners)
 
@@ -36,15 +36,15 @@ Your assignment this week is to complete the following Datacamp tutorials:
 
 This is assignment is worth 6 points and you will receive full credit upon successful completion of each tutorial.
 
-## Independent Analysis (ECI 586 Students or R Users)
+## Independent Analysis (R Users)
 
-For those who completed ECI 586 or are already comfortable with R, you will be required to conducted an independent analysis and create a simple "data product" designed to illustrate key insights about sentiment present in a data set of your choosing.
+For those who are already comfortable with R, you will be required to conducted an independent analysis and create a simple "data product" designed to illustrate key insights about sentiment present in a data set of your choosing.
 
 ### Assignment
 
 For your independent analysis, you will demonstrate your ability to formulate a basic research question, wrangle and analyze relational data, and create a simple data product to illustrate key findings. **Your primary goal is to analyze a text-based data** by applying the knowledge and skills acquired from the course readings and case study. Specifically, your assignment this week is to:
 
-1.  **Identity a data source.** I've included the `ccss-tweets.csv` and `ccss-tweets.csv`data files from our case study in a data folder located the Unit 2 Analysis project in our [Posit Cloud ECI 588 Workspace](https://posit.cloud/spaces/597706/join?access_code=weMxPiHe3BsKRsQOtUOnlD9NwbNG3L1G7NsuBanV). You are also welcome to identify your own text-based data source related to an area of personal or professional interest. However, if you choose to use an alternative data source, you will need to specify the context in which it was collected and the audience for whom your analysis intended.
+1.  **Identity a data source.** I've included the `ccss-tweets.csv` and `ccss-tweets.csv`data files from our case study in a data folder located the Unit 2 Analysis project in our Posit Cloud Workspace. You are also welcome to identify your own text-based data source related to an area of personal or professional interest. However, if you choose to use an alternative data source, you will need to specify the context in which it was collected and the audience for whom your analysis intended.
 
 2.  **Formulate a question.** I recommend keeping this simple and limiting to no more than one or two questions. Your question(s) should be appropriate to your data set and ideally be answered by applying concepts and skills from our course readings and case study.
 
