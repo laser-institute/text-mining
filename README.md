@@ -1,4 +1,4 @@
-<img src="image/textmining.png" width="30%"/>
+<img src="archive/image/textmining.png" width="30%"/>
 
 # Text Mining in STEM Ed Research
 
