@@ -68,7 +68,7 @@ The dataset we'll be using for analysis in this case study is exported as is fro
 
 **Summary of Findings**
 
-Approximately half of the state's educators completed at least one online module by the end of the 2011-12 school year. Overall, most participants agreed that the webinars and modules were relevant to their professional development needs, though some content was redundant with prior PD activities and not always content- or grade-specific, and some modules did not fully address national standards for professional development. Moervoer, most online modules were completed independently and not in Professional Learning Community groups.
+Approximately half of the state's educators completed at least one online module by the end of the 2011-12 school year. Overall, most participants agreed that the webinars and modules were relevant to their professional development needs, though some content was redundant with prior PD activities and not always content- or grade-specific, and some modules did not fully address national standards for professional development. Moreover, most online modules were completed independently and not in Professional Learning Community groups.
 
 A common theme from focus groups and open-ended survey responses was the **convenience** of online professional development. One teacher in a focus group stated, "I liked the format. And the way that it was given, it was at your own pace, which works well for our schedules..." Educators also frequently cited that the **information and resources** provided through the modules improved their understanding of the new standards and the teacher evaluation process. Webinar participants appreciated the useful, updated information presented through a combination of PowerPoint slides and **video clips**.
 
@@ -176,11 +176,11 @@ Now let's read our data into our Environment and assign it to a variable name so
 opd_survey <- read_csv("data/opd_survey.csv")
 ```
 
-Well done! The message not only communcates the number of rows and columns, but also indicates that the `read_csv()` dealt with an issue of duplicate column names for us!!
+Well done! The message not only communicates the number of rows and columns, but also indicates that the `read_csv()` dealt with an issue of duplicate column names for us!!
 
 #### **👉 Your Turn ⤵**
 
-Before moving on, you may have noticed that after runing the code to read in our data, an `opd_survey` object appeared in the Environment tab in the upper right pane of RStudio. Click on the name of the data object to view the imported data and write a few observations about what you see:
+Before moving on, you may have noticed that after running the code to read in our data, an `opd_survey` object appeared in the Environment tab in the upper right pane of RStudio. Click on the name of the data object to view the imported data and write a few observations about what you see:
 
 1.  YOUR RESPONSE HERE
 
