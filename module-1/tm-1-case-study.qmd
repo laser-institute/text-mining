@@ -12,8 +12,8 @@ theme:
   dark: cyborg
 editor: visual
 bibliography: lit/references.bib
-# execute:
-#   eval: false
+execute:
+  eval: false
 ---
 
 ## 0. INTRODUCTION
@@ -226,6 +226,8 @@ Use the code chunk below to give each method a try:
 The `view()` function is a very useful function for displaying a data frame in an interactive spreadsheet-like interface within RStudio. However, it causes issues when rendering Quarto or knitting R Markdown documents because it does not produce an output or modify the environment as expected when rendering documents.
 
 Notice that in the code chunk above that the `eval=FALSE` option as been included in the header. This will prevent Quarto from evaluating this code chunk and including it in the rendered HTML file. If you use the `view()` function in later code chunks, be sure to include this option. Alternatively, you can use the view function directly in the console.
+
+To learn more about Quarto code chunk options, visit: <https://quarto.org/docs/computations/execution-options.html>
 :::
 
 #### Writing Data to your Project Folder
