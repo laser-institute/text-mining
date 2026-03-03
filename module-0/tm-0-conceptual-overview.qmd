@@ -30,7 +30,7 @@ editor: visual
 
 4.  How is text mining **used in STEM education** research?
 
-# 1. A Brief Why and What
+# I. A Brief Why and What
 
 Data Sources, Research Opportunities, & Simple Definitions
 
