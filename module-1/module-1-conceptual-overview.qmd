@@ -1,6 +1,6 @@
 ---
-title: "Intro to Text Mining"
-subtitle: "A Brief Overview"
+title: "Text Mining"
+subtitle: "Text Mining Module 1: A Conceptual Overview"
 format:
   revealjs: 
     slide-number: c/t
