@@ -320,7 +320,7 @@ opd_use <- select(opd_survey, Role, Resource, Q20)
 
 Notice that, like the bulk of tidyverse functions we'll be using throughout our case studies, the first argument that the `select()` function expects is a data frame, which in our case is `opd_survey`. The `select()` function the expects the specific columns you'd like to select.
 
-Another common approach to providing tidyverse functions a data frame is to use the `|>` pipe operator from the {maggitr\] package, which is used to "pipe" inputs and outputs from one function to another. This operator is used so frequently in R, that it has now built into R with the new `|>` pipe operator.
+Another common approach to providing tidyverse functions a data frame is to use the `|>` pipe operator from the `magrittr` package, which is used to "pipe" inputs and outputs from one function to another. This operator is used so frequently in R, that it has now built into R with the new `|>` pipe operator.
 
 Run the following code to select the columns `Role`, `Resource`, and `Q21` columns and assign these columns to a new data frame named `opd_selected`:
 
