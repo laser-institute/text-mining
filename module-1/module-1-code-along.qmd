@@ -1,6 +1,6 @@
 ---
 title: "Prepare and Wrangle"
-subtitle: "Text Mining Module 1: A Code-A-long"
+subtitle: "Text Mining Module 1: A Code-a-long"
 format: 
   revealjs:
     # include-in-header: preview.html
@@ -27,58 +27,34 @@ editor:
 
 ## Welcome to the LAW Code-a-long for Module 1
 
--   Learning Analytics Workflow (LAW) is designed for those seeking an
-    introductory understanding of learning analytics using basic R
-    programming skills, particularly in the context of STEM education
-    research.
+-   The Text Mining course is designed for those seeking an introductory
+    understanding of quantifying the text in documents to better
+    understand their properties
 
--   The following code-a-long is aimed at preparing you for the first
-    section of the case study.
+-   The following code-a-long is a companion to the Module 1 case
+    study's **Prepare** and **Wrangle** stages
 
-![](img/prepare_wflow.png) <br/>
+![Figure 2.2 Steps of Data-Intensive Research
+Workflow](img/workflow.png){alt="Figure 2.2 Steps of Data-Intensive Research Workflow"
+width="60%"}
+
+[@krumm2018]
 
 ::: notes
-**Prepare** for a data-intensive analysis with clear and refined
-research questions with an understanding of where the data came from.
-For example, Krumm et al uses the example surrounding an activity system
-for which the technology was used.
-
-You may ask yourself - Is it for instructional, reward or even a social
-collaborative context? Having that understanding will allow for more
-refined understanding when formulating guiding research questions for
-the analysis. Identify what gets collected and stored by technology is
-important for the development of the research question.
-
-Here you may even refine your research question after having a better
-idea of where the data came from. The question may also be refined and
-redeveloped after you have started the data intensive analysis.
-
-The Learning Analysis Cycle is not a linear process but rather a process
-of phases that can be moved around.
-
-In this code-a-long session, we will concentrate on the "Prepare" phase
-of the Learning Analytics (LA) cycle. Before we delve into that, it's
-essential to gain some context regarding the study that will inform our
-discussions today and over next three modules.
 :::
 
 ## Module Objectives
 
-. . .
+This code-a-long is about getting our text "tidy." By the end of this
+module we will:
 
-By the end of this module:
-
--   Know how to read in the data:
-    -   Learners will be able to identify and describe different types
-        of learning environments, explaining their unique features and
-        applications in educational research.
+-   Understand the context and data sources you're working with so you
+    can formulate useful and answerable questions
 
 . . .
 
--   Characteristics of `Data`:
-    -   Learners will gain proficiency in recognizing and categorizing
-        various data formats commonly used in educational research by
-        the end of this section.
+-    Practice reading, manipulating, cleaning, transforming, and merging
+    text data
 
 . . .
 
@@ -87,515 +63,592 @@ By the end of this module:
 
 ## Context of the Problem
 
-::: {.fragment .fade-in-then-semi-out style="font-size: 50px"}
-Macfadyen, L. P., & Dawson, S. (2010). [Mining LMS data to develop an
-"early warning system" for educators: A proof of
-concept.](https://www.sciencedirect.com/science/article/pii/S0360131509002486?via%3Dihub)
-*Computers & education*, *54*(2), 588-599.
-:::
+-   We are working with open-ended survey data from an evaluation of
+    online professional development offered by the North Carolina
+    Department of Public Instruction
 
-::: {.fragment .fade-in-then-semi-out style="font-size: 30px"}
--   Explores specific online activities of students indicating their
-    academic success.
--   Focused on "early warning systems" in higher education.
--   Research was extracted from course-based instructor tracking logs
-    and the BB Vista production server.
--   Data Sources
--   A **self-report survey** assessing three aspects of students’
-    motivation
--   **Log-trace data,** such as data output from the learning management
-    system (LMS)
--   **Academic achievement data**
--   Discussion board data
-:::
+-   This PD is part of the state's [Race to the
+    Top](https://obamawhitehouse.archives.gov/issues/education/k-12/race-to-the-top)
+    (RttT) efforts
+
+![](img/opd.png){width="40%"}
+
+[2012 Friday Institute Annual
+Report](https://fi.ncsu.edu/resource-library/race-to-the-top-online-professional-development-evaluation-year-1-report/)
 
 ::: {.fragment .fade-in-then-semi-out style="font-size: 30px"}
 Research Questions:
 
--   Which LMS tracking data variables correlate significantly with
-    student achievement?
+-   What aspects of online professional development offerings do
+    teachers find most valuable?
 
--   How accurately can measures of student online activity in an online
-    course site predict student achievement in the course under study?
+-   How might resources differ in the value they afford teachers?
 :::
 
 ::: notes
+The dataset we'll be using for analysis in this case study is exported
+as is from Qualtrics with personal identifiers, select demographics,
+metadata, and closed-ended responses removed.
 :::
 
-# Loading and Installing packages {background="#143156"}
+## Load Libraries
 
-## Load Packages
-
-:::::: columns
-:::: {.column width="45%"}
--   First time using a package
--   Do this ONLY ONCE in the "console"
-
-::: {style="font-size: 50px"}
-```{r eval = FALSE, echo=TRUE, message = FALSE, warning=FALSE}
-#| code-line-numbers: "|2"
-# Install Packages
-install.packages("tidyverse")
-
-```
-:::
-::::
-
-::: {.column width="45%"}
-:::
-::::::
-
-::: notes
-**PACKAGES-TAB**
-
-In order to read in data we must load packages that allow us to read
-data in, like we did in foundation lab 1. Although there are read-in
-capabilities with the `utils package` in base r, we are going to use a
-more modern approach. One of the packages in Tidyverse allows for
-reading in Comma delimiter files, or CSV.
-
-*Reminder if needed - this was discussed in foundation 1* R comes with
-several packages in base r when you start a session. Packages are a
-collection of objects, data sets around a theme or purpose. You may find
-a package whose objects are for the purpose of correlation, like in the
-cor package. Or you may find a package that has objects to produce
-better tables, like in the *kable extra* package. Or you may find a
-package that will help wrangling the data (processing it) easier than in
-Base R package. That is the package we are going to install here
-Tidyverse.
-
-Tidyverse is a suite of packages that share a common philosophy and are
-designed to work together. Think Google products or Microsoft products.
-data importing, data wrangling and plotting.
-:::
-
-## Load Packages
-
-::::::: columns
-:::: {.column width="45%"}
--   First time using a package
--   Do this ONLY ONCE in the "console"
-
-::: {style="font-size: 50px"}
-```{r eval = FALSE, echo=TRUE, message = FALSE, warning=FALSE}
-
-# Install Packages
-install.packages("tidyverse")
-
-
-```
-:::
-::::
-
-:::: {.column width="45%"}
-Your turn **👉 Your Turn** **⤵**
-
-::: {style="font-size: 50px"}
-```{r echo=TRUE}
-# Load tidyverse package 
-#
-#
-
-```
-:::
-
-What is the function to load the tidyverse library?
-::::
-:::::::
-
-## **👉 Your Turn** **⤵** -\> Answer
-
-. . .
-
-::: {style="font-size: 50px"}
-```{r echo=TRUE}
-#| code-line-numbers: "|2"
-# Load tidyverse package 
-library(tidyverse)
-
-```
-:::
-
-If you see [red]{style="color:red;"} it does not always mean error.
-
-# Reading in data {background="#143156"}
-
-## Function
-
-:::: panel-tabset
-## Readr functions
-
-::: {style="font-size: 80px"}
-Common {[readr](https://readr.tidyverse.org)} functions to read in
-different types of data
-:::
-
-![](img/readr_function.png){width="1300"}
-
-## Delimeter
-
-![](img/delimiter.png){fig-align="center" width="1500"}
-::::
-
-::: notes
-**FUNCTIONS-TAB**
-
-Common functions that are included when you read in data are 1. the
-file, we need to give a path to get the data. It should be in the
-working directory.
-
-2.  column names corresponds to variables on the first row. The first
-    row of the input will be used as the column names, and will not be
-    included in the data frame. If FALSE, column names will be generated
-    automatically: X1, X2, X3 etc.
-
-3.  NA corresponds to missing values. commonly you will see capital NA
-    but you may also see quotations or only a period depending on the
-    original database (excel, SAS, STATA etc).
-
-4.  Skip functions allows you to skill to when your data starts.
-
-5.  col_types is not typically needed but good to know. R guesses what
-    type of column types you have when it reads in the file using the
-    default guess_max. This is convenient (and fast), but not robust. If
-    the imputation fails, you'll need to increase the guess_max or
-    supply the correct types yourself.
-
-6.  guess_max if the imputation fails increase the number beyond the
-    1000 default to guess col_types correctly.
-:::
-
-## Using the readr function
-
-:::::: columns
-:::: {.column width="45%" style="font-size: 50px"}
--   Use `read_csv()` function to read in CSV.
-
-::: {style="font-size: 50px"}
-```{r eval = FALSE, echo=TRUE, message = FALSE, warning=FALSE}
-#| code-line-numbers: "|2|5"
-#use read_csv function to read in sci-online-classes.csv rename object to online_classes
-online_classes <- read_csv("data/sci-online-classes.csv")
-
-#use head() function
-knitr::kable(head(online_classes, n=5), format = 'html')
-
-```
-:::
-::::
-
-::: {.column width="45%"}
-:::
-::::::
-
-::: notes
-readr is a quick way to read in comma-separated values (CSV) and
-tab-separated values (TSV)
-
--   We read in from the path. My data is stored in a folder called data.
-    I then use the assignment operator to save it as a new object called
-    online-classes.
--   (instructor is showing how to import from file) a quick way to see
-    where your data file is stored is by clicking on the file under
-    files and then import.
--   PLease note that we do NOT need to set working directory because we
-    opened the projects fiolder. If we just click on the dataframe to
-    open it it will not be connectd to the project.
-
-Having a best practices way to set up your directory will help eleviate
-any confusion on data organization and location.
-:::
-
-## Using the readr function
-
-::::::: columns
-:::: {.column width="45%" style="font-size: 45px"}
--   Use `read_csv()` function to read in CSV.
-
-::: {style="font-size: 50px"}
-```{r eval = FALSE, echo=TRUE, message = FALSE, warning=FALSE}
-
-#use read_csv function to read in sci-online-classes.csv rename object to online_classes
-online_classes <- read_csv("data/sci-online-classes.csv")
-
-#use head() function
-knitr::kable(head(online_classes, n=5), format = 'html')
-
-
-```
-:::
-::::
-
-:::: {.column width="45%" style="font-size: 45px"}
-Your turn **👉 Your Turn** **⤵**
-
-In the corresponding script do the following:
-
--   load in the `readxl` package,
--   load in `"data/csss_tweets.xlsx"` file save to a new object
-    csss_tweets
--   inspect the data by `head()` function
-
-::: {style="font-size: 50px"}
-```{r echo=TRUE, eval=FALSE}
-
-# 1. Install and read in the readxl Package 
-
-# 2. use read_excel() function to read in data.
-csss_tweets <- 
-  
-# 3. use head() function to read 
-head()
-```
-:::
-::::
-:::::::
-
-::: notes
-To read in an excel file we will need to install the readxl package and
-then read in with the read_excel function. We can see that it is an
-excel file with the .xlsx extension.
-:::
-
-## **👉 Your Turn** **⤵** -\> Answer
-
-. . .
-
-::: {style="font-size: 50px"}
-```{r echo=TRUE, message=FALSE, warning=FALSE}
-#| code-line-numbers: "|2|5|8"
-
-#Install and read in the readxl Package 
-library(readxl)
-
-#use read_excel() function to read in data/csss_tweets.xlsx
-csss_tweets <- read_excel("data/csss_tweets.xlsx")#<<
-
-#use head() function to read 
-head(csss_tweets, n = 5)
-
-```
-:::
-
-. . .
-
-::: {style="font-size: 70px"}
-**What did you notice in the printed output?**
-:::
-
-## import Excel Sheet
-
-```{r echo = TRUE, message = FALSE, warning=FALSE}
-#| code-line-numbers: "|1|4|"
-excel_sheets("data/csss_tweets.xlsx") 
-
-
-csss_tweets <- read_excel("data/csss_tweets.xlsx", sheet = "Sheet1")
-
-#use head() function to read 
-head(csss_tweets, n = 5)
-```
-
-::: {style="font-size: 50px"}
-Hint: To learn more about functions for this package type:\
-**?read_excel in the script.**
-:::
-
-::: notes
-You can check what sheets are included in your excel file by calling it
-with the excel_sheets function. Then you can call only that sheet. Our
-data only includes one sheet so we do not really need to use this
-function, but it's good to know.
-
-Don't forget to use the ? in front of a function if you want to know
-more. Do you remember where this information shows up? {ANSWER: Help
-tab}
-:::
-
-## **👉 Your Turn** **⤵**
-
-:::::: columns
-:::: {.column width="45%"}
--   Do the following:
--   load in the `haven` package,
--   load in "data/GPA3.dta" file save to a new object called gpa_dt
--   inspect the data with function of your choice
--   explain what you see
-
-::: {style="font-size: 50px"}
-```{r eval = FALSE, echo=TRUE, message = FALSE, warning=FALSE}
-#| code-line-numbers: "|1|3|6"
-# 1. Install and read in the haven function 
-
-# 2. use read_excel() function to read in data/GPA3.dta
-gpa_dt <- 
-  
-# 3. Inspect the data
-head()
-```
-:::
-::::
-
-::: {.column width="45%"}
-:::
-::::::
-
-## **👉 Your Turn** **⤵**
-
-::::::: columns
-:::: {.column width="45%"}
--   Do the following:
--   load in the `haven` package,
--   load in "data/GPA3.dta" file save to a new object called gpa_dt
--   inspect the data with function of your choice
--   explain what you see
-
-::: {style="font-size: 50px"}
-```{r eval = FALSE, echo=TRUE, message = FALSE, warning=FALSE}
-
-# 1. Install and read in the haven function 
-
-# 2. use read_dta() function to read in data/GPA3.dta
-gpa_dt <- 
-  
-# 3. Inspect the data
-head()
-
-```
-:::
-::::
-
-:::: {.column width="45%"}
-**👉 Your Turn** **⤵** -\> Answer
-
-::: {style="font-size: 50px"}
-```{r echo=TRUE}
-#| code-line-numbers: "|2|5|8"
-# 1. Install and read in the haven function 
-library(haven)
-
-# 2. use read_dta() function to read in data/GPA3.dta
-gpa_dt <- read_dta("data/GPA3.dta")
-  
-# 3. Inspect the data
-head(gpa_dt, n=3)
-```
-:::
-::::
-:::::::
-
-## Joins Overview
-
-::::::::: panel-tabset
-### Mock Data
+:::::: panel-tabset
+## Key Packages
 
 ::::: columns
-::: {.column width="45%"}
-Let's create Mock Data Generation
-
-```{r echo=TRUE}
-# Create mock data
-students <- data.frame(
-  student_id = c(1, 2, 3, 4),
-  name = c("Alice", "Bob", "Charlie", "David"),
-  major = c("Math", "Physics", "Biology", "Computer Science")
-)
-students
-
-
-```
+::: {.column width="50%"}
+![](img/tidyverse.png){width="30%"}
 :::
 
-::: {.column width="45%"}
-<br/> <br/>
-
-```{r echo=TRUE}
-scores <- data.frame(
-  student_id = c(1, 2, 3, 5),
-  score = c(85, 90, 75, 80)
-)
-scores
-```
+::: {.column width="50%"}
+![](img/tidytext.png){width="30%"}
 :::
 :::::
 
-::: notes
-We are creating two mock data frames: students and scores. These data
-frames will help us demonstrate different types of joins in R.
-:::
+## Your Turn
 
-### Inner join
+-   Load the `tidyverse` and `tidytext` packages using `library()`
 
-```{r echo=TRUE}
-# Inner join: Returns rows that have matching values in both tables
-inner_join_result <- inner_join(students, scores, by = "student_id")
-inner_join_result
-```
-
-::: notes
-An inner join returns rows that have matching values in both tables.
-Only students present in both data frames are included in the result.
-:::
-
-### Left join
+## Answer
 
 ```{r echo=TRUE}
-# Left join: Returns all rows from the left table, and the matched rows from the right table. If there is no match, the result is NA.
-left_join_result <- left_join(students, scores, by = "student_id")
-left_join_result
+library(tidyverse)
+library(tidytext)
 ```
+::::::
 
 ::: notes
-A left join returns all rows from the left table (students), and the
-matched rows from the right table (scores). If there is no match, the
-result is NA for the missing values.
+The `tidytext` package helps to convert text into data frames with each
+rows containing an individual word or sequence of words, making it easy
+to to manipulate, summarize, and visualize text using using familiar
+functions form the `tidyverse` collection of packages
+
+Don't worry if you saw a number of messages: those probably mean that
+the tidyverse loaded just fine. Any conflicts you may have seen mean
+that functions in these packages you loaded have the same name as
+functions in other packages and R will default to function from the last
+loaded package unless you specify otherwise.
 :::
 
-### Right join
+## Wrangling Text Data
+
+-   Data wrangling is essential because it involves the initial steps of
+    going from raw data to a dataset that can be explored and modeled
+    [@krumm2018]. Text mining is no exception. Today we will:
+
+a.  **Read raw data**. Before working with data, we need to "read" it
+    into R. It also helps to inspect your data and we'll review
+    different functions for doing so
+b.  **Reduce the data**. We focus on tools from the `dplyr` package to
+    `view`, `rename`, `select`, `slice`, and `filter` our data in
+    preparation for analysis
+c.  **Tidy text**. We'll learn how to use the `tidytext` package to both
+    "tidy" and tokenize our text in order to create a data frame to use
+    for analysis
+
+## Reading Data
+
+This section introduces the following functions for reading data into R
+and inspecting the contents of a data frame:
+
+-   `dplyr::read_csv()` Reading .csv files into R.
+-   `base::print()` View your data frame in the Console Pane
+-   `utils::view()` View your data frame in the Source Pane
+-   `tibble::glimpse()` Like print, but transposed so you can see all
+    columns
+-   `utils::head()` View the first 6 rows of your data.
+-   `utils::tail()` View last 6 rows of your data.
+-   `dplyr::write_csv()` writing .csv files to directory.
+
+::: notes
+The name before the double colon indicates the package the function
+comes from. For example, read_csv comes from the readr package. In
+practice, we do not typically need to name the package when we call a
+function. If there are packages that use a function with the same name,
+it will default to the package that last loaded.
+:::
+
+## Reading Data, Cont.
+
+::: panel-tabset
+## Raw Data
+
+-   To get started, we need to import, or "read", our data into R
+
+-   The RttT Online PD survey data is stored in a CSV file named
+    opd_survey.csv which is located in the data folder of this project
+
+## Your Turn
+
+-   Use `read_csv()` to save `opd_survey.csv` as a new object
+    `opd_survey`
+
+-   This file can be found in the local data folder
+
+-   If you have questions about the above function, don't be afraid to
+    look it up in console using `?read_csv()`
+
+## Answer
 
 ```{r echo=TRUE}
-# Right join: Returns all rows from the right table, and the matched rows from the left table. If there is no match, the result is NA.
-right_join_result <- right_join(students, scores, by = "student_id")
-right_join_result
+opd_survey <- read_csv("data/opd_survey.csv")
 ```
 
-<br/><br/> ❓ Why might you choose to use an inner join instead of a
-left join when analyzing student data alongside their scores and grades?
-:::::::::
+## Alternative
 
-::: notes
-A right join returns all rows from the right table (scores), and the
-matched rows from the left table (students). If there is no match, the
-result is NA for the missing values.
+-   There is also an Import Dataset feature under the Environment tab in
+    the upper right pane of RStudio
 
-Question: Why might you choose to use an inner join instead of a left
-join when analyzing student data alongside their scores and grades?
-
-Answer: You might choose to use an inner join instead of a left join
-when you only want to analyze the data for students who have both
-student information and corresponding scores. An inner join ensures that
-you are only working with complete data where there is a match in both
-tables, which can help avoid issues related to missing values and ensure
-the integrity of your analysis. This is particularly important when you
-need to perform calculations or statistical analyses that require
-complete data sets. By using an inner join, you ensure that the dataset
-you are working with is fully populated with the necessary information
-from both sources.
+![](img/import.png){width="100%"}
 :::
 
-## Full join
+## Viewing Data
 
-```{r echo = TRUE}
-# Full join: Returns all rows when there is a match in one of the tables. If there is no match, the result is NA for the missing values.
-full_join_result <- full_join(students, scores, by = "student_id")
-full_join_result
+-   Once your data is in R, there are many different ways you can view
+    it. Use the below code chunk to try each way out:
+
+```{r echo=FALSE}
+# enter the name of your data frame and view directly in console 
+opd_survey 
+
+# view your data frame transposed so your can see every column and the first few entries
+glimpse(opd_survey) 
+
+# look at just the first six entries
+head(opd_survey) 
+
+# or the last six entries
+tail(opd_survey) 
+
+# view the names of your variables or columns
+names(opd_survey) 
+
+# or view in source pane
+view(opd_survey) 
 
 ```
 
 ::: notes
-A full join returns all rows from both tables, whether there is a match
-or not. If there is no match, the result is NA for the missing values.
+The view() function is a very useful function for displaying a data
+frame in an interactive spreadsheet-like interface within RStudio.
+However, it causes issues when rendering Quarto or knitting R Markdown
+documents because it does not produce an output or modify the
+environment as expected when rendering documents.
+
+Notice that in the code chunk above that the eval=FALSE option as been
+included in the header. This will prevent Quarto from evaluating this
+code chunk and including it in the rendered HTML file. If you use the
+view() function in later code chunks, be sure to include this option.
+Alternatively, you can use the view function directly in the console.
+
+To learn more about Quarto code chunk options, visit:
+<https://quarto.org/docs/computations/execution-options.html>
 :::
+
+## Reducing Data
+
+As you've probably already noticed from viewing our dataset, we clearly
+have more data than we need to answer our rather basic research
+question. For this part of our workflow we focus on the following
+functions from the tidyverse `dplyr` and `tidyr` packages for wrangling
+our data:
+
+[**`dplyr`**](https://dplyr.tidyverse.org) **functions**
+
+-   `select()` picks variables based on their names.
+-   `slice()` lets you select, remove, and duplicate rows.
+-   `rename()` changes the names of individual variables using new_name
+    = old_name syntax
+-   `filter()` picks cases, or rows, based on their values in a
+    specified column.
+
+[**`tidyr`**](https://tidyr.tidyverse.org) **functions**
+
+-   `drop_na()` removes rows with missing values, i.e. NA
+
+## Subset Columns
+
+-   To help address our research question, let's first reduce our
+    dataset to only the columns needed
+
+To begin, we'll `select()` the columns `Role`, `Resource`, and `Q21`
+since those respectively pertain to educator role, OPD resource they are
+evaluating, and, as illustrated by the second row of column Q21, their
+response to the survey question, "What was the most beneficial/ aspect
+of the professional development resource?"
+
+We'll also assign these selected columns to a new data frame named
+`opd_selected` by using the `<-` assignment operator.
+
+Run the following code:
+
+```{r}
+opd_selected <- select(opd_survey, Role, Resource, Q21)
+```
+
+#### **👉 Your Turn ⤵**
+
+Suppose we were interested instead in analyzing how educators are are
+using the online resources instead of the most beneficial aspects.
+
+Change the code below to select the correct columns and then run the
+code:
+
+```{r}
+opd_use <- select(opd_survey, Role, Resource, Q20)
+```
+
+Notice that, like the bulk of tidyverse functions we'll be using
+throughout our case studies, the first argument that the `select()`
+function expects is a data frame, which in our case is `opd_survey`. The
+`select()` function the expects the specific columns you'd like to
+select.
+
+Another common approach to providing tidyverse functions a data frame is
+to use the `|>` pipe operator from the {maggitr\] package, which is used
+to "pipe" inputs and outputs from one function to another. This operator
+is used so frequently in R, that it has now built into R with the new
+`|>` pipe operator.
+
+Run the following code to select the columns `Role`, `Resource`, and
+`Q21` columns and assign these columns to a new data frame named
+`opd_selected`:
+
+```{r}
+opd_selected <- opd_survey |>
+  select(Role, Resource, Q21)
+```
+
+This code produces the same result as the previous code, but is a common
+way in R of providing data to a function.
+
+#### **👉 Your Turn ⤵**
+
+Use one of the data viewing functions that we introduced above to take a
+look at our newly created data frame:
+
+```{r}
+head(opd_selected)
+```
+
+Great job! You probably notice that the data frame now has dramatically
+fewer variables.
+
+## Rename Columns
+
+Notice that Q21 is not a terribly informative variable name. Let's now
+take our `opd_selected` data frame and use the `rename()` function along
+with the `=` assignment operator introduced last week to change the name
+from Q21 to `text` and save it as `opd_renamed`.
+
+This naming is somewhat intentional because not only is it the text we
+are interested in analyzing, but also mirrors the naming conventions in
+our Text Mining with R [@silge2017text] course book and will make it
+easier to follow the examples there.
+
+Run the following code to rename the column and print the updated data
+frame:
+
+```{r}
+opd_renamed <- rename(opd_selected, text = Q21)
+
+opd_renamed
+```
+
+## Subset Rows
+
+Now let's deal with the legacy rows that Qualtrics outputs by default,
+which are effectively 3 sets of headers. We will use the `slice()`
+function, which is basically the same as the `select()` function but for
+rows instead of columns, to carve out those two rows.
+
+```{r}
+opd_sliced <- slice(opd_renamed, -1, -2) # the - operator tells the slice function to NOT keep rows 1 and 2
+
+opd_sliced
+```
+
+Now let's take our `opd_sliced` and remove any rows that are missing
+data, as indicated by an `NA`, by using the `drop_na` tidyverse
+function:
+
+```{r}
+opd_complete <- drop_na(opd_sliced)
+
+opd_complete
+```
+
+Finally, since we are only interested in the feedback from teachers,
+let's also filter our dataset for only participants who indicated their
+`Role` as "Teacher".
+
+```{r}
+opd_teacher <- filter(opd_complete, Role == "Teacher")
+
+opd_teacher
+```
+
+::: callout-note
+When we used two `==` signs to filter for rows when Role is equal to
+Teacher. This was different than when we used just on = sign to rename
+our column.
+
+In R, the single `=` sign is used for creating new variables, object or
+value, while the double == sign is used to test if two values are equal.
+
+The single `=` can also be used used for assigning the output of a
+function to a new objects, like so:
+
+`opd_complete = drop_na(opd_sliced)`
+
+However, using and == for comparisons and the `<-` operator for
+assignment avoids ambiguity and makes the code easier to read and
+maintain.
+:::
+
+#### **👉 Your Turn ⤵**
+
+Suppose we were interested instead in analyzing School Executive
+responses instead of teachers.
+
+Change the code below to filter the correct rows and then run the code:
+
+```{r}
+opd_executive <- filter(opd_complete, Role == "Teacher")
+
+opd_executive
+```
+
+## Code Reduction
+
+Fortunately, we can use the Pipe Operator `|>` introduced in [Chapter 6
+of Data Science in Education Using R
+(DSIEUR)](https://datascienceineducation.com/c06.html) to dramatically
+simplify these cleaning steps and reduce the amount of code written:
+
+```{r}
+opd_teacher <- opd_survey |>
+  select(Role, Resource, Q21) |>
+  rename(text = Q21) |>
+  slice(-1, -2) |>
+  drop_na() |>
+  filter(Role == "Teacher")
+
+opd_teacher
+```
+
+#### **👉 Your Turn ⤵**
+
+Use the code chunk below to rewrite the piped code above for an
+additional analysis. The data frame should includes all Roles, not just
+teachers, but excludes the `Resource` column. Assign it to
+`opd_benefits` using the `<-` operator for later use.
+
+```{r}
+opd_benefits <- opd_survey |>
+  select(Role, Q21) |>
+  rename(text = Q21) |>
+  slice(-1, -2) |>
+  drop_na()
+
+opd_benefits
+```
+
+Well done! Our text is now ready to be tidied!!!
+
+## Tidying Text
+
+For this part of our workflow we focus on the following functions from
+the [`tidytext`](https://cran.r-project.org/web/packages/tidytext/) and
+`dplyr` packages respectively:
+
+-   `unnest_tokens()` splits a column into tokens
+-   `anti_join()` returns all rows from x with**out** a match in y.
+
+## Tidy Data Principles
+
+Not surprisingly, the Tidyverse set of packages including packages like
+`dplyr` adhere "tidy" data principles [@wickham2023r]. Tidy data has a
+specific structure:
+
+-   Each variable is a column
+-   Each observation is a row
+-   Each type of observational unit is a table
+
+Text data, by it's very nature is ESPECIALLY untidy. In [Chapter 1 of
+Text Mining with R](https://www.tidytextmining.com/tidytext.html), Silge
+and Robinson define the tidy text format as:
+
+> a table with **one-token-per-row**. A token is a meaningful unit of
+> text, such as a word, that we are interested in using for analysis,
+> and tokenization is the process of splitting text into tokens.
+
+## Our Tidy Text Goal
+
+In this section, our goal is to transform our `opd_teacher` text data
+from this:
+
+![](img/untidy-text.png)
+
+to this:
+
+![](img/tidy-text.png)
+
+This one-token-per-row structure differs from how text is often stored,
+perhaps as strings or in a [document-term
+matrix](https://en.wikipedia.org/wiki/Document-term_matrix#:~:text=A%20document%2Dterm%20matrix%20is,and%20columns%20correspond%20to%20terms.).
+The **token** that is stored in each row is most often a single word,
+but can also be an n-gram (e.g., a sequence of 2 or 3 words), a
+sentence, or even a whole paragraph. Conveniently, the tidytext package,
+provides functionality for tokenizing text by common units like these
+into a one-term-per-row format.
+
+## Tokenize Text
+
+In order to tidy our text, we need to break the text into individual
+tokens (a process called tokenization) and transform it to a tidy data
+structure. To do this, we use tidytext's incredibly powerful
+`unnest_tokens()` function.
+
+After all the work we did prepping our data, this is going to feel a
+little anticlimactic.
+
+Run the following code to tidy our text and save it as a new data frame
+named `opd_tidy`:
+
+```{r}
+opd_tidy <- unnest_tokens(opd_teacher, word, text)
+
+opd_tidy
+```
+
+Note that we also could have just added `unnest_tokens(word, text)` to
+our previous piped chain of functions like so:
+
+```{r}
+opd_tidy <- opd_survey |>
+  select(Role, Resource, Q21) |>
+  rename(text = Q21) |>
+  slice(-1, -2) |>
+  drop_na() |>
+  filter(Role == "Teacher") |>
+  unnest_tokens(word, text)
+
+opd_tidy
+```
+
+There is A LOT to unpack with this function. First notice that
+`unnest_tokens` expects a data frame as the first argument, followed by
+two column names. The first is an output column name that doesn't
+currently exist (`word`, in this case) but will be created as the text
+is unnested into the new column. This if followed by the input column
+that the text comes from which we uncreatively named `text`. Also
+notice:
+
+-   Other columns, such as `Role` and `Resource`, are retained.
+-   All punctuation has been removed.
+-   Tokens have been changed to lowercase, which makes them easier to
+    compare or combine with other datasets. However, we can use the
+    `to_lower = FALSE` argument to turn off this behavior if desired.
+
+## Remove Stop Words
+
+One final step in tidying our text is to remove words that don't add
+much value to our analysis (at least when using this approach) such as
+"and", "the", "of", "to" etc. The `tidytext` package contains a
+`stop_words` dataset derived from three different lexicons that we'll
+use to remove rows that match words in this dataset.
+
+Let's take a look at the first 20 stop words so we know what we're
+getting rid of from our `opd_tidy` dataset.
+
+```{r}
+head(stop_words, 20)
+```
+
+Now run the following code to view all stop words in each lexicon:
+
+```{r, eval=FALSE}
+
+view(stop_words)
+```
+
+In order to remove these stop words, we will use function called
+`anti_join()` that looks for matching values in a specific column from
+two datasets and returns rows from the original dataset that have no
+matches. For a good overview of the different `dplyr` joins see here:
+<https://medium.com/the-codehub/beginners-guide-to-using-joins-in-r-682fc9b1f119>
+
+![](img/anti-join.png){width="80%"}
+
+Let's remove rows from our `opd_tidy` data frame that contain matches in
+the `word` column with those in the `stop_words` dataset and save it as
+`opd_clean` since we were done cleaning our data at this point.
+
+```{r}
+opd_clean <- anti_join(opd_tidy, stop_words)
+
+opd_clean
+```
+
+#### **👉 Your Turn ⤵**
+
+In the code chunk below, add the `anti_join()` function to our chain of
+data wrangling functions as our final text preprocessing step. Don't
+forget to include in the function the stop words you are trying to
+remove.
+
+Also, add a short comment to each line of code explaining each data
+wrangling step. The first had been done for you.
+
+```{r}
+wrangled_teacher <- opd_survey |>
+  select(Role, Resource, Q21) |> # Select only columns Role, Resource, and Q21
+  rename(text = Q21) |> 
+  slice(-1, -2) |>
+  drop_na() |>
+  filter(Role == "Teacher") |>
+  unnest_tokens(word, text) |>
+  anti_join(stop_words)
+
+wrangled_teacher
+```
+
+If you did this correctly, you should now see a `wrangled_teacher` data
+frame in the Environment pane that has 78,675 observations and 3
+variables.
+
+#### **👉 Your Turn ⤵**
+
+Finally, let's wrangle a data set that includes tokens not just for
+teachers, but for all educators who particiated in the online
+professional development offerings.
+
+Complete and run the following code to wrangle and tidy your
+`opd_survey` data for all survey respondents.
+
+```{r}
+wrangled_all <- opd_survey |>
+  select(Role, Resource, Q21) |>
+  rename(text = Q21) |>
+  slice(-1, -2) |>
+  drop_na() |>
+  unnest_tokens(word, text) |>
+  anti_join(stop_words)
+
+wrangled_all
+```
+
+#### ❓Questions
+
+1.  How many observations are in the data frame with all educators?
+    -   YOUR RESPONSE HERE
+2.  Why do you think the console provided the message "Joining, by =
+    'word'"?
+    -   YOUR RESPONSE HERE
+
+Congratulations, we're now ready to begin exploring our wrangled data!
 
 # What's Next? {background="#143156"}
 

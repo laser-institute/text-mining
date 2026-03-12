@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="module-1-code-along_files/libs/clipboard/clipboard.min.js"></script>
+<script src="module-1-code-along_files/libs/quarto-html/tabby.min.js"></script>
+<script src="module-1-code-along_files/libs/quarto-html/popper.min.js"></script>
+<script src="module-1-code-along_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="module-1-code-along_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="module-1-code-along_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="module-1-code-along_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.7.32">
+
+  <title>Prepare and Wrangle</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="module-1-code-along_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="module-1-code-along_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="module-1-code-along_files/libs/revealjs/dist/theme/quarto-3b093e4b5a2bb1f22f68e4b5d63b99b3.css">
+  <link href="module-1-code-along_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="module-1-code-along_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="module-1-code-along_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="module-1-code-along_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="module-1-code-along_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="module-1-code-along_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Prepare and Wrangle</h1>
+  <p class="subtitle">Text Mining Module 1: A Code-a-long</p>
+
+<div class="quarto-title-authors">
+</div>
+
+</section>
+<section id="welcome-to-the-law-code-a-long-for-module-1" class="slide level2">
+<h2>Welcome to the LAW Code-a-long for Module 1</h2>
+<ul>
+<li><p>The Text Mining course is designed for those seeking an introductory understanding of quantifying the text in documents to better understand their properties</p></li>
+<li><p>The following code-a-long is a companion to the Module 1 case study’s <strong>Prepare</strong> and <strong>Wrangle</strong> stages</p></li>
+</ul>
+
+<img data-src="img/workflow.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption">Figure 2.2 Steps of Data-Intensive Research Workflow</p><p><span class="citation" data-cites="krumm2018">[@krumm2018]</span></p>
+<aside class="notes">
+
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="module-objectives" class="slide level2">
+<h2>Module Objectives</h2>
+<p>This code-a-long is about getting our text “tidy.” By the end of this module we will:</p>
+<ul>
+<li>Understand the context and data sources you’re working with so you can formulate useful and answerable questions</li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Practice reading, manipulating, cleaning, transforming, and merging text data</li>
+</ul>
+</div>
+<div class="fragment">
+<aside class="notes">
+
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</div>
+</section>
+<section id="context-of-the-problem" class="slide level2">
+<h2>Context of the Problem</h2>
+<ul>
+<li><p>We are working with open-ended survey data from an evaluation of online professional development offered by the North Carolina Department of Public Instruction</p></li>
+<li><p>This PD is part of the state’s <a href="https://obamawhitehouse.archives.gov/issues/education/k-12/race-to-the-top">Race to the Top</a> (RttT) efforts</p></li>
+</ul>
+
+<img data-src="img/opd.png" style="width:40.0%" class="r-stretch"><p><a href="https://fi.ncsu.edu/resource-library/race-to-the-top-online-professional-development-evaluation-year-1-report/">2012 Friday Institute Annual Report</a></p>
+<div class="fragment fade-in-then-semi-out" style="font-size: 30px">
+<p>Research Questions:</p>
+<ul>
+<li><p>What aspects of online professional development offerings do teachers find most valuable?</p></li>
+<li><p>How might resources differ in the value they afford teachers?</p></li>
+</ul>
+</div>
+<aside class="notes">
+<p>The dataset we’ll be using for analysis in this case study is exported as is from Qualtrics with personal identifiers, select demographics, metadata, and closed-ended responses removed.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="load-libraries" class="slide level2">
+<h2>Load Libraries</h2>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Key Packages</a></li><li><a href="#tabset-1-2">Your Turn</a></li><li><a href="#tabset-1-3">Answer</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img data-src="img/tidyverse.png" style="width:30.0%"></p>
+</div><div class="column" style="width:50%;">
+<p><img data-src="img/tidytext.png" style="width:30.0%"></p>
+</div></div>
+</div>
+<div id="tabset-1-2">
+<ul>
+<li>Load the <code>tidyverse</code> and <code>tidytext</code> packages using <code>library()</code></li>
+</ul>
+</div>
+<div id="tabset-1-3">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href=""></a><span class="fu">library</span>(tidytext)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>The <code>tidytext</code> package helps to convert text into data frames with each rows containing an individual word or sequence of words, making it easy to to manipulate, summarize, and visualize text using using familiar functions form the <code>tidyverse</code> collection of packages</p>
+<p>Don’t worry if you saw a number of messages: those probably mean that the tidyverse loaded just fine. Any conflicts you may have seen mean that functions in these packages you loaded have the same name as functions in other packages and R will default to function from the last loaded package unless you specify otherwise.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="wrangling-text-data" class="slide level2">
+<h2>Wrangling Text Data</h2>
+<ul>
+<li>Data wrangling is essential because it involves the initial steps of going from raw data to a dataset that can be explored and modeled <span class="citation" data-cites="krumm2018">[@krumm2018]</span>. Text mining is no exception. Today we will:</li>
+</ul>
+<ol type="a">
+<li><strong>Read raw data</strong>. Before working with data, we need to “read” it into R. It also helps to inspect your data and we’ll review different functions for doing so</li>
+<li><strong>Reduce the data</strong>. We focus on tools from the <code>dplyr</code> package to <code>view</code>, <code>rename</code>, <code>select</code>, <code>slice</code>, and <code>filter</code> our data in preparation for analysis</li>
+<li><strong>Tidy text</strong>. We’ll learn how to use the <code>tidytext</code> package to both “tidy” and tokenize our text in order to create a data frame to use for analysis</li>
+</ol>
+</section>
+<section id="reading-data" class="slide level2">
+<h2>Reading Data</h2>
+<p>This section introduces the following functions for reading data into R and inspecting the contents of a data frame:</p>
+<ul>
+<li><code>dplyr::read_csv()</code> Reading .csv files into R.</li>
+<li><code>base::print()</code> View your data frame in the Console Pane</li>
+<li><code>utils::view()</code> View your data frame in the Source Pane</li>
+<li><code>tibble::glimpse()</code> Like print, but transposed so you can see all columns</li>
+<li><code>utils::head()</code> View the first 6 rows of your data.</li>
+<li><code>utils::tail()</code> View last 6 rows of your data.</li>
+<li><code>dplyr::write_csv()</code> writing .csv files to directory.</li>
+</ul>
+<aside class="notes">
+<p>The name before the double colon indicates the package the function comes from. For example, read_csv comes from the readr package. In practice, we do not typically need to name the package when we call a function. If there are packages that use a function with the same name, it will default to the package that last loaded.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="reading-data-cont." class="slide level2">
+<h2>Reading Data, Cont.</h2>
+<div class="panel-tabset">
+<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">Raw Data</a></li><li><a href="#tabset-2-2">Your Turn</a></li><li><a href="#tabset-2-3">Answer</a></li><li><a href="#tabset-2-4">Alternative</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1">
+<ul>
+<li><p>To get started, we need to import, or “read”, our data into R</p></li>
+<li><p>The RttT Online PD survey data is stored in a CSV file named opd_survey.csv which is located in the data folder of this project</p></li>
+</ul>
+</div>
+<div id="tabset-2-2">
+<ul>
+<li><p>Use <code>read_csv()</code> to save <code>opd_survey.csv</code> as a new object <code>opd_survey</code></p></li>
+<li><p>This file can be found in the local data folder</p></li>
+<li><p>If you have questions about the above function, don’t be afraid to look it up in console using <code>?read_csv()</code></p></li>
+</ul>
+</div>
+<div id="tabset-2-3">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>opd_survey <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/opd_survey.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-2-4">
+<ul>
+<li>There is also an Import Dataset feature under the Environment tab in the upper right pane of RStudio</li>
+</ul>
+<p><img data-src="img/import.png" style="width:100.0%"></p>
+</div>
+</div>
+</div>
+</section>
+<section id="viewing-data" class="slide level2">
+<h2>Viewing Data</h2>
+<ul>
+<li>Once your data is in R, there are many different ways you can view it. Use the below code chunk to try each way out:</li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 57,054 × 19
+   RecordedDate          ResponseId Role  Q14   Q16...5 Resource Resource_8_TEXT
+   &lt;chr&gt;                 &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;          
+ 1 "Recorded Date"       "Response… "Wha… "Ple… "Which… "Please… "Please indica…
+ 2 "{\"ImportId\":\"rec… "{\"Impor… "{\"… "{\"… "{\"Im… "{\"Imp… "{\"ImportId\"…
+ 3 "3/14/12 12:41"       "R_6fKCyE… "Cen… "K-1… "Eleme… "Summer…  &lt;NA&gt;          
+ 4 "3/14/12 13:31"       "R_09rHle… "Cen… "Ele… "Eleme… "Online…  &lt;NA&gt;          
+ 5 "3/14/12 14:51"       "R_1BlKt2… "Sch… "Hig… "Not A… "Online…  &lt;NA&gt;          
+ 6 "3/14/12 15:02"       "R_bPGUVT… "Sch… "Ele… "Guida… "Calend…  &lt;NA&gt;          
+ 7 "3/14/12 17:24"       "R_egJEHM… "Tea… "Ele… "Engli… "Live W…  &lt;NA&gt;          
+ 8 "3/15/12 9:18"        "R_4PEbT4… "Tea… "Ele… "Infor… "Online…  &lt;NA&gt;          
+ 9 "3/15/12 10:54"       "R_eqB1bM… "Sch… "Mid… "Guida… "Live W…  &lt;NA&gt;          
+10 "3/15/12 14:20"       "R_ewwUwi… "Cen… "Pre… "Other… "Wiki"    &lt;NA&gt;          
+# ℹ 57,044 more rows
+# ℹ 12 more variables: Resource_9_TEXT &lt;chr&gt;, Resource_10_TEXT...9 &lt;chr&gt;,
+#   Topic &lt;chr&gt;, Resource_10_TEXT...11 &lt;chr&gt;, Q16...12 &lt;chr&gt;, Q16_9_TEXT &lt;chr&gt;,
+#   Q19 &lt;chr&gt;, Q20 &lt;chr&gt;, Q21 &lt;chr&gt;, Q26 &lt;chr&gt;, Q37 &lt;chr&gt;, Q8 &lt;chr&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 57,054
+Columns: 19
+$ RecordedDate          &lt;chr&gt; "Recorded Date", "{\"ImportId\":\"recordedDate\"…
+$ ResponseId            &lt;chr&gt; "Response ID", "{\"ImportId\":\"_recordId\"}", "…
+$ Role                  &lt;chr&gt; "What is your role within your school district o…
+$ Q14                   &lt;chr&gt; "Please select the school level(s) you work with…
+$ Q16...5               &lt;chr&gt; "Which content area(s) do you specialize in?  (S…
+$ Resource              &lt;chr&gt; "Please indicate the online professional develop…
+$ Resource_8_TEXT       &lt;chr&gt; "Please indicate the online professional develop…
+$ Resource_9_TEXT       &lt;chr&gt; "Please indicate the online professional develop…
+$ Resource_10_TEXT...9  &lt;chr&gt; "Please indicate the online professional develop…
+$ Topic                 &lt;chr&gt; "What was the primary focus of the webinar you a…
+$ Resource_10_TEXT...11 &lt;chr&gt; "What was the primary focus of the webinar you a…
+$ Q16...12              &lt;chr&gt; "Which primary content area(s) did the webinar a…
+$ Q16_9_TEXT            &lt;chr&gt; "Which primary content area(s) did the webinar a…
+$ Q19                   &lt;chr&gt; "Please specify the online learning module you a…
+$ Q20                   &lt;chr&gt; "How are you using this resource?", "{\"ImportId…
+$ Q21                   &lt;chr&gt; "What was the most beneficial/valuable aspect of…
+$ Q26                   &lt;chr&gt; "What recommendations do you have for improving …
+$ Q37                   &lt;chr&gt; "What recommendations do you have for making thi…
+$ Q8                    &lt;chr&gt; "Which of the following best describe(s) how you…</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 19
+  RecordedDate           ResponseId Role  Q14   Q16...5 Resource Resource_8_TEXT
+  &lt;chr&gt;                  &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;          
+1 "Recorded Date"        "Response… "Wha… "Ple… "Which… "Please… "Please indica…
+2 "{\"ImportId\":\"reco… "{\"Impor… "{\"… "{\"… "{\"Im… "{\"Imp… "{\"ImportId\"…
+3 "3/14/12 12:41"        "R_6fKCyE… "Cen… "K-1… "Eleme… "Summer…  &lt;NA&gt;          
+4 "3/14/12 13:31"        "R_09rHle… "Cen… "Ele… "Eleme… "Online…  &lt;NA&gt;          
+5 "3/14/12 14:51"        "R_1BlKt2… "Sch… "Hig… "Not A… "Online…  &lt;NA&gt;          
+6 "3/14/12 15:02"        "R_bPGUVT… "Sch… "Ele… "Guida… "Calend…  &lt;NA&gt;          
+# ℹ 12 more variables: Resource_9_TEXT &lt;chr&gt;, Resource_10_TEXT...9 &lt;chr&gt;,
+#   Topic &lt;chr&gt;, Resource_10_TEXT...11 &lt;chr&gt;, Q16...12 &lt;chr&gt;, Q16_9_TEXT &lt;chr&gt;,
+#   Q19 &lt;chr&gt;, Q20 &lt;chr&gt;, Q21 &lt;chr&gt;, Q26 &lt;chr&gt;, Q37 &lt;chr&gt;, Q8 &lt;chr&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 19
+  RecordedDate ResponseId        Role    Q14    Q16...5 Resource Resource_8_TEXT
+  &lt;chr&gt;        &lt;chr&gt;             &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;          
+1 7/2/13 10:20 R_0cggNPIobej2kHX Teacher Middl… World … Online … &lt;NA&gt;           
+2 7/2/13 12:32 R_bpZ2jPQV1BOta2p &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;           
+3 7/2/13 12:32 R_4SbNuxFI6qv8pQF Teacher Eleme… Mathem… Online … &lt;NA&gt;           
+4 7/2/13 12:32 R_1TT9rRNolK2xSDP &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;           
+5 7/2/13 12:32 R_8raUHcIydALnRhH &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;           
+6 7/2/13 12:32 R_2bs3lzLBdGWjkOx &lt;NA&gt;    &lt;NA&gt;   &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;           
+# ℹ 12 more variables: Resource_9_TEXT &lt;chr&gt;, Resource_10_TEXT...9 &lt;chr&gt;,
+#   Topic &lt;chr&gt;, Resource_10_TEXT...11 &lt;chr&gt;, Q16...12 &lt;chr&gt;, Q16_9_TEXT &lt;chr&gt;,
+#   Q19 &lt;chr&gt;, Q20 &lt;chr&gt;, Q21 &lt;chr&gt;, Q26 &lt;chr&gt;, Q37 &lt;chr&gt;, Q8 &lt;chr&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "RecordedDate"          "ResponseId"            "Role"                 
+ [4] "Q14"                   "Q16...5"               "Resource"             
+ [7] "Resource_8_TEXT"       "Resource_9_TEXT"       "Resource_10_TEXT...9" 
+[10] "Topic"                 "Resource_10_TEXT...11" "Q16...12"             
+[13] "Q16_9_TEXT"            "Q19"                   "Q20"                  
+[16] "Q21"                   "Q26"                   "Q37"                  
+[19] "Q8"                   </code></pre>
+</div>
+</div>
+<aside class="notes">
+<p>The view() function is a very useful function for displaying a data frame in an interactive spreadsheet-like interface within RStudio. However, it causes issues when rendering Quarto or knitting R Markdown documents because it does not produce an output or modify the environment as expected when rendering documents.</p>
+<p>Notice that in the code chunk above that the eval=FALSE option as been included in the header. This will prevent Quarto from evaluating this code chunk and including it in the rendered HTML file. If you use the view() function in later code chunks, be sure to include this option. Alternatively, you can use the view function directly in the console.</p>
+<p>To learn more about Quarto code chunk options, visit: <a href="https://quarto.org/docs/computations/execution-options.html" class="uri">https://quarto.org/docs/computations/execution-options.html</a></p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="reducing-data" class="slide level2">
+<h2>Reducing Data</h2>
+<p>As you’ve probably already noticed from viewing our dataset, we clearly have more data than we need to answer our rather basic research question. For this part of our workflow we focus on the following functions from the tidyverse <code>dplyr</code> and <code>tidyr</code> packages for wrangling our data:</p>
+<p><a href="https://dplyr.tidyverse.org"><strong><code>dplyr</code></strong></a> <strong>functions</strong></p>
+<ul>
+<li><code>select()</code> picks variables based on their names.</li>
+<li><code>slice()</code> lets you select, remove, and duplicate rows.</li>
+<li><code>rename()</code> changes the names of individual variables using new_name = old_name syntax</li>
+<li><code>filter()</code> picks cases, or rows, based on their values in a specified column.</li>
+</ul>
+<p><a href="https://tidyr.tidyverse.org"><strong><code>tidyr</code></strong></a> <strong>functions</strong></p>
+<ul>
+<li><code>drop_na()</code> removes rows with missing values, i.e.&nbsp;NA</li>
+</ul>
+</section>
+<section id="subset-columns" class="slide level2">
+<h2>Subset Columns</h2>
+<ul>
+<li>To help address our research question, let’s first reduce our dataset to only the columns needed</li>
+</ul>
+<p>To begin, we’ll <code>select()</code> the columns <code>Role</code>, <code>Resource</code>, and <code>Q21</code> since those respectively pertain to educator role, OPD resource they are evaluating, and, as illustrated by the second row of column Q21, their response to the survey question, “What was the most beneficial/ aspect of the professional development resource?”</p>
+<p>We’ll also assign these selected columns to a new data frame named <code>opd_selected</code> by using the <code>&lt;-</code> assignment operator.</p>
+<p>Run the following code:</p>
+<h4 id="your-turn-2"><strong>👉 Your Turn ⤵</strong></h4>
+<p>Suppose we were interested instead in analyzing how educators are are using the online resources instead of the most beneficial aspects.</p>
+<p>Change the code below to select the correct columns and then run the code:</p>
+<p>Notice that, like the bulk of tidyverse functions we’ll be using throughout our case studies, the first argument that the <code>select()</code> function expects is a data frame, which in our case is <code>opd_survey</code>. The <code>select()</code> function the expects the specific columns you’d like to select.</p>
+<p>Another common approach to providing tidyverse functions a data frame is to use the <code>|&gt;</code> pipe operator from the {maggitr] package, which is used to “pipe” inputs and outputs from one function to another. This operator is used so frequently in R, that it has now built into R with the new <code>|&gt;</code> pipe operator.</p>
+<p>Run the following code to select the columns <code>Role</code>, <code>Resource</code>, and <code>Q21</code> columns and assign these columns to a new data frame named <code>opd_selected</code>:</p>
+<p>This code produces the same result as the previous code, but is a common way in R of providing data to a function.</p>
+<h4 id="your-turn-3"><strong>👉 Your Turn ⤵</strong></h4>
+<p>Use one of the data viewing functions that we introduced above to take a look at our newly created data frame:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  Role                                                            Resource Q21  
+  &lt;chr&gt;                                                           &lt;chr&gt;    &lt;chr&gt;
+1 "What is your role within your school district or organization… "Please… "Wha…
+2 "{\"ImportId\":\"QID2\"}"                                       "{\"Imp… "{\"…
+3 "Central Office Staff (e.g. Superintendents, Tech Director, Cu… "Summer…  &lt;NA&gt;
+4 "Central Office Staff (e.g. Superintendents, Tech Director, Cu… "Online… "Glo…
+5 "School Support Staff (e.g. Counselors, Technology Facilitator… "Online…  &lt;NA&gt;
+6 "School Support Staff (e.g. Counselors, Technology Facilitator… "Calend… "com…</code></pre>
+</div>
+</div>
+<p>Great job! You probably notice that the data frame now has dramatically fewer variables.</p>
+</section>
+<section id="rename-columns" class="slide level2">
+<h2>Rename Columns</h2>
+<p>Notice that Q21 is not a terribly informative variable name. Let’s now take our <code>opd_selected</code> data frame and use the <code>rename()</code> function along with the <code>=</code> assignment operator introduced last week to change the name from Q21 to <code>text</code> and save it as <code>opd_renamed</code>.</p>
+<p>This naming is somewhat intentional because not only is it the text we are interested in analyzing, but also mirrors the naming conventions in our Text Mining with R <span class="citation" data-cites="silge2017text">[@silge2017text]</span> course book and will make it easier to follow the examples there.</p>
+<p>Run the following code to rename the column and print the updated data frame:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 57,054 × 3
+   Role                                                           Resource text 
+   &lt;chr&gt;                                                          &lt;chr&gt;    &lt;chr&gt;
+ 1 "What is your role within your school district or organizatio… "Please… "Wha…
+ 2 "{\"ImportId\":\"QID2\"}"                                      "{\"Imp… "{\"…
+ 3 "Central Office Staff (e.g. Superintendents, Tech Director, C… "Summer…  &lt;NA&gt;
+ 4 "Central Office Staff (e.g. Superintendents, Tech Director, C… "Online… "Glo…
+ 5 "School Support Staff (e.g. Counselors, Technology Facilitato… "Online…  &lt;NA&gt;
+ 6 "School Support Staff (e.g. Counselors, Technology Facilitato… "Calend… "com…
+ 7 "Teacher"                                                      "Live W… "lev…
+ 8 "Teacher"                                                      "Online… "Non…
+ 9 "School Support Staff (e.g. Counselors, Technology Facilitato… "Live W… "awa…
+10 "Central Office Staff (e.g. Superintendents, Tech Director, C… "Wiki"   "Inf…
+# ℹ 57,044 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="subset-rows" class="slide level2">
+<h2>Subset Rows</h2>
+<p>Now let’s deal with the legacy rows that Qualtrics outputs by default, which are effectively 3 sets of headers. We will use the <code>slice()</code> function, which is basically the same as the <code>select()</code> function but for rows instead of columns, to carve out those two rows.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 57,052 × 3
+   Role                                                           Resource text 
+   &lt;chr&gt;                                                          &lt;chr&gt;    &lt;chr&gt;
+ 1 Central Office Staff (e.g. Superintendents, Tech Director, Cu… Summer …  &lt;NA&gt;
+ 2 Central Office Staff (e.g. Superintendents, Tech Director, Cu… Online … "Glo…
+ 3 School Support Staff (e.g. Counselors, Technology Facilitator… Online …  &lt;NA&gt;
+ 4 School Support Staff (e.g. Counselors, Technology Facilitator… Calendar "com…
+ 5 Teacher                                                        Live We… "lev…
+ 6 Teacher                                                        Online … "Non…
+ 7 School Support Staff (e.g. Counselors, Technology Facilitator… Live We… "awa…
+ 8 Central Office Staff (e.g. Superintendents, Tech Director, Cu… Wiki     "Inf…
+ 9 Central Office Staff (e.g. Superintendents, Tech Director, Cu… Online … "Gav…
+10 Teacher                                                        Online … "In …
+# ℹ 57,042 more rows</code></pre>
+</div>
+</div>
+<p>Now let’s take our <code>opd_sliced</code> and remove any rows that are missing data, as indicated by an <code>NA</code>, by using the <code>drop_na</code> tidyverse function:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 27,283 × 3
+   Role                                                           Resource text 
+   &lt;chr&gt;                                                          &lt;chr&gt;    &lt;chr&gt;
+ 1 Central Office Staff (e.g. Superintendents, Tech Director, Cu… Online … "Glo…
+ 2 School Support Staff (e.g. Counselors, Technology Facilitator… Calendar "com…
+ 3 Teacher                                                        Live We… "lev…
+ 4 Teacher                                                        Online … "Non…
+ 5 School Support Staff (e.g. Counselors, Technology Facilitator… Live We… "awa…
+ 6 Central Office Staff (e.g. Superintendents, Tech Director, Cu… Wiki     "Inf…
+ 7 Central Office Staff (e.g. Superintendents, Tech Director, Cu… Online … "Gav…
+ 8 Teacher                                                        Online … "In …
+ 9 Teacher                                                        Online … "Und…
+10 Teacher                                                        Online … "ove…
+# ℹ 27,273 more rows</code></pre>
+</div>
+</div>
+<p>Finally, since we are only interested in the feedback from teachers, let’s also filter our dataset for only participants who indicated their <code>Role</code> as “Teacher”.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 23,374 × 3
+   Role    Resource                            text                             
+   &lt;chr&gt;   &lt;chr&gt;                               &lt;chr&gt;                            
+ 1 Teacher Live Webinar                        "levels ofquestioning and revise…
+ 2 Teacher Online Learning Module              "None, really."                  
+ 3 Teacher Online Learning Module              "In any of the modules when a te…
+ 4 Teacher Online Learning Module              "Understanding the change"       
+ 5 Teacher Online Learning Module              "overview of reasons for change" 
+ 6 Teacher Online Learning Module              "online--allowed me to do it on …
+ 7 Teacher Summer Institute/RESA Presentations "exposure to new information and…
+ 8 Teacher Summer Institute/RESA Presentations "Knowing what needs to be done." 
+ 9 Teacher Other, please specify               "How to organize lessons"        
+10 Teacher Document, please specify            "Helping me understand what each…
+# ℹ 23,364 more rows</code></pre>
+</div>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>When we used two <code>==</code> signs to filter for rows when Role is equal to Teacher. This was different than when we used just on = sign to rename our column.</p>
+<p>In R, the single <code>=</code> sign is used for creating new variables, object or value, while the double == sign is used to test if two values are equal.</p>
+<p>The single <code>=</code> can also be used used for assigning the output of a function to a new objects, like so:</p>
+<p><code>opd_complete = drop_na(opd_sliced)</code></p>
+<p>However, using and == for comparisons and the <code>&lt;-</code> operator for assignment avoids ambiguity and makes the code easier to read and maintain.</p>
+</div>
+</div>
+</div>
+<h4 id="your-turn-4"><strong>👉 Your Turn ⤵</strong></h4>
+<p>Suppose we were interested instead in analyzing School Executive responses instead of teachers.</p>
+<p>Change the code below to filter the correct rows and then run the code:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 23,374 × 3
+   Role    Resource                            text                             
+   &lt;chr&gt;   &lt;chr&gt;                               &lt;chr&gt;                            
+ 1 Teacher Live Webinar                        "levels ofquestioning and revise…
+ 2 Teacher Online Learning Module              "None, really."                  
+ 3 Teacher Online Learning Module              "In any of the modules when a te…
+ 4 Teacher Online Learning Module              "Understanding the change"       
+ 5 Teacher Online Learning Module              "overview of reasons for change" 
+ 6 Teacher Online Learning Module              "online--allowed me to do it on …
+ 7 Teacher Summer Institute/RESA Presentations "exposure to new information and…
+ 8 Teacher Summer Institute/RESA Presentations "Knowing what needs to be done." 
+ 9 Teacher Other, please specify               "How to organize lessons"        
+10 Teacher Document, please specify            "Helping me understand what each…
+# ℹ 23,364 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="code-reduction" class="slide level2">
+<h2>Code Reduction</h2>
+<p>Fortunately, we can use the Pipe Operator <code>|&gt;</code> introduced in <a href="https://datascienceineducation.com/c06.html">Chapter 6 of Data Science in Education Using R (DSIEUR)</a> to dramatically simplify these cleaning steps and reduce the amount of code written:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 23,374 × 3
+   Role    Resource                            text                             
+   &lt;chr&gt;   &lt;chr&gt;                               &lt;chr&gt;                            
+ 1 Teacher Live Webinar                        "levels ofquestioning and revise…
+ 2 Teacher Online Learning Module              "None, really."                  
+ 3 Teacher Online Learning Module              "In any of the modules when a te…
+ 4 Teacher Online Learning Module              "Understanding the change"       
+ 5 Teacher Online Learning Module              "overview of reasons for change" 
+ 6 Teacher Online Learning Module              "online--allowed me to do it on …
+ 7 Teacher Summer Institute/RESA Presentations "exposure to new information and…
+ 8 Teacher Summer Institute/RESA Presentations "Knowing what needs to be done." 
+ 9 Teacher Other, please specify               "How to organize lessons"        
+10 Teacher Document, please specify            "Helping me understand what each…
+# ℹ 23,364 more rows</code></pre>
+</div>
+</div>
+<h4 id="your-turn-5"><strong>👉 Your Turn ⤵</strong></h4>
+<p>Use the code chunk below to rewrite the piped code above for an additional analysis. The data frame should includes all Roles, not just teachers, but excludes the <code>Resource</code> column. Assign it to <code>opd_benefits</code> using the <code>&lt;-</code> operator for later use.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 27,283 × 2
+   Role                                                                    text 
+   &lt;chr&gt;                                                                   &lt;chr&gt;
+ 1 Central Office Staff (e.g. Superintendents, Tech Director, Curriculum … "Glo…
+ 2 School Support Staff (e.g. Counselors, Technology Facilitator, Testing… "com…
+ 3 Teacher                                                                 "lev…
+ 4 Teacher                                                                 "Non…
+ 5 School Support Staff (e.g. Counselors, Technology Facilitator, Testing… "awa…
+ 6 Central Office Staff (e.g. Superintendents, Tech Director, Curriculum … "Inf…
+ 7 Central Office Staff (e.g. Superintendents, Tech Director, Curriculum … "Gav…
+ 8 Teacher                                                                 "In …
+ 9 Teacher                                                                 "Und…
+10 Teacher                                                                 "ove…
+# ℹ 27,273 more rows</code></pre>
+</div>
+</div>
+<p>Well done! Our text is now ready to be tidied!!!</p>
+</section>
+<section id="tidying-text" class="slide level2">
+<h2>Tidying Text</h2>
+<p>For this part of our workflow we focus on the following functions from the <a href="https://cran.r-project.org/web/packages/tidytext/"><code>tidytext</code></a> and <code>dplyr</code> packages respectively:</p>
+<ul>
+<li><code>unnest_tokens()</code> splits a column into tokens</li>
+<li><code>anti_join()</code> returns all rows from x with<strong>out</strong> a match in y.</li>
+</ul>
+</section>
+<section id="tidy-data-principles" class="slide level2">
+<h2>Tidy Data Principles</h2>
+<p>Not surprisingly, the Tidyverse set of packages including packages like <code>dplyr</code> adhere “tidy” data principles <span class="citation" data-cites="wickham2023r">[@wickham2023r]</span>. Tidy data has a specific structure:</p>
+<ul>
+<li>Each variable is a column</li>
+<li>Each observation is a row</li>
+<li>Each type of observational unit is a table</li>
+</ul>
+<p>Text data, by it’s very nature is ESPECIALLY untidy. In <a href="https://www.tidytextmining.com/tidytext.html">Chapter 1 of Text Mining with R</a>, Silge and Robinson define the tidy text format as:</p>
+<blockquote>
+<p>a table with <strong>one-token-per-row</strong>. A token is a meaningful unit of text, such as a word, that we are interested in using for analysis, and tokenization is the process of splitting text into tokens.</p>
+</blockquote>
+</section>
+<section id="our-tidy-text-goal" class="slide level2">
+<h2>Our Tidy Text Goal</h2>
+<p>In this section, our goal is to transform our <code>opd_teacher</code> text data from this:</p>
+<p><img data-src="img/untidy-text.png"></p>
+<p>to this:</p>
+<p><img data-src="img/tidy-text.png"></p>
+<p>This one-token-per-row structure differs from how text is often stored, perhaps as strings or in a <a href="https://en.wikipedia.org/wiki/Document-term_matrix#:~:text=A%20document%2Dterm%20matrix%20is,and%20columns%20correspond%20to%20terms.">document-term matrix</a>. The <strong>token</strong> that is stored in each row is most often a single word, but can also be an n-gram (e.g., a sequence of 2 or 3 words), a sentence, or even a whole paragraph. Conveniently, the tidytext package, provides functionality for tokenizing text by common units like these into a one-term-per-row format.</p>
+</section>
+<section id="tokenize-text" class="slide level2">
+<h2>Tokenize Text</h2>
+<p>In order to tidy our text, we need to break the text into individual tokens (a process called tokenization) and transform it to a tidy data structure. To do this, we use tidytext’s incredibly powerful <code>unnest_tokens()</code> function.</p>
+<p>After all the work we did prepping our data, this is going to feel a little anticlimactic.</p>
+<p>Run the following code to tidy our text and save it as a new data frame named <code>opd_tidy</code>:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 190,527 × 3
+   Role    Resource               word         
+   &lt;chr&gt;   &lt;chr&gt;                  &lt;chr&gt;        
+ 1 Teacher Live Webinar           levels       
+ 2 Teacher Live Webinar           ofquestioning
+ 3 Teacher Live Webinar           and          
+ 4 Teacher Live Webinar           revised      
+ 5 Teacher Live Webinar           blooms       
+ 6 Teacher Online Learning Module none         
+ 7 Teacher Online Learning Module really       
+ 8 Teacher Online Learning Module in           
+ 9 Teacher Online Learning Module any          
+10 Teacher Online Learning Module of           
+# ℹ 190,517 more rows</code></pre>
+</div>
+</div>
+<p>Note that we also could have just added <code>unnest_tokens(word, text)</code> to our previous piped chain of functions like so:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 190,527 × 3
+   Role    Resource               word         
+   &lt;chr&gt;   &lt;chr&gt;                  &lt;chr&gt;        
+ 1 Teacher Live Webinar           levels       
+ 2 Teacher Live Webinar           ofquestioning
+ 3 Teacher Live Webinar           and          
+ 4 Teacher Live Webinar           revised      
+ 5 Teacher Live Webinar           blooms       
+ 6 Teacher Online Learning Module none         
+ 7 Teacher Online Learning Module really       
+ 8 Teacher Online Learning Module in           
+ 9 Teacher Online Learning Module any          
+10 Teacher Online Learning Module of           
+# ℹ 190,517 more rows</code></pre>
+</div>
+</div>
+<p>There is A LOT to unpack with this function. First notice that <code>unnest_tokens</code> expects a data frame as the first argument, followed by two column names. The first is an output column name that doesn’t currently exist (<code>word</code>, in this case) but will be created as the text is unnested into the new column. This if followed by the input column that the text comes from which we uncreatively named <code>text</code>. Also notice:</p>
+<ul>
+<li>Other columns, such as <code>Role</code> and <code>Resource</code>, are retained.</li>
+<li>All punctuation has been removed.</li>
+<li>Tokens have been changed to lowercase, which makes them easier to compare or combine with other datasets. However, we can use the <code>to_lower = FALSE</code> argument to turn off this behavior if desired.</li>
+</ul>
+</section>
+<section id="remove-stop-words" class="slide level2">
+<h2>Remove Stop Words</h2>
+<p>One final step in tidying our text is to remove words that don’t add much value to our analysis (at least when using this approach) such as “and”, “the”, “of”, “to” etc. The <code>tidytext</code> package contains a <code>stop_words</code> dataset derived from three different lexicons that we’ll use to remove rows that match words in this dataset.</p>
+<p>Let’s take a look at the first 20 stop words so we know what we’re getting rid of from our <code>opd_tidy</code> dataset.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 20 × 2
+   word        lexicon
+   &lt;chr&gt;       &lt;chr&gt;  
+ 1 a           SMART  
+ 2 a's         SMART  
+ 3 able        SMART  
+ 4 about       SMART  
+ 5 above       SMART  
+ 6 according   SMART  
+ 7 accordingly SMART  
+ 8 across      SMART  
+ 9 actually    SMART  
+10 after       SMART  
+11 afterwards  SMART  
+12 again       SMART  
+13 against     SMART  
+14 ain't       SMART  
+15 all         SMART  
+16 allow       SMART  
+17 allows      SMART  
+18 almost      SMART  
+19 alone       SMART  
+20 along       SMART  </code></pre>
+</div>
+</div>
+<p>Now run the following code to view all stop words in each lexicon:</p>
+<p>In order to remove these stop words, we will use function called <code>anti_join()</code> that looks for matching values in a specific column from two datasets and returns rows from the original dataset that have no matches. For a good overview of the different <code>dplyr</code> joins see here: <a href="https://medium.com/the-codehub/beginners-guide-to-using-joins-in-r-682fc9b1f119" class="uri">https://medium.com/the-codehub/beginners-guide-to-using-joins-in-r-682fc9b1f119</a></p>
+
+<img data-src="img/anti-join.png" style="width:80.0%" class="r-stretch"><p>Let’s remove rows from our <code>opd_tidy</code> data frame that contain matches in the <code>word</code> column with those in the <code>stop_words</code> dataset and save it as <code>opd_clean</code> since we were done cleaning our data at this point.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 78,675 × 3
+   Role    Resource               word         
+   &lt;chr&gt;   &lt;chr&gt;                  &lt;chr&gt;        
+ 1 Teacher Live Webinar           levels       
+ 2 Teacher Live Webinar           ofquestioning
+ 3 Teacher Live Webinar           revised      
+ 4 Teacher Live Webinar           blooms       
+ 5 Teacher Online Learning Module modules      
+ 6 Teacher Online Learning Module teacher      
+ 7 Teacher Online Learning Module shown        
+ 8 Teacher Online Learning Module action       
+ 9 Teacher Online Learning Module classroom    
+10 Teacher Online Learning Module modeling     
+# ℹ 78,665 more rows</code></pre>
+</div>
+</div>
+<h4 id="your-turn-6"><strong>👉 Your Turn ⤵</strong></h4>
+<p>In the code chunk below, add the <code>anti_join()</code> function to our chain of data wrangling functions as our final text preprocessing step. Don’t forget to include in the function the stop words you are trying to remove.</p>
+<p>Also, add a short comment to each line of code explaining each data wrangling step. The first had been done for you.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 78,675 × 3
+   Role    Resource               word         
+   &lt;chr&gt;   &lt;chr&gt;                  &lt;chr&gt;        
+ 1 Teacher Live Webinar           levels       
+ 2 Teacher Live Webinar           ofquestioning
+ 3 Teacher Live Webinar           revised      
+ 4 Teacher Live Webinar           blooms       
+ 5 Teacher Online Learning Module modules      
+ 6 Teacher Online Learning Module teacher      
+ 7 Teacher Online Learning Module shown        
+ 8 Teacher Online Learning Module action       
+ 9 Teacher Online Learning Module classroom    
+10 Teacher Online Learning Module modeling     
+# ℹ 78,665 more rows</code></pre>
+</div>
+</div>
+<p>If you did this correctly, you should now see a <code>wrangled_teacher</code> data frame in the Environment pane that has 78,675 observations and 3 variables.</p>
+<h4 id="your-turn-7"><strong>👉 Your Turn ⤵</strong></h4>
+<p>Finally, let’s wrangle a data set that includes tokens not just for teachers, but for all educators who particiated in the online professional development offerings.</p>
+<p>Complete and run the following code to wrangle and tidy your <code>opd_survey</code> data for all survey respondents.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 92,722 × 3
+   Role                                                           Resource word 
+   &lt;chr&gt;                                                          &lt;chr&gt;    &lt;chr&gt;
+ 1 Central Office Staff (e.g. Superintendents, Tech Director, Cu… Online … glob…
+ 2 Central Office Staff (e.g. Superintendents, Tech Director, Cu… Online … view 
+ 3 School Support Staff (e.g. Counselors, Technology Facilitator… Calendar comm…
+ 4 Teacher                                                        Live We… leve…
+ 5 Teacher                                                        Live We… ofqu…
+ 6 Teacher                                                        Live We… revi…
+ 7 Teacher                                                        Live We… bloo…
+ 8 School Support Staff (e.g. Counselors, Technology Facilitator… Live We… awar…
+ 9 Central Office Staff (e.g. Superintendents, Tech Director, Cu… Wiki     info…
+10 Central Office Staff (e.g. Superintendents, Tech Director, Cu… Wiki     rele…
+# ℹ 92,712 more rows</code></pre>
+</div>
+</div>
+<h4 id="questions">❓Questions</h4>
+<ol type="1">
+<li>How many observations are in the data frame with all educators?
+<ul>
+<li>YOUR RESPONSE HERE</li>
+</ul></li>
+<li>Why do you think the console provided the message “Joining, by = ‘word’”?
+<ul>
+<li>YOUR RESPONSE HERE</li>
+</ul></li>
+</ol>
+<p>Congratulations, we’re now ready to begin exploring our wrangled data!</p>
+</section>
+<section id="whats-next" class="title-slide slide level1 center" data-background="#143156">
+<h1>What’s Next?</h1>
+<div style="text-align: left; font-size: 50px">
+<ul>
+<li>Explore the <em>R Basics</em> column of <a href="https://posit.cloud/learn/recipes">Posit Cloud’s Recipes</a></li>
+<li>Complete the <em>Prepare and Wrangle</em> part of the <a href="https://posit.cloud/spaces/493094/join?access_code=qjsumVzA0HZYgrxOSizVbVPmDs7iHYS32yUQaqDe">case study</a></li>
+<li>Complete the <a href="https://laser-institute.github.io/la-workflow/Foundation_R/module_1/module-1-badge-key.html">Foundations of Learning Analytics badge</a></li>
+<li>Do <a href="https://laser-institute.github.io/la-workflow/Foundation_R/module_2/module-2-conceptual-slides-R.html#/module-2-objectives">essential readings for the next module</a></li>
+</ul>
+</div>
+<a href="https://www.fi.ncsu.edu/projects/laser-institute">
+</a></section><a href="https://www.fi.ncsu.edu/projects/laser-institute">
+    </a></div><a href="https://www.fi.ncsu.edu/projects/laser-institute">
+  </a><div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="img/LASERlogo_large.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p><a href="https://www.fi.ncsu.edu/projects/laser-institute">LASER Institute</a></p><a href="https://www.fi.ncsu.edu/projects/laser-institute">
+</a></div><a href="https://www.fi.ncsu.edu/projects/laser-institute">
+</a></div></div><a href="https://www.fi.ncsu.edu/projects/laser-institute">
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="module-1-code-along_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="module-1-code-along_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="module-1-code-along_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="module-1-code-along_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="module-1-code-along_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="module-1-code-along_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="module-1-code-along_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="module-1-code-along_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="module-1-code-along_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="module-1-code-along_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="module-1-code-along_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': true,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":false},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+
+        height: 1080,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 5.0e-2,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+            const codeEl = trigger.previousElementSibling.cloneNode(true);
+            for (const childEl of codeEl.children) {
+              if (isCodeAnnotation(childEl)) {
+                childEl.remove();
+              }
+            }
+            return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</a></body></html>
