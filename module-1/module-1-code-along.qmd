@@ -432,8 +432,6 @@ into a one-term-per-row format.
 -   To do this, we use tidytext's incredibly powerful `unnest_tokens()`
     function
 
--   Arguments
-
 ## Your Turn
 
 -   Use `unnest_tokens()` to tokenize `opd_teacher` into new object
