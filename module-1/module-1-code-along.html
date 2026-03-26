@@ -6,8 +6,8 @@
 <script src="module-1-code-along_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="module-1-code-along_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="module-1-code-along_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="module-1-code-along_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.25">
+<link href="module-1-code-along_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.7.32">
 
   <title>Prepare and Wrangle</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -94,7 +94,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="module-1-code-along_files/libs/revealjs/dist/theme/quarto-ca498c54d3639273dff31d3ef88a1bca.css">
+  <link rel="stylesheet" href="module-1-code-along_files/libs/revealjs/dist/theme/quarto-3b093e4b5a2bb1f22f68e4b5d63b99b3.css">
   <link href="module-1-code-along_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="module-1-code-along_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="module-1-code-along_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -298,8 +298,8 @@
 </div>
 <div id="tabset-1-3">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href=""></a><span class="fu">library</span>(tidytext)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href=""></a><span class="fu">library</span>(tidytext)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -376,7 +376,7 @@
 </div>
 <div id="tabset-2-3">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>opd_survey <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/opd_survey.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>opd_survey <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/opd_survey.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-2-4">
@@ -536,10 +536,10 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 </div>
 <div id="tabset-3-3">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a><span class="co">#select relevant columns</span></span>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a><span class="co">#select relevant columns</span></span>
 <span id="cb8-2"><a href=""></a>opd_selected <span class="ot">&lt;-</span> <span class="fu">select</span>(opd_survey, Role, Resource, Q21)</span>
 <span id="cb8-3"><a href=""></a><span class="co">#check data</span></span>
-<span id="cb8-4"><a href=""></a><span class="fu">head</span>(opd_selected)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-4"><a href=""></a><span class="fu">head</span>(opd_selected)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   Role                                                            Resource Q21  
@@ -587,10 +587,10 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 </div>
 <div id="tabset-4-3">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="co">#rename columns</span></span>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="co">#rename columns</span></span>
 <span id="cb10-2"><a href=""></a>opd_renamed <span class="ot">&lt;-</span> <span class="fu">rename</span>(opd_selected, <span class="at">text =</span> Q21)</span>
 <span id="cb10-3"><a href=""></a><span class="co">#check data</span></span>
-<span id="cb10-4"><a href=""></a>opd_renamed</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-4"><a href=""></a>opd_renamed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 57,054 × 3
    Role                                                           Resource text 
@@ -632,6 +632,11 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 <li><p>These are shown in greater detail in the <a href="https://laser-institute.github.io//text-mining/module-1/tm-1-case-study.html">Module 1 Case Study</a></p></li>
 </ul>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="co">#use slice() to remove the top two rows of data</span></span>
+<span id="cb12-2"><a href=""></a><span class="co">#these are extra headers created by Qualtrics that we don't need</span></span>
+<span id="cb12-3"><a href=""></a>opd_sliced <span class="ot">&lt;-</span> <span class="fu">slice</span>(opd_renamed, <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">2</span>) <span class="co"># the - operator tells the slice function to NOT keep rows 1 and 2</span></span>
+<span id="cb12-4"><a href=""></a></span>
+<span id="cb12-5"><a href=""></a>opd_sliced</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 57,052 × 3
    Role                                                           Resource text 
@@ -648,6 +653,11 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 10 Teacher                                                        Online … "In …
 # ℹ 57,042 more rows</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="co">#use drop_na() to remove missing data indicated by "NA"</span></span>
+<span id="cb14-2"><a href=""></a></span>
+<span id="cb14-3"><a href=""></a>opd_complete <span class="ot">&lt;-</span> <span class="fu">drop_na</span>(opd_sliced)</span>
+<span id="cb14-4"><a href=""></a></span>
+<span id="cb14-5"><a href=""></a>opd_complete</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 27,283 × 3
    Role                                                           Resource text 
@@ -664,6 +674,11 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 10 Teacher                                                        Online … "ove…
 # ℹ 27,273 more rows</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="co">#use filter() to identify only responses from participants who indicated their role as teacher</span></span>
+<span id="cb16-2"><a href=""></a></span>
+<span id="cb16-3"><a href=""></a>opd_teacher <span class="ot">&lt;-</span> <span class="fu">filter</span>(opd_complete, Role <span class="sc">==</span> <span class="st">"Teacher"</span>)</span>
+<span id="cb16-4"><a href=""></a></span>
+<span id="cb16-5"><a href=""></a>opd_teacher</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 23,374 × 3
    Role    Resource                            text                             
@@ -759,45 +774,6 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 </div>
 </div>
 </div>
-<p>In order to tidy our text, we need to break the text into individual tokens (a process called tokenization) and transform it to a tidy data structure. To do this, we use tidytext’s incredibly powerful <code>unnest_tokens()</code> function.</p>
-<p>Run the following code to tidy our text and save it as a new data frame named <code>opd_tidy</code>:</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 190,528 × 3
-   Role    Resource               word         
-   &lt;chr&gt;   &lt;chr&gt;                  &lt;chr&gt;        
- 1 Teacher Live Webinar           levels       
- 2 Teacher Live Webinar           ofquestioning
- 3 Teacher Live Webinar           and          
- 4 Teacher Live Webinar           revised      
- 5 Teacher Live Webinar           blooms       
- 6 Teacher Online Learning Module none         
- 7 Teacher Online Learning Module really       
- 8 Teacher Online Learning Module in           
- 9 Teacher Online Learning Module any          
-10 Teacher Online Learning Module of           
-# ℹ 190,518 more rows</code></pre>
-</div>
-</div>
-<p>Note that we also could have just added <code>unnest_tokens(word, text)</code> to our previous piped chain of functions like so:</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 190,528 × 3
-   Role    Resource               word         
-   &lt;chr&gt;   &lt;chr&gt;                  &lt;chr&gt;        
- 1 Teacher Live Webinar           levels       
- 2 Teacher Live Webinar           ofquestioning
- 3 Teacher Live Webinar           and          
- 4 Teacher Live Webinar           revised      
- 5 Teacher Live Webinar           blooms       
- 6 Teacher Online Learning Module none         
- 7 Teacher Online Learning Module really       
- 8 Teacher Online Learning Module in           
- 9 Teacher Online Learning Module any          
-10 Teacher Online Learning Module of           
-# ℹ 190,518 more rows</code></pre>
-</div>
-</div>
 <aside class="notes">
 <p>In order to tidy our text, we need to break the text into individual tokens (a process called tokenization) and transform it to a tidy data structure. To do this, we use tidytext’s incredibly powerful <code>unnest_tokens()</code> function.</p>
 <p>After all the work we did prepping our data, this is going to feel a little anticlimactic.</p>
@@ -856,7 +832,7 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 <img data-src="img/anti-join.png" style="width:80.0%" class="r-stretch"><p>Let’s remove rows from our <code>opd_tidy</code> data frame that contain matches in the <code>word</code> column with those in the <code>stop_words</code> dataset and save it as <code>opd_clean</code> since we were done cleaning our data at this point.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 78,676 × 3
+<pre><code># A tibble: 78,675 × 3
    Role    Resource               word         
    &lt;chr&gt;   &lt;chr&gt;                  &lt;chr&gt;        
  1 Teacher Live Webinar           levels       
@@ -869,7 +845,7 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
  8 Teacher Online Learning Module action       
  9 Teacher Online Learning Module classroom    
 10 Teacher Online Learning Module modeling     
-# ℹ 78,666 more rows</code></pre>
+# ℹ 78,665 more rows</code></pre>
 </div>
 </div>
 <h4 id="your-turn-5"><strong>👉 Your Turn ⤵</strong></h4>
@@ -877,7 +853,7 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 <p>Also, add a short comment to each line of code explaining each data wrangling step. The first had been done for you.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 78,676 × 3
+<pre><code># A tibble: 78,675 × 3
    Role    Resource               word         
    &lt;chr&gt;   &lt;chr&gt;                  &lt;chr&gt;        
  1 Teacher Live Webinar           levels       
@@ -890,7 +866,7 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
  8 Teacher Online Learning Module action       
  9 Teacher Online Learning Module classroom    
 10 Teacher Online Learning Module modeling     
-# ℹ 78,666 more rows</code></pre>
+# ℹ 78,665 more rows</code></pre>
 </div>
 </div>
 <p>If you did this correctly, you should now see a <code>wrangled_teacher</code> data frame in the Environment pane that has 78,675 observations and 3 variables.</p>
@@ -899,7 +875,7 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 <p>Complete and run the following code to wrangle and tidy your <code>opd_survey</code> data for all survey respondents.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 92,723 × 3
+<pre><code># A tibble: 92,722 × 3
    Role                                                           Resource word 
    &lt;chr&gt;                                                          &lt;chr&gt;    &lt;chr&gt;
  1 Central Office Staff (e.g. Superintendents, Tech Director, Cu… Online … glob…
@@ -912,7 +888,7 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
  8 School Support Staff (e.g. Counselors, Technology Facilitator… Live We… awar…
  9 Central Office Staff (e.g. Superintendents, Tech Director, Cu… Wiki     info…
 10 Central Office Staff (e.g. Superintendents, Tech Director, Cu… Wiki     rele…
-# ℹ 92,713 more rows</code></pre>
+# ℹ 92,712 more rows</code></pre>
 </div>
 </div>
 <h4 id="questions">❓Questions</h4>
@@ -1132,7 +1108,7 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
         margin: 5.0e-2,
 
         math: {
-          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],
@@ -1159,80 +1135,42 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
       });
     </script>
     
-
     <script>
-
       // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-
       // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-
       // slide changes (different for each slide format).
-
       (function () {
-
         // dispatch for htmlwidgets
-
         function fireSlideEnter() {
-
           const event = window.document.createEvent("Event");
-
           event.initEvent("slideenter", true, true);
-
           window.document.dispatchEvent(event);
-
         }
-
-    
 
         function fireSlideChanged(previousSlide, currentSlide) {
-
           fireSlideEnter();
 
-    
-
           // dispatch for shiny
-
           if (window.jQuery) {
-
             if (previousSlide) {
-
               window.jQuery(previousSlide).trigger("hidden");
-
             }
-
             if (currentSlide) {
-
               window.jQuery(currentSlide).trigger("shown");
-
             }
-
           }
-
         }
-
-    
 
         // hookup for slidy
-
         if (window.w3c_slidy) {
-
           window.w3c_slidy.add_observer(function (slide_num) {
-
             // slide_num starts at position 1
-
             fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-
           });
-
         }
 
-    
-
       })();
-
     </script>
-
-    
 
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -1282,14 +1220,13 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-          const outerScaffold = trigger.parentElement.cloneNode(true);
-          const codeEl = outerScaffold.querySelector('code');
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
+            const codeEl = trigger.previousElementSibling.cloneNode(true);
+            for (const childEl of codeEl.children) {
+              if (isCodeAnnotation(childEl)) {
+                childEl.remove();
+              }
             }
-          }
-          return codeEl.innerText;
+            return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy

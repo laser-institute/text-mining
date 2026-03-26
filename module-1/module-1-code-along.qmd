@@ -343,7 +343,7 @@ and save it as `opd_renamed`.
 -   These are shown in greater detail in the [Module 1 Case
     Study](https://laser-institute.github.io//text-mining/module-1/tm-1-case-study.html)
 
-```{r echo=FALSE}
+```{r echo=TRUE}
 #use slice() to remove the top two rows of data
 #these are extra headers created by Qualtrics that we don't need
 opd_sliced <- slice(opd_renamed, -1, -2) # the - operator tells the slice function to NOT keep rows 1 and 2
@@ -449,35 +449,6 @@ into a one-term-per-row format.
 opd_tidy <- unnest_tokens(opd_teacher, word, text)
 ```
 :::
-
-In order to tidy our text, we need to break the text into individual
-tokens (a process called tokenization) and transform it to a tidy data
-structure. To do this, we use tidytext's incredibly powerful
-`unnest_tokens()` function.
-
-Run the following code to tidy our text and save it as a new data frame
-named `opd_tidy`:
-
-```{r}
-opd_tidy <- unnest_tokens(opd_teacher, word, text)
-
-opd_tidy
-```
-
-Note that we also could have just added `unnest_tokens(word, text)` to
-our previous piped chain of functions like so:
-
-```{r}
-opd_tidy <- opd_survey |>
-  select(Role, Resource, Q21) |>
-  rename(text = Q21) |>
-  slice(-1, -2) |>
-  drop_na() |>
-  filter(Role == "Teacher") |>
-  unnest_tokens(word, text)
-
-opd_tidy
-```
 
 ::: notes
 In order to tidy our text, we need to break the text into individual
