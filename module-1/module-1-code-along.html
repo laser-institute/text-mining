@@ -6,8 +6,8 @@
 <script src="module-1-code-along_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="module-1-code-along_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="module-1-code-along_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="module-1-code-along_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.32">
+<link href="module-1-code-along_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.25">
 
   <title>Prepare and Wrangle</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -94,7 +94,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="module-1-code-along_files/libs/revealjs/dist/theme/quarto-3b093e4b5a2bb1f22f68e4b5d63b99b3.css">
+  <link rel="stylesheet" href="module-1-code-along_files/libs/revealjs/dist/theme/quarto-ca498c54d3639273dff31d3ef88a1bca.css">
   <link href="module-1-code-along_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="module-1-code-along_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="module-1-code-along_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -255,11 +255,10 @@
 <ul>
 <li><p>We are working with open-ended survey data from an evaluation of online professional development offered by the North Carolina Department of Public Instruction</p></li>
 <li><p>This PD is part of the state’s <a href="https://obamawhitehouse.archives.gov/issues/education/k-12/race-to-the-top">Race to the Top</a> (RttT) efforts</p></li>
+<li><p><a href="https://fi.ncsu.edu/resource-library/race-to-the-top-online-professional-development-evaluation-year-1-report/">2012 Friday Institute Annual Report</a></p></li>
 </ul>
-
-<img data-src="img/opd.png" style="width:40.0%" class="r-stretch"><p><a href="https://fi.ncsu.edu/resource-library/race-to-the-top-online-professional-development-evaluation-year-1-report/">2012 Friday Institute Annual Report</a></p>
-<div class="fragment fade-in-then-semi-out" style="font-size: 30px">
-<p>Research Questions:</p>
+<div class="fragment fade-in-then-semi-out">
+<h3 id="research-questions">Research Questions:</h3>
 <ul>
 <li><p>What aspects of online professional development offerings do teachers find most valuable?</p></li>
 <li><p>How might resources differ in the value they afford teachers?</p></li>
@@ -282,7 +281,7 @@
 <section id="load-libraries" class="slide level2">
 <h2>Load Libraries</h2>
 <div class="panel-tabset">
-<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Key Packages</a></li><li><a href="#tabset-1-2">Your Turn</a></li><li><a href="#tabset-1-3">Answer</a></li></ul>
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Packages Needed</a></li><li><a href="#tabset-1-2">Your Turn</a></li><li><a href="#tabset-1-3">Answer</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1">
 <div class="columns">
@@ -299,8 +298,8 @@
 </div>
 <div id="tabset-1-3">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href=""></a><span class="fu">library</span>(tidytext)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href=""></a><span class="fu">library</span>(tidytext)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -377,7 +376,7 @@
 </div>
 <div id="tabset-2-3">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>opd_survey <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/opd_survey.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>opd_survey <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/opd_survey.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div id="tabset-2-4">
@@ -493,37 +492,54 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 </section>
 <section id="reducing-data" class="slide level2">
 <h2>Reducing Data</h2>
-<p>As you’ve probably already noticed from viewing our dataset, we clearly have more data than we need to answer our rather basic research question. For this part of our workflow we focus on the following functions from the tidyverse <code>dplyr</code> and <code>tidyr</code> packages for wrangling our data:</p>
-<p><a href="https://dplyr.tidyverse.org"><strong><code>dplyr</code></strong></a> <strong>functions</strong></p>
+<h3 id="dplyr-functions"><a href="https://dplyr.tidyverse.org"><strong><code>dplyr</code></strong></a> <strong>functions</strong></h3>
 <ul>
 <li><code>select()</code> picks variables based on their names.</li>
 <li><code>slice()</code> lets you select, remove, and duplicate rows.</li>
 <li><code>rename()</code> changes the names of individual variables using new_name = old_name syntax</li>
-<li><code>filter()</code> picks cases, or rows, based on their values in a specified column.</li>
+<li><code>filter()</code> picks cases, or rows, based on their values in a specified column</li>
 </ul>
-<p><a href="https://tidyr.tidyverse.org"><strong><code>tidyr</code></strong></a> <strong>functions</strong></p>
+<h3 id="tidyr-functions"><a href="https://tidyr.tidyverse.org"><strong><code>tidyr</code></strong></a> <strong>functions</strong></h3>
 <ul>
-<li><code>drop_na()</code> removes rows with missing values, i.e.&nbsp;NA</li>
+<li><code>drop_na()</code> removes rows with missing values (“na”, “N/A”, etc.)</li>
 </ul>
+<aside class="notes">
+<p>As you’ve probably already noticed from viewing our dataset, we clearly have more data than we need to answer our rather basic research question. For this part of our workflow we focus on the following functions from the tidyverse dplyr and tidyr packages for wrangling our data.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="subset-columns" class="slide level2">
 <h2>Subset Columns</h2>
+<div class="panel-tabset">
+<ul id="tabset-3" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-3-1">select()</a></li><li><a href="#tabset-3-2">Your Turn</a></li><li><a href="#tabset-3-3">Answer</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1">
 <ul>
 <li>To help address our research question, let’s first reduce our dataset to only the columns needed</li>
+<li><code>select()</code> is a <code>dplyr</code> function that can choose specific variables, or columns, of data</li>
 </ul>
-<p>To begin, we’ll <code>select()</code> the columns <code>Role</code>, <code>Resource</code>, and <code>Q21</code> since those respectively pertain to educator role, OPD resource they are evaluating, and, as illustrated by the second row of column Q21, their response to the survey question, “What was the most beneficial/ aspect of the professional development resource?”</p>
-<p>We’ll also assign these selected columns to a new data frame named <code>opd_selected</code> by using the <code>&lt;-</code> assignment operator.</p>
-<p>Run the following code:</p>
-<h4 id="your-turn-2"><strong>👉 Your Turn ⤵</strong></h4>
-<p>Suppose we were interested instead in analyzing how educators are are using the online resources instead of the most beneficial aspects.</p>
-<p>Change the code below to select the correct columns and then run the code:</p>
-<p>Notice that, like the bulk of tidyverse functions we’ll be using throughout our case studies, the first argument that the <code>select()</code> function expects is a data frame, which in our case is <code>opd_survey</code>. The <code>select()</code> function the expects the specific columns you’d like to select.</p>
-<p>Another common approach to providing tidyverse functions a data frame is to use the <code>|&gt;</code> pipe operator from the {maggitr] package, which is used to “pipe” inputs and outputs from one function to another. This operator is used so frequently in R, that it has now built into R with the new <code>|&gt;</code> pipe operator.</p>
-<p>Run the following code to select the columns <code>Role</code>, <code>Resource</code>, and <code>Q21</code> columns and assign these columns to a new data frame named <code>opd_selected</code>:</p>
-<p>This code produces the same result as the previous code, but is a common way in R of providing data to a function.</p>
-<h4 id="your-turn-3"><strong>👉 Your Turn ⤵</strong></h4>
-<p>Use one of the data viewing functions that we introduced above to take a look at our newly created data frame:</p>
+</div>
+<div id="tabset-3-2">
+<ul>
+<li><p><code>select()</code> the columns <code>Role</code>, <code>Resource</code>, and <code>Q21</code></p></li>
+<li><p>Assign these selected columns to a new data frame named <code>opd_selected</code> by using the <code>&lt;-</code> assignment operator</p></li>
+</ul>
+</div>
+<div id="tabset-3-3">
 <div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a><span class="co">#select relevant columns</span></span>
+<span id="cb8-2"><a href=""></a>opd_selected <span class="ot">&lt;-</span> <span class="fu">select</span>(opd_survey, Role, Resource, Q21)</span>
+<span id="cb8-3"><a href=""></a><span class="co">#check data</span></span>
+<span id="cb8-4"><a href=""></a><span class="fu">head</span>(opd_selected)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   Role                                                            Resource Q21  
@@ -536,14 +552,45 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 6 "School Support Staff (e.g. Counselors, Technology Facilitator… "Calend… "com…</code></pre>
 </div>
 </div>
-<p>Great job! You probably notice that the data frame now has dramatically fewer variables.</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>To begin, we’ll <code>select()</code> the columns <code>Role</code>, <code>Resource</code>, and <code>Q21</code> since those respectively pertain to educator role, OPD resource they are evaluating, and, as illustrated by the second row of column Q21, their response to the survey question, “What was the most beneficial/ aspect of the professional development resource?”</p>
+<p>We’ll also assign these selected columns to a new data frame named <code>opd_selected</code> by using the assignment operator</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="rename-columns" class="slide level2">
 <h2>Rename Columns</h2>
-<p>Notice that Q21 is not a terribly informative variable name. Let’s now take our <code>opd_selected</code> data frame and use the <code>rename()</code> function along with the <code>=</code> assignment operator introduced last week to change the name from Q21 to <code>text</code> and save it as <code>opd_renamed</code>.</p>
-<p>This naming is somewhat intentional because not only is it the text we are interested in analyzing, but also mirrors the naming conventions in our Text Mining with R <span class="citation" data-cites="silge2017text">[@silge2017text]</span> course book and will make it easier to follow the examples there.</p>
-<p>Run the following code to rename the column and print the updated data frame:</p>
+<div class="panel-tabset">
+<ul id="tabset-4" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-4-1">rename()</a></li><li><a href="#tabset-4-2">Your Turn</a></li><li><a href="#tabset-4-3">Answer</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1">
+<ul>
+<li><code>rename()</code> allows us to change the names of existing columns, which can make them more useful or informative in our data workflow</li>
+</ul>
+</div>
+<div id="tabset-4-2">
+<ul>
+<li>Take our <code>opd_selected</code> data frame and use <code>rename()</code>, along with the <code>=</code> assignment operator, to change the column name from <code>Q21</code> to <code>text</code> and save it as <code>opd_renamed</code>.</li>
+</ul>
+</div>
+<div id="tabset-4-3">
 <div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="co">#rename columns</span></span>
+<span id="cb10-2"><a href=""></a>opd_renamed <span class="ot">&lt;-</span> <span class="fu">rename</span>(opd_selected, <span class="at">text =</span> Q21)</span>
+<span id="cb10-3"><a href=""></a><span class="co">#check data</span></span>
+<span id="cb10-4"><a href=""></a>opd_renamed</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 57,054 × 3
    Role                                                           Resource text 
@@ -561,10 +608,29 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 # ℹ 57,044 more rows</code></pre>
 </div>
 </div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>Notice that Q21 is not a terribly informative variable name. Let’s now take our <code>opd_selected</code> data frame and use the <code>rename()</code> function along with the <code>=</code> assignment operator to change the name from Q21 to <code>text</code> and save it as <code>opd_renamed</code>.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="subset-rows" class="slide level2">
-<h2>Subset Rows</h2>
-<p>Now let’s deal with the legacy rows that Qualtrics outputs by default, which are effectively 3 sets of headers. We will use the <code>slice()</code> function, which is basically the same as the <code>select()</code> function but for rows instead of columns, to carve out those two rows.</p>
+<section id="additional-wrangling" class="slide level2">
+<h2>Additional Wrangling</h2>
+<ul>
+<li><p>The following code shows how to make some slight adjustments to account for Qualtrics artifacts and missing data</p></li>
+<li><p>These are shown in greater detail in the <a href="https://laser-institute.github.io//text-mining/module-1/tm-1-case-study.html">Module 1 Case Study</a></p></li>
+</ul>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 57,052 × 3
@@ -582,9 +648,6 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 10 Teacher                                                        Online … "In …
 # ℹ 57,042 more rows</code></pre>
 </div>
-</div>
-<p>Now let’s take our <code>opd_sliced</code> and remove any rows that are missing data, as indicated by an <code>NA</code>, by using the <code>drop_na</code> tidyverse function:</p>
-<div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 27,283 × 3
    Role                                                           Resource text 
@@ -601,9 +664,6 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 10 Teacher                                                        Online … "ove…
 # ℹ 27,273 more rows</code></pre>
 </div>
-</div>
-<p>Finally, since we are only interested in the feedback from teachers, let’s also filter our dataset for only participants who indicated their <code>Role</code> as “Teacher”.</p>
-<div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 23,374 × 3
    Role    Resource                            text                             
@@ -621,87 +681,23 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 # ℹ 23,364 more rows</code></pre>
 </div>
 </div>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Note</strong></p>
-</div>
-<div class="callout-content">
+<aside class="notes">
 <p>When we used two <code>==</code> signs to filter for rows when Role is equal to Teacher. This was different than when we used just on = sign to rename our column.</p>
 <p>In R, the single <code>=</code> sign is used for creating new variables, object or value, while the double == sign is used to test if two values are equal.</p>
 <p>The single <code>=</code> can also be used used for assigning the output of a function to a new objects, like so:</p>
 <p><code>opd_complete = drop_na(opd_sliced)</code></p>
 <p>However, using and == for comparisons and the <code>&lt;-</code> operator for assignment avoids ambiguity and makes the code easier to read and maintain.</p>
-</div>
-</div>
-</div>
-<h4 id="your-turn-4"><strong>👉 Your Turn ⤵</strong></h4>
-<p>Suppose we were interested instead in analyzing School Executive responses instead of teachers.</p>
-<p>Change the code below to filter the correct rows and then run the code:</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 23,374 × 3
-   Role    Resource                            text                             
-   &lt;chr&gt;   &lt;chr&gt;                               &lt;chr&gt;                            
- 1 Teacher Live Webinar                        "levels ofquestioning and revise…
- 2 Teacher Online Learning Module              "None, really."                  
- 3 Teacher Online Learning Module              "In any of the modules when a te…
- 4 Teacher Online Learning Module              "Understanding the change"       
- 5 Teacher Online Learning Module              "overview of reasons for change" 
- 6 Teacher Online Learning Module              "online--allowed me to do it on …
- 7 Teacher Summer Institute/RESA Presentations "exposure to new information and…
- 8 Teacher Summer Institute/RESA Presentations "Knowing what needs to be done." 
- 9 Teacher Other, please specify               "How to organize lessons"        
-10 Teacher Document, please specify            "Helping me understand what each…
-# ℹ 23,364 more rows</code></pre>
-</div>
-</div>
-</section>
-<section id="code-reduction" class="slide level2">
-<h2>Code Reduction</h2>
-<p>Fortunately, we can use the Pipe Operator <code>|&gt;</code> introduced in <a href="https://datascienceineducation.com/c06.html">Chapter 6 of Data Science in Education Using R (DSIEUR)</a> to dramatically simplify these cleaning steps and reduce the amount of code written:</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 23,374 × 3
-   Role    Resource                            text                             
-   &lt;chr&gt;   &lt;chr&gt;                               &lt;chr&gt;                            
- 1 Teacher Live Webinar                        "levels ofquestioning and revise…
- 2 Teacher Online Learning Module              "None, really."                  
- 3 Teacher Online Learning Module              "In any of the modules when a te…
- 4 Teacher Online Learning Module              "Understanding the change"       
- 5 Teacher Online Learning Module              "overview of reasons for change" 
- 6 Teacher Online Learning Module              "online--allowed me to do it on …
- 7 Teacher Summer Institute/RESA Presentations "exposure to new information and…
- 8 Teacher Summer Institute/RESA Presentations "Knowing what needs to be done." 
- 9 Teacher Other, please specify               "How to organize lessons"        
-10 Teacher Document, please specify            "Helping me understand what each…
-# ℹ 23,364 more rows</code></pre>
-</div>
-</div>
-<h4 id="your-turn-5"><strong>👉 Your Turn ⤵</strong></h4>
-<p>Use the code chunk below to rewrite the piped code above for an additional analysis. The data frame should includes all Roles, not just teachers, but excludes the <code>Resource</code> column. Assign it to <code>opd_benefits</code> using the <code>&lt;-</code> operator for later use.</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 27,283 × 2
-   Role                                                                    text 
-   &lt;chr&gt;                                                                   &lt;chr&gt;
- 1 Central Office Staff (e.g. Superintendents, Tech Director, Curriculum … "Glo…
- 2 School Support Staff (e.g. Counselors, Technology Facilitator, Testing… "com…
- 3 Teacher                                                                 "lev…
- 4 Teacher                                                                 "Non…
- 5 School Support Staff (e.g. Counselors, Technology Facilitator, Testing… "awa…
- 6 Central Office Staff (e.g. Superintendents, Tech Director, Curriculum … "Inf…
- 7 Central Office Staff (e.g. Superintendents, Tech Director, Curriculum … "Gav…
- 8 Teacher                                                                 "In …
- 9 Teacher                                                                 "Und…
-10 Teacher                                                                 "ove…
-# ℹ 27,273 more rows</code></pre>
-</div>
-</div>
-<p>Well done! Our text is now ready to be tidied!!!</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="tidying-text" class="slide level2">
 <h2>Tidying Text</h2>
@@ -710,36 +706,64 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 <li><code>unnest_tokens()</code> splits a column into tokens</li>
 <li><code>anti_join()</code> returns all rows from x with<strong>out</strong> a match in y.</li>
 </ul>
-</section>
-<section id="tidy-data-principles" class="slide level2">
-<h2>Tidy Data Principles</h2>
-<p>Not surprisingly, the Tidyverse set of packages including packages like <code>dplyr</code> adhere “tidy” data principles <span class="citation" data-cites="wickham2023r">[@wickham2023r]</span>. Tidy data has a specific structure:</p>
+<p>Tidy data has a specific structure:</p>
 <ul>
 <li>Each variable is a column</li>
 <li>Each observation is a row</li>
 <li>Each type of observational unit is a table</li>
 </ul>
-<p>Text data, by it’s very nature is ESPECIALLY untidy. In <a href="https://www.tidytextmining.com/tidytext.html">Chapter 1 of Text Mining with R</a>, Silge and Robinson define the tidy text format as:</p>
-<blockquote>
-<p>a table with <strong>one-token-per-row</strong>. A token is a meaningful unit of text, such as a word, that we are interested in using for analysis, and tokenization is the process of splitting text into tokens.</p>
-</blockquote>
 </section>
-<section id="our-tidy-text-goal" class="slide level2">
-<h2>Our Tidy Text Goal</h2>
+<section id="tidy-text-cont." class="slide level2">
+<h2>Tidy Text, Cont.</h2>
 <p>In this section, our goal is to transform our <code>opd_teacher</code> text data from this:</p>
-<p><img data-src="img/untidy-text.png"></p>
+
+<img data-src="img/untidy-text.png" class="r-stretch"></section>
+<section id="tidy-text-cont.-1" class="slide level2">
+<h2>Tidy Text, Cont.</h2>
 <p>to this:</p>
-<p><img data-src="img/tidy-text.png"></p>
+
+<img data-src="img/tidy-text.png" class="r-stretch"><aside class="notes">
 <p>This one-token-per-row structure differs from how text is often stored, perhaps as strings or in a <a href="https://en.wikipedia.org/wiki/Document-term_matrix#:~:text=A%20document%2Dterm%20matrix%20is,and%20columns%20correspond%20to%20terms.">document-term matrix</a>. The <strong>token</strong> that is stored in each row is most often a single word, but can also be an n-gram (e.g., a sequence of 2 or 3 words), a sentence, or even a whole paragraph. Conveniently, the tidytext package, provides functionality for tokenizing text by common units like these into a one-term-per-row format.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="tokenize-text" class="slide level2">
-<h2>Tokenize Text</h2>
+<section id="tokenizing-text" class="slide level2">
+<h2>Tokenizing Text</h2>
+<div class="panel-tabset">
+<ul id="tabset-5" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-5-1">unnest_tokens()</a></li><li><a href="#tabset-5-2">Your Turn</a></li><li><a href="#tabset-5-3">Answer</a></li></ul>
+<div class="tab-content">
+<div id="tabset-5-1">
+<ul>
+<li><p>In order to tidy our text, we need to break the text into individual tokens (a process called tokenization) and transform it to a tidy data structure</p></li>
+<li><p>To do this, we use tidytext’s incredibly powerful <code>unnest_tokens()</code> function</p></li>
+<li><p>Arguments</p></li>
+</ul>
+</div>
+<div id="tabset-5-2">
+<ul>
+<li><p>Use <code>unnest_tokens()</code> to tokenize <code>opd_teacher</code> into new object <code>opd_tidy</code></p></li>
+<li><p>Within the function, follow the table <code>opd_teacher</code> with the <code>output</code> and <code>input</code> arguments as <code>word</code> and <code>text</code>, respectively</p></li>
+</ul>
+</div>
+<div id="tabset-5-3">
+
+</div>
+</div>
+</div>
 <p>In order to tidy our text, we need to break the text into individual tokens (a process called tokenization) and transform it to a tidy data structure. To do this, we use tidytext’s incredibly powerful <code>unnest_tokens()</code> function.</p>
-<p>After all the work we did prepping our data, this is going to feel a little anticlimactic.</p>
 <p>Run the following code to tidy our text and save it as a new data frame named <code>opd_tidy</code>:</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 190,527 × 3
+<pre><code># A tibble: 190,528 × 3
    Role    Resource               word         
    &lt;chr&gt;   &lt;chr&gt;                  &lt;chr&gt;        
  1 Teacher Live Webinar           levels       
@@ -752,13 +776,13 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
  8 Teacher Online Learning Module in           
  9 Teacher Online Learning Module any          
 10 Teacher Online Learning Module of           
-# ℹ 190,517 more rows</code></pre>
+# ℹ 190,518 more rows</code></pre>
 </div>
 </div>
 <p>Note that we also could have just added <code>unnest_tokens(word, text)</code> to our previous piped chain of functions like so:</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 190,527 × 3
+<pre><code># A tibble: 190,528 × 3
    Role    Resource               word         
    &lt;chr&gt;   &lt;chr&gt;                  &lt;chr&gt;        
  1 Teacher Live Webinar           levels       
@@ -771,15 +795,29 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
  8 Teacher Online Learning Module in           
  9 Teacher Online Learning Module any          
 10 Teacher Online Learning Module of           
-# ℹ 190,517 more rows</code></pre>
+# ℹ 190,518 more rows</code></pre>
 </div>
 </div>
+<aside class="notes">
+<p>In order to tidy our text, we need to break the text into individual tokens (a process called tokenization) and transform it to a tidy data structure. To do this, we use tidytext’s incredibly powerful <code>unnest_tokens()</code> function.</p>
+<p>After all the work we did prepping our data, this is going to feel a little anticlimactic.</p>
 <p>There is A LOT to unpack with this function. First notice that <code>unnest_tokens</code> expects a data frame as the first argument, followed by two column names. The first is an output column name that doesn’t currently exist (<code>word</code>, in this case) but will be created as the text is unnested into the new column. This if followed by the input column that the text comes from which we uncreatively named <code>text</code>. Also notice:</p>
 <ul>
 <li>Other columns, such as <code>Role</code> and <code>Resource</code>, are retained.</li>
 <li>All punctuation has been removed.</li>
 <li>Tokens have been changed to lowercase, which makes them easier to compare or combine with other datasets. However, we can use the <code>to_lower = FALSE</code> argument to turn off this behavior if desired.</li>
 </ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="remove-stop-words" class="slide level2">
 <h2>Remove Stop Words</h2>
@@ -818,7 +856,7 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 <img data-src="img/anti-join.png" style="width:80.0%" class="r-stretch"><p>Let’s remove rows from our <code>opd_tidy</code> data frame that contain matches in the <code>word</code> column with those in the <code>stop_words</code> dataset and save it as <code>opd_clean</code> since we were done cleaning our data at this point.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 78,675 × 3
+<pre><code># A tibble: 78,676 × 3
    Role    Resource               word         
    &lt;chr&gt;   &lt;chr&gt;                  &lt;chr&gt;        
  1 Teacher Live Webinar           levels       
@@ -831,15 +869,15 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
  8 Teacher Online Learning Module action       
  9 Teacher Online Learning Module classroom    
 10 Teacher Online Learning Module modeling     
-# ℹ 78,665 more rows</code></pre>
+# ℹ 78,666 more rows</code></pre>
 </div>
 </div>
-<h4 id="your-turn-6"><strong>👉 Your Turn ⤵</strong></h4>
+<h4 id="your-turn-5"><strong>👉 Your Turn ⤵</strong></h4>
 <p>In the code chunk below, add the <code>anti_join()</code> function to our chain of data wrangling functions as our final text preprocessing step. Don’t forget to include in the function the stop words you are trying to remove.</p>
 <p>Also, add a short comment to each line of code explaining each data wrangling step. The first had been done for you.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 78,675 × 3
+<pre><code># A tibble: 78,676 × 3
    Role    Resource               word         
    &lt;chr&gt;   &lt;chr&gt;                  &lt;chr&gt;        
  1 Teacher Live Webinar           levels       
@@ -852,16 +890,16 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
  8 Teacher Online Learning Module action       
  9 Teacher Online Learning Module classroom    
 10 Teacher Online Learning Module modeling     
-# ℹ 78,665 more rows</code></pre>
+# ℹ 78,666 more rows</code></pre>
 </div>
 </div>
 <p>If you did this correctly, you should now see a <code>wrangled_teacher</code> data frame in the Environment pane that has 78,675 observations and 3 variables.</p>
-<h4 id="your-turn-7"><strong>👉 Your Turn ⤵</strong></h4>
+<h4 id="your-turn-6"><strong>👉 Your Turn ⤵</strong></h4>
 <p>Finally, let’s wrangle a data set that includes tokens not just for teachers, but for all educators who particiated in the online professional development offerings.</p>
 <p>Complete and run the following code to wrangle and tidy your <code>opd_survey</code> data for all survey respondents.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 92,722 × 3
+<pre><code># A tibble: 92,723 × 3
    Role                                                           Resource word 
    &lt;chr&gt;                                                          &lt;chr&gt;    &lt;chr&gt;
  1 Central Office Staff (e.g. Superintendents, Tech Director, Cu… Online … glob…
@@ -874,7 +912,7 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
  8 School Support Staff (e.g. Counselors, Technology Facilitator… Live We… awar…
  9 Central Office Staff (e.g. Superintendents, Tech Director, Cu… Wiki     info…
 10 Central Office Staff (e.g. Superintendents, Tech Director, Cu… Wiki     rele…
-# ℹ 92,712 more rows</code></pre>
+# ℹ 92,713 more rows</code></pre>
 </div>
 </div>
 <h4 id="questions">❓Questions</h4>
@@ -1094,7 +1132,7 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
         margin: 5.0e-2,
 
         math: {
-          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],
@@ -1121,42 +1159,80 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
       });
     </script>
     
+
     <script>
+
       // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
       // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
       // slide changes (different for each slide format).
+
       (function () {
+
         // dispatch for htmlwidgets
+
         function fireSlideEnter() {
+
           const event = window.document.createEvent("Event");
+
           event.initEvent("slideenter", true, true);
+
           window.document.dispatchEvent(event);
+
         }
+
+    
 
         function fireSlideChanged(previousSlide, currentSlide) {
+
           fireSlideEnter();
 
+    
+
           // dispatch for shiny
+
           if (window.jQuery) {
+
             if (previousSlide) {
+
               window.jQuery(previousSlide).trigger("hidden");
+
             }
+
             if (currentSlide) {
+
               window.jQuery(currentSlide).trigger("shown");
+
             }
+
           }
+
         }
+
+    
 
         // hookup for slidy
+
         if (window.w3c_slidy) {
+
           window.w3c_slidy.add_observer(function (slide_num) {
+
             // slide_num starts at position 1
+
             fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
           });
+
         }
 
+    
+
       })();
+
     </script>
+
+    
 
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -1206,13 +1282,14 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy
