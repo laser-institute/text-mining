@@ -822,63 +822,27 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 <section id="removing-stop-words" class="slide level2">
 <h2>Removing Stop Words</h2>
 <div class="panel-tabset">
-<ul id="tabset-6" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-6-1"><code>stop_words()</code></a></li><li><a href="#tabset-6-2"><code>anti_join()</code></a></li><li><a href="#tabset-6-3">Questions</a></li></ul>
+<ul id="tabset-6" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-6-1"><code>stop_words()</code></a></li><li><a href="#tabset-6-2"><code>anti_join()</code></a></li><li><a href="#tabset-6-3">Visual</a></li><li><a href="#tabset-6-4">Example</a></li><li><a href="#tabset-6-5"><strong>👉 Your Turn ⤵</strong></a></li><li><a href="#tabset-6-6">Questions</a></li></ul>
 <div class="tab-content">
 <div id="tabset-6-1">
 <p>One final step in tidying our text is to remove words that don’t add much value to our analysis (at least when using this approach) such as “and”, “the”, “of”, “to” etc. The <code>tidytext</code> package contains a <code>stop_words</code> dataset derived from three different lexicons that we’ll use to remove rows that match words in this dataset.</p>
-<p>Let’s take a look at the first 20 stop words so we know what we’re getting rid of from our <code>opd_tidy</code> dataset.</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 20 × 2
-   word        lexicon
-   &lt;chr&gt;       &lt;chr&gt;  
- 1 a           SMART  
- 2 a's         SMART  
- 3 able        SMART  
- 4 about       SMART  
- 5 above       SMART  
- 6 according   SMART  
- 7 accordingly SMART  
- 8 across      SMART  
- 9 actually    SMART  
-10 after       SMART  
-11 afterwards  SMART  
-12 again       SMART  
-13 against     SMART  
-14 ain't       SMART  
-15 all         SMART  
-16 allow       SMART  
-17 allows      SMART  
-18 almost      SMART  
-19 alone       SMART  
-20 along       SMART  </code></pre>
-</div>
-</div>
-<p>Now run the following code to view all stop words in each lexicon:</p>
+<p>Run <code>view(stop_words)</code> to view all stop words in each lexicon:</p>
 </div>
 <div id="tabset-6-2">
-<p>In order to remove these stop words, we will use function called <code>anti_join()</code> that looks for matching values in a specific column from two datasets and returns rows from the original dataset that have no matches. For a good overview of the different <code>dplyr</code> joins see here: <a href="https://medium.com/the-codehub/beginners-guide-to-using-joins-in-r-682fc9b1f119" class="uri">https://medium.com/the-codehub/beginners-guide-to-using-joins-in-r-682fc9b1f119</a></p>
+<p>In order to remove these stop words, we will use function called <code>anti_join()</code> that looks for matching values in a specific column from two datasets and returns rows from the original dataset that have no matches.</p>
+<p>For a good overview of the different <code>dplyr</code> joins see here: <a href="https://medium.com/the-codehub/beginners-guide-to-using-joins-in-r-682fc9b1f119" class="uri">https://medium.com/the-codehub/beginners-guide-to-using-joins-in-r-682fc9b1f119</a></p>
+</div>
+<div id="tabset-6-3">
 <p><img data-src="img/anti-join.png" style="width:80.0%"></p>
+</div>
+<div id="tabset-6-4">
 <p>Let’s remove rows from our <code>opd_tidy</code> data frame that contain matches in the <code>word</code> column with those in the <code>stop_words</code> dataset and save it as <code>opd_clean</code> since we were done cleaning our data at this point.</p>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 78,676 × 3
-   Role    Resource               word         
-   &lt;chr&gt;   &lt;chr&gt;                  &lt;chr&gt;        
- 1 Teacher Live Webinar           levels       
- 2 Teacher Live Webinar           ofquestioning
- 3 Teacher Live Webinar           revised      
- 4 Teacher Live Webinar           blooms       
- 5 Teacher Online Learning Module modules      
- 6 Teacher Online Learning Module teacher      
- 7 Teacher Online Learning Module shown        
- 8 Teacher Online Learning Module action       
- 9 Teacher Online Learning Module classroom    
-10 Teacher Online Learning Module modeling     
-# ℹ 78,666 more rows</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a>opd_clean <span class="ot">&lt;-</span> <span class="fu">anti_join</span>(opd_tidy, stop_words)</span>
+<span id="cb17-2"><a href=""></a><span class="fu">view</span>(opd_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
-<h4 id="your-turn-5"><strong>👉 Your Turn ⤵</strong></h4>
+<div id="tabset-6-5">
 <p>Finally, let’s wrangle a data set that includes tokens not just for teachers, but for all educators who particiated in the online professional development offerings.</p>
 <p>Complete and run the following code to wrangle and tidy your <code>opd_survey</code> data for all survey respondents.</p>
 <div class="cell">
@@ -901,7 +865,7 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 </div>
 <p>If you did this correctly, you should now see a <code>wrangled_teacher</code> data frame in the Environment pane that has 78,675 observations and 3 variables.</p>
 </div>
-<div id="tabset-6-3">
+<div id="tabset-6-6">
 <ol type="1">
 <li>How many observations are in the data frame with all educators?</li>
 <li>Why do you think the console provided the message “Joining, by = ‘word’”?</li>

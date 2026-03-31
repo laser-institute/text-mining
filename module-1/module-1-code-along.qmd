@@ -514,41 +514,34 @@ much value to our analysis (at least when using this approach) such as
 `stop_words` dataset derived from three different lexicons that we'll
 use to remove rows that match words in this dataset.
 
-Let's take a look at the first 20 stop words so we know what we're
-getting rid of from our `opd_tidy` dataset.
-
-```{r}
-
-head(stop_words, 20)
-```
-
-Now run the following code to view all stop words in each lexicon:
-
-```{r}
-
-view(stop_words)
-```
+Run `view(stop_words)` to view all stop words in each lexicon:
 
 ## `anti_join()`
 
 In order to remove these stop words, we will use function called
 `anti_join()` that looks for matching values in a specific column from
 two datasets and returns rows from the original dataset that have no
-matches. For a good overview of the different `dplyr` joins see here:
+matches.
+
+For a good overview of the different `dplyr` joins see here:
 <https://medium.com/the-codehub/beginners-guide-to-using-joins-in-r-682fc9b1f119>
 
+## Visual
+
 ![](img/anti-join.png){width="80%"}
+
+## Example
 
 Let's remove rows from our `opd_tidy` data frame that contain matches in
 the `word` column with those in the `stop_words` dataset and save it as
 `opd_clean` since we were done cleaning our data at this point.
 
-```{r}
+```{r, echo=TRUE}
 opd_clean <- anti_join(opd_tidy, stop_words)
-opd_clean
+view(opd_clean)
 ```
 
-#### **👉 Your Turn ⤵**
+## **👉 Your Turn ⤵**
 
 Finally, let's wrangle a data set that includes tokens not just for
 teachers, but for all educators who particiated in the online
