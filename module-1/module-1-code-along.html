@@ -819,8 +819,12 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
           display:block!important;
       }</style></aside>
 </section>
-<section id="remove-stop-words" class="slide level2">
-<h2>Remove Stop Words</h2>
+<section id="removing-stop-words" class="slide level2">
+<h2>Removing Stop Words</h2>
+<div class="panel-tabset">
+<ul id="tabset-6" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-6-1"><code>stop_words()</code></a></li><li><a href="#tabset-6-2"><code>anti_join()</code></a></li><li><a href="#tabset-6-3">Questions</a></li></ul>
+<div class="tab-content">
+<div id="tabset-6-1">
 <p>One final step in tidying our text is to remove words that don’t add much value to our analysis (at least when using this approach) such as “and”, “the”, “of”, “to” etc. The <code>tidytext</code> package contains a <code>stop_words</code> dataset derived from three different lexicons that we’ll use to remove rows that match words in this dataset.</p>
 <p>Let’s take a look at the first 20 stop words so we know what we’re getting rid of from our <code>opd_tidy</code> dataset.</p>
 <div class="cell">
@@ -851,9 +855,11 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 </div>
 </div>
 <p>Now run the following code to view all stop words in each lexicon:</p>
+</div>
+<div id="tabset-6-2">
 <p>In order to remove these stop words, we will use function called <code>anti_join()</code> that looks for matching values in a specific column from two datasets and returns rows from the original dataset that have no matches. For a good overview of the different <code>dplyr</code> joins see here: <a href="https://medium.com/the-codehub/beginners-guide-to-using-joins-in-r-682fc9b1f119" class="uri">https://medium.com/the-codehub/beginners-guide-to-using-joins-in-r-682fc9b1f119</a></p>
-
-<img data-src="img/anti-join.png" style="width:80.0%" class="r-stretch"><p>Let’s remove rows from our <code>opd_tidy</code> data frame that contain matches in the <code>word</code> column with those in the <code>stop_words</code> dataset and save it as <code>opd_clean</code> since we were done cleaning our data at this point.</p>
+<p><img data-src="img/anti-join.png" style="width:80.0%"></p>
+<p>Let’s remove rows from our <code>opd_tidy</code> data frame that contain matches in the <code>word</code> column with those in the <code>stop_words</code> dataset and save it as <code>opd_clean</code> since we were done cleaning our data at this point.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 78,676 × 3
@@ -873,8 +879,8 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 </div>
 </div>
 <h4 id="your-turn-5"><strong>👉 Your Turn ⤵</strong></h4>
-<p>In the code chunk below, add the <code>anti_join()</code> function to our chain of data wrangling functions as our final text preprocessing step. Don’t forget to include in the function the stop words you are trying to remove.</p>
-<p>Also, add a short comment to each line of code explaining each data wrangling step. The first had been done for you.</p>
+<p>Finally, let’s wrangle a data set that includes tokens not just for teachers, but for all educators who particiated in the online professional development offerings.</p>
+<p>Complete and run the following code to wrangle and tidy your <code>opd_survey</code> data for all survey respondents.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 78,676 × 3
@@ -894,48 +900,25 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 </div>
 </div>
 <p>If you did this correctly, you should now see a <code>wrangled_teacher</code> data frame in the Environment pane that has 78,675 observations and 3 variables.</p>
-<h4 id="your-turn-6"><strong>👉 Your Turn ⤵</strong></h4>
-<p>Finally, let’s wrangle a data set that includes tokens not just for teachers, but for all educators who particiated in the online professional development offerings.</p>
-<p>Complete and run the following code to wrangle and tidy your <code>opd_survey</code> data for all survey respondents.</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 92,723 × 3
-   Role                                                           Resource word 
-   &lt;chr&gt;                                                          &lt;chr&gt;    &lt;chr&gt;
- 1 Central Office Staff (e.g. Superintendents, Tech Director, Cu… Online … glob…
- 2 Central Office Staff (e.g. Superintendents, Tech Director, Cu… Online … view 
- 3 School Support Staff (e.g. Counselors, Technology Facilitator… Calendar comm…
- 4 Teacher                                                        Live We… leve…
- 5 Teacher                                                        Live We… ofqu…
- 6 Teacher                                                        Live We… revi…
- 7 Teacher                                                        Live We… bloo…
- 8 School Support Staff (e.g. Counselors, Technology Facilitator… Live We… awar…
- 9 Central Office Staff (e.g. Superintendents, Tech Director, Cu… Wiki     info…
-10 Central Office Staff (e.g. Superintendents, Tech Director, Cu… Wiki     rele…
-# ℹ 92,713 more rows</code></pre>
 </div>
-</div>
-<h4 id="questions">❓Questions</h4>
+<div id="tabset-6-3">
 <ol type="1">
-<li>How many observations are in the data frame with all educators?
-<ul>
-<li>YOUR RESPONSE HERE</li>
-</ul></li>
-<li>Why do you think the console provided the message “Joining, by = ‘word’”?
-<ul>
-<li>YOUR RESPONSE HERE</li>
-</ul></li>
+<li>How many observations are in the data frame with all educators?</li>
+<li>Why do you think the console provided the message “Joining, by = ‘word’”?</li>
 </ol>
 <p>Congratulations, we’re now ready to begin exploring our wrangled data!</p>
+</div>
+</div>
+</div>
 </section>
 <section id="whats-next" class="title-slide slide level1 center" data-background="#143156">
 <h1>What’s Next?</h1>
 <div style="text-align: left; font-size: 50px">
 <ul>
 <li>Explore the <em>R Basics</em> column of <a href="https://posit.cloud/learn/recipes">Posit Cloud’s Recipes</a></li>
-<li>Complete the <em>Prepare and Wrangle</em> part of the <a href="https://posit.cloud/spaces/493094/join?access_code=qjsumVzA0HZYgrxOSizVbVPmDs7iHYS32yUQaqDe">case study</a></li>
-<li>Complete the <a href="https://laser-institute.github.io/la-workflow/Foundation_R/module_1/module-1-badge-key.html">Foundations of Learning Analytics badge</a></li>
-<li>Do <a href="https://laser-institute.github.io/la-workflow/Foundation_R/module_2/module-2-conceptual-slides-R.html#/module-2-objectives">essential readings for the next module</a></li>
+<li>Complete the <em>Prepare and Wrangle</em> part of the <a href="https://laser-institute.github.io//text-mining/module-2/tm-2-case-study.html">case study</a></li>
+<li>Complete the <a href="https://laser-institute.github.io//text-mining/module-1/tm-1-badge.html">Text Mining Basics badge</a></li>
+<li>Do <a href="https://laser-institute.github.io//text-mining/module-2/tm-2-readings.html">essential readings for the next module</a></li>
 </ul>
 </div>
 <a href="https://www.fi.ncsu.edu/projects/laser-institute">

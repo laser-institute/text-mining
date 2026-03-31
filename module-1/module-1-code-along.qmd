@@ -503,7 +503,10 @@ notice:
     `to_lower = FALSE` argument to turn off this behavior if desired.
 :::
 
-## Remove Stop Words
+## Removing Stop Words
+
+::: panel-tabset
+## `stop_words()`
 
 One final step in tidying our text is to remove words that don't add
 much value to our analysis (at least when using this approach) such as
@@ -515,15 +518,18 @@ Let's take a look at the first 20 stop words so we know what we're
 getting rid of from our `opd_tidy` dataset.
 
 ```{r}
+
 head(stop_words, 20)
 ```
 
 Now run the following code to view all stop words in each lexicon:
 
-```{r, eval=FALSE}
+```{r}
 
 view(stop_words)
 ```
+
+## `anti_join()`
 
 In order to remove these stop words, we will use function called
 `anti_join()` that looks for matching values in a specific column from
@@ -539,19 +545,17 @@ the `word` column with those in the `stop_words` dataset and save it as
 
 ```{r}
 opd_clean <- anti_join(opd_tidy, stop_words)
-
 opd_clean
 ```
 
 #### **👉 Your Turn ⤵**
 
-In the code chunk below, add the `anti_join()` function to our chain of
-data wrangling functions as our final text preprocessing step. Don't
-forget to include in the function the stop words you are trying to
-remove.
+Finally, let's wrangle a data set that includes tokens not just for
+teachers, but for all educators who particiated in the online
+professional development offerings.
 
-Also, add a short comment to each line of code explaining each data
-wrangling step. The first had been done for you.
+Complete and run the following code to wrangle and tidy your
+`opd_survey` data for all survey respondents.
 
 ```{r}
 wrangled_teacher <- opd_survey |>
@@ -570,36 +574,14 @@ If you did this correctly, you should now see a `wrangled_teacher` data
 frame in the Environment pane that has 78,675 observations and 3
 variables.
 
-#### **👉 Your Turn ⤵**
-
-Finally, let's wrangle a data set that includes tokens not just for
-teachers, but for all educators who particiated in the online
-professional development offerings.
-
-Complete and run the following code to wrangle and tidy your
-`opd_survey` data for all survey respondents.
-
-```{r}
-wrangled_all <- opd_survey |>
-  select(Role, Resource, Q21) |>
-  rename(text = Q21) |>
-  slice(-1, -2) |>
-  drop_na() |>
-  unnest_tokens(word, text) |>
-  anti_join(stop_words)
-
-wrangled_all
-```
-
-#### ❓Questions
+## Questions
 
 1.  How many observations are in the data frame with all educators?
-    -   YOUR RESPONSE HERE
 2.  Why do you think the console provided the message "Joining, by =
     'word'"?
-    -   YOUR RESPONSE HERE
 
 Congratulations, we're now ready to begin exploring our wrangled data!
+:::
 
 # What's Next? {background="#143156"}
 
@@ -607,9 +589,9 @@ Congratulations, we're now ready to begin exploring our wrangled data!
 -   Explore the *R Basics* column of [Posit Cloud's
     Recipes](https://posit.cloud/learn/recipes)
 -   Complete the *Prepare and Wrangle* part of the [case
-    study](https://posit.cloud/spaces/493094/join?access_code=qjsumVzA0HZYgrxOSizVbVPmDs7iHYS32yUQaqDe)
--   Complete the [Foundations of Learning Analytics
-    badge](https://laser-institute.github.io/la-workflow/Foundation_R/module_1/module-1-badge-key.html)
+    study](https://laser-institute.github.io//text-mining/module-2/tm-2-case-study.html)
+-   Complete the [Text Mining Basics
+    badge](https://laser-institute.github.io//text-mining/module-1/tm-1-badge.html)
 -   Do [essential readings for the next
-    module](https://laser-institute.github.io/la-workflow/Foundation_R/module_2/module-2-conceptual-slides-R.html#/module-2-objectives)
+    module](https://laser-institute.github.io//text-mining/module-2/tm-2-readings.html)
 :::
