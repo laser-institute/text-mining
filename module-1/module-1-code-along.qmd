@@ -25,14 +25,14 @@ editor:
     wrap: 72
 ---
 
-## Welcome to the LAW Code-a-long for Module 1
+## Welcome to the Text Mining code along for Module 1
 
 -   The Text Mining course is designed for those seeking an introductory
     understanding of quantifying the text in documents to better
     understand their properties
 
--   The following code-a-long is a companion to the Module 1 case
-    study's **Prepare** and **Wrangle** stages
+-   The following code along is a companion to the Module 1 case study's
+    **Prepare** and **Wrangle** stages
 
 ![Figure 2.2 Steps of Data-Intensive Research
 Workflow](img/workflow.png){width="60%"}
@@ -44,7 +44,7 @@ Workflow](img/workflow.png){width="60%"}
 
 ## Module Objectives
 
-This code-a-long is about getting our text "tidy." By the end of this
+This code along is about getting our text "tidy." By the end of this
 module we will:
 
 -   Understand the context and data sources you're working with so you
