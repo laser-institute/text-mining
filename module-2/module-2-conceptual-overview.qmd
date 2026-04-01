@@ -16,7 +16,7 @@ format:
     margin: 0.05
     footer: <a href=https://www.fi.ncsu.edu/projects/laser-institute>LASER Institute
     slide-number: c/t
-    theme: default
+    theme: [default, css/laser.scss]
     transition: fade
 execute: 
   freeze: true
@@ -75,6 +75,7 @@ We will once again rely on `tidyverse` and `tidytext` for this analysis.
 library(tidyverse)
 library(tidytext)
 library(textdata)
+library(ggplot2)
 ```
 
 ## Read in Your Data
