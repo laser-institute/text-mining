@@ -76,7 +76,7 @@ sentiment_nrc <- inner_join(tidy_tweets, nrc, by = "word")
     understanding of quantifying the text in documents to better
     understand their properties
 
--   The following Code Along is a companion to the Module 2 case study's
+-   The following Code Along is a companion to the Module 2 Case Study's
     **Explore** stages
 
 ![Figure 2.2 Steps of Data-Intensive Research
@@ -85,21 +85,11 @@ Workflow](img/workflow.png){width="60%"}
 [@krumm2018]
 
 ::: notes
+-   The data that we're working with for today's Code Along has already
+    been tidied and cleaned
 :::
 
 ## Module Objectives
-
-This code along assumes that our text is tidied, and is now ready for
-some exploration.
-
--   The **explore** phase of the learning analytics workflow is to gain
-    a good intuition about the underlying data through summary
-    statistics, visualizations, and, if need be, additional wrangling
-
--   Exploration uncovers possible relationships between variables and
-    gives an opportunity to refine your research questions or hypotheses
-
-. . .
 
 By the end of this module, we will:
 
@@ -110,6 +100,12 @@ By the end of this module, we will:
 -   Visualize sentiment through a pie chart
 
 ::: notes
+-   The *explore* phase of the learning analytics workflow is to gain a
+    good intuition about the underlying data through summary statistics,
+    visualizations, and, if need be, additional wrangling
+
+-   Exploration uncovers possible relationships between variables and
+    gives an opportunity to refine your research questions or hypotheses
 :::
 
 ## Context of the Problem
@@ -131,6 +127,27 @@ width="50%"}
 :::
 
 ::: notes
+Article Abstract:
+
+While the Next Generation Science Standards (NGSS) are a long-standing
+and widespread standards-based educational reform effort, they have
+received less public attention, and no studies have explored the
+sentiment of the views of multiple stakeholders toward them.
+
+To establish how public sentiment about this reform might be similar to
+or different from past efforts, we applied a suite of data science
+techniques to posts about the standards on Twitter from 2010-2020 (N =
+571,378) from 87,719 users.
+
+Applying data science techniques to identify teachers and to estimate
+tweet sentiment, we found that the public sentiment towards the NGSS is
+overwhelmingly positive---33 times more so than for the CCSS.
+
+Mixed effects models indicated that sentiment became more positive over
+time and that teachers, in particular, showed a more positive sentiment
+towards the NGSS. We discuss implications for educational reform efforts
+and the use of data science methods for understanding their
+implementation.
 :::
 
 ## Load Libraries
@@ -166,17 +183,18 @@ library(textdata)
 ::::::
 
 ::: notes
+These should already be installed in RStudio, so there's no need to use
+`install.packages() first.`
+
 The `tidytext` package helps to convert text into data frames with each
 rows containing an individual word or sequence of words, making it easy
 to to manipulate, summarize, and visualize text using using familiar
 functions form the `tidyverse` collection of packages.
 
-`textdata` integrates nicely with the {tidytext} package and provides
+`textdata` integrates nicely with the `tidytext` package and provides
 streamlined access to various text-based datasets, which are commonly
 used for text mining, natural language processing, and sentiment
-analysis. Some examples of datasets accessible via textdata include
-sentiment lexicons (e.g., sentiment lexicons like AFINN, NRC, or Bing),
-specialized word lists, and linguistic resources.
+analysis.
 :::
 
 ## Time Series
@@ -189,12 +207,10 @@ first 5 months of 2020:
 
 ```{r}
 #| echo: true
-
 daily_tweets <- ss_tweets |>
   mutate(tweet_date = as.Date(created_at)) |>
   group_by(tweet_date) |>
   summarise(count = n())
-
 # Plot a line chart of the number of tweets over time
 ggplot(daily_tweets, aes(x = tweet_date, y = count)) +
   geom_line(color = "#CC0000") +
@@ -208,7 +224,7 @@ ggplot(daily_tweets, aes(x = tweet_date, y = count)) +
 
 Now recycle and modify the previous code to plot each standard
 separately so we can compare the number of tweets over time by Next
-Generation Science and Common Core `standard`:
+Generation Science and Common Core Standard:
 
 ## Answer
 
@@ -326,10 +342,6 @@ Rosenberg et al.'s findings!
 
 ## Compare Sentiment Counts
 
-Our last step will be calculate a single sentiment "score" for our
-tweets that we can use for quick comparison and create a new variable
-indicating which lexicon we used.
-
 First, let's untidy our data a little by using the `pivot_wider`
 function from the `tidyr` package to transform our `sentiment` column
 into separate columns for `negative` and `positive` that contains the
@@ -364,16 +376,19 @@ summary_bing <- sentiment_bing |>
 summary_bing
 ```
 
-There we go, now we can see that CCSS scores negative, while NGSS is
-overall positive.
+::: notes
+Our last step will be calculate a single sentiment "score" for our
+tweets that we can use for quick comparison and create a new variable
+indicating which lexicon we used.
+
+\[After all code is run\] There we go, now we can see that CCSS scores
+negative, while NGSS is overall positive.
+:::
 
 ## Compute Sentiment Scores
 
 ::: panel-tabset
 ## Score
-
-Now let's calculate a quick score for using the `afinn` lexicon. Recall
-that AFINN provides a value from -5 to 5 for each.
 
 To calculate a summary score, we will need to first group our data by
 `standards` again and then use the `summarise` function to create a new
@@ -423,10 +438,13 @@ summary_afinn
 :::
 
 ::: notes
-The `nrc` lexicon contains "positive" and "negative" values just like
-bing, but also includes values like "trust" and "sadness" as shown
-below. If you use nrc, you will need to use the filter() function to
-select rows that only contain "positive" and "negative."
+\[Tab 1\] Now let's calculate a quick score for using the `afinn`
+lexicon. Recall that AFINN provides a value from -5 to 5 for each.
+
+\[Tab 3\] The `nrc` lexicon contains "positive" and "negative" values
+just like bing, but also includes values like "trust" and "sadness" as
+shown below. If you use nrc, you will need to use the filter() function
+to select rows that only contain "positive" and "negative."
 :::
 
 ## Visualizing Sentiment
@@ -519,12 +537,10 @@ ggplot(aes(x="", y=n, fill=sentiment)) +
 # What's Next? {background="#143156"}
 
 ::: {style="text-align: left; font-size: 50px"}
--   Explore the *R Basics* column of [Posit Cloud's
-    Recipes](https://posit.cloud/learn/recipes)
--   Complete the *Prepare and Wrangle* part of the [case
+-   Complete the *Explore* part of the [case
     study](https://posit.cloud/spaces/493094/join?access_code=qjsumVzA0HZYgrxOSizVbVPmDs7iHYS32yUQaqDe)
--   Complete the [Foundations of Learning Analytics
-    badge](https://laser-institute.github.io/la-workflow/Foundation_R/module_1/module-1-badge-key.html)
+-   Complete the [Sentiment Analysis
+    badge](https://laser-institute.github.io//text-mining/module-2/tm-2-badge.html)
 -   Do [essential readings for the next
-    module](https://laser-institute.github.io/la-workflow/Foundation_R/module_2/module-2-conceptual-slides-R.html#/module-2-objectives)
+    module](https://laser-institute.github.io//text-mining/module-3/tm-3-readings.html)
 :::
