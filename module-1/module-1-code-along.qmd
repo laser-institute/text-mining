@@ -1,5 +1,5 @@
 ---
-title: "Prepare and Wrangle"
+title: "Tidy Text, Tokenization & Term Frequency"
 subtitle: "Text Mining Module 1: A Code Along"
 format: 
   revealjs:

@@ -1,5 +1,5 @@
 ---
-title: "Explore"
+title: "Working with Sentiment Lexicons"
 subtitle: "Text Mining Module 2: Code Along"
 format: 
   revealjs:
