@@ -368,6 +368,7 @@ summary_bing <- sentiment_bing |>
     names_from = sentiment, 
     values_from = n) |>
   mutate(sentiment = positive - negative) |>
+  mutate(ratio = positive/negative) |>
   mutate(lexicon = "bing") |>
   relocate(lexicon)
 
@@ -391,7 +392,7 @@ negative, while NGSS is overall positive.
 To calculate a summary score, we will need to first group our data by
 `standards` again and then use the `summarise` function to create a new
 `sentiment` variable by adding all the positive and negative scores in
-the `value` column:
+the `value` column. This is for AFINN:
 
 ```{r}
 #| echo: true
@@ -408,8 +409,8 @@ Again, CCSS is overall negative while NGSS is overall positive!
 
 ## 👉 Your Turn ⤵
 
-Calculate a single sentiment score for NGSS and CCSS using either the
-remaining `nrc` or `AFINN` lexicons.
+Calculate a single sentiment score for NGSS and CCSS using the NRC
+lexicon.
 
 ## Answer
 
@@ -424,14 +425,6 @@ summary_nrc <- sentiment_nrc |>
   mutate(sentiment = positive/negative)
 
 summary_nrc
-
-summary_afinn <- sentiment_afinn |> 
-  group_by(standards) |> 
-  summarise(sentiment = sum(value)) |>
-  mutate(lexicon = "AFINN") |>
-  relocate(lexicon)
-
-summary_afinn
 ```
 :::
 
@@ -525,7 +518,7 @@ afinn_counts <- afinn_sentiment |>
 afinn_counts |>
 ggplot(aes(x="", y=n, fill=sentiment)) +
   geom_bar(width = .6, stat = "identity") +
-  labs(title = "Next Gen Science Standards",
+  labs(title = "Common Core Science Standards",
        subtitle = "Proportion of Positive & Negative Tweets") +
   coord_polar(theta = "y") +
   theme_void()

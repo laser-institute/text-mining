@@ -49,14 +49,22 @@ editor:
 -   **Examples:** Identifying student frustration with a particular
     activity, or excitement for a pilot program
 
-## Why "Dictionary-Based"?
+## What is "Dictionary-Based"?
 
 -   We compare the words in our data to a pre-defined list (a
     **lexicon**) where each word has already been tagged with a
     sentiment by teams of researchers
 -   **Example:** If the word "helpful" is in our dictionary as "+1" in
     the Bing lexicon, and it appears 10 times in a student review, we
-    can not calculate a score
+    can now calculate a score
+-   Why Use Dictionary-Based vs. Machine Learning & genAI
+    -   **Transparency:** You can see exactly why a sentence was marked
+        "negative"
+    -   **Accessibility:** No need for training complex AI models or
+        depending on the training of existing genAI agents
+    -   **Speed and Scalability:** Works instantly on small-to-medium
+        datasets (e.g., 500 end-of-term surveys)
+    -   **Intuitive logic**
 
 ## Prepare Your Data
 
@@ -225,16 +233,6 @@ sentiment_data |>
 -   Word clouds are highly favored by leadership and executive summaries
     but should be used with care and intention
 :::
-
-## Why Use Dictionary-Based vs. Machine Learning/genAI
-
--   **Transparency:** You can see exactly why a sentence was marked
-    "negative"
--   **Accessibility:** No need for training complex AI models or
-    depending on the training of existing genAI agents
--   **Speed and Scalability:** Works instantly on small-to-medium
-    datasets (e.g., 500 end-of-term surveys)
--   **Intuitive logic**
 
 ## Critical Limitations
 
