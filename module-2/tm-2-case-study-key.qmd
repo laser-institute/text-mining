@@ -673,7 +673,7 @@ b.  **Sentiment Summaries**. We put together some basic summaries of our sentime
 
 ### 3a. Time Series
 
-Before we dig into sentiment, let's use the handy {dplyr} and {ggplot2} packaages to take a very quick look at the number of daily tweets over the first 5 months of 2020:
+Before we dig into sentiment, let's use the handy {dplyr} and {ggplot2} packages to take a very quick look at the number of daily tweets over the first 5 months of 2020:
 
 ```{r}
 daily_tweets <- ss_tweets |>
@@ -749,7 +749,7 @@ Let's start with `bing`, our simplest sentiment lexicon, and use the `count` fun
 summary_bing <- count(sentiment_bing, sentiment, sort = TRUE)
 ```
 
-Collectively, it looks like our combined dataset has more positive words than negative words.
+Collectively, it looks like our combined dataset has more negative words than positivewords.
 
 ```{r}
 summary_bing
@@ -765,7 +765,7 @@ summary_bing <- sentiment_bing |>
 summary_bing
 ```
 
-Looks like CCSS have far more negative words than positive, while NGSS skews much more positive. So far, pretty consistent with Rosenberg et al. findings!!!
+Looks like CCSS have far more negative words than positive, while NGSS skews much more positive. So far, pretty consistent with Rosenberg et al.'s findings!
 
 #### Compare Sentiment Counts
 
@@ -819,7 +819,7 @@ head(sentiment_afinn, n = 10) |>
   select(word, value)
 ```
 
-To calculate late a summary score, we will need to first group our data by `standards` again and then use the `summarise` function to create a new `sentiment` variable by adding all the positive and negative scores in the `value` column:
+To calculate a summary score, we will need to first group our data by `standards` again and then use the `summarise` function to create a new `sentiment` variable by adding all the positive and negative scores in the `value` column:
 
 ```{r}
 summary_afinn <- sentiment_afinn |> 
@@ -969,10 +969,18 @@ ggplot(aes(x="", y=n, fill=sentiment)) +
 In the code chunk below, replicate this process to create a similar pie chart for the CCSS tweets:
 
 ```{r}
-# YOUR CODE HERE
+afinn_counts <- afinn_sentiment |>
+  group_by(standards) |> 
+  count(sentiment) |>
+  filter(standards == "ccss")
 
-
-
+afinn_counts |>
+ggplot(aes(x="", y=n, fill=sentiment)) +
+  geom_bar(width = .6, stat = "identity") +
+  labs(title = "Next Gen Science Standards",
+       subtitle = "Proportion of Positive & Negative Tweets") +
+  coord_polar(theta = "y") +
+  theme_void()
 ```
 
 ## 4. MODEL

@@ -1,6 +1,6 @@
 ---
-title: "Prepare and Wrangle"
-subtitle: "Text Mining Module 1: A Code-a-long"
+title: "Explore"
+subtitle: "Text Mining Module 2: Code Along"
 format: 
   revealjs:
     # include-in-header: preview.html
@@ -25,14 +25,59 @@ editor:
     wrap: 72
 ---
 
-## Welcome to the LAW Code-a-long for Module 1
+## Welcome to the Text Mining Code Along for Module 2
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(tidytext)
+library(textdata)
+ccss_tweets <- read_csv("data/ccss-tweets.csv", 
+          col_types = cols(author_id = col_character(), 
+                           id = col_character(),
+                           conversation_id = col_character(), 
+                           in_reply_to_user_id = col_character()
+                           )
+          )
+ngss_tweets <- read_csv("data/ngss-tweets.csv", 
+          col_types = cols(author_id = col_character(), 
+                           id = col_character(),
+                           conversation_id = col_character(), 
+                           in_reply_to_user_id = col_character()
+                           )
+          )
+ccss_tweets_clean <- ccss_tweets |>
+  filter(possibly_sensitive == "FALSE") |>
+  select(text, author_id, created_at, conversation_id, id) |>
+  mutate(standards = "ccss") |>
+  relocate(standards)
+
+ngss_tweets_clean <- ngss_tweets |>
+  filter(possibly_sensitive == "FALSE") |>
+  select(text, author_id, created_at, conversation_id, id) |>
+  mutate(standards = "ngss") |>
+  relocate(standards)
+ss_tweets <- union(ccss_tweets_clean,
+                   ngss_tweets_clean)
+tidy_tweets <- ss_tweets |>
+  unnest_tokens(output = word, 
+                input = text) |>
+  anti_join(stop_words, by = "word") |>
+  filter(!word %in% c("amp", "https", "t.co", as.character(1:100)))
+afinn <- get_sentiments("afinn")
+bing <- get_sentiments("bing")
+nrc <- get_sentiments("nrc")
+sentiment_afinn <- inner_join(tidy_tweets, afinn, by = "word")
+sentiment_bing <- inner_join(tidy_tweets, bing, by = "word")
+sentiment_nrc <- inner_join(tidy_tweets, nrc, by = "word")
+```
 
 -   The Text Mining course is designed for those seeking an introductory
     understanding of quantifying the text in documents to better
     understand their properties
 
--   The following code-a-long is a companion to the Module 1 case
-    study's **Prepare** and **Wrangle** stages
+-   The following Code Along is a companion to the Module 2 case study's
+    **Explore** stages
 
 ![Figure 2.2 Steps of Data-Intensive Research
 Workflow](img/workflow.png){width="60%"}
@@ -44,48 +89,48 @@ Workflow](img/workflow.png){width="60%"}
 
 ## Module Objectives
 
-This code-a-long is about getting our text "tidy." By the end of this
-module we will:
+This code along assumes that our text is tidied, and is now ready for
+some exploration.
 
--   Understand the context and data sources you're working with so you
-    can formulate useful and answerable questions
+-   The **explore** phase of the learning analytics workflow is to gain
+    a good intuition about the underlying data through summary
+    statistics, visualizations, and, if need be, additional wrangling
+
+-   Exploration uncovers possible relationships between variables and
+    gives an opportunity to refine your research questions or hypotheses
 
 . . .
 
--   Practice reading, manipulating, cleaning, transforming, and merging
-    text data
+By the end of this module, we will:
 
-. . .
+-   Visualize the date range of our `ccss-tweets` dataset
+
+-   Summarize and compare public sentiment using summary statistics
+
+-   Visualize sentiment through a pie chart
 
 ::: notes
 :::
 
 ## Context of the Problem
 
--   We are working with open-ended survey data from an evaluation of
-    online professional development offered by the North Carolina
-    Department of Public Instruction
+### **Twitter and the Next Generation Science Standards**
 
--   This PD is part of the state's [Race to the
-    Top](https://obamawhitehouse.archives.gov/issues/education/k-12/race-to-the-top)
-    (RttT) efforts
-
--   [2012 Friday Institute Annual
-    Report](https://fi.ncsu.edu/resource-library/race-to-the-top-online-professional-development-evaluation-year-1-report/)
+![Rosenberg, J. M., Borchers, C., Dyer, E. B., Anderson, D., & Fischer,
+C. (2021). Understanding Public Sentiment About Educational Reforms: The
+Next Generation Science Standards on Twitter. AERA Open, 7.
+https://doi.org/10.1177/23328584211024261](img/rosenberg.jpg){fig-alt="Full Paper (AERA Open)"
+width="50%"}
 
 ::: {.fragment .fade-in-then-semi-out}
 ### Research Questions:
 
--   What aspects of online professional development offerings do
-    teachers find most valuable?
+-   What is the public sentiment expressed toward the NGSS?
 
--   How might resources differ in the value they afford teachers?
+-   How does sentiment for NGSS compare to sentiment for CCSS?
 :::
 
 ::: notes
-The dataset we'll be using for analysis in this case study is exported
-as is from Qualtrics with personal identifiers, select demographics,
-metadata, and closed-ended responses removed.
 :::
 
 ## Load Libraries
@@ -95,23 +140,28 @@ metadata, and closed-ended responses removed.
 
 ::::: columns
 ::: {.column width="50%"}
-![](img/tidyverse.png){width="30%"}
+![](images/tidyverse.png){width="275"}
+
+![](images/tidytext.png){width="270"}
 :::
 
 ::: {.column width="50%"}
-![](img/tidytext.png){width="30%"}
+![](images/textdata.png){width="275"}
 :::
 :::::
 
 ## Your Turn
 
--   Load the `tidyverse` and `tidytext` packages using `library()`
+-   Load the `tidyverse`, `tidytext`, and `textdata` packages using
+    `library()`
 
 ## Answer
 
-```{r echo=TRUE}
+```{r}
+#| echo: true
 library(tidyverse)
 library(tidytext)
+library(textdata)
 ```
 ::::::
 
@@ -119,487 +169,352 @@ library(tidytext)
 The `tidytext` package helps to convert text into data frames with each
 rows containing an individual word or sequence of words, making it easy
 to to manipulate, summarize, and visualize text using using familiar
-functions form the `tidyverse` collection of packages
+functions form the `tidyverse` collection of packages.
 
-Don't worry if you saw a number of messages: those probably mean that
-the tidyverse loaded just fine. Any conflicts you may have seen mean
-that functions in these packages you loaded have the same name as
-functions in other packages and R will default to function from the last
-loaded package unless you specify otherwise.
+`textdata` integrates nicely with the {tidytext} package and provides
+streamlined access to various text-based datasets, which are commonly
+used for text mining, natural language processing, and sentiment
+analysis. Some examples of datasets accessible via textdata include
+sentiment lexicons (e.g., sentiment lexicons like AFINN, NRC, or Bing),
+specialized word lists, and linguistic resources.
 :::
 
-## Wrangling Text Data
-
--   Data wrangling is essential because it involves the initial steps of
-    going from raw data to a dataset that can be explored and modeled
-    [@krumm2018]. Text mining is no exception. Today we will:
-
-a.  **Read raw data**. Before working with data, we need to "read" it
-    into R. It also helps to inspect your data and we'll review
-    different functions for doing so
-b.  **Reduce the data**. We focus on tools from the `dplyr` package to
-    `view`, `rename`, `select`, `slice`, and `filter` our data in
-    preparation for analysis
-c.  **Tidy text**. We'll learn how to use the `tidytext` package to both
-    "tidy" and tokenize our text in order to create a data frame to use
-    for analysis
-
-## Reading Data
-
-This section introduces the following functions for reading data into R
-and inspecting the contents of a data frame:
-
--   `dplyr::read_csv()` Reading .csv files into R.
--   `base::print()` View your data frame in the Console Pane
--   `utils::view()` View your data frame in the Source Pane
--   `tibble::glimpse()` Like print, but transposed so you can see all
-    columns
--   `utils::head()` View the first 6 rows of your data.
--   `utils::tail()` View last 6 rows of your data.
--   `dplyr::write_csv()` writing .csv files to directory.
-
-::: notes
-The name before the double colon indicates the package the function
-comes from. For example, read_csv comes from the readr package. In
-practice, we do not typically need to name the package when we call a
-function. If there are packages that use a function with the same name,
-it will default to the package that last loaded.
-:::
-
-## Reading Data, Cont.
+## Time Series
 
 ::: panel-tabset
-## Raw Data
+## Quick Viz
 
--   To get started, we need to import, or "read", our data into R
+Let's take a very quick look at the number of daily tweets over the
+first 5 months of 2020:
 
--   The RttT Online PD survey data is stored in a CSV file named
-    opd_survey.csv which is located in the data folder of this project
+```{r}
+#| echo: true
 
-## Your Turn
+daily_tweets <- ss_tweets |>
+  mutate(tweet_date = as.Date(created_at)) |>
+  group_by(tweet_date) |>
+  summarise(count = n())
 
--   Use `read_csv()` to save `opd_survey.csv` as a new object
-    `opd_survey`
-
--   This file can be found in the local data folder
-
--   If you have questions about the above function, don't be afraid to
-    look it up in console using `?read_csv()`
-
-## Answer
-
-```{r echo=TRUE}
-opd_survey <- read_csv("data/opd_survey.csv")
+# Plot a line chart of the number of tweets over time
+ggplot(daily_tweets, aes(x = tweet_date, y = count)) +
+  geom_line(color = "#CC0000") +
+  labs(
+    title = "Number of Tweets Over Time",
+    x = "2020",
+    y = "Tweet Count")
 ```
 
-## Alternative
-
--   There is also an Import Dataset feature under the Environment tab in
-    the upper right pane of RStudio
-
-![](img/import.png){width="100%"}
-:::
-
-## Viewing Data
-
--   Once your data is in R, there are many different ways you can view
-    it. Use the below code chunk to try each way out:
-
-```{r echo=FALSE}
-# enter the name of your data frame and view directly in console 
-opd_survey 
-
-# view your data frame transposed so your can see every column and the first few entries
-glimpse(opd_survey) 
-
-# look at just the first six entries
-head(opd_survey) 
-
-# or the last six entries
-tail(opd_survey) 
-
-# view the names of your variables or columns
-names(opd_survey) 
-
-# or view in source pane
-view(opd_survey) 
-
-```
-
-::: notes
-The view() function is a very useful function for displaying a data
-frame in an interactive spreadsheet-like interface within RStudio.
-However, it causes issues when rendering Quarto or knitting R Markdown
-documents because it does not produce an output or modify the
-environment as expected when rendering documents.
-
-Notice that in the code chunk above that the eval=FALSE option as been
-included in the header. This will prevent Quarto from evaluating this
-code chunk and including it in the rendered HTML file. If you use the
-view() function in later code chunks, be sure to include this option.
-Alternatively, you can use the view function directly in the console.
-
-To learn more about Quarto code chunk options, visit:
-<https://quarto.org/docs/computations/execution-options.html>
-:::
-
-## Reducing Data
-
-### [**`dplyr`**](https://dplyr.tidyverse.org) **functions**
-
--   `select()` picks variables based on their names.
--   `slice()` lets you select, remove, and duplicate rows.
--   `rename()` changes the names of individual variables using new_name
-    = old_name syntax
--   `filter()` picks cases, or rows, based on their values in a
-    specified column
-
-### [**`tidyr`**](https://tidyr.tidyverse.org) **functions**
-
--   `drop_na()` removes rows with missing values ("na", "N/A", etc.)
-
-::: notes
-As you've probably already noticed from viewing our dataset, we clearly
-have more data than we need to answer our rather basic research
-question. For this part of our workflow we focus on the following
-functions from the tidyverse dplyr and tidyr packages for wrangling our
-data.
-:::
-
-## Subset Columns
-
-::: panel-tabset
-## select()
-
--   To help address our research question, let's first reduce our
-    dataset to only the columns needed
--   `select()` is a `dplyr` function that can choose specific variables,
-    or columns, of data
-
-## Your Turn
-
--   `select()` the columns `Role`, `Resource`, and `Q21`
-
--   Assign these selected columns to a new data frame named
-    `opd_selected` by using the `<-` assignment operator
-
-## Answer
-
-```{r echo=TRUE}
-#select relevant columns
-opd_selected <- select(opd_survey, Role, Resource, Q21)
-#check data
-head(opd_selected)
-```
-:::
-
-::: notes
-To begin, we'll `select()` the columns `Role`, `Resource`, and `Q21`
-since those respectively pertain to educator role, OPD resource they are
-evaluating, and, as illustrated by the second row of column Q21, their
-response to the survey question, "What was the most beneficial/ aspect
-of the professional development resource?"
-
-We'll also assign these selected columns to a new data frame named
-`opd_selected` by using the assignment operator
-:::
-
-## Rename Columns
-
-::: panel-tabset
-## rename()
-
--   `rename()` allows us to change the names of existing columns, which
-    can make them more useful or informative in our data workflow
-
-## Your Turn
-
--   Take our `opd_selected` data frame and use `rename()`, along with
-    the `=` assignment operator, to change the column name from `Q21` to
-    `text` and save it as `opd_renamed`.
-
-## Answer
-
-```{r echo=TRUE}
-#rename columns
-opd_renamed <- rename(opd_selected, text = Q21)
-#check data
-opd_renamed
-```
-:::
-
-::: notes
-Notice that Q21 is not a terribly informative variable name. Let's now
-take our `opd_selected` data frame and use the `rename()` function along
-with the `=` assignment operator to change the name from Q21 to `text`
-and save it as `opd_renamed`.
-:::
-
-## Additional Wrangling
-
--   The following code shows how to make some slight adjustments to
-    account for Qualtrics artifacts and missing data
-
--   These are shown in greater detail in the [Module 1 Case
-    Study](https://laser-institute.github.io//text-mining/module-1/tm-1-case-study.html)
-
-```{r echo=FALSE}
-#use slice() to remove the top two rows of data
-#these are extra headers created by Qualtrics that we don't need
-opd_sliced <- slice(opd_renamed, -1, -2) # the - operator tells the slice function to NOT keep rows 1 and 2
-
-opd_sliced
-
-#use drop_na() to remove missing data indicated by "NA"
-
-opd_complete <- drop_na(opd_sliced)
-
-opd_complete
-
-#use filter() to identify only responses from participants who indicated their role as teacher
-
-opd_teacher <- filter(opd_complete, Role == "Teacher")
-
-opd_teacher
-```
-
-::: notes
-When we used two `==` signs to filter for rows when Role is equal to
-Teacher. This was different than when we used just on = sign to rename
-our column.
-
-In R, the single `=` sign is used for creating new variables, object or
-value, while the double == sign is used to test if two values are equal.
-
-The single `=` can also be used used for assigning the output of a
-function to a new objects, like so:
-
-`opd_complete = drop_na(opd_sliced)`
-
-However, using and == for comparisons and the `<-` operator for
-assignment avoids ambiguity and makes the code easier to read and
-maintain.
-:::
-
-## Tidying Text
-
-For this part of our workflow we focus on the following functions from
-the [`tidytext`](https://cran.r-project.org/web/packages/tidytext/) and
-`dplyr` packages respectively:
-
--   `unnest_tokens()` splits a column into tokens
--   `anti_join()` returns all rows from x with**out** a match in y.
-
-Tidy data has a specific structure:
-
--   Each variable is a column
--   Each observation is a row
--   Each type of observational unit is a table
-
-## Tidy Text, Cont.
-
-In this section, our goal is to transform our `opd_teacher` text data
-from this:
-
-![](img/untidy-text.png)
-
-## Tidy Text, Cont.
-
-to this:
-
-![](img/tidy-text.png)
-
-::: notes
-This one-token-per-row structure differs from how text is often stored,
-perhaps as strings or in a [document-term
-matrix](https://en.wikipedia.org/wiki/Document-term_matrix#:~:text=A%20document%2Dterm%20matrix%20is,and%20columns%20correspond%20to%20terms.).
-The **token** that is stored in each row is most often a single word,
-but can also be an n-gram (e.g., a sequence of 2 or 3 words), a
-sentence, or even a whole paragraph. Conveniently, the tidytext package,
-provides functionality for tokenizing text by common units like these
-into a one-term-per-row format.
-:::
-
-## Tokenizing Text
-
-::: panel-tabset
-## unnest_tokens()
-
--   In order to tidy our text, we need to break the text into individual
-    tokens (a process called tokenization) and transform it to a tidy
-    data structure
-
--   To do this, we use tidytext's incredibly powerful `unnest_tokens()`
-    function
-
--   Arguments
-
-## Your Turn
-
--   Use `unnest_tokens()` to tokenize `opd_teacher` into new object
-    `opd_tidy`
-
--   Within the function, follow the table `opd_teacher` with the
-    `output` and `input` arguments as `word` and `text`, respectively
+## **👉 Your Turn ⤵**
+
+Now recycle and modify the previous code to plot each standard
+separately so we can compare the number of tweets over time by Next
+Generation Science and Common Core `standard`:
 
 ## Answer
 
 ```{r}
-#
-opd_tidy <- unnest_tokens(opd_teacher, word, text)
+#| echo: true
+daily_tweets <- ss_tweets |>
+  mutate(tweet_date = as.Date(created_at)) |>
+  group_by(standards, tweet_date) |> 
+  summarise(count = n()) |>
+  ungroup()
+
+ggplot(daily_tweets, aes(x = tweet_date, y = count, color = standards, group = standards)) +
+  geom_line(size = 1) +
+  # Manually define colors for each standard
+  scale_color_manual(values = c("steelblue", "#CC0000")) +
+  labs(
+    title = "Number of Tweets Over Time",
+    x = "2020",
+    y = "Tweet Count",
+    color = "Standard"
+  ) + 
+  theme(legend.position = "top")
 ```
 :::
-
-In order to tidy our text, we need to break the text into individual
-tokens (a process called tokenization) and transform it to a tidy data
-structure. To do this, we use tidytext's incredibly powerful
-`unnest_tokens()` function.
-
-Run the following code to tidy our text and save it as a new data frame
-named `opd_tidy`:
-
-```{r}
-opd_tidy <- unnest_tokens(opd_teacher, word, text)
-
-opd_tidy
-```
-
-Note that we also could have just added `unnest_tokens(word, text)` to
-our previous piped chain of functions like so:
-
-```{r}
-opd_tidy <- opd_survey |>
-  select(Role, Resource, Q21) |>
-  rename(text = Q21) |>
-  slice(-1, -2) |>
-  drop_na() |>
-  filter(Role == "Teacher") |>
-  unnest_tokens(word, text)
-
-opd_tidy
-```
 
 ::: notes
-In order to tidy our text, we need to break the text into individual
-tokens (a process called tokenization) and transform it to a tidy data
-structure. To do this, we use tidytext's incredibly powerful
-`unnest_tokens()` function.
+\[Tab 1\] Let's unpack what our code just did:
 
-After all the work we did prepping our data, this is going to feel a
-little anticlimactic.
+1.  **Convert to date**: the `mutate(tweet_date = as.Date(created_at))`
+    created a new column, `tweet_date`, by extracting just the date
+    portion from the `created_at` column.
 
-There is A LOT to unpack with this function. First notice that
-`unnest_tokens` expects a data frame as the first argument, followed by
-two column names. The first is an output column name that doesn't
-currently exist (`word`, in this case) but will be created as the text
-is unnested into the new column. This if followed by the input column
-that the text comes from which we uncreatively named `text`. Also
-notice:
+2.  **Group by date**: The `group_by(tweet_date)` groups all tweets by
+    their date.
 
--   Other columns, such as `Role` and `Resource`, are retained.
--   All punctuation has been removed.
--   Tokens have been changed to lowercase, which makes them easier to
-    compare or combine with other datasets. However, we can use the
-    `to_lower = FALSE` argument to turn off this behavior if desired.
+3.  **Count tweets**: The `summarise(count = n())` counts the number of
+    tweets per date, returning a daily summary in daily_tweets.
+
+4.  **Plot the results**: The `ggplot(...) + geom_line(...)` code
+    creates a line chart with the `tweet_date` on the x-axis and the
+    tweet `count` on the y-axis, coloring the line in red `#CC0000` and
+    adding axis labels and a title.
 :::
 
-## Remove Stop Words
+## Sentiment Summaries
 
-One final step in tidying our text is to remove words that don't add
-much value to our analysis (at least when using this approach) such as
-"and", "the", "of", "to" etc. The `tidytext` package contains a
-`stop_words` dataset derived from three different lexicons that we'll
-use to remove rows that match words in this dataset.
+Since our primary goals is to compare public sentiment around the NGSS
+and CCSS state standards, in this section we put together some basic
+numerical summaries using our different lexicons to see whether tweets
+are generally more positive or negative for each standard as well as
+differences between the two. To do this, we revisit the following
+`dplyr` functions:
 
-Let's take a look at the first 20 stop words so we know what we're
-getting rid of from our `opd_tidy` dataset.
+-   [`count()`](https://dplyr.tidyverse.org/reference/count.html?q=count)
+    lets you quickly count the unique values of one or more variables
 
-```{r}
-head(stop_words, 20)
-```
+-   [`group_by()`](https://dplyr.tidyverse.org/articles/grouping.html?q=group)
+    takes a data frame and one or more variables to group by
 
-Now run the following code to view all stop words in each lexicon:
+-   [`summarise()`](https://dplyr.tidyverse.org/reference/summarise.html)
+    creates a numerical summary of data using arguments like
+    [`mean()`](https://rdrr.io/r/base/mean.html)
+    and [`median()`](https://rdrr.io/r/stats/median.html)
 
-```{r, eval=FALSE}
+-   [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) adds
+    new variables and preserves existing ones
 
-view(stop_words)
-```
+And introduce one new function:
 
-In order to remove these stop words, we will use function called
-`anti_join()` that looks for matching values in a specific column from
-two datasets and returns rows from the original dataset that have no
-matches. For a good overview of the different `dplyr` joins see here:
-<https://medium.com/the-codehub/beginners-guide-to-using-joins-in-r-682fc9b1f119>
+-   `pivot_wider()` "widens" data, increasing the number of columns and
+    decreasing the number of rows. The inverse transformation is
+    [`pivot_longer()`](https://r4ds.hadley.nz/data-tidy.html#sec-pivoting).
 
-![](img/anti-join.png){width="80%"}
+## Sentiment Counts
 
-Let's remove rows from our `opd_tidy` data frame that contain matches in
-the `word` column with those in the `stop_words` dataset and save it as
-`opd_clean` since we were done cleaning our data at this point.
+::: panel-tabset
+## bing
 
-```{r}
-opd_clean <- anti_join(opd_tidy, stop_words)
-
-opd_clean
-```
-
-#### **👉 Your Turn ⤵**
-
-In the code chunk below, add the `anti_join()` function to our chain of
-data wrangling functions as our final text preprocessing step. Don't
-forget to include in the function the stop words you are trying to
-remove.
-
-Also, add a short comment to each line of code explaining each data
-wrangling step. The first had been done for you.
+Let's start with `bing`, our simplest sentiment lexicon, and use the
+`count` function to count how many times in our `sentiment_bing` data
+frame "positive" and "negative" occur in `sentiment` column :
 
 ```{r}
-wrangled_teacher <- opd_survey |>
-  select(Role, Resource, Q21) |> # Select only columns Role, Resource, and Q21
-  rename(text = Q21) |> 
-  slice(-1, -2) |>
-  drop_na() |>
-  filter(Role == "Teacher") |>
-  unnest_tokens(word, text) |>
-  anti_join(stop_words)
-
-wrangled_teacher
+#| echo: true
+summary_bing <- count(sentiment_bing, sentiment, sort = TRUE)
+summary_bing
 ```
 
-If you did this correctly, you should now see a `wrangled_teacher` data
-frame in the Environment pane that has 78,675 observations and 3
-variables.
+## **👉 Your Turn ⤵**
 
-#### **👉 Your Turn ⤵**
+Since our main goal is to compare positive and negative sentiment
+between CCSS and NGSS, let's use the `group_by` function again to get
+`sentiment` summaries for NGSS and CCSS separately:
 
-Finally, let's wrangle a data set that includes tokens not just for
-teachers, but for all educators who particiated in the online
-professional development offerings.
-
-Complete and run the following code to wrangle and tidy your
-`opd_survey` data for all survey respondents.
+## Answer
 
 ```{r}
-wrangled_all <- opd_survey |>
-  select(Role, Resource, Q21) |>
-  rename(text = Q21) |>
-  slice(-1, -2) |>
-  drop_na() |>
-  unnest_tokens(word, text) |>
-  anti_join(stop_words)
+#| echo: true
+summary_bing <- sentiment_bing |> 
+  group_by(standards) |> 
+  count(sentiment) 
 
-wrangled_all
+summary_bing
+```
+:::
+
+::: notes
+\[Tab 1 \] Collectively, it looks like our combined dataset has more
+negative words than positive words.
+
+\[Tab 3\] Looks like CCSS have far more negative words than positive,
+while NGSS skews much more positive. So far, pretty consistent with
+Rosenberg et al.'s findings!
+:::
+
+## Compare Sentiment Counts
+
+Our last step will be calculate a single sentiment "score" for our
+tweets that we can use for quick comparison and create a new variable
+indicating which lexicon we used.
+
+First, let's untidy our data a little by using the `pivot_wider`
+function from the `tidyr` package to transform our `sentiment` column
+into separate columns for `negative` and `positive` that contains the
+`n` counts for each:
+
+```{r}
+summary_bing <- sentiment_bing |>
+  group_by(standards) |>
+  count(sentiment, sort = TRUE) |>
+  pivot_wider(
+    names_from = sentiment, 
+    values_from = n)
+
+summary_bing
 ```
 
-#### ❓Questions
+Finally, we'll use the `mutate` function to create two new variables:
+`sentiment` and `lexicon` so we have a single sentiment score and the
+lexicon from which it was derived:
 
-1.  How many observations are in the data frame with all educators?
-    -   YOUR RESPONSE HERE
-2.  Why do you think the console provided the message "Joining, by =
-    'word'"?
-    -   YOUR RESPONSE HERE
+```{r}
+summary_bing <- sentiment_bing |> 
+  group_by(standards) |> 
+  count(sentiment, sort = TRUE) |> 
+  pivot_wider(
+    names_from = sentiment, 
+    values_from = n) |>
+  mutate(sentiment = positive - negative) |>
+  mutate(lexicon = "bing") |>
+  relocate(lexicon)
 
-Congratulations, we're now ready to begin exploring our wrangled data!
+summary_bing
+```
+
+There we go, now we can see that CCSS scores negative, while NGSS is
+overall positive.
+
+## Compute Sentiment Scores
+
+::: panel-tabset
+## Score
+
+Now let's calculate a quick score for using the `afinn` lexicon. Recall
+that AFINN provides a value from -5 to 5 for each.
+
+To calculate a summary score, we will need to first group our data by
+`standards` again and then use the `summarise` function to create a new
+`sentiment` variable by adding all the positive and negative scores in
+the `value` column:
+
+```{r}
+#| echo: true
+summary_afinn <- sentiment_afinn |> 
+  group_by(standards) |> 
+  summarise(sentiment = sum(value)) |> 
+  mutate(lexicon = "AFINN") |>
+  relocate(lexicon)
+
+summary_afinn
+```
+
+Again, CCSS is overall negative while NGSS is overall positive!
+
+## 👉 Your Turn ⤵
+
+Calculate a single sentiment score for NGSS and CCSS using either the
+remaining `nrc` or `AFINN` lexicons.
+
+## Answer
+
+```{r}
+#| echo: true
+summary_nrc <- sentiment_nrc |> 
+  filter(sentiment %in% c("positive", "negative")) |>
+  group_by(standards) |> 
+  count(sentiment, sort = TRUE) |> 
+  mutate(method = "nrc")  |>
+  spread(sentiment, n) |>
+  mutate(sentiment = positive/negative)
+
+summary_nrc
+
+summary_afinn <- sentiment_afinn |> 
+  group_by(standards) |> 
+  summarise(sentiment = sum(value)) |>
+  mutate(lexicon = "AFINN") |>
+  relocate(lexicon)
+
+summary_afinn
+```
+:::
+
+::: notes
+The `nrc` lexicon contains "positive" and "negative" values just like
+bing, but also includes values like "trust" and "sadness" as shown
+below. If you use nrc, you will need to use the filter() function to
+select rows that only contain "positive" and "negative."
+:::
+
+## Visualizing Sentiment
+
+```{r}
+#| echo: false
+ngss_text <-
+  ngss_tweets |>
+  select(id, text) |>
+  mutate(standards = "ngss") |>
+  relocate(standards)
+
+ccss_text <-
+  ccss_tweets |>
+  select(id, text) |>
+  mutate(standards = "ccss") |>
+  relocate(standards)
+
+tweets <- bind_rows(ngss_text, ccss_text)
+
+sentiment_afinn <- tweets |>
+  unnest_tokens(output = word, 
+                input = text)  |> 
+  anti_join(stop_words, by = "word") |>
+  filter(!word == "amp") |>
+  inner_join(afinn, by = "word")
+
+afinn_score <- sentiment_afinn |> 
+  group_by(standards, id) |> 
+  summarise(value = sum(value))
+
+afinn_sentiment <- afinn_score |>
+  filter(value != 0) |>
+  mutate(sentiment = if_else(value < 0, "negative", "positive"))
+
+afinn_ratio <- afinn_sentiment |> 
+  group_by(standards) |> 
+  count(sentiment) |> 
+  spread(sentiment, n) |>
+  mutate(ratio = negative/positive)
+
+```
+
+::: panel-tabset
+## AFINN
+
+Let's create a simple pie chart that we can use to visually communicate
+the proportion of positive and negative tweets:
+
+```{r}
+afinn_counts <- afinn_sentiment |>
+  group_by(standards) |> 
+  count(sentiment) |>
+  filter(standards == "ngss")
+
+afinn_counts |>
+ggplot(aes(x="", y=n, fill=sentiment)) +
+  geom_bar(width = .6, stat = "identity") +
+  labs(title = "Next Gen Science Standards",
+       subtitle = "Proportion of Positive & Negative Tweets") +
+  coord_polar(theta = "y") +
+  theme_void()
+
+```
+
+## 👉 Your Turn ⤵
+
+Replicate this process to create a similar pie chart for the CCSS
+tweets.
+
+## Answer
+
+```{r}
+#| echo: true
+afinn_counts <- afinn_sentiment |>
+  group_by(standards) |> 
+  count(sentiment) |>
+  filter(standards == "ccss")
+
+afinn_counts |>
+ggplot(aes(x="", y=n, fill=sentiment)) +
+  geom_bar(width = .6, stat = "identity") +
+  labs(title = "Next Gen Science Standards",
+       subtitle = "Proportion of Positive & Negative Tweets") +
+  coord_polar(theta = "y") +
+  theme_void()
+```
+:::
 
 # What's Next? {background="#143156"}
 
