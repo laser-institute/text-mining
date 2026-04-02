@@ -44,7 +44,7 @@ Workflow](img/workflow.png){width="60%"}
 
 ## Module Objectives
 
-This code-a-long is about getting our text "tidy." By the end of this
+This code along is about getting our text "tidy." By the end of this
 module we will:
 
 -   Understand the context and data sources you're working with so you
@@ -103,13 +103,14 @@ metadata, and closed-ended responses removed.
 :::
 :::::
 
-## Your Turn
+## 👉 Your Turn ⤵
 
 -   Load the `tidyverse` and `tidytext` packages using `library()`
 
 ## Answer
 
-```{r echo=TRUE}
+```{r}
+#| echo: true
 library(tidyverse)
 library(tidytext)
 ```
@@ -176,7 +177,7 @@ it will default to the package that last loaded.
 -   The RttT Online PD survey data is stored in a CSV file named
     opd_survey.csv which is located in the data folder of this project
 
-## Your Turn
+## 👉 Your Turn ⤵
 
 -   Use `read_csv()` to save `opd_survey.csv` as a new object
     `opd_survey`
@@ -188,7 +189,8 @@ it will default to the package that last loaded.
 
 ## Answer
 
-```{r echo=TRUE}
+```{r}
+#| echo: true
 opd_survey <- read_csv("data/opd_survey.csv")
 ```
 
@@ -205,7 +207,8 @@ opd_survey <- read_csv("data/opd_survey.csv")
 -   Once your data is in R, there are many different ways you can view
     it. Use the below code chunk to try each way out:
 
-```{r echo=FALSE}
+```{r}
+#| echo: true
 # enter the name of your data frame and view directly in console 
 opd_survey 
 
@@ -276,7 +279,7 @@ data.
 -   `select()` is a `dplyr` function that can choose specific variables,
     or columns, of data
 
-## Your Turn
+## 👉 Your Turn ⤵
 
 -   `select()` the columns `Role`, `Resource`, and `Q21`
 
@@ -285,7 +288,8 @@ data.
 
 ## Answer
 
-```{r echo=TRUE}
+```{r}
+#| echo: true
 #select relevant columns
 opd_selected <- select(opd_survey, Role, Resource, Q21)
 #check data
@@ -312,7 +316,7 @@ We'll also assign these selected columns to a new data frame named
 -   `rename()` allows us to change the names of existing columns, which
     can make them more useful or informative in our data workflow
 
-## Your Turn
+## 👉 Your Turn ⤵
 
 -   Take our `opd_selected` data frame and use `rename()`, along with
     the `=` assignment operator, to change the column name from `Q21` to
@@ -320,7 +324,8 @@ We'll also assign these selected columns to a new data frame named
 
 ## Answer
 
-```{r echo=TRUE}
+```{r}
+#| echo: true
 #rename columns
 opd_renamed <- rename(opd_selected, text = Q21)
 #check data
@@ -343,23 +348,17 @@ and save it as `opd_renamed`.
 -   These are shown in greater detail in the [Module 1 Case
     Study](https://laser-institute.github.io//text-mining/module-1/tm-1-case-study.html)
 
-```{r echo=TRUE}
+```{r}
+#| echo: true
 #use slice() to remove the top two rows of data
-#these are extra headers created by Qualtrics that we don't need
-opd_sliced <- slice(opd_renamed, -1, -2) # the - operator tells the slice function to NOT keep rows 1 and 2
-
-opd_sliced
+opd_sliced <- slice(opd_renamed, -1, -2) 
 
 #use drop_na() to remove missing data indicated by "NA"
-
 opd_complete <- drop_na(opd_sliced)
-
-opd_complete
 
 #use filter() to identify only responses from participants who indicated their role as teacher
 
 opd_teacher <- filter(opd_complete, Role == "Teacher")
-
 opd_teacher
 ```
 
@@ -379,6 +378,9 @@ function to a new objects, like so:
 However, using and == for comparisons and the `<-` operator for
 assignment avoids ambiguity and makes the code easier to read and
 maintain.
+
+In `slice()`, the - operator tells the slice function to NOT keep rows 1
+and 2
 :::
 
 ## Tidying Text
@@ -432,7 +434,7 @@ into a one-term-per-row format.
 -   To do this, we use tidytext's incredibly powerful `unnest_tokens()`
     function
 
-## Your Turn
+## 👉 Your Turn ⤵
 
 -   Use `unnest_tokens()` to tokenize `opd_teacher` into new object
     `opd_tidy`
@@ -443,7 +445,7 @@ into a one-term-per-row format.
 ## Answer
 
 ```{r}
-#
+#| echo: true
 opd_tidy <- unnest_tokens(opd_teacher, word, text)
 ```
 :::
@@ -474,101 +476,47 @@ notice:
 
 ## Remove Stop Words
 
-One final step in tidying our text is to remove words that don't add
-much value to our analysis (at least when using this approach) such as
-"and", "the", "of", "to" etc. The `tidytext` package contains a
-`stop_words` dataset derived from three different lexicons that we'll
-use to remove rows that match words in this dataset.
+::: panel-tabset
+## stop_words
 
-Let's take a look at the first 20 stop words so we know what we're
-getting rid of from our `opd_tidy` dataset.
+-   One final step in tidying our text is to remove words that don't add
+    much value, such as "and", "the", "of", "to" etc.
+
+-   The `tidytext` package contains a `stop_words` dataset derived from
+    three different lexicons that we'll use to remove rows that match
+    words in this dataset.
+
+Here are some of those words:
 
 ```{r}
+#| echo: true
 head(stop_words, 20)
 ```
 
-Now run the following code to view all stop words in each lexicon:
+## anti_join()
 
-```{r, eval=FALSE}
+`anti_join()` looks for matching values in a specific column from two
+datasets and returns rows from the original dataset that have no
+matches.
 
-view(stop_words)
-```
+![](img/anti-join.png){width="60%"}
 
-In order to remove these stop words, we will use function called
-`anti_join()` that looks for matching values in a specific column from
-two datasets and returns rows from the original dataset that have no
-matches. For a good overview of the different `dplyr` joins see here:
-<https://medium.com/the-codehub/beginners-guide-to-using-joins-in-r-682fc9b1f119>
+## 👉 Your Turn ⤵
 
-![](img/anti-join.png){width="80%"}
+-   Use `anti_join` to remove the rows from `opd_tidy` that contain
+    matches in the `word` column with those in the `stop_words` dataset
+-   Save it as `opd_clean`, since this is the final step in cleaning for
+    this exercise
 
-Let's remove rows from our `opd_tidy` data frame that contain matches in
-the `word` column with those in the `stop_words` dataset and save it as
-`opd_clean` since we were done cleaning our data at this point.
+## Answer
 
 ```{r}
+#| echo: true
 opd_clean <- anti_join(opd_tidy, stop_words)
 
 opd_clean
 ```
-
-#### **👉 Your Turn ⤵**
-
-In the code chunk below, add the `anti_join()` function to our chain of
-data wrangling functions as our final text preprocessing step. Don't
-forget to include in the function the stop words you are trying to
-remove.
-
-Also, add a short comment to each line of code explaining each data
-wrangling step. The first had been done for you.
-
-```{r}
-wrangled_teacher <- opd_survey |>
-  select(Role, Resource, Q21) |> # Select only columns Role, Resource, and Q21
-  rename(text = Q21) |> 
-  slice(-1, -2) |>
-  drop_na() |>
-  filter(Role == "Teacher") |>
-  unnest_tokens(word, text) |>
-  anti_join(stop_words)
-
-wrangled_teacher
-```
-
-If you did this correctly, you should now see a `wrangled_teacher` data
-frame in the Environment pane that has 78,675 observations and 3
-variables.
-
-#### **👉 Your Turn ⤵**
-
-Finally, let's wrangle a data set that includes tokens not just for
-teachers, but for all educators who particiated in the online
-professional development offerings.
-
-Complete and run the following code to wrangle and tidy your
-`opd_survey` data for all survey respondents.
-
-```{r}
-wrangled_all <- opd_survey |>
-  select(Role, Resource, Q21) |>
-  rename(text = Q21) |>
-  slice(-1, -2) |>
-  drop_na() |>
-  unnest_tokens(word, text) |>
-  anti_join(stop_words)
-
-wrangled_all
-```
-
-#### ❓Questions
-
-1.  How many observations are in the data frame with all educators?
-    -   YOUR RESPONSE HERE
-2.  Why do you think the console provided the message "Joining, by =
-    'word'"?
-    -   YOUR RESPONSE HERE
-
-Congratulations, we're now ready to begin exploring our wrangled data!
+:::
 
 # What's Next? {background="#143156"}
 
