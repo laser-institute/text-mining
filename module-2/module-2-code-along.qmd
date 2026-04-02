@@ -110,8 +110,6 @@ By the end of this module, we will:
 
 ## Context of the Problem
 
-### **Twitter and the Next Generation Science Standards**
-
 ![Rosenberg, J. M., Borchers, C., Dyer, E. B., Anderson, D., & Fischer,
 C. (2021). Understanding Public Sentiment About Educational Reforms: The
 Next Generation Science Standards on Twitter. AERA Open, 7.
