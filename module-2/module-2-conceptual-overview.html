@@ -6,11 +6,11 @@
 <script src="module-2-conceptual-overview_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="module-2-conceptual-overview_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="module-2-conceptual-overview_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="module-2-conceptual-overview_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.25">
+<link href="module-2-conceptual-overview_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.7.32">
 
   <meta name="author" content="Duncan Culbreth">
-  <title>Sentiment Analysis</title>
+  <title>Intro to Dictionary-Based Methods</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="module-2-conceptual-overview_files/libs/revealjs/dist/theme/quarto-534cd8e3a96973385dffff3f4709048d.css">
+  <link rel="stylesheet" href="module-2-conceptual-overview_files/libs/revealjs/dist/theme/quarto-3b093e4b5a2bb1f22f68e4b5d63b99b3.css">
   <link href="module-2-conceptual-overview_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="module-2-conceptual-overview_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="module-2-conceptual-overview_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -195,8 +195,8 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Sentiment Analysis</h1>
-  <p class="subtitle">Text Mining Module 2: Conceptual Overview</p>
+  <h1 class="title">Intro to Dictionary-Based Methods</h1>
+  <p class="subtitle">Text Mining Module 2: A Conceptual Overview</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -239,21 +239,33 @@ Duncan Culbreth
 <li><strong><code>tidytext</code></strong>: The specific package we use to handle text like a spreadsheet to make one word per row. Long, but makes this analysis much easier!</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="co"># Install if you haven't already!</span></span>
-<span id="cb1-2"><a href=""></a><span class="co"># install.packages(c("tidyverse", "tidytext","textdata"))</span></span>
-<span id="cb1-3"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-4"><a href=""></a><span class="fu">library</span>(tidytext)</span>
-<span id="cb1-5"><a href=""></a><span class="fu">library</span>(textdata)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="co"># Install if you haven't already!</span></span>
+<span id="cb1-2"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href=""></a><span class="fu">library</span>(tidytext)</span>
+<span id="cb1-4"><a href=""></a><span class="fu">library</span>(textdata)</span>
+<span id="cb1-5"><a href=""></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="read-in-your-data" class="slide level2">
 <h2>Read in Your Data</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="co"># Load your student feedback</span></span>
-<span id="cb2-2"><a href=""></a>raw <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"module-2/data/ccss-tweets.csv"</span>)</span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="co"># Load your student feedback</span></span>
+<span id="cb2-2"><a href=""></a>raw <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/ccss-tweets.csv"</span>)</span>
 <span id="cb2-3"><a href=""></a></span>
 <span id="cb2-4"><a href=""></a><span class="co"># A sneak peek at what it might look like</span></span>
-<span id="cb2-5"><a href=""></a><span class="fu">head</span>(raw)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-5"><a href=""></a><span class="fu">head</span>(raw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 8
+  text              created_at          author_id      id conversation_id source
+  &lt;chr&gt;             &lt;dttm&gt;                  &lt;dbl&gt;   &lt;dbl&gt;           &lt;dbl&gt; &lt;chr&gt; 
+1 "@catturd2 Hmmmm… 2021-01-02 00:49:28   1.61e 9 1.35e18         1.35e18 Twitt…
+2 "@homebrew1500 I… 2021-01-02 00:40:05   1.25e18 1.35e18         1.35e18 Twitt…
+3 "@ClayTravis Dum… 2021-01-02 00:32:46   8.88e17 1.35e18         1.35e18 Twitt…
+4 "@KarenGunby @ch… 2021-01-02 00:24:01   1.25e18 1.35e18         1.35e18 Twitt…
+5 "@keith3048 I kn… 2021-01-02 00:23:42   1.25e 9 1.35e18         1.35e18 Twitt…
+6 "Probably common… 2021-01-02 00:18:38   1.28e18 1.35e18         1.35e18 Twitt…
+# ℹ 2 more variables: possibly_sensitive &lt;lgl&gt;, in_reply_to_user_id &lt;dbl&gt;</code></pre>
+</div>
 </div>
 </section>
 <section id="tokenize-the-data" class="slide level2">
@@ -263,11 +275,11 @@ Duncan Culbreth
 <li>The <code>unnest_tokens()</code> function splits your long sentences into individual rows</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="co"># Use select() to isolate the 'text' column</span></span>
-<span id="cb3-2"><a href=""></a>tokenized_data <span class="ot">&lt;-</span> <span class="fu">select</span>(raw, <span class="st">"text"</span>)</span>
-<span id="cb3-3"><a href=""></a><span class="co"># Tokenize the 'text' column into a 'word' column</span></span>
-<span id="cb3-4"><a href=""></a>tokenized_data <span class="ot">&lt;-</span> tokenized_data <span class="sc">|&gt;</span></span>
-<span id="cb3-5"><a href=""></a>  <span class="fu">unnest_tokens</span>(word, text)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="co"># Use select() to isolate the 'text' column</span></span>
+<span id="cb4-2"><a href=""></a>tokenized_data <span class="ot">&lt;-</span> <span class="fu">select</span>(raw, <span class="st">"text"</span>)</span>
+<span id="cb4-3"><a href=""></a><span class="co"># Tokenize the 'text' column into a 'word' column</span></span>
+<span id="cb4-4"><a href=""></a>tokenized_data <span class="ot">&lt;-</span> tokenized_data <span class="sc">|&gt;</span></span>
+<span id="cb4-5"><a href=""></a>  <span class="fu">unnest_tokens</span>(word, text)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="removing-stop-words-with-anti_join" class="slide level2">
@@ -277,7 +289,7 @@ Duncan Culbreth
 <li>We use <code>anti_join(stop_words)</code> to automatically strip these out so we can focus on the “meat” of the feedback</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>clean_data <span class="ot">&lt;-</span> tokenized_data <span class="sc">|&gt;</span>   <span class="fu">anti_join</span>(stop_words)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>clean_data <span class="ot">&lt;-</span> tokenized_data <span class="sc">|&gt;</span>   <span class="fu">anti_join</span>(stop_words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="meet-the-lexicons" class="slide level2">
@@ -292,7 +304,23 @@ Duncan Culbreth
 <li><p><strong>Format:</strong> Categorical data that labels words as either <strong>Positive</strong> or <strong>Negative</strong></p></li>
 <li><p><strong>Best for:</strong> General “thumbs up/down” vibe checks of a course</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">get_sentiments</span>(<span class="st">"bing"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">get_sentiments</span>(<span class="st">"bing"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6,786 × 2
+   word        sentiment
+   &lt;chr&gt;       &lt;chr&gt;    
+ 1 2-faces     negative 
+ 2 abnormal    negative 
+ 3 abolish     negative 
+ 4 abominable  negative 
+ 5 abominably  negative 
+ 6 abominate   negative 
+ 7 abomination negative 
+ 8 abort       negative 
+ 9 aborted     negative 
+10 aborts      negative 
+# ℹ 6,776 more rows</code></pre>
+</div>
 </div></li>
 </ul>
 </div>
@@ -303,7 +331,23 @@ Duncan Culbreth
 <li><p><strong>Example:</strong> “Outstanding” = +5; “Okay” = +1; “Catastrophic” = -5</p></li>
 <li><p><strong>Best for:</strong> Measuring the <em>intensity</em> of sentiment, provided it lies on a single spectrum</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">get_sentiments</span>(<span class="st">"afinn"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a><span class="fu">get_sentiments</span>(<span class="st">"afinn"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2,477 × 2
+   word       value
+   &lt;chr&gt;      &lt;dbl&gt;
+ 1 abandon       -2
+ 2 abandoned     -2
+ 3 abandons      -2
+ 4 abducted      -2
+ 5 abduction     -2
+ 6 abductions    -2
+ 7 abhor         -3
+ 8 abhorred      -3
+ 9 abhorrent     -3
+10 abhors        -3
+# ℹ 2,467 more rows</code></pre>
+</div>
 </div></li>
 </ul>
 </div>
@@ -314,7 +358,23 @@ Duncan Culbreth
 <li><p><strong>Example:</strong> The word “final” might be tagged with <strong>Anticipation</strong> or <strong>Fear</strong></p></li>
 <li><p><strong>Best for:</strong> Deep dives into specific student sentiment or engagement</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="fu">get_sentiments</span>(<span class="st">"nrc"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="fu">get_sentiments</span>(<span class="st">"nrc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 13,872 × 2
+   word        sentiment
+   &lt;chr&gt;       &lt;chr&gt;    
+ 1 abacus      trust    
+ 2 abandon     fear     
+ 3 abandon     negative 
+ 4 abandon     sadness  
+ 5 abandoned   anger    
+ 6 abandoned   fear     
+ 7 abandoned   negative 
+ 8 abandoned   sadness  
+ 9 abandonment anger    
+10 abandonment fear     
+# ℹ 13,862 more rows</code></pre>
+</div>
 </div></li>
 </ul>
 </div>
@@ -329,6 +389,30 @@ Duncan Culbreth
 <li><p>This creates a smaller, even less noisy dataset, but it has to be tailored to each lexicon</p></li>
 <li><p>The below example uses NRC</p></li>
 </ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="co"># Join our clean student words with the Bing dictionary </span></span>
+<span id="cb12-2"><a href=""></a>sentiment_data <span class="ot">&lt;-</span> clean_data <span class="sc">|&gt;</span> </span>
+<span id="cb12-3"><a href=""></a>  <span class="fu">inner_join</span>(<span class="fu">get_sentiments</span>(<span class="st">"nrc"</span>)) </span>
+<span id="cb12-4"><a href=""></a></span>
+<span id="cb12-5"><a href=""></a><span class="co"># Count the remaining words </span></span>
+<span id="cb12-6"><a href=""></a>sentiment_data <span class="sc">|&gt;</span> </span>
+<span id="cb12-7"><a href=""></a>  <span class="fu">count</span>(sentiment)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 2
+   sentiment        n
+   &lt;chr&gt;        &lt;int&gt;
+ 1 anger         8000
+ 2 anticipation  9756
+ 3 disgust       5913
+ 4 fear          8173
+ 5 joy           7894
+ 6 negative     16783
+ 7 positive     53188
+ 8 sadness       6743
+ 9 surprise      4814
+10 trust        17595</code></pre>
+</div>
+</div>
 </section>
 <section id="visualizing-sentiment" class="slide level2">
 <h2>Visualizing Sentiment</h2>
@@ -341,6 +425,21 @@ Duncan Culbreth
 <li>Can be used with other variables to answer questions like: What weeks had the highest frustration within a course?</li>
 <li>We use <code>ggplot2</code> to bring these numbers to life</li>
 </ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>sentiment_data <span class="sc">|&gt;</span>   </span>
+<span id="cb14-2"><a href=""></a>  <span class="fu">count</span>(sentiment) <span class="sc">|&gt;</span>   </span>
+<span id="cb14-3"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sentiment, <span class="at">y =</span> n, <span class="at">fill =</span> sentiment)) <span class="sc">+</span>   </span>
+<span id="cb14-4"><a href=""></a>  <span class="fu">geom_col</span>() <span class="sc">+</span>   </span>
+<span id="cb14-5"><a href=""></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span>   </span>
+<span id="cb14-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Overall Course Sentiment"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="module-2-conceptual-overview_files/figure-revealjs/unnamed-chunk-9-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
 </div>
 <div id="tabset-2-2">
 <ul>
@@ -578,7 +677,7 @@ Duncan Culbreth
         margin: 5.0e-2,
 
         math: {
-          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],
@@ -605,80 +704,42 @@ Duncan Culbreth
       });
     </script>
     
-
     <script>
-
       // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-
       // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-
       // slide changes (different for each slide format).
-
       (function () {
-
         // dispatch for htmlwidgets
-
         function fireSlideEnter() {
-
           const event = window.document.createEvent("Event");
-
           event.initEvent("slideenter", true, true);
-
           window.document.dispatchEvent(event);
-
         }
-
-    
 
         function fireSlideChanged(previousSlide, currentSlide) {
-
           fireSlideEnter();
 
-    
-
           // dispatch for shiny
-
           if (window.jQuery) {
-
             if (previousSlide) {
-
               window.jQuery(previousSlide).trigger("hidden");
-
             }
-
             if (currentSlide) {
-
               window.jQuery(currentSlide).trigger("shown");
-
             }
-
           }
-
         }
-
-    
 
         // hookup for slidy
-
         if (window.w3c_slidy) {
-
           window.w3c_slidy.add_observer(function (slide_num) {
-
             // slide_num starts at position 1
-
             fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-
           });
-
         }
 
-    
-
       })();
-
     </script>
-
-    
 
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -728,14 +789,13 @@ Duncan Culbreth
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-          const outerScaffold = trigger.parentElement.cloneNode(true);
-          const codeEl = outerScaffold.querySelector('code');
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
+            const codeEl = trigger.previousElementSibling.cloneNode(true);
+            for (const childEl of codeEl.children) {
+              if (isCodeAnnotation(childEl)) {
+                childEl.remove();
+              }
             }
-          }
-          return codeEl.innerText;
+            return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy

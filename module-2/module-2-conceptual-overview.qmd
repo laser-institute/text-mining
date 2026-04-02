@@ -1,6 +1,6 @@
 ---
-title: "Sentiment Analysis"
-subtitle: "Text Mining Module 2: Conceptual Overview"
+title: "Intro to Dictionary-Based Methods"
+subtitle: "Text Mining Module 2: A Conceptual Overview"
 author: "Duncan Culbreth"
 format: 
   revealjs:
@@ -68,10 +68,8 @@ We will once again rely on `tidyverse` and `tidytext` for this analysis.
     much easier!
 
 ```{r}
-#| eval: false
 #| echo: true
 # Install if you haven't already!
-# install.packages(c("tidyverse", "tidytext","textdata"))
 library(tidyverse)
 library(tidytext)
 library(textdata)
@@ -81,10 +79,9 @@ library(ggplot2)
 ## Read in Your Data
 
 ```{r}
-#| eval: false
 #| echo: true
 # Load your student feedback
-raw <- read_csv("module-2/data/ccss-tweets.csv")
+raw <- read_csv("data/ccss-tweets.csv")
 
 # A sneak peek at what it might look like
 head(raw)
@@ -98,7 +95,6 @@ head(raw)
     individual rows
 
 ```{r}
-#| eval: false
 #| echo: true
 # Use select() to isolate the 'text' column
 tokenized_data <- select(raw, "text")
@@ -117,7 +113,6 @@ tokenized_data <- tokenized_data |>
     we can focus on the "meat" of the feedback
 
 ```{r}
-#| eval: false 
 #| echo: true 
 
 clean_data <- tokenized_data |>   anti_join(stop_words)
@@ -138,7 +133,6 @@ clean_data <- tokenized_data |>   anti_join(stop_words)
 -   **Best for:** General "thumbs up/down" vibe checks of a course
 
     ```{r}
-    #| eval: false
     #| echo: true
     get_sentiments("bing")
     ```
@@ -156,7 +150,6 @@ clean_data <- tokenized_data |>   anti_join(stop_words)
     lies on a single spectrum
 
     ```{r}
-    #| eval: false
     #| echo: true
     get_sentiments("afinn")
     ```
@@ -175,7 +168,6 @@ clean_data <- tokenized_data |>   anti_join(stop_words)
     engagement
 
     ```{r}
-    #| eval: false
     #| echo: true
     get_sentiments("nrc")
     ```
@@ -196,8 +188,7 @@ clean_data <- tokenized_data |>   anti_join(stop_words)
 -   The below example uses NRC
 
 ```{r}
-#| eval: false
-#| #| echo: true 
+#| echo: true 
 # Join our clean student words with the Bing dictionary 
 sentiment_data <- clean_data |> 
   inner_join(get_sentiments("nrc")) 
@@ -218,11 +209,10 @@ sentiment_data |>
 -   We use `ggplot2` to bring these numbers to life
 
 ```{r}
-#| eval: true 
-#| echo: false 
+#| echo: true 
 sentiment_data |>   
   count(sentiment) |>   
-  ggplot(aes(x = sentiment, y = n, fill = sentiment)) +   
+  ggplot2::ggplot(aes(x = sentiment, y = n, fill = sentiment)) +   
   geom_col() +   
   theme_minimal() +   
   labs(title = "Overall Course Sentiment")
