@@ -1,5 +1,5 @@
 ---
-title: "Unsupervised Machine Learning in Text Mining"
+title: "Intro to Topic Modeling"
 subtitle: "Text Mining Module 3: A Conceptual Overview"
 format:
   revealjs: 
@@ -30,12 +30,12 @@ In learning analytics often deals with "unlabeled" data, where the outcome of a 
 
 -   Low effort upfront; high effort during interpretation.
 
--   Common Tools: LDA (Topic Modeling) & K-Means Clustering.
+-   Common Tools: Topic Modeling & K-Means Clustering.
 
 ::: notes
 The goal of unsupervised machine learning is to find structure in text data without telling an algorithm what to "look" for or whether or not the connections and conclusions that it draws are necessarily correct or incorrect.
 
-This module will focus on Latent Dirichlet Allocation (LDA), a form of topic modeling.
+This module will focus on Latent Dirichlet Allocation (LDA), the most common form of topic modeling.
 :::
 
 ## What is Topic Modeling?
