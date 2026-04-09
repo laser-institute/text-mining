@@ -34,11 +34,6 @@ editor:
 -   The following Code Along is a companion to the Module 3 case study's
     **Model** stage.
 
-![Figure 2.2 Steps of Data-Intensive Research
-Workflow](img/workflow.png){width="60%"}
-
-[@krumm2018]
-
 ::: notes
 :::
 
@@ -367,7 +362,7 @@ k_metrics <- FindTopicsNumber(
 FindTopicsNumber_plot(k_metrics)
 ```
 
-![](find-topics-number.png)
+![](images/clipboard-1958206973.png)
 :::
 
 ::: notes
@@ -400,6 +395,7 @@ the Case Study), we've identified 14 as a new optimal number.
 
 ```{r}
 #| echo: true
+#| eval: false
 #Create the refitted LDA
 forums_lda_new <- LDA(forums_dtm, 
                   k = 14,

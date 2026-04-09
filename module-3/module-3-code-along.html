@@ -207,8 +207,6 @@
 <li><p>The Text Mining course is designed for those seeking an introductory understanding of quantifying the text in documents to better understand their properties.</p></li>
 <li><p>The following Code Along is a companion to the Module 3 case study’s <strong>Model</strong> stage.</p></li>
 </ul>
-
-<img data-src="img/workflow.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption">Figure 2.2 Steps of Data-Intensive Research Workflow</p><p><span class="citation" data-cites="krumm2018">[@krumm2018]</span></p>
 <aside class="notes">
 
 <style type="text/css">
@@ -545,7 +543,7 @@
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">FindTopicsNumber_plot</span>(k_metrics)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p><img data-src="find-topics-number.png"></p>
+<p><img data-src="images/clipboard-1958206973.png"></p>
 </div>
 </div>
 </div>
@@ -587,18 +585,6 @@
 <span id="cb12-7"><a href=""></a><span class="co">#Look at your new LDA results</span></span>
 <span id="cb12-8"><a href=""></a><span class="fu">terms</span>(forums_lda_new, <span class="dv">5</span>) <span class="sc">|&gt;</span> <span class="co">#this example assumes 5 words per topic</span></span>
 <span id="cb12-9"><a href=""></a>  <span class="fu">as_tibble</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 14
-  `Topic 1`  `Topic 2` `Topic 3`   `Topic 4` `Topic 5`  `Topic 6` `Topic 7`
-  &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;    
-1 div        students  students    td        statistics li        data     
-2 class      data      statistical 0         stats      href      students 
-3 hypothesis task      level       width     ap         strong    questions
-4 test       activity  levels      top       school     https     question 
-5 amp        tasks     social      border    class      target    sets     
-# ℹ 7 more variables: `Topic 8` &lt;chr&gt;, `Topic 9` &lt;chr&gt;, `Topic 10` &lt;chr&gt;,
-#   `Topic 11` &lt;chr&gt;, `Topic 12` &lt;chr&gt;, `Topic 13` &lt;chr&gt;, `Topic 14` &lt;chr&gt;</code></pre>
-</div>
 </div>
 </div>
 </div>
