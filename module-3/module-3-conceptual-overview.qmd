@@ -99,7 +99,7 @@ To perform LDA in R, we must move from raw text to a **Document-Term Matrix (DTM
 
 ## Interpreting Results
 
-[![from Text Mining with R (2017)](LDA-example.png)](https://www.tidytextmining.com/)
+![from Text Mining with R (2017)](images/clipboard-2397679599.png)
 
 The computer does not "understand" the topics; it only sees mathematical correlations.
 
