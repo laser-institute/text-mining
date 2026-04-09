@@ -59,35 +59,25 @@ data. By the end of this module we will learn how to:
 ![Akoglu, K., Lee, H. & Kellogg, S. (2019). Participating in a MOOC and
 Professional Learning Team: How a Blended Approach to Professional
 Development Makes a Difference. Journal of Technology and Teacher
-Education, 27(2), 129-163. Retrieved from
-\[https://www.learntechlib.org/primary/p/195234/\](#0).](img/tsdi.png "Our world is rich with data sources, and technology makes data more accessible than ever before! To help ensure students are future ready to use data for making informed decisions, many countries around the world have increased the emphasis on statistics and data analysis in school curriculum–from elementary/primary grades through college. This course allows you to learn, along with colleagues from other schools, an investigation cycle to teach statistics and to help students explore data to make evidence-based claims. To learn more about engaging learners in making inferences and claims supported by data and how to emphasize inferential reasoning in teaching statistics through posing different types of investigative questions, enroll in our Teaching Statistics through Inferential Reasoning MOOC-Ed."){width="50%"}
-
-::: {.fragment .fade-in-then-semi-out}
-## Research Question:
-
--   What are the similarities and differences between how PLT members
-    and Non-PLT online participants engage and meet course goals in a
-    MOOC-Ed designed for educators in secondary and collegiate settings?
-:::
+Education, 27(2),
+129-163.](img/tsdi.png "Our world is rich with data sources, and technology makes data more accessible than ever before! To help ensure students are future ready to use data for making informed decisions, many countries around the world have increased the emphasis on statistics and data analysis in school curriculum–from elementary/primary grades through college. This course allows you to learn, along with colleagues from other schools, an investigation cycle to teach statistics and to help students explore data to make evidence-based claims. To learn more about engaging learners in making inferences and claims supported by data and how to emphasize inferential reasoning in teaching statistics through posing different types of investigative questions, enroll in our Teaching Statistics through Inferential Reasoning MOOC-Ed."){width="50%"}
 
 ::: notes
-From abstract:
-
-Massive Open Online Courses for Educators (MOOC-Eds) provide
-opportunities for using research-based learning and teaching practices,
-along with new technological tools and facilitation approaches for
-delivering quality online professional development. The Teaching
-Statistics Through Data Investigations MOOC-Ed was built for preparing
-teachers in pedagogy for teaching statistics, and it has been offered to
-participants from around the world. During 2016-2017, professional
-learning teams (PLTs) were formed from a subset of MOOC-Ed participants.
-These teams met several times to share and discuss their learning and
-experiences. This study focused on examining the ways that a blended
-approach to professional development may result in similar or different
-patterns of engagement to those who only participate in a large-scale
-online course. Results show the benefits of a blended learning
-environment for retention, engagement with course materials, and
-connectedness within the online community of learners in an online
+From Abstract: Massive Open Online Courses for Educators (MOOC-Eds)
+provide opportunities for using research-based learning and teaching
+practices, along with new technological tools and facilitation
+approaches for delivering quality online professional development. The
+Teaching Statistics Through Data Investigations MOOC-Ed was built for
+preparing teachers in pedagogy for teaching statistics, and it has been
+offered to participants from around the world. During 2016-2017,
+professional learning teams (PLTs) were formed from a subset of MOOC-Ed
+participants. These teams met several times to share and discuss their
+learning and experiences. This study focused on examining the ways that
+a blended approach to professional development may result in similar or
+different patterns of engagement to those who only participate in a
+large-scale online course. Results show the benefits of a blended
+learning environment for retention, engagement with course materials,
+and connectedness within the online community of learners in an online
 professional development on teaching statistics. The findings suggest
 the use of self-forming autonomous PLTs for supporting a deeper and more
 comprehensive experience with self-directed online professional
