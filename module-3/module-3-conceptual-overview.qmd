@@ -105,7 +105,7 @@ The computer does not "understand" the topics; it only sees mathematical correla
 
 -   It is the researcher's responsibility to interpret the groups of terms into their own themes. What would you call the above groups "1" and "2"?
 
--   The researcher also must define the number of groups to be sorted (k). Too few leads to broad generalizations; too many leads to redundant clusters. Picking an optimal k can be assisted with `ldatuning`
+-   The researcher also must define the number of groups to be sorted (K). Too few leads to broad generalizations; too many leads to redundant clusters. Picking an optimal K can be assisted with `ldatuning.`
 
 ## Benefits and Limitations
 
