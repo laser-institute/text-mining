@@ -73,21 +73,13 @@ How can educational professionals use this?
 -   **Curricular Mapping:** Ensuring that course readings actually cover the intended thematic areas.
 -   **Forum Snapshots:** By processing large and numerous text-based forums in a MOOC course, instructors can get a quick understanding of salient topics and compare them to learning objectives.
 
-## Preparing Data in R
-
--   **Cleaning:** Removing "stop words" (the, is, at) and punctuation.
--   **Tokenization:** Breaking sentences into individual words.
--   **Weighting:** Focusing on meaningful word frequencies.
-
 ## Packages
 
-**1. Text Preprocessing:** `SnowballC` provides stemming capabilities to reduce words to their root forms, improving consistency in topic modeling.
+**1. Text Preprocessing:** `tidytext`: Tidies and tokenizes text so it is ready to be made into a document-term matrix.
 
 **2. Topic Modeling Algorithms:** `topicmodels` implements Latent Dirichlet Allocation (LDA) and Correlated Topic Models (CTM) for extracting topics from text data.
 
 **3. Model Selection & Optimization:** `ldatuning` helps determine the optimal number of topics for LDA models using various evaluation metrics.
-
-**4. Visualization & Interpretation:** `LDAvis` provides an interactive visualization tool for exploring LDA topic distributions and word associations.
 
 ## The Document-Term Matrix
 

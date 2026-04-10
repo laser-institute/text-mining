@@ -206,20 +206,11 @@
 <li><strong>Forum Snapshots:</strong> By processing large and numerous text-based forums in a MOOC course, instructors can get a quick understanding of salient topics and compare them to learning objectives.</li>
 </ul>
 </section>
-<section id="preparing-data-in-r" class="slide level2">
-<h2>Preparing Data in R</h2>
-<ul>
-<li><strong>Cleaning:</strong> Removing “stop words” (the, is, at) and punctuation.</li>
-<li><strong>Tokenization:</strong> Breaking sentences into individual words.</li>
-<li><strong>Weighting:</strong> Focusing on meaningful word frequencies.</li>
-</ul>
-</section>
 <section id="packages" class="slide level2">
 <h2>Packages</h2>
-<p><strong>1. Text Preprocessing:</strong> <code>SnowballC</code>&nbsp;provides stemming capabilities to reduce words to their root forms, improving consistency in topic modeling.</p>
+<p><strong>1. Text Preprocessing:</strong> <code>tidytext</code>: Tidies and tokenizes text so it is ready to be made into a document-term matrix.</p>
 <p><strong>2. Topic Modeling Algorithms:</strong> <code>topicmodels</code> implements Latent Dirichlet Allocation (LDA) and Correlated Topic Models (CTM) for extracting topics from text data.</p>
 <p><strong>3. Model Selection &amp; Optimization:</strong> <code>ldatuning</code>&nbsp;helps determine the optimal number of topics for LDA models using various evaluation metrics.</p>
-<p><strong>4. Visualization &amp; Interpretation:</strong> <code>LDAvis</code> provides an interactive visualization tool for exploring LDA topic distributions and word associations.</p>
 </section>
 <section id="the-document-term-matrix" class="slide level2">
 <h2>The Document-Term Matrix</h2>

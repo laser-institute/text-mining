@@ -269,7 +269,6 @@
 <li><p><code>tidytext</code>: Tidies text data by tokenizing and allows us to cast our document term matrix, an essential input for LDA.</p></li>
 <li><p><code>topicmodels</code>: Implements Latent Dirichlet Allocation (LDA) and Correlated Topic Models (CTM) for extracting topics from text data.</p></li>
 <li><p><code>ldatuning</code>: Helps determine the optimal number of topics for LDA models using various evaluation metrics.</p></li>
-<li><p><code>LDAvis</code>: Provides an interactive visualization tool for exploring LDA topic distributions and word associations.</p></li>
 </ul>
 </div>
 <div id="tabset-1-2">
@@ -283,8 +282,7 @@
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidytext)</span>
 <span id="cb1-2"><a href=""></a><span class="fu">library</span>(topicmodels)</span>
 <span id="cb1-3"><a href=""></a><span class="fu">install.packages</span>(<span class="st">"ldatuning"</span>) <span class="co">#this one is not typically pre-installed</span></span>
-<span id="cb1-4"><a href=""></a><span class="fu">library</span>(ldatuning)</span>
-<span id="cb1-5"><a href=""></a><span class="fu">library</span>(LDAvis)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-4"><a href=""></a><span class="fu">library</span>(ldatuning)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -531,17 +529,21 @@
 </div>
 </div>
 <div id="tabset-5-2">
+<ul>
+<li>This is just an initial approach. After running this against another algorithm that uses the <code>stm</code> package, 14 looks to be a better K for this LDA.</li>
+</ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">FindTopicsNumber_plot</span>(k_metrics)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p><img data-src="images/clipboard-1958206973.png"></p>
+<p><img data-src="images/clipboard-1958206973.png" width="1200"></p>
 </div>
 </div>
 </div>
 <aside class="notes">
 <p>The {ldatuning} package has functions for both calculating and plotting different metrics that can be used to estimate the most preferable number of topics for LDA model. Let’s use the defaults specified in the <code>?FindTopicNumber</code> documentation.</p>
 <p>Note that the <code>FindTopicNumbers()</code> function contains three additional metrics that can be used to estimate the most preferable number of topics for LDA model. We used the Griffiths2004 metrics.</p>
-<p>As a general rule of thumb, we’re looking for an inflection point in our plot which indicates an optimal number of topics to select for a value of K. After running this with another function in the <code>stm</code> package (in the Case Study), we’ve identified 14 as a new optimal number.</p>
+<p>As a general rule of thumb, we’re looking for an inflection point in our plot which indicates an optimal number of topics to select for a value of K.</p>
+<p>After running this with another function in the <code>stm</code> package (in the Case Study), we’ve identified 14 as a new optimal number.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;

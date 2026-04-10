@@ -101,9 +101,6 @@ face-to-face or virtual PLTs who commit to engage in learning together.
 -   `ldatuning`: Helps determine the optimal number of topics for LDA
     models using various evaluation metrics.
 
--   `LDAvis`: Provides an interactive visualization tool for exploring
-    LDA topic distributions and word associations.
-
 ## 👉 Your Turn ⤵
 
 -   Load those packages into your IDE.
@@ -119,7 +116,6 @@ library(tidytext)
 library(topicmodels)
 install.packages("ldatuning") #this one is not typically pre-installed
 library(ldatuning)
-library(LDAvis)
 ```
 
 ```{r}
@@ -346,13 +342,17 @@ k_metrics <- FindTopicsNumber(
 
 ## View Output
 
+-   This is just an initial approach. After running this against another
+    algorithm that uses the `stm` package, 14 looks to be a better K for
+    this LDA.
+
 ```{r}
 #| echo: true
 #| eval: false
 FindTopicsNumber_plot(k_metrics)
 ```
 
-![](images/clipboard-1958206973.png)
+![](images/clipboard-1958206973.png){width="1200"}
 :::
 
 ::: notes
@@ -367,8 +367,10 @@ topics for LDA model. We used the Griffiths2004 metrics.
 
 As a general rule of thumb, we're looking for an inflection point in our
 plot which indicates an optimal number of topics to select for a value
-of K. After running this with another function in the `stm` package (in
-the Case Study), we've identified 14 as a new optimal number.
+of K.
+
+After running this with another function in the `stm` package (in the
+Case Study), we've identified 14 as a new optimal number.
 :::
 
 ## Refitting the LDA
