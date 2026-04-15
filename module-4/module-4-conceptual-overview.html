@@ -6,8 +6,8 @@
 <script src="module-4-conceptual-overview_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="module-4-conceptual-overview_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="module-4-conceptual-overview_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="module-4-conceptual-overview_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.25">
+<link href="module-4-conceptual-overview_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.7.32">
 
   <title>Intro to Quantitative Enthnography</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -94,7 +94,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="module-4-conceptual-overview_files/libs/revealjs/dist/theme/quarto-ca498c54d3639273dff31d3ef88a1bca.css">
+  <link rel="stylesheet" href="module-4-conceptual-overview_files/libs/revealjs/dist/theme/quarto-3b093e4b5a2bb1f22f68e4b5d63b99b3.css">
   <link href="module-4-conceptual-overview_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="module-4-conceptual-overview_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="module-4-conceptual-overview_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -201,48 +201,140 @@
 </div>
 
 </section>
-<section>
-<section id="the-challenge-of-text-at-scale" class="title-slide slide level1 center">
-<h1>The Challenge of Text at Scale</h1>
+<section id="overview-of-quantitative-ethnography-qe" class="slide level2">
+<h2>Overview of Quantitative Ethnography (QE)</h2>
+<p>Guiding questions:</p>
 <ul>
-<li><strong>The Problem:</strong> Massive educational data (chats, forums, reflections).</li>
+<li><p><strong>What is</strong> QE?</p></li>
+<li><p><strong>Why should we use</strong> QE? When is it most appropriate to use?</p></li>
+<li><p>What are <strong>common techniques</strong> for QE?</p></li>
+</ul>
+</section>
+<section id="the-challenge-of-text-mining-at-scale" class="slide level2">
+<h2>The Challenge of Text Mining at Scale</h2>
+<ul>
+<li>Again, we have access to massive educational text data via chats, forums, reflections, etc.</li>
 <li><strong>The Dilemma:</strong>
 <ul>
-<li>Qualitative methods: Deep but don’t scale.</li>
-<li>Traditional NLP (LDA): Scale but lose “context.”</li>
+<li>Qualitative methods are deep but don’t scale.</li>
+<li>Natural language processing such as topic modeling (e.g., LDA) scales well, but loses “context”</li>
 </ul></li>
-<li><strong>The Goal:</strong> Map how students <em>connect</em> ideas, not just how often they mention them.</li>
 </ul>
+<aside class="notes">
+<p>NLP loses context due to its focus on individual terms and their frequencies in documents. It is effective at identifying “what” but less about “how” those ideas interact.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="what-is-quantitative-ethnography-qe" class="slide level2">
 <h2>What is Quantitative Ethnography (QE)?</h2>
 <ul>
-<li><strong>Definition:</strong> A research paradigm integrating statistical power with “thick description.”</li>
+<li><strong>Definition:</strong> A research paradigm integrating statistical power with “thick description,” the combination of behaviors and the context for those behaviors.</li>
 <li><strong>Core Philosophy:</strong> Structure + Meaning.</li>
-<li><strong>Why it matters:</strong> Validates big-data findings with human-coded insights.</li>
+<li><strong>Why it matters:</strong> QE validates big-data findings with human-coded insights.</li>
 </ul>
+<aside class="notes">
+<p>Qualitative ethnography maps out how students connect ideas, not just how often they are mentioned.</p>
+<p>Thick description, popularized by Clifford Geertz in The Interpretation of Cultures (1973), is a description of human social action that describes not just physical behaviors, but their context as interpreted by the actors as well, so that it can be better understood by an outsider.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="introduction-to-epistemic-network-analysis-ena" class="slide level2">
 <h2>Introduction to Epistemic Network Analysis (ENA)</h2>
 <ul>
-<li><strong>Beyond Frequency:</strong> Maps relationships between concepts.</li>
-<li><strong>Visualizing Knowledge:</strong> If “Pedagogy” and “Technology” appear in the same thought, ENA maps that link.</li>
+<li><p><strong>Beyond Frequency:</strong> ENA is an analysis technique that maps relationships between concepts.</p></li>
+<li><p><strong>ENA</strong> focuses on <em>co-occurrence</em> within a specific “stanza” of text, rather than total frequencies of a given term.</p></li>
+<li><p><strong>Visualizing Knowledge:</strong> If “pedagogy” and “technology” appear in the same thought, ENA maps that link. If it continues to find that link over many stanzas, the strength of the link increases between those ideas.</p>
+<p><img data-src="images/clipboard-708520774.png" width="300"></p></li>
 </ul>
+<aside class="notes">
+
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="the-gap-in-traditional-text-mining" class="slide level2">
-<h2>The “Gap” in Traditional Text Mining</h2>
+<section id="scenario-middle-school-climate-science" class="slide level2">
+<h2>Scenario: Middle School Climate Science</h2>
 <ul>
-<li><strong>LDA (Latent Dirichlet Allocation):</strong> “What are they talking about?” (Topics).</li>
-<li><strong>The Gap:</strong> Doesn’t show <em>how</em> topics interact to solve problems.</li>
-<li><strong>ENA Solution:</strong> Focuses on <em>co-occurrence</em> within a specific “stanza” (window).</li>
+<li>3 groups of 4-5 students apiece, tasked with designing a sustainable city.</li>
+<li>Group performance graded by how many students participate and depth of discussion when sharing out to class.</li>
+<li>Research Question: How do high-performing groups connect scientific evidence to policy decisions compared to lower-performing groups?</li>
 </ul>
+<aside class="notes">
+
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="the-epistemic-frame" class="slide level2">
-<h2>The Epistemic Frame</h2>
+<section id="data-collection" class="slide level2">
+<h2>Data Collection</h2>
 <ul>
-<li><strong>Definition:</strong> S-K-I-V-E (Skills, Knowledge, Identities, Values, Epistemology).</li>
-<li><strong>In Practice:</strong> Thinking like a professional (e.g., a scientist) means connecting data to theory. This connection is the frame.</li>
+<li>Record &amp; transcribe group discussions</li>
+<li>Retain identities of each student and which group so individual and group ENAs can be compared</li>
 </ul>
+<aside class="notes">
+
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="coding" class="slide level2">
+<h2>Coding</h2>
+<p>You develop a coding scheme based on your observations. For example: - [ENV]: Environmental Impact (e.g., “The sea levels will rise.”) - [POL]: Policy/Regulation (e.g., “We should ban plastic bags.”) - [ECO]: Economic Cost (e.g., “That will be too expensive.”) - [EVI]: Scientific Evidence (e.g., “The chart shows a 2-degree increase.”)</p>
+<aside class="notes">
+<p>Coding can be done inductively or a priori. However you achieve this coding, you flag utterances or sections of the transcript for any of these codes as a binary.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="segmentation-stanza-window" class="slide level2">
 <h2>Segmentation &amp; Stanza Window</h2>
@@ -251,6 +343,20 @@
 <li><strong>Stanza Window:</strong> The “moving window” of context.</li>
 <li><strong>Logic:</strong> Ideas appearing within ~4 lines are likely cognitively linked.</li>
 </ul>
+<aside class="notes">
+<p>The ENA algorithm uses a moving window (e.g., n lines of text) to identify conceptual associations. If a student mentions [EVI] and [POL] within the same window, ENA records a connection between those two nodes. It assumes that if two ideas are discussed close together, they are linked in the student’s mind.</p>
+<p>The beauty is that you can apply this algorithm to an individual or a group. To answer our research question, you filter the transcripts to compare our three working groups to see how closely those ideas associate.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="why-use-r-for-ena" class="slide level2">
 <h2>Why Use R for ENA?</h2>
@@ -260,10 +366,10 @@
 <li><strong>Integration:</strong> Move from <code>tidyverse</code> (cleaning) to modeling seamlessly.</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">install.packages</span>(<span class="st">"rENA"</span>)</span>
-<span id="cb1-2"><a href=""></a><span class="fu">library</span>(rENA)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">install.packages</span>(<span class="st">"rENA"</span>)</span>
+<span id="cb1-2"><a href=""></a><span class="fu">library</span>(rENA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section></section>
+</section>
 <section id="acknowledgements" class="title-slide slide level1 center">
 <h1>Acknowledgements</h1>
 <div class="columns">
@@ -470,7 +576,7 @@
         margin: 5.0e-2,
 
         math: {
-          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],
@@ -497,80 +603,42 @@
       });
     </script>
     
-
     <script>
-
       // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-
       // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-
       // slide changes (different for each slide format).
-
       (function () {
-
         // dispatch for htmlwidgets
-
         function fireSlideEnter() {
-
           const event = window.document.createEvent("Event");
-
           event.initEvent("slideenter", true, true);
-
           window.document.dispatchEvent(event);
-
         }
-
-    
 
         function fireSlideChanged(previousSlide, currentSlide) {
-
           fireSlideEnter();
 
-    
-
           // dispatch for shiny
-
           if (window.jQuery) {
-
             if (previousSlide) {
-
               window.jQuery(previousSlide).trigger("hidden");
-
             }
-
             if (currentSlide) {
-
               window.jQuery(currentSlide).trigger("shown");
-
             }
-
           }
-
         }
-
-    
 
         // hookup for slidy
-
         if (window.w3c_slidy) {
-
           window.w3c_slidy.add_observer(function (slide_num) {
-
             // slide_num starts at position 1
-
             fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-
           });
-
         }
 
-    
-
       })();
-
     </script>
-
-    
 
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -620,14 +688,13 @@
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-          const outerScaffold = trigger.parentElement.cloneNode(true);
-          const codeEl = outerScaffold.querySelector('code');
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
+            const codeEl = trigger.previousElementSibling.cloneNode(true);
+            for (const childEl of codeEl.children) {
+              if (isCodeAnnotation(childEl)) {
+                childEl.remove();
+              }
             }
-          }
-          return codeEl.innerText;
+            return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy
