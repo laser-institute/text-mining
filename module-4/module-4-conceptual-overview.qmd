@@ -66,49 +66,74 @@ Thick description, popularized by Clifford Geertz in The Interpretation of Cultu
 ::: notes
 :::
 
-## Scenario: Middle School Climate Science
--   3 groups of 4-5 students apiece, tasked with designing a sustainable city.
--   Group performance graded by how many students participate and depth of discussion when sharing out to class.
--   Research Question: How do high-performing groups connect scientific evidence to policy decisions compared to lower-performing groups?
+## Scenario: Middle School Earth Sciences Class
+
+-   3 groups of 4-5 students apiece, tasked with discussing a sustainable urban redevelopment problem.
+-   **Research Question:** How do high-performing groups connect scientific evidence to policy decisions compared to lower-performing groups?
+
+::: notes
+Let's apply this to something more concrete. Imagine a middle school classroom working on a sustainability unit. In this case, group performance is defined by overall participation among members.
+:::
+
+## Wrangle
+
+-   First, record & transcribe group discussions.
+
+-   Retain identities of each student and which group so individual and group ENAs can be compared.
 
 ::: notes
 :::
 
-## Data Collection
--   Record & transcribe group discussions
--   Retain identities of each student and which group so individual and group ENAs can be compared
+## Exploring
 
-::: notes
-:::
+-   Develop a coding scheme based on your observations. For example:
 
-## Coding
-You develop a coding scheme based on your observations. For example:
--   [ENV]: Environmental Impact (e.g., "The sea levels will rise.")
--   [POL]: Policy/Regulation (e.g., "We should ban plastic bags.")
--   [ECO]: Economic Cost (e.g., "That will be too expensive.")
--   [EVI]: Scientific Evidence (e.g., "The chart shows a 2-degree increase.")
+    -   **\[environmental.issues\]** (e.g., "This would contribute to runoff and erosion.")
+
+    -   **\[zoning.codes\]** (e.g., "Could we build that next to the train station?")
+
+    -   **\[social.issues\]** (e.g., "That looks like hostile architecture in the plaza.")
+
+    -   **\[scientific.thinking\]** (e.g., "The chart shows a 2-degree increase.")
 
 ::: notes
 Coding can be done inductively or a priori. However you achieve this coding, you flag utterances or sections of the transcript for any of these codes as a binary.
 :::
 
-## Segmentation & Stanza Window
+## Model
 
--   **Unit of Analysis:** The "Who" (e.g., Student ID).
--   **Stanza Window:** The "moving window" of context.
--   **Logic:** Ideas appearing within \~4 lines are likely cognitively linked.
+-   ENA looks for your coded data within the stanza, or an arbitrated "window" of text.
+-   "The key idea behind a stanza is that (a) codes in lines *anywhere within the same stanza are related* to one another in the model, and (b) codes in lines that are *not in the same stanza* are *not related* to one another in the model" ([@epistemi2017]
+-   This window "moves" up and down the transcript to find co-occurrences and build the model.
 
 ::: notes
-The ENA algorithm uses a moving window (e.g., n lines of text) to identify conceptual associations. If a student mentions [EVI] and [POL] within the same window, ENA records a connection between those two nodes. It assumes that if two ideas are discussed close together, they are linked in the student’s mind.
+The ENA algorithm uses a moving window (e.g., n lines of text) to identify conceptual associations. If a student mentions \[EVI\] and \[POL\] within the same window, ENA records a connection between those two nodes. It assumes that if two ideas are discussed close together, they are linked in the student’s mind.
 
-The beauty is that you can apply this algorithm to an individual or a group. To answer our research question, you filter the transcripts to compare our three working groups to see how closely those ideas associate.
+The beauty is that you can apply this approach to an individual, group, or even "groups" of groups.
+
+To answer our research question, you filter the transcripts to compare our three working groups to see how closely those ideas associate.
 :::
 
-## Why Use R for ENA?
+## Communicate
 
--   **The `rENA` Package:** The gold standard for this research.
--   **Reproducibility:** Scripts allow others to see your exact data pipeline.
--   **Integration:** Move from `tidyverse` (cleaning) to modeling seamlessly.
+[![from](images/clipboard-1155908973.png){width="1400"}](https://www.solaresearch.org/wp-content/uploads/2017/05/chapter15.pdf)
+
+::: notes
+This is an example output comparing two students' conceptual models for a similar activity in @epistemi2017. Importantly, nodes representing ideas are in the same location across all epistemic networks, which makes it easier to compare the strength of the ties between them.
+:::
+
+## Discussion
+
+-   What are some similarities between the two students' epistemic networks? What are some differences?
+
+-   What happens when you have to compare 10 epistemic networks? 20? 100?
+
+::::::: notes
+Thankfully there are methods of comparing even larger data, which is better explored in our readings for the week and
+
+## Using ENA with R
+
+-   R is able to conduct ENA through the `rENA` package!
 
 ```{r}
 #| echo: true
@@ -116,6 +141,10 @@ The beauty is that you can apply this algorithm to an individual or a group. To 
 install.packages("rENA")
 library(rENA)
 ```
+
+::: notes
+You're in luck! `rENA` allows ENA to be conducted and communicated in R's a transparent, reproducible, and open format. We'll explore some of `rENA`'s functions in this module's Code Along.
+:::
 
 # Acknowledgements
 
@@ -128,3 +157,4 @@ library(rENA)
 This work was supported by the National Science Foundation grants DRL-2025090 and DRL-2321128 (ECR:BCSER). Any opinions, findings, and conclusions expressed in this material are those of the authors and do not necessarily reflect the views of the National Science Foundation.
 :::
 :::::
+:::::::

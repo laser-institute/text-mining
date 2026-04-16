@@ -93,7 +93,27 @@
     code span.va { color: #111111; } /* Variable */
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
-  </style>
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+      margin-bottom: 0em;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
   <link rel="stylesheet" href="module-4-conceptual-overview_files/libs/revealjs/dist/theme/quarto-3b093e4b5a2bb1f22f68e4b5d63b99b3.css">
   <link href="module-4-conceptual-overview_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="module-4-conceptual-overview_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
@@ -278,12 +298,31 @@
           display:block!important;
       }</style></aside>
 </section>
-<section id="scenario-middle-school-climate-science" class="slide level2">
-<h2>Scenario: Middle School Climate Science</h2>
+<section id="scenario-middle-school-earth-sciences-class" class="slide level2">
+<h2>Scenario: Middle School Earth Sciences Class</h2>
 <ul>
-<li>3 groups of 4-5 students apiece, tasked with designing a sustainable city.</li>
-<li>Group performance graded by how many students participate and depth of discussion when sharing out to class.</li>
-<li>Research Question: How do high-performing groups connect scientific evidence to policy decisions compared to lower-performing groups?</li>
+<li>3 groups of 4-5 students apiece, tasked with discussing a sustainable urban redevelopment problem.</li>
+<li><strong>Research Question:</strong> How do high-performing groups connect scientific evidence to policy decisions compared to lower-performing groups?</li>
+</ul>
+<aside class="notes">
+<p>Let’s apply this to something more concrete. Imagine a middle school classroom working on a sustainability unit. In this case, group performance is defined by overall participation among members.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="wrangle" class="slide level2">
+<h2>Wrangle</h2>
+<ul>
+<li><p>First, record &amp; transcribe group discussions.</p></li>
+<li><p>Retain identities of each student and which group so individual and group ENAs can be compared.</p></li>
 </ul>
 <aside class="notes">
 
@@ -299,29 +338,17 @@
           display:block!important;
       }</style></aside>
 </section>
-<section id="data-collection" class="slide level2">
-<h2>Data Collection</h2>
+<section id="exploring" class="slide level2">
+<h2>Exploring</h2>
 <ul>
-<li>Record &amp; transcribe group discussions</li>
-<li>Retain identities of each student and which group so individual and group ENAs can be compared</li>
+<li><p>Develop a coding scheme based on your observations. For example:</p>
+<ul>
+<li><p><strong>[environmental.issues]</strong> (e.g., “This would contribute to runoff and erosion.”)</p></li>
+<li><p><strong>[zoning.codes]</strong> (e.g., “Could we build that next to the train station?”)</p></li>
+<li><p><strong>[social.issues]</strong> (e.g., “That looks like hostile architecture in the plaza.”)</p></li>
+<li><p><strong>[scientific.thinking]</strong> (e.g., “The chart shows a 2-degree increase.”)</p></li>
+</ul></li>
 </ul>
-<aside class="notes">
-
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="coding" class="slide level2">
-<h2>Coding</h2>
-<p>You develop a coding scheme based on your observations. For example: - [ENV]: Environmental Impact (e.g., “The sea levels will rise.”) - [POL]: Policy/Regulation (e.g., “We should ban plastic bags.”) - [ECO]: Economic Cost (e.g., “That will be too expensive.”) - [EVI]: Scientific Evidence (e.g., “The chart shows a 2-degree increase.”)</p>
 <aside class="notes">
 <p>Coding can be done inductively or a priori. However you achieve this coding, you flag utterances or sections of the transcript for any of these codes as a binary.</p>
 <style type="text/css">
@@ -336,16 +363,17 @@
           display:block!important;
       }</style></aside>
 </section>
-<section id="segmentation-stanza-window" class="slide level2">
-<h2>Segmentation &amp; Stanza Window</h2>
+<section id="model" class="slide level2">
+<h2>Model</h2>
 <ul>
-<li><strong>Unit of Analysis:</strong> The “Who” (e.g., Student ID).</li>
-<li><strong>Stanza Window:</strong> The “moving window” of context.</li>
-<li><strong>Logic:</strong> Ideas appearing within ~4 lines are likely cognitively linked.</li>
+<li>ENA looks for your coded data within the stanza, or an arbitrated “window” of text.</li>
+<li>“The key idea behind a stanza is that (a) codes in lines <em>anywhere within the same stanza are related</em> to one another in the model, and (b) codes in lines that are <em>not in the same stanza</em> are <em>not related</em> to one another in the model” (<span class="citation" data-cites="epistemi2017">(<a href="#/discussion" role="doc-biblioref" onclick="">Shaffer and Ruis 2017</a>)</span></li>
+<li>This window “moves” up and down the transcript to find co-occurrences and build the model.</li>
 </ul>
 <aside class="notes">
 <p>The ENA algorithm uses a moving window (e.g., n lines of text) to identify conceptual associations. If a student mentions [EVI] and [POL] within the same window, ENA records a connection between those two nodes. It assumes that if two ideas are discussed close together, they are linked in the student’s mind.</p>
-<p>The beauty is that you can apply this algorithm to an individual or a group. To answer our research question, you filter the transcripts to compare our three working groups to see how closely those ideas associate.</p>
+<p>The beauty is that you can apply this approach to an individual, group, or even “groups” of groups.</p>
+<p>To answer our research question, you filter the transcripts to compare our three working groups to see how closely those ideas associate.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -358,17 +386,58 @@
           display:block!important;
       }</style></aside>
 </section>
-<section id="why-use-r-for-ena" class="slide level2">
-<h2>Why Use R for ENA?</h2>
+<section id="communicate" class="slide level2">
+<h2>Communicate</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="https://www.solaresearch.org/wp-content/uploads/2017/05/chapter15.pdf"><img data-src="images/clipboard-1155908973.png" width="1400"></a></p>
+<figcaption>from</figcaption>
+</figure>
+</div>
+<aside class="notes">
+<p>This is an example output comparing two students’ conceptual models for a similar activity in <span class="citation" data-cites="epistemi2017">Shaffer and Ruis (<a href="#/discussion" role="doc-biblioref" onclick="">2017</a>)</span>. Importantly, nodes representing ideas are in the same location across all epistemic networks, which makes it easier to compare the strength of the ties between them.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="discussion" class="slide level2 smaller scrollable">
+<h2>Discussion</h2>
 <ul>
-<li><strong>The <code>rENA</code> Package:</strong> The gold standard for this research.</li>
-<li><strong>Reproducibility:</strong> Scripts allow others to see your exact data pipeline.</li>
-<li><strong>Integration:</strong> Move from <code>tidyverse</code> (cleaning) to modeling seamlessly.</li>
+<li><p>What are some similarities between the two students’ epistemic networks? What are some differences?</p></li>
+<li><p>What happens when you have to compare 10 epistemic networks? 20? 100?</p></li>
+</ul>
+<aside class="notes">
+<p>Thankfully there are methods of comparing even larger data, which is better explored in our readings for the week and</p>
+<section id="using-ena-with-r" class="slide level2">
+<h2>Using ENA with R</h2>
+<ul>
+<li>R is able to conduct ENA through the <code>rENA</code> package!</li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">install.packages</span>(<span class="st">"rENA"</span>)</span>
 <span id="cb1-2"><a href=""></a><span class="fu">library</span>(rENA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<aside class="notes">
+<p>You’re in luck! <code>rENA</code> allows ENA to be conducted and communicated in R’s a transparent, reproducible, and open format. We’ll explore some of <code>rENA</code>’s functions in this module’s Code Along.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="acknowledgements" class="title-slide slide level1 center">
 <h1>Acknowledgements</h1>
@@ -382,15 +451,33 @@
 </div><div class="column" style="width:80%;">
 <p>This work was supported by the National Science Foundation grants DRL-2025090 and DRL-2321128 (ECR:BCSER). Any opinions, findings, and conclusions expressed in this material are those of the authors and do not necessarily reflect the views of the National Science Foundation.</p>
 </div></div>
+</section>
+
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <a href="https://www.go.ncsu.edu/laser-institute">
-</a></section><a href="https://www.go.ncsu.edu/laser-institute">
-    </a></div><a href="https://www.go.ncsu.edu/laser-institute">
-  </a><div class="quarto-auto-generated-content" style="display: none;">
+</a><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list"><a href="https://www.go.ncsu.edu/laser-institute">
+</a><div id="ref-epistemi2017" class="csl-entry" role="listitem"><a href="https://www.go.ncsu.edu/laser-institute">
+Shaffer, David Williamson, and A. R. Ruis. 2017. <span>“Epistemic Network Analysis: A Worked Example of Theory-Based Learning Analytics.”</span> In, 175–87. Society for Learning Analytics Research (SoLAR). </a><a href="https://doi.org/10.18608/hla17.015">https://doi.org/10.18608/hla17.015</a>.
+</div>
+</div>
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
 <p><img src="img/LASERLogoB.png" class="slide-logo"></p>
 <div class="footer footer-default">
 <p><a href="https://www.go.ncsu.edu/laser-institute">go.ncsu.edu/laser-institute</a></p><a href="https://www.go.ncsu.edu/laser-institute">
 </a></div><a href="https://www.go.ncsu.edu/laser-institute">
-</a></div></div><a href="https://www.go.ncsu.edu/laser-institute">
+</a></div></div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
   <script src="module-4-conceptual-overview_files/libs/revealjs/dist/reveal.js"></script>
@@ -809,4 +896,4 @@
       </script>
     
 
-</a></body></html>
+</body></html>
