@@ -113,8 +113,21 @@ The computer does not "understand" the topics; it only sees mathematical correla
 
 -   **Garbage In, Garbage Out:** Poorly cleaned data (like encoding errors or human-made typos) can result in nonsensical topics.
 
-## Discussion & Next Steps
+## Discussion
 
 1.  Think of a dataset in your current role (e.g., student evaluations). What "latent" topics might you expect?
 
 2.  Where do you see limitations in this approach? What could you pair LDA with to create a more thorough analysis?
+
+## Acknowledgements
+
+::::: columns
+::: {.column width="20%"}
+![](img/nsf.jpg){fig-align="center" width="80%"}
+:::
+
+::: {.column width="80%"}
+This work was supported by the National Science Foundation grants DRL-2025090 and DRL-2321128 (ECR:BCSER). Any opinions, findings, and conclusions expressed in this material are those of the authors and do not necessarily reflect the views of the National Science Foundation.
+:::
+:::::
+

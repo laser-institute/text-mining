@@ -6,8 +6,8 @@
 <script src="module-3-conceptual-overview_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="module-3-conceptual-overview_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="module-3-conceptual-overview_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="module-3-conceptual-overview_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.25">
+<link href="module-3-conceptual-overview_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.7.32">
 
   <title>Intro to Topic Modeling</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -28,7 +28,7 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="module-3-conceptual-overview_files/libs/revealjs/dist/theme/quarto-ca498c54d3639273dff31d3ef88a1bca.css">
+  <link rel="stylesheet" href="module-3-conceptual-overview_files/libs/revealjs/dist/theme/quarto-3b093e4b5a2bb1f22f68e4b5d63b99b3.css">
   <link href="module-3-conceptual-overview_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="module-3-conceptual-overview_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="module-3-conceptual-overview_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -243,12 +243,25 @@
 <li><p><strong>Garbage In, Garbage Out:</strong> Poorly cleaned data (like encoding errors or human-made typos) can result in nonsensical topics.</p></li>
 </ul>
 </section>
-<section id="discussion-next-steps" class="slide level2">
-<h2>Discussion &amp; Next Steps</h2>
+<section id="discussion" class="slide level2">
+<h2>Discussion</h2>
 <ol type="1">
 <li><p>Think of a dataset in your current role (e.g., student evaluations). What “latent” topics might you expect?</p></li>
 <li><p>Where do you see limitations in this approach? What could you pair LDA with to create a more thorough analysis?</p></li>
 </ol>
+</section>
+<section id="acknowledgements" class="slide level2">
+<h2>Acknowledgements</h2>
+<div class="columns">
+<div class="column" style="width:20%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="img/nsf.jpg" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
+</figure>
+</div>
+</div><div class="column" style="width:80%;">
+<p>This work was supported by the National Science Foundation grants DRL-2025090 and DRL-2321128 (ECR:BCSER). Any opinions, findings, and conclusions expressed in this material are those of the authors and do not necessarily reflect the views of the National Science Foundation.</p>
+</div></div>
 <a href="https://www.go.ncsu.edu/laser-institute">
 </a></section><a href="https://www.go.ncsu.edu/laser-institute">
     </a></div><a href="https://www.go.ncsu.edu/laser-institute">
@@ -443,7 +456,7 @@
         margin: 5.0e-2,
 
         math: {
-          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],
@@ -517,14 +530,13 @@
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-          const outerScaffold = trigger.parentElement.cloneNode(true);
-          const codeEl = outerScaffold.querySelector('code');
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
+            const codeEl = trigger.previousElementSibling.cloneNode(true);
+            for (const childEl of codeEl.children) {
+              if (isCodeAnnotation(childEl)) {
+                childEl.remove();
+              }
             }
-          }
-          return codeEl.innerText;
+            return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy

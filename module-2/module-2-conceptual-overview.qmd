@@ -111,8 +111,6 @@ tokenized_data <- tokenized_data |>
   unnest_tokens(word, text)
 ```
 
-------------------------------------------------------------------------
-
 ## Removing Stop Words with `anti_join`
 
 -   Words like "the," "and," and "is" don't carry sentiment and add
@@ -244,8 +242,6 @@ Despite these benefits, dictionaries can’t "read:"
     positive)
 -   **Context:** "The exam was *sick*"
 
-------------------------------------------------------------------------
-
 ## Ethical Considerations
 
 -   **Privacy:** Anonymize student text before analysis. Remove names
@@ -256,8 +252,6 @@ Despite these benefits, dictionaries can’t "read:"
     to change a grade or evaluate a teacher. Useful as a conversation
     starter but not the end-all
 
-------------------------------------------------------------------------
-
 ## Discussion
 
 -   Where could you see dictionary-based sentiment analysis coming in
@@ -266,3 +260,18 @@ Despite these benefits, dictionaries can’t "read:"
 -   What are some ways that your college or university may read too much
     into sentiment analysis for their own evaluation and policy
     development?
+
+# Acknowledgements
+
+::::: columns
+::: {.column width="20%"}
+![](img/nsf.jpg){fig-align="center" width="80%"}
+:::
+
+::: {.column width="80%"}
+This work was supported by the National Science Foundation grants
+DRL-2025090 and DRL-2321128 (ECR:BCSER). Any opinions, findings, and
+conclusions expressed in this material are those of the authors and do
+not necessarily reflect the views of the National Science Foundation.
+:::
+:::::
