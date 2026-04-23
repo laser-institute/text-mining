@@ -154,7 +154,7 @@ patterns.
 ## Read in Data
 
 :::::: panel-tabset
-## Your Turn
+## 👉 Your Turn ⤵
 
 - Read in "rescushell-data.csv" from your Data folder as new object
   `rescushell_data`.
@@ -291,7 +291,7 @@ and each unit is uniquely associated with either the novice group
 - Codes are researcher-defined concepts whose pattern of association we
   want to model for each *unit***.**
 
-## Your Turn
+## 👉 Your Turn ⤵
 
 - Like for *units*, use `select()` to make a new character vector object
   `codeCols` from the following variables: "Data,"
@@ -344,7 +344,7 @@ frame with just the columns:
   be connected. Codes in lines that are not in the same conversation
   cannot be connected.
 
-## Your Turn
+## 👉 Your Turn ⤵
 
 - Like for *units*, use `select()` to make a new character vector object
   `conversationCols` from the following variables: "Condition",
@@ -488,7 +488,7 @@ set.ena =
 )
 ```
 
-## Your Turn
+## 👉 Your Turn ⤵
 
 - Let's use the `names()` function to first determine what types of
   items and data are stored in the `set.ena` model.

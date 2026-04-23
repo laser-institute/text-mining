@@ -27,12 +27,12 @@ editor:
 
 ## Welcome to the Text Mining Code Along for Module 3
 
--   The Text Mining course is designed for those seeking an introductory
-    understanding of quantifying the text in documents to better
-    understand their properties.
+- The Text Mining course is designed for those seeking an introductory
+  understanding of quantifying the text in documents to better
+  understand their properties.
 
--   The following Code Along is a companion to the Module 3 case study's
-    **Model** stage.
+- The following Code Along is a companion to the Module 3 case study's
+  **Model** stage.
 
 ::: notes
 :::
@@ -44,14 +44,17 @@ simple terms, modeling involves developing a mathematical summary of a
 dataset, which can help us further explore trends and patterns in our
 data. By the end of this module we will learn how to:
 
--   **Fit a Topic Modeling with LDA**.We will learn to use the
-    `topicmodels` package and associated `LDA()` function for
-    unsupervised classification of our forum discussions to find natural
-    groupings of words, or topics.
--   **Choose K.** We will take an introductory look at fitting our LDA
-    to K, the number of topics within the text.
+- **Fit a Topic Modeling with LDA**.We will learn to use the
+  `topicmodels` package and associated `LDA()` function for unsupervised
+  classification of our forum discussions to find natural groupings of
+  words, or topics.
+- **Choose K.** We will take an introductory look at fitting our LDA to
+  K, the number of topics within the text.
 
 ::: notes
+Just as a heads up, this will be a more computationally-intensive
+module. We'll have plenty of time to discuss and ask questions as our
+IDEs build the LDA models!
 :::
 
 ## Context of the Problem
@@ -92,20 +95,20 @@ face-to-face or virtual PLTs who commit to engage in learning together.
 ::: panel-tabset
 ## Packages Needed
 
--   `tidytext`: Tidies text data by tokenizing and allows us to cast our
-    document term matrix, an essential input for LDA.
+- `tidytext`: Tidies text data by tokenizing and allows us to cast our
+  document term matrix, an essential input for LDA.
 
--   `topicmodels`: Implements Latent Dirichlet Allocation (LDA) and
-    Correlated Topic Models (CTM) for extracting topics from text data.
+- `topicmodels`: Implements Latent Dirichlet Allocation (LDA) and
+  Correlated Topic Models (CTM) for extracting topics from text data.
 
--   `ldatuning`: Helps determine the optimal number of topics for LDA
-    models using various evaluation metrics.
+- `ldatuning`: Helps determine the optimal number of topics for LDA
+  models using various evaluation metrics.
 
 ## 👉 Your Turn ⤵
 
--   Load those packages into your IDE.
--   You may have trouble loading in one or more of these packages. Why
-    might that be? What would you need to do first?
+- Load those packages into your IDE.
+- You may have trouble loading in one or more of these packages. Why
+  might that be? What would you need to do first?
 
 ## Answer
 
@@ -143,8 +146,8 @@ Stemming is explored in the case study.
 ::: panel-tabset
 ## 👉 Your Turn ⤵
 
--   Read in "code_along.csv" located in your Data folder as object
-    `forums_tidy.`
+- Read in "code_along.csv" located in your Data folder as object
+  `forums_tidy.`
 
 ## Answer
 
@@ -164,13 +167,13 @@ folder.
 ::: panel-tabset
 ## DTMs
 
--   [Latent Dirichlet allocation
-    (LDA)](https://www.tidytextmining.com/topicmodeling.html#latent-dirichlet-allocation)
-    algorithms (via `LDA()` in R) expects a document-term matrix (DTM)
-    as the data input.
+- [Latent Dirichlet allocation
+  (LDA)](https://www.tidytextmining.com/topicmodeling.html#latent-dirichlet-allocation)
+  algorithms (via `LDA()` in R) expects a document-term matrix (DTM) as
+  the data input.
 
--   To create our DTM, we'll need to first `count()` how many times each
-    `word` occurs in each document, or `post_id` in our case, like so:
+- To create our DTM, we'll need to first `count()` how many times each
+  `word` occurs in each document, or `post_id` in our case, like so:
 
 ```{r}
 #| echo: true
@@ -182,8 +185,8 @@ forums_tidy |>
 
 ## 👉 Your Turn ⤵
 
--   Use `cast_dtm()` to create a DTM of `forums_tidy`, saving it as new
-    object `forums_dtm`
+- Use `cast_dtm()` to create a DTM of `forums_tidy`, saving it as new
+  object `forums_dtm`
 
 ## Answer
 
@@ -249,12 +252,12 @@ a full range of themes or provides redundant themes.
 
 ## Creating the LDA
 
--   Now it's time to create the LDA from the DTM using our (somewhat)
-    arbitrated k of 20.
+- Now it's time to create the LDA from the DTM using our (somewhat)
+  arbitrated k of 20.
 
--   NOTE: This is computationally intensive, so don't panic if R seems
-    to take a long time to create the new `forums_lda` object (or even
-    freeze!).
+- NOTE: This is computationally intensive, so don't panic if R seems to
+  take a long time to create the new `forums_lda` object (or even
+  freeze!).
 
 ```{r}
 #| echo: true
@@ -299,11 +302,11 @@ terms(forums_lda, 5) |>
 
 ## 👉 Your Turn ⤵
 
--   Adjust the word number argument in `terms()` to make the word list
-    10 per topic instead.
+- Adjust the word number argument in `terms()` to make the word list 10
+  per topic instead.
 
--   Note the differences in the output. How does adjusting this "window"
-    change your interpretation of the themes?
+- Note the differences in the output. How does adjusting this "window"
+  change your interpretation of the themes?
 
 ## Answer
 
@@ -342,9 +345,9 @@ k_metrics <- FindTopicsNumber(
 
 ## View Output
 
--   This is just an initial approach. After running this against another
-    algorithm that uses the `stm` package, 14 looks to be a better K for
-    this LDA.
+- This is just an initial approach. After running this against another
+  algorithm that uses the `stm` package, 14 looks to be a better K for
+  this LDA.
 
 ```{r}
 #| echo: true
@@ -378,10 +381,10 @@ Case Study), we've identified 14 as a new optimal number.
 ::: panel-tabset
 ## 👉 Your Turn ⤵
 
--   Rerun `LDA()` with our new K of 14, saving as a `forums_lda_new`
-    object.
+- Rerun `LDA()` with our new K of 14, saving as a `forums_lda_new`
+  object.
 
--   Use terms() to compare the outputs.
+- Use terms() to compare the outputs.
 
 ## Answer
 
@@ -402,17 +405,17 @@ terms(forums_lda_new, 5) |> #this example assumes 5 words per topic
 
 ## ❓Discussion
 
--   What did you notice between the LDA outputs?
+- What did you notice between the LDA outputs?
 
--   What do you think would happen if you asked for a K much lower than
-    14?
+- What do you think would happen if you asked for a K much lower than
+  14?
 
 # What's Next? {background="#143156"}
 
 ::: {style="text-align: left; font-size: 50px"}
--   Complete the Module 3 [case study](#0)
--   Complete the [Topic Modeling
-    badge](https://laser-institute.github.io//text-mining/module-3/tm-3-badge.html)
--   Do [essential readings for the next
-    module](https://laser-institute.github.io//text-mining/module-4/tm-4-readings.html)
+- Complete the Module 3 [case study](#0)
+- Complete the [Topic Modeling
+  badge](https://laser-institute.github.io//text-mining/module-3/tm-3-badge.html)
+- Do [essential readings for the next
+  module](https://laser-institute.github.io//text-mining/module-4/tm-4-readings.html)
 :::

@@ -6,8 +6,8 @@
 <script src="module-2-conceptual-overview_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="module-2-conceptual-overview_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="module-2-conceptual-overview_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="module-2-conceptual-overview_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.32">
+<link href="module-2-conceptual-overview_files/libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.36">
 
   <meta name="author" content="Duncan Culbreth">
   <title>Intro to Dictionary-Based Methods</title>
@@ -17,6 +17,9 @@
   <link rel="stylesheet" href="module-2-conceptual-overview_files/libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="module-2-conceptual-overview_files/libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -95,7 +98,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="module-2-conceptual-overview_files/libs/revealjs/dist/theme/quarto-3b093e4b5a2bb1f22f68e4b5d63b99b3.css">
+  <link rel="stylesheet" href="module-2-conceptual-overview_files/libs/revealjs/dist/theme/quarto-9199b7d818938868b9274613cb0b0448.css">
   <link href="module-2-conceptual-overview_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="module-2-conceptual-overview_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="module-2-conceptual-overview_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -211,56 +214,55 @@ Duncan Culbreth
 <h2>The Core Question</h2>
 <p><strong>“How are our students <em>actually</em> doing?”</strong></p>
 <ul>
-<li>As educators and researchers, we have thousands of course evaluations, forum posts, and survey responses</li>
-<li>Reading them all one-by-one is a huge task, but there are opportunities to get a read on the opinions and affect within those documents</li>
-<li>We can use R to transform messy text into sentiment data that we can learn from</li>
+<li>As educators and researchers, we have thousands of course evaluations, forum posts, and survey responses.</li>
+<li>Reading them all one-by-one is a huge task, but there are opportunities to get a read on the opinions and affect within those documents.</li>
+<li>We can use R to transform messy text into sentiment data that we can learn from.</li>
 </ul>
 </section>
 <section id="what-is-sentiment-analysis" class="slide level2">
 <h2>What is Sentiment Analysis?</h2>
 <ul>
-<li><strong>Definition:</strong> A computational method to identify and categorize opinions expressed in text</li>
-<li><strong>Purpose:</strong> To determine whether, and to what extent, a document or collection of documents is positive, negative, neutral, or contains other emotions</li>
-<li><strong>Examples:</strong> Identifying student frustration with a particular activity, or excitement for a pilot program</li>
+<li><strong>Definition:</strong> A computational method to identify and categorize opinions expressed in text.</li>
+<li><strong>Purpose:</strong> To determine whether, and to what extent, a document or collection of documents is positive, negative, neutral, or contains other emotions.</li>
+<li><strong>Examples:</strong> Identifying student frustration with a particular activity, or excitement for a pilot program.</li>
 </ul>
 </section>
 <section id="what-is-dictionary-based" class="slide level2">
 <h2>What is “Dictionary-Based”?</h2>
 <ul>
-<li>We compare the words in our data to a pre-defined list (a <strong>lexicon</strong>) where each word has already been tagged with a sentiment by teams of researchers</li>
-<li><strong>Example:</strong> If the word “helpful” is in our dictionary as “+1” in the Bing lexicon, and it appears 10 times in a student review, we can now calculate a score</li>
-<li>Why Use Dictionary-Based vs.&nbsp;Machine Learning &amp; genAI
+<li>We compare the words in our data to a pre-defined list (a <strong>lexicon</strong>) where each word has already been tagged with a sentiment by teams of researchers.</li>
+<li><strong>Example:</strong> If the word “helpful” is in our dictionary as “+1” in the Bing lexicon, and it appears 10 times in a student review, we can now calculate a score.</li>
+<li>Why Use Dictionary-Based vs.&nbsp;Machine Learning &amp; genAI?
 <ul>
-<li><strong>Transparency:</strong> You can see exactly why a sentence was marked “negative”</li>
-<li><strong>Accessibility:</strong> No need for training complex AI models or depending on the training of existing genAI agents</li>
-<li><strong>Speed and Scalability:</strong> Works instantly on small-to-medium datasets (e.g., 500 end-of-term surveys)</li>
-<li><strong>Intuitive logic</strong></li>
+<li><strong>Transparency:</strong> You can see exactly why a sentence was marked “negative.”</li>
+<li><strong>Accessibility:</strong> No need for training complex AI models or depending on the training of existing genAI agents.</li>
+<li><strong>Speed and Scale:</strong> Works very quicklky and can scale up to larger datasets.</li>
 </ul></li>
 </ul>
 </section>
-<section id="prepare-your-data" class="slide level2">
-<h2>Prepare Your Data</h2>
+<section id="prepare" class="slide level2">
+<h2>Prepare</h2>
 <p>We will once again rely on <code>tidyverse</code> and <code>tidytext</code> for this analysis.</p>
 <ul>
-<li><strong><code>tidyverse</code></strong>: The “Swiss Army Knife” for data cleaning</li>
+<li><strong><code>tidyverse</code></strong>: The standard collection of packages for data cleaning.</li>
 <li><strong><code>tidytext</code></strong>: The specific package we use to handle text like a spreadsheet to make one word per row. Long, but makes this analysis much easier!</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="co"># Install if you haven't already!</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="co"># Install if you haven't already!</span></span>
 <span id="cb1-2"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-3"><a href=""></a><span class="fu">library</span>(tidytext)</span>
 <span id="cb1-4"><a href=""></a><span class="fu">library</span>(textdata)</span>
-<span id="cb1-5"><a href=""></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href=""></a><span class="fu">library</span>(ggplot2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="read-in-your-data" class="slide level2">
-<h2>Read in Your Data</h2>
+<section id="read" class="slide level2">
+<h2>Read</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="co"># Load your student feedback</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="co"># Load your student feedback</span></span>
 <span id="cb2-2"><a href=""></a>raw <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/ccss-tweets.csv"</span>)</span>
 <span id="cb2-3"><a href=""></a></span>
 <span id="cb2-4"><a href=""></a><span class="co"># A sneak peek at what it might look like</span></span>
-<span id="cb2-5"><a href=""></a><span class="fu">head</span>(raw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-5"><a href=""></a><span class="fu">head</span>(raw)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 8
   text              created_at          author_id      id conversation_id source
@@ -275,28 +277,28 @@ Duncan Culbreth
 </div>
 </div>
 </section>
-<section id="tokenize-the-data" class="slide level2">
-<h2>Tokenize the Data</h2>
+<section id="tokenize" class="slide level2">
+<h2>Tokenize</h2>
 <ul>
-<li>Text data is once again tokenized, or broken down into tokens (typically single words)</li>
-<li>The <code>unnest_tokens()</code> function splits your long sentences into individual rows</li>
+<li>Text data is once again tokenized, or broken down into tokens (typically single words).</li>
+<li>The <code>unnest_tokens()</code> function splits your long sentences into individual rows.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="co"># Use select() to isolate the 'text' column</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a><span class="co"># Use select() to isolate the 'text' column</span></span>
 <span id="cb4-2"><a href=""></a>tokenized_data <span class="ot">&lt;-</span> <span class="fu">select</span>(raw, <span class="st">"text"</span>)</span>
 <span id="cb4-3"><a href=""></a><span class="co"># Tokenize the 'text' column into a 'word' column</span></span>
 <span id="cb4-4"><a href=""></a>tokenized_data <span class="ot">&lt;-</span> tokenized_data <span class="sc">|&gt;</span></span>
-<span id="cb4-5"><a href=""></a>  <span class="fu">unnest_tokens</span>(word, text)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-5"><a href=""></a>  <span class="fu">unnest_tokens</span>(word, text)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="removing-stop-words-with-anti_join" class="slide level2">
 <h2>Removing Stop Words with <code>anti_join</code></h2>
 <ul>
-<li>Words like “the,” “and,” and “is” don’t carry sentiment and add noise to the data</li>
-<li>We use <code>anti_join(stop_words)</code> to automatically strip these out so we can focus on the “meat” of the feedback</li>
+<li>Words like “the,” “and,” and “is” don’t carry sentiment and add noise to the data.</li>
+<li>We use <code>anti_join(stop_words)</code> to automatically strip these out so we can focus on the “meat” of the feedback.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>clean_data <span class="ot">&lt;-</span> tokenized_data <span class="sc">|&gt;</span>   <span class="fu">anti_join</span>(stop_words)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>clean_data <span class="ot">&lt;-</span> tokenized_data <span class="sc">|&gt;</span>   <span class="fu">anti_join</span>(stop_words)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="meet-the-lexicons" class="slide level2">
@@ -311,7 +313,7 @@ Duncan Culbreth
 <li><p><strong>Format:</strong> Categorical data that labels words as either <strong>Positive</strong> or <strong>Negative</strong></p></li>
 <li><p><strong>Best for:</strong> General “thumbs up/down” vibe checks of a course</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">get_sentiments</span>(<span class="st">"bing"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">get_sentiments</span>(<span class="st">"bing"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6,786 × 2
    word        sentiment
@@ -338,7 +340,7 @@ Duncan Culbreth
 <li><p><strong>Example:</strong> “Outstanding” = +5; “Okay” = +1; “Catastrophic” = -5</p></li>
 <li><p><strong>Best for:</strong> Measuring the <em>intensity</em> of sentiment, provided it lies on a single spectrum</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a><span class="fu">get_sentiments</span>(<span class="st">"afinn"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a><span class="fu">get_sentiments</span>(<span class="st">"afinn"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2,477 × 2
    word       value
@@ -365,7 +367,7 @@ Duncan Culbreth
 <li><p><strong>Example:</strong> The word “final” might be tagged with <strong>Anticipation</strong> or <strong>Fear</strong></p></li>
 <li><p><strong>Best for:</strong> Deep dives into specific student sentiment or engagement</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="fu">get_sentiments</span>(<span class="st">"nrc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="fu">get_sentiments</span>(<span class="st">"nrc"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 13,872 × 2
    word        sentiment
@@ -391,19 +393,19 @@ Duncan Culbreth
 <section id="inner_join" class="slide level2">
 <h2>inner_join</h2>
 <ul>
-<li><p><code>anti_join</code> removes stop words during cleaning, but still leaves words that aren’t present in sentiment lexicons but aren’t “real” words either (e.g., X/Twitter handles)</p></li>
-<li><p>We can use inner_join to ask R to take student feedback and only keep the words that appear in a given sentiment dictionary</p></li>
-<li><p>This creates a smaller, even less noisy dataset, but it has to be tailored to each lexicon</p></li>
-<li><p>The below example uses NRC</p></li>
+<li><p><code>anti_join</code> removes stop words during cleaning, but still leaves words that aren’t present in sentiment lexicons but aren’t “real” words either (e.g., X/Twitter handles).</p></li>
+<li><p>We can use inner_join to ask R to take student feedback and only keep the words that appear in a given sentiment dictionary.</p></li>
+<li><p>This creates a smaller, even less noisy dataset, but it has to be tailored to each lexicon.</p></li>
+<li><p>The below example uses NRC:</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="co"># Join our clean student words with the Bing dictionary </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="co"># Join our clean student words with the Bing dictionary </span></span>
 <span id="cb12-2"><a href=""></a>sentiment_data <span class="ot">&lt;-</span> clean_data <span class="sc">|&gt;</span> </span>
 <span id="cb12-3"><a href=""></a>  <span class="fu">inner_join</span>(<span class="fu">get_sentiments</span>(<span class="st">"nrc"</span>)) </span>
 <span id="cb12-4"><a href=""></a></span>
 <span id="cb12-5"><a href=""></a><span class="co"># Count the remaining words </span></span>
 <span id="cb12-6"><a href=""></a>sentiment_data <span class="sc">|&gt;</span> </span>
-<span id="cb12-7"><a href=""></a>  <span class="fu">count</span>(sentiment)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-7"><a href=""></a>  <span class="fu">count</span>(sentiment)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 2
    sentiment        n
@@ -433,12 +435,12 @@ Duncan Culbreth
 <li>We use <code>ggplot2</code> to bring these numbers to life</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>sentiment_data <span class="sc">|&gt;</span>   </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a>sentiment_data <span class="sc">|&gt;</span>   </span>
 <span id="cb14-2"><a href=""></a>  <span class="fu">count</span>(sentiment) <span class="sc">|&gt;</span>   </span>
 <span id="cb14-3"><a href=""></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sentiment, <span class="at">y =</span> n, <span class="at">fill =</span> sentiment)) <span class="sc">+</span>   </span>
 <span id="cb14-4"><a href=""></a>  <span class="fu">geom_col</span>() <span class="sc">+</span>   </span>
 <span id="cb14-5"><a href=""></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span>   </span>
-<span id="cb14-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Overall Course Sentiment"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-6"><a href=""></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Overall Course Sentiment"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure>
@@ -462,21 +464,21 @@ Duncan Culbreth
 <h2>Critical Limitations</h2>
 <p>Despite these benefits, dictionaries can’t “read:”</p>
 <ul>
-<li><strong>Sarcasm:</strong> “Oh great, another 50-page reading” (R thinks “great” is positive)</li>
-<li><strong>Negation:</strong> “Not helpful” (R sees “helpful” and sees it as positive)</li>
-<li><strong>Context:</strong> “The exam was <em>sick</em>”</li>
+<li><strong>Sarcasm:</strong> “Oh great, another 50-page reading” (R thinks “great” is positive).</li>
+<li><strong>Negation:</strong> “Not helpful” (R sees “helpful” and sees it as positive).</li>
+<li><strong>Context:</strong> “The exam was <em>sick</em>”.</li>
 </ul>
 </section>
 <section id="ethical-considerations" class="slide level2">
 <h2>Ethical Considerations</h2>
 <ul>
-<li><strong>Privacy:</strong> Anonymize student text before analysis. Remove names and ID numbers</li>
-<li><strong>Bias:</strong> Lexicons are built by humans and may carry cultural or historical biases</li>
-<li><strong>A Human Touch:</strong> Never use sentiment scores as the <em>only</em> reason to change a grade or evaluate a teacher. Useful as a conversation starter but not the end-all</li>
+<li><strong>Privacy:</strong> Anonymize student text before analysis. Remove names and ID numbers.</li>
+<li><strong>Bias:</strong> Lexicons are built by humans and may carry cultural or historical biases.</li>
+<li><strong>A Human Touch:</strong> Never use sentiment scores as the <em>only</em> reason to change a grade or evaluate a teacher. Useful as a conversation starter but not the end-all.</li>
 </ul>
 </section>
 <section id="discussion" class="slide level2">
-<h2>Discussion</h2>
+<h2>❓Discussion</h2>
 <ul>
 <li><p>Where could you see dictionary-based sentiment analysis coming in handy in your work?</p></li>
 <li><p>What are some ways that your college or university may read too much into sentiment analysis for their own evaluation and policy development?</p></li>
@@ -688,7 +690,7 @@ Duncan Culbreth
         margin: 5.0e-2,
 
         math: {
-          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],
@@ -715,42 +717,80 @@ Duncan Culbreth
       });
     </script>
     
+
     <script>
+
       // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
       // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
       // slide changes (different for each slide format).
+
       (function () {
+
         // dispatch for htmlwidgets
+
         function fireSlideEnter() {
+
           const event = window.document.createEvent("Event");
+
           event.initEvent("slideenter", true, true);
+
           window.document.dispatchEvent(event);
+
         }
+
+    
 
         function fireSlideChanged(previousSlide, currentSlide) {
+
           fireSlideEnter();
 
+    
+
           // dispatch for shiny
+
           if (window.jQuery) {
+
             if (previousSlide) {
+
               window.jQuery(previousSlide).trigger("hidden");
+
             }
+
             if (currentSlide) {
+
               window.jQuery(currentSlide).trigger("shown");
+
             }
+
           }
+
         }
+
+    
 
         // hookup for slidy
+
         if (window.w3c_slidy) {
+
           window.w3c_slidy.add_observer(function (slide_num) {
+
             // slide_num starts at position 1
+
             fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
           });
+
         }
 
+    
+
       })();
+
     </script>
+
+    
 
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -800,13 +840,14 @@ Duncan Culbreth
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy

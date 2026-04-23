@@ -6,8 +6,8 @@
 <script src="module-3-conceptual-overview_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="module-3-conceptual-overview_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="module-3-conceptual-overview_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="module-3-conceptual-overview_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.32">
+<link href="module-3-conceptual-overview_files/libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.36">
 
   <title>Intro to Topic Modeling</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -16,6 +16,9 @@
   <link rel="stylesheet" href="module-3-conceptual-overview_files/libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="module-3-conceptual-overview_files/libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -28,7 +31,7 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="module-3-conceptual-overview_files/libs/revealjs/dist/theme/quarto-3b093e4b5a2bb1f22f68e4b5d63b99b3.css">
+  <link rel="stylesheet" href="module-3-conceptual-overview_files/libs/revealjs/dist/theme/quarto-9199b7d818938868b9274613cb0b0448.css">
   <link href="module-3-conceptual-overview_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="module-3-conceptual-overview_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="module-3-conceptual-overview_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -205,6 +208,19 @@
 <li><strong>Curricular Mapping:</strong> Ensuring that course readings actually cover the intended thematic areas.</li>
 <li><strong>Forum Snapshots:</strong> By processing large and numerous text-based forums in a MOOC course, instructors can get a quick understanding of salient topics and compare them to learning objectives.</li>
 </ul>
+<aside class="notes">
+<p>What are some examples that you can think of in your own work?</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="packages" class="slide level2">
 <h2>Packages</h2>
@@ -220,6 +236,19 @@
 <li><strong>Tokenization:</strong> Breaking sentences into individual words.</li>
 <li><strong>Weighting:</strong> Focusing on meaningful word frequencies.</li>
 </ul>
+<aside class="notes">
+<p>This might look familiar to the process of getting data ready for dictionary-based methods. It should! The initial steps are very similar, even down to measuring term frequencies. However, you preserve the identities of the documents from which you tokenized the text, which is carried over to the DTM and considered in the frequency analysis used in an LDA.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="interpreting-results" class="slide level2">
 <h2>Interpreting Results</h2>
@@ -229,12 +258,26 @@
 <li><p>It is the researcher’s responsibility to interpret the groups of terms into their own themes. What would you call the above groups “1” and “2”?</p></li>
 <li><p>The researcher also must define the number of groups to be sorted (K). Too few leads to broad generalizations; too many leads to redundant clusters. Picking an optimal K can be assisted with <code>ldatuning.</code></p></li>
 </ul>
+<aside class="notes">
+<p>This is an example of an LDA output. Don’t worry too much about the specific beta scores on the x axis here, just focus on the ranked order of terms by highest to lowest beta.</p>
+<p>Do these two collections of terms seem like they represent distinct concepts to you? What do you notice about them? Do you see any terms that maybe should be excluded from analysis?</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="benefits-and-limitations" class="slide level2">
 <h2>Benefits and Limitations</h2>
 <p><strong>Benefits:</strong></p>
 <ul>
-<li><p><strong>Offers a neutral approach</strong> to themes, which can allow for connections that researchers may not make on their own.</p></li>
+<li><p><strong>Offers an ostentibly neutral approach</strong> to theming texts.</p></li>
 <li><p><strong>Scalable</strong> to massive datasets.</p></li>
 </ul>
 <p><strong>Limitations:</strong></p>
@@ -242,6 +285,19 @@
 <li><p><strong>Context can be lost</strong> due to the “bag of words” approach to analysis. Text is tokenized into a list of single words, and the LDA process ignores word order in favor of frequency.</p></li>
 <li><p><strong>Garbage In, Garbage Out:</strong> Poorly cleaned data (like encoding errors or human-made typos) can result in nonsensical topics.</p></li>
 </ul>
+<aside class="notes">
+<p>In short, LDA is theoretically neutral and can help offer an outside perspective to theming from your own work as a researcher. It may corroborate your own themes or tease out ideas you wouldn’t have noticed on your own. However, you still lose context by breaking down the text into individual tokens, even if those tokens are considered within their original documents.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="discussion" class="slide level2">
 <h2>Discussion</h2>
@@ -456,7 +512,7 @@
         margin: 5.0e-2,
 
         math: {
-          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],
@@ -530,13 +586,14 @@
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy

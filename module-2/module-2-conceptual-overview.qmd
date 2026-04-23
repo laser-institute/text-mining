@@ -31,49 +31,49 @@ editor:
 
 **"How are our students *actually* doing?"**
 
--   As educators and researchers, we have thousands of course
-    evaluations, forum posts, and survey responses
--   Reading them all one-by-one is a huge task, but there are
-    opportunities to get a read on the opinions and affect within those
-    documents
--   We can use R to transform messy text into sentiment data that we can
-    learn from
+- As educators and researchers, we have thousands of course evaluations,
+  forum posts, and survey responses.
+- Reading them all one-by-one is a huge task, but there are
+  opportunities to get a read on the opinions and affect within those
+  documents.
+- We can use R to transform messy text into sentiment data that we can
+  learn from.
 
 ## What is Sentiment Analysis?
 
--   **Definition:** A computational method to identify and categorize
-    opinions expressed in text
--   **Purpose:** To determine whether, and to what extent, a document or
-    collection of documents is positive, negative, neutral, or contains
-    other emotions
--   **Examples:** Identifying student frustration with a particular
-    activity, or excitement for a pilot program
+- **Definition:** A computational method to identify and categorize
+  opinions expressed in text.
+- **Purpose:** To determine whether, and to what extent, a document or
+  collection of documents is positive, negative, neutral, or contains
+  other emotions.
+- **Examples:** Identifying student frustration with a particular
+  activity, or excitement for a pilot program.
 
 ## What is "Dictionary-Based"?
 
--   We compare the words in our data to a pre-defined list (a
-    **lexicon**) where each word has already been tagged with a
-    sentiment by teams of researchers
--   **Example:** If the word "helpful" is in our dictionary as "+1" in
-    the Bing lexicon, and it appears 10 times in a student review, we
-    can now calculate a score
--   Why Use Dictionary-Based vs. Machine Learning & genAI
-    -   **Transparency:** You can see exactly why a sentence was marked
-        "negative"
-    -   **Accessibility:** No need for training complex AI models or
-        depending on the training of existing genAI agents
-    -   **Speed and Scalability:** Works instantly on small-to-medium
-        datasets (e.g., 500 end-of-term surveys)
-    -   **Intuitive logic**
+- We compare the words in our data to a pre-defined list (a **lexicon**)
+  where each word has already been tagged with a sentiment by teams of
+  researchers.
+- **Example:** If the word "helpful" is in our dictionary as "+1" in the
+  Bing lexicon, and it appears 10 times in a student review, we can now
+  calculate a score.
+- Why Use Dictionary-Based vs. Machine Learning & genAI?
+  - **Transparency:** You can see exactly why a sentence was marked
+    "negative."
+  - **Accessibility:** No need for training complex AI models or
+    depending on the training of existing genAI agents.
+  - **Speed and Scale:** Works very quicklky and can scale up to larger
+    datasets.
 
-## Prepare Your Data
+## Prepare
 
 We will once again rely on `tidyverse` and `tidytext` for this analysis.
 
--   **`tidyverse`**: The "Swiss Army Knife" for data cleaning
--   **`tidytext`**: The specific package we use to handle text like a
-    spreadsheet to make one word per row. Long, but makes this analysis
-    much easier!
+- **`tidyverse`**: The standard collection of packages for data
+  cleaning.
+- **`tidytext`**: The specific package we use to handle text like a
+  spreadsheet to make one word per row. Long, but makes this analysis
+  much easier!
 
 ```{r}
 #| echo: true
@@ -84,7 +84,7 @@ library(textdata)
 library(ggplot2)
 ```
 
-## Read in Your Data
+## Read
 
 ```{r}
 #| echo: true
@@ -95,12 +95,12 @@ raw <- read_csv("data/ccss-tweets.csv")
 head(raw)
 ```
 
-## Tokenize the Data
+## Tokenize
 
--   Text data is once again tokenized, or broken down into tokens
-    (typically single words)
--   The `unnest_tokens()` function splits your long sentences into
-    individual rows
+- Text data is once again tokenized, or broken down into tokens
+  (typically single words).
+- The `unnest_tokens()` function splits your long sentences into
+  individual rows.
 
 ```{r}
 #| echo: true
@@ -113,10 +113,10 @@ tokenized_data <- tokenized_data |>
 
 ## Removing Stop Words with `anti_join`
 
--   Words like "the," "and," and "is" don't carry sentiment and add
-    noise to the data
--   We use `anti_join(stop_words)` to automatically strip these out so
-    we can focus on the "meat" of the feedback
+- Words like "the," "and," and "is" don't carry sentiment and add noise
+  to the data.
+- We use `anti_join(stop_words)` to automatically strip these out so we
+  can focus on the "meat" of the feedback.
 
 ```{r}
 #| echo: true 
@@ -131,67 +131,66 @@ clean_data <- tokenized_data |>   anti_join(stop_words)
 
 **The Simple Binary**
 
--   **Source:** Created by Bing Liu and collaborators
+- **Source:** Created by Bing Liu and collaborators
 
--   **Format:** Categorical data that labels words as either
-    **Positive** or **Negative**
+- **Format:** Categorical data that labels words as either **Positive**
+  or **Negative**
 
--   **Best for:** General "thumbs up/down" vibe checks of a course
+- **Best for:** General "thumbs up/down" vibe checks of a course
 
-    ```{r}
-    #| echo: true
-    get_sentiments("bing")
-    ```
+  ```{r}
+  #| echo: true
+  get_sentiments("bing")
+  ```
 
 ## AFINN
 
 **The Weighted Score**
 
--   **Format:** Assigns a score from **-5** (Very Negative) to **+5**
-    (Very Positive)
+- **Format:** Assigns a score from **-5** (Very Negative) to **+5**
+  (Very Positive)
 
--   **Example:** "Outstanding" = +5; "Okay" = +1; "Catastrophic" = -5
+- **Example:** "Outstanding" = +5; "Okay" = +1; "Catastrophic" = -5
 
--   **Best for:** Measuring the *intensity* of sentiment, provided it
-    lies on a single spectrum
+- **Best for:** Measuring the *intensity* of sentiment, provided it lies
+  on a single spectrum
 
-    ```{r}
-    #| echo: true
-    get_sentiments("afinn")
-    ```
+  ```{r}
+  #| echo: true
+  get_sentiments("afinn")
+  ```
 
 ## NRC
 
 **Sentiment Beyond Happy and Sad**
 
--   **Format:** Tags words with 8 basic emotions (Joy, Anger, Fear,
-    etc.) and 2 sentiments
+- **Format:** Tags words with 8 basic emotions (Joy, Anger, Fear, etc.)
+  and 2 sentiments
 
--   **Example:** The word "final" might be tagged with **Anticipation**
-    or **Fear**
+- **Example:** The word "final" might be tagged with **Anticipation** or
+  **Fear**
 
--   **Best for:** Deep dives into specific student sentiment or
-    engagement
+- **Best for:** Deep dives into specific student sentiment or engagement
 
-    ```{r}
-    #| echo: true
-    get_sentiments("nrc")
-    ```
+  ```{r}
+  #| echo: true
+  get_sentiments("nrc")
+  ```
 :::
 
 ## inner_join
 
--   `anti_join` removes stop words during cleaning, but still leaves
-    words that aren't present in sentiment lexicons but aren't "real"
-    words either (e.g., X/Twitter handles)
+- `anti_join` removes stop words during cleaning, but still leaves words
+  that aren't present in sentiment lexicons but aren't "real" words
+  either (e.g., X/Twitter handles).
 
--   We can use inner_join to ask R to take student feedback and only
-    keep the words that appear in a given sentiment dictionary
+- We can use inner_join to ask R to take student feedback and only keep
+  the words that appear in a given sentiment dictionary.
 
--   This creates a smaller, even less noisy dataset, but it has to be
-    tailored to each lexicon
+- This creates a smaller, even less noisy dataset, but it has to be
+  tailored to each lexicon.
 
--   The below example uses NRC
+- The below example uses NRC:
 
 ```{r}
 #| echo: true 
@@ -209,10 +208,10 @@ sentiment_data |>
 ::: panel-tabset
 ## Bar Chart
 
--   Effective for quickly visualizing sentiment counts in a text
--   Can be used with other variables to answer questions like: What
-    weeks had the highest frustration within a course?
--   We use `ggplot2` to bring these numbers to life
+- Effective for quickly visualizing sentiment counts in a text
+- Can be used with other variables to answer questions like: What weeks
+  had the highest frustration within a course?
+- We use `ggplot2` to bring these numbers to life
 
 ```{r}
 #| echo: true 
@@ -226,40 +225,40 @@ sentiment_data |>
 
 ## Word Cloud
 
--   Visualize the most common positive words in a program
--   R can generate these easily using packages like `wordcloud`
--   Word clouds are highly favored by leadership and executive summaries
-    but should be used with care and intention
+- Visualize the most common positive words in a program
+- R can generate these easily using packages like `wordcloud`
+- Word clouds are highly favored by leadership and executive summaries
+  but should be used with care and intention
 :::
 
 ## Critical Limitations
 
 Despite these benefits, dictionaries can’t "read:"
 
--   **Sarcasm:** "Oh great, another 50-page reading" (R thinks "great"
-    is positive)
--   **Negation:** "Not helpful" (R sees "helpful" and sees it as
-    positive)
--   **Context:** "The exam was *sick*"
+- **Sarcasm:** "Oh great, another 50-page reading" (R thinks "great" is
+  positive).
+- **Negation:** "Not helpful" (R sees "helpful" and sees it as
+  positive).
+- **Context:** "The exam was *sick*".
 
 ## Ethical Considerations
 
--   **Privacy:** Anonymize student text before analysis. Remove names
-    and ID numbers
--   **Bias:** Lexicons are built by humans and may carry cultural or
-    historical biases
--   **A Human Touch:** Never use sentiment scores as the *only* reason
-    to change a grade or evaluate a teacher. Useful as a conversation
-    starter but not the end-all
+- **Privacy:** Anonymize student text before analysis. Remove names and
+  ID numbers.
+- **Bias:** Lexicons are built by humans and may carry cultural or
+  historical biases.
+- **A Human Touch:** Never use sentiment scores as the *only* reason to
+  change a grade or evaluate a teacher. Useful as a conversation starter
+  but not the end-all.
 
-## Discussion
+## ❓Discussion
 
--   Where could you see dictionary-based sentiment analysis coming in
-    handy in your work?
+- Where could you see dictionary-based sentiment analysis coming in
+  handy in your work?
 
--   What are some ways that your college or university may read too much
-    into sentiment analysis for their own evaluation and policy
-    development?
+- What are some ways that your college or university may read too much
+  into sentiment analysis for their own evaluation and policy
+  development?
 
 # Acknowledgements
 

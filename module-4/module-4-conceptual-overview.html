@@ -6,8 +6,8 @@
 <script src="module-4-conceptual-overview_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="module-4-conceptual-overview_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="module-4-conceptual-overview_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="module-4-conceptual-overview_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.32">
+<link href="module-4-conceptual-overview_files/libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.36">
 
   <title>Intro to Quantitative Enthnography</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -16,6 +16,9 @@
   <link rel="stylesheet" href="module-4-conceptual-overview_files/libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="module-4-conceptual-overview_files/libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -97,7 +100,6 @@
     div.csl-bib-body { }
     div.csl-entry {
       clear: both;
-      margin-bottom: 0em;
     }
     .hanging-indent div.csl-entry {
       margin-left:2em;
@@ -114,7 +116,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="module-4-conceptual-overview_files/libs/revealjs/dist/theme/quarto-3b093e4b5a2bb1f22f68e4b5d63b99b3.css">
+  <link rel="stylesheet" href="module-4-conceptual-overview_files/libs/revealjs/dist/theme/quarto-9199b7d818938868b9274613cb0b0448.css">
   <link href="module-4-conceptual-overview_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="module-4-conceptual-overview_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="module-4-conceptual-overview_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -230,11 +232,10 @@
 <li><p>What are <strong>common techniques</strong> for QE?</p></li>
 </ul>
 </section>
-<section id="the-challenge-of-text-mining-at-scale" class="slide level2">
-<h2>The Challenge of Text Mining at Scale</h2>
+<section id="text-mining-at-scale" class="slide level2">
+<h2>Text Mining at Scale</h2>
 <ul>
-<li>Again, we have access to massive educational text data via chats, forums, reflections, etc.</li>
-<li><strong>The Dilemma:</strong>
+<li>Having access to massive educational text data via chats, forums, reflections, etc. presents a dilemma:
 <ul>
 <li>Qualitative methods are deep but don’t scale.</li>
 <li>Natural language processing such as topic modeling (e.g., LDA) scales well, but loses “context”</li>
@@ -258,11 +259,11 @@
 <h2>What is Quantitative Ethnography (QE)?</h2>
 <ul>
 <li><strong>Definition:</strong> A research paradigm integrating statistical power with “thick description,” the combination of behaviors and the context for those behaviors.</li>
-<li><strong>Core Philosophy:</strong> Structure + Meaning.</li>
+<li>Combines structure + meaning.</li>
 <li><strong>Why it matters:</strong> QE validates big-data findings with human-coded insights.</li>
 </ul>
 <aside class="notes">
-<p>Qualitative ethnography maps out how students connect ideas, not just how often they are mentioned.</p>
+<p>Qualitative ethnography maps out how students connect ideas, not just how often they are mentioned. It quantifies the qualitative observations, or “thick description,” of a learning event, discussion, etc.</p>
 <p>Thick description, popularized by Clifford Geertz in The Interpretation of Cultures (1973), is a description of human social action that describes not just physical behaviors, but their context as interpreted by the actors as well, so that it can be better understood by an outsider.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -279,13 +280,13 @@
 <section id="introduction-to-epistemic-network-analysis-ena" class="slide level2">
 <h2>Introduction to Epistemic Network Analysis (ENA)</h2>
 <ul>
-<li><p><strong>Beyond Frequency:</strong> ENA is an analysis technique that maps relationships between concepts.</p></li>
-<li><p><strong>ENA</strong> focuses on <em>co-occurrence</em> within a specific “stanza” of text, rather than total frequencies of a given term.</p></li>
-<li><p><strong>Visualizing Knowledge:</strong> If “pedagogy” and “technology” appear in the same thought, ENA maps that link. If it continues to find that link over many stanzas, the strength of the link increases between those ideas.</p>
-<p><img data-src="images/clipboard-708520774.png" width="300"></p></li>
+<li><p>ENA is an analysis technique that maps relationships between concepts.</p></li>
+<li><p>It focuses on <em>co-occurrence</em> within a specific “window,” or stanza, of text, rather than total frequencies of a given term.</p></li>
+<li><p>For example: If “pedagogy” and “technology” appear in the same stanza of a predefined length, ENA maps that link. If it continues to find that link over many stanzas, the strength of the link increases between those ideas.</p></li>
+<li><p>Other parameters can be set to account for dialogues, events, or other structures within an observation: (e.g., “units,” “conversations,” etc.)</p></li>
 </ul>
 <aside class="notes">
-
+<p>ENA is a common analysis to support QE because it carries out the principle of mapping relationships of ideas. You can stretch this algorithm to account for a range of conditions within a learning event. If it’s a conversation between two students, you can acknowledge their dialogue. If it’s groups of students working concurrently, you can account for that structure. This gives it more nuance than simply tidying all text into a bag of words, or even LDA which acknowledges distinct documents.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -325,7 +326,7 @@
 <li><p>Retain identities of each student and which group so individual and group ENAs can be compared.</p></li>
 </ul>
 <aside class="notes">
-
+<p>The extra data here can be used to set some of the parameters mentioned before.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -350,7 +351,7 @@
 </ul></li>
 </ul>
 <aside class="notes">
-<p>Coding can be done inductively or a priori. However you achieve this coding, you flag utterances or sections of the transcript for any of these codes as a binary.</p>
+<p>Coding can be done inductively or <em>a priori</em>. However you achieve this coding, you flag sentences, utterances, etc. for any of these codes as a binary. So if there were only four different codes in your analysis, like above, the first utterance here (“This would contribute…”) would read as (1, 0, 0, 0) to indicate that it only had the [environmental.issues] code.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -366,13 +367,13 @@
 <section id="model" class="slide level2">
 <h2>Model</h2>
 <ul>
-<li>ENA looks for your coded data within the stanza, or an arbitrated “window” of text.</li>
-<li>“The key idea behind a stanza is that (a) codes in lines <em>anywhere within the same stanza are related</em> to one another in the model, and (b) codes in lines that are <em>not in the same stanza</em> are <em>not related</em> to one another in the model” (<span class="citation" data-cites="epistemi2017">(<a href="#/discussion" role="doc-biblioref" onclick="">Shaffer and Ruis 2017</a>)</span></li>
+<li>ENA looks for your coded data within the stanza, an arbitrated “window” of text made of n lines.</li>
+<li>“The key idea behind a stanza is that (a) codes in lines <em>anywhere within the same stanza are related</em> to one another in the model, and (b) codes in lines that are <em>not in the same stanza</em> are <em>not related</em> to one another in the model” (<span class="citation" data-cites="epistemi2017">(<a href="#/acknowledgements" role="doc-biblioref" onclick="">Shaffer and Ruis 2017</a>)</span></li>
 <li>This window “moves” up and down the transcript to find co-occurrences and build the model.</li>
 </ul>
 <aside class="notes">
 <p>The ENA algorithm uses a moving window (e.g., n lines of text) to identify conceptual associations. If a student mentions [EVI] and [POL] within the same window, ENA records a connection between those two nodes. It assumes that if two ideas are discussed close together, they are linked in the student’s mind.</p>
-<p>The beauty is that you can apply this approach to an individual, group, or even “groups” of groups.</p>
+<p>The beauty is that you can apply this approach to an individual, group, or even “groups” of groups using parameters.</p>
 <p>To answer our research question, you filter the transcripts to compare our three working groups to see how closely those ideas associate.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -395,7 +396,8 @@
 </figure>
 </div>
 <aside class="notes">
-<p>This is an example output comparing two students’ conceptual models for a similar activity in <span class="citation" data-cites="epistemi2017">Shaffer and Ruis (<a href="#/discussion" role="doc-biblioref" onclick="">2017</a>)</span>. Importantly, nodes representing ideas are in the same location across all epistemic networks, which makes it easier to compare the strength of the ties between them.</p>
+<p>This is an example output comparing two individual students’ conceptual models for a similar activity in <span class="citation" data-cites="epistemi2017">Shaffer and Ruis (<a href="#/acknowledgements" role="doc-biblioref" onclick="">2017</a>)</span>. This analysis only considered the association of ideas within a single student’s mind or experience, rather than in dialogue.</p>
+<p>Comparing epistemic networks relies on having, nodes–which represent the ideas–in the same location on the graph. The ties, or lines which represent the strength of the association between ideas, are what differ. This makes it easier to compare the strength of the ties between them.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -408,22 +410,35 @@
           display:block!important;
       }</style></aside>
 </section>
-<section id="discussion" class="slide level2 smaller scrollable">
+<section id="discussion" class="slide level2">
 <h2>Discussion</h2>
 <ul>
 <li><p>What are some similarities between the two students’ epistemic networks? What are some differences?</p></li>
 <li><p>What happens when you have to compare 10 epistemic networks? 20? 100?</p></li>
 </ul>
 <aside class="notes">
-<p>Thankfully there are methods of comparing even larger data, which is better explored in our readings for the week and</p>
+<p>Thankfully there are methods of comparing even larger data, which is better explored in our readings and case study for the week.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
 <section id="using-ena-with-r" class="slide level2">
 <h2>Using ENA with R</h2>
 <ul>
 <li>R is able to conduct ENA through the <code>rENA</code> package!</li>
 </ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">install.packages</span>(<span class="st">"rENA"</span>)</span>
-<span id="cb1-2"><a href=""></a><span class="fu">library</span>(rENA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+<img data-src="images/clipboard-3130776477.png" width="200" class="r-stretch"><div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">install.packages</span>(<span class="st">"rENA"</span>)</span>
+<span id="cb1-2"><a href=""></a><span class="fu">library</span>(rENA)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <aside class="notes">
 <p>You’re in luck! <code>rENA</code> allows ENA to be conducted and communicated in R’s a transparent, reproducible, and open format. We’ll explore some of <code>rENA</code>’s functions in this module’s Code Along.</p>
@@ -439,7 +454,7 @@
           display:block!important;
       }</style></aside>
 </section>
-<section id="acknowledgements" class="title-slide slide level1 center">
+<section id="acknowledgements" class="title-slide slide level1 smaller scrollable">
 <h1>Acknowledgements</h1>
 <div class="columns">
 <div class="column" style="width:20%;">
@@ -451,23 +466,10 @@
 </div><div class="column" style="width:80%;">
 <p>This work was supported by the National Science Foundation grants DRL-2025090 and DRL-2321128 (ECR:BCSER). Any opinions, findings, and conclusions expressed in this material are those of the authors and do not necessarily reflect the views of the National Science Foundation.</p>
 </div></div>
-</section>
-
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 <a href="https://www.go.ncsu.edu/laser-institute">
-</a><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list"><a href="https://www.go.ncsu.edu/laser-institute">
+</a><div id="refs" class="references csl-bib-body hanging-indent" role="list"><a href="https://www.go.ncsu.edu/laser-institute">
 </a><div id="ref-epistemi2017" class="csl-entry" role="listitem"><a href="https://www.go.ncsu.edu/laser-institute">
-Shaffer, David Williamson, and A. R. Ruis. 2017. <span>“Epistemic Network Analysis: A Worked Example of Theory-Based Learning Analytics.”</span> In, 175–87. Society for Learning Analytics Research (SoLAR). </a><a href="https://doi.org/10.18608/hla17.015">https://doi.org/10.18608/hla17.015</a>.
+Shaffer, David Williamson, and A. R. Ruis. 2017. <em>Epistemic Network Analysis: A Worked Example of Theory-Based Learning Analytics</em>. Society for Learning Analytics Research (SoLAR). </a><a href="https://doi.org/10.18608/hla17.015">https://doi.org/10.18608/hla17.015</a>.
 </div>
 </div>
 </section>
@@ -663,7 +665,7 @@ Shaffer, David Williamson, and A. R. Ruis. 2017. <span>“Epistemic Network Anal
         margin: 5.0e-2,
 
         math: {
-          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],
@@ -690,42 +692,80 @@ Shaffer, David Williamson, and A. R. Ruis. 2017. <span>“Epistemic Network Anal
       });
     </script>
     
+
     <script>
+
       // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
       // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
       // slide changes (different for each slide format).
+
       (function () {
+
         // dispatch for htmlwidgets
+
         function fireSlideEnter() {
+
           const event = window.document.createEvent("Event");
+
           event.initEvent("slideenter", true, true);
+
           window.document.dispatchEvent(event);
+
         }
+
+    
 
         function fireSlideChanged(previousSlide, currentSlide) {
+
           fireSlideEnter();
 
+    
+
           // dispatch for shiny
+
           if (window.jQuery) {
+
             if (previousSlide) {
+
               window.jQuery(previousSlide).trigger("hidden");
+
             }
+
             if (currentSlide) {
+
               window.jQuery(currentSlide).trigger("shown");
+
             }
+
           }
+
         }
+
+    
 
         // hookup for slidy
+
         if (window.w3c_slidy) {
+
           window.w3c_slidy.add_observer(function (slide_num) {
+
             // slide_num starts at position 1
+
             fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
           });
+
         }
 
+    
+
       })();
+
     </script>
+
+    
 
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -775,13 +815,14 @@ Shaffer, David Williamson, and A. R. Ruis. 2017. <span>“Epistemic Network Anal
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy
