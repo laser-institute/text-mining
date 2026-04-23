@@ -6,8 +6,8 @@
 <script src="module-4-code-along_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="module-4-code-along_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="module-4-code-along_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="module-4-code-along_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.32">
+<link href="module-4-code-along_files/libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.36">
 
   <title>The rENA Package</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -16,6 +16,9 @@
   <link rel="stylesheet" href="module-4-code-along_files/libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="module-4-code-along_files/libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -27,8 +30,74 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="module-4-code-along_files/libs/revealjs/dist/theme/quarto-3b093e4b5a2bb1f22f68e4b5d63b99b3.css">
+  <link rel="stylesheet" href="module-4-code-along_files/libs/revealjs/dist/theme/quarto-9199b7d818938868b9274613cb0b0448.css">
   <link href="module-4-code-along_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="module-4-code-along_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="module-4-code-along_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -139,12 +208,13 @@
 <h2>Welcome to the LAW Code Along for Module 4</h2>
 <ul>
 <li><p>The Text Mining course is designed for those seeking an introductory understanding of quantifying the text in documents to better understand their properties.</p></li>
-<li><p>The following Code Along is a companion to the Module 4 case study’s <strong>Communicate</strong> stage.</p></li>
+<li><p>The following Code Along is a companion to the Module 4 case study’s <strong>Wrangle</strong> stage.</p></li>
 </ul>
 
 <img data-src="img/workflow.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption">Figure 2.2 Steps of Data-Intensive Research Workflow</p><p><span class="citation" data-cites="krumm2018">[@krumm2018]</span></p>
 <aside class="notes">
-
+<p>This Code Along walks through some essential components of using Epistemic Network Analysis (ENA) to explore collaborative learning processes in digital STEM education environments.</p>
+<p>ENA is a sophisticated technique that visualizes and quantifies connections among concepts in coded data, offering rich insights into how learners construct knowledge collaboratively.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -159,12 +229,14 @@
 </section>
 <section id="module-objectives" class="slide level2">
 <h2>Module Objectives</h2>
-<p>This Code Along is about taking our analyses via <code>rENA</code> and communicating it to an audience. By the end of this module we will learn how to:</p>
+<p>This Code Along discusses basic features of <code>rENA</code>, the ENA package for R. By the end of this module we will learn how to:</p>
 <ul>
-<li></li>
+<li>Import data from <a href="https://www.virtualinterns.org/rescushell/">RescuShell</a>, an engineering virtual internship platform.</li>
+<li>Specify model parameters for <code>rENA</code>: Units, codes, conversations, the window, groups, rotations, and the metadata.</li>
+<li>Construct an ENA model.</li>
 </ul>
 <aside class="notes">
-
+<p>This Code Along walks you through the Wrangle phase of the Case Study. The setup for this kind of analysis looks like it has a lot of code, but is no less straightforward than other Code Alongs we’ve done before.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -179,11 +251,10 @@
 </section>
 <section id="context-of-the-problem" class="slide level2">
 <h2>Context of the Problem</h2>
-<ul>
-<li></li>
-</ul>
-<aside class="notes">
 
+<img data-src="img/arastoopour.png" title="Our world is rich with data sources, and technology makes data more accessible than ever before! To help ensure students are future ready to use data for making informed decisions, many countries around the world have increased the emphasis on statistics and data analysis in school curriculum–from elementary/primary grades through college. This course allows you to learn, along with colleagues from other schools, an investigation cycle to teach statistics and to help students explore data to make evidence-based claims. To learn more about engaging learners in making inferences and claims supported by data and how to emphasize inferential reasoning in teaching statistics through posing different types of investigative questions, enroll in our Teaching Statistics through Inferential Reasoning MOOC-Ed." style="width:50.0%" class="r-stretch quarto-figure-center"><p class="caption">Arastoopour Irgens, G., Shaffer, D. W., Swiecki, Z., Ruis, A. R., &amp; Chesler, N. C. (2015). [Teaching and assessing engineering design thinking with virtual internships and epistemic network analysis](https://open.clemson.edu/cgi/viewcontent.cgi?article=1004&amp;context=ed_human_dvlpmnt_pub). International Journal of Engineering Education.</p><aside class="notes">
+<p>Paper abstract:</p>
+<p>An engineering workforce of sufficient size and quality is essential for addressing significant global challenges such as climate change, world hunger, and energy demand. Future generations of engineers will need to identify challenging issues and design innovative solutions. To prepare young people to solve big and increasingly global problems, researchers and educators need to understand how we can best educate young people to use engineering design thinking. In this paper, we explore virtual internships, online simulations of 21st-century engineering design practice, as one method for teaching engineering design thinking. To assess the engineering design thinking, we use epistemic network analysis (ENA), a tool for measuring complex thinking as it develops over time based on discourse analysis. The combination of virtual internships and ENA provides opportunities for students to engage in authentic engineering design, potentially receive concurrent feedback on their engineering design thinking, and develop the identity, values, and ways of thinking of professional engineers.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -199,10 +270,11 @@
 <section id="research-questions" class="slide level2">
 <h2>Research Questions:</h2>
 <ul>
-<li></li>
+<li><p>What are the patterns of epistemic connections formed by learners as they collaboratively engage in engineering problem-solving tasks within digital internship environments?</p></li>
+<li><p>Is there a difference in learners’ epistemic frames based on the condition to which they were assigned?</p></li>
 </ul>
 <aside class="notes">
-
+<p>These research questions are answered more fully in the case study.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -218,25 +290,390 @@
 <section id="load-libraries" class="slide level2">
 <h2>Load Libraries</h2>
 <div class="panel-tabset">
-<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Packages Needed</a></li><li><a href="#tabset-1-2">Your Turn</a></li><li><a href="#tabset-1-3">Answer</a></li></ul>
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Packages Needed</a></li><li><a href="#tabset-1-2">👉 Your Turn ⤵</a></li><li><a href="#tabset-1-3">Answer</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1">
 <ul>
-<li></li>
+<li><p><code>tidyverse</code></p></li>
+<li><p><code>tidytext</code></p></li>
+<li><p><code>rENA</code></p></li>
 </ul>
 </div>
 <div id="tabset-1-2">
 <ul>
-<li>Load the <code>tidyverse</code> and <code>tidytext</code> packages using <code>library()</code></li>
+<li>Load the <code>tidyverse</code>, <code>tidytext</code>, and <code>rENA</code> packages using <code>library().</code></li>
 </ul>
 </div>
 <div id="tabset-1-3">
-
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href=""></a><span class="fu">library</span>(tidytext)</span>
+<span id="cb1-3"><a href=""></a><span class="fu">library</span>(rENA)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div>
 </div>
 </div>
 <aside class="notes">
-
+<p><code>tidyverse</code> and <code>tidytext</code> are, by now, well-discussed essential packages for data manipulation and text mining.</p>
+<p>The <code>rENA</code> package provides a comprehensive set of tools specifically designed for conducting Epistemic Network Analysis. It enables users to create visual representations and statistical models of the connections between coded data elements, particularly useful in educational and collaborative learning contexts.</p>
+<p>Key functions in the <code>rENA</code> package facilitate data preparation, network modeling, and interactive visualization, making it a valuable resource for researchers aiming to explore complex discourse and interaction patterns.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="read-in-data" class="slide level2">
+<h2>Read in Data</h2>
+<div class="panel-tabset">
+<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">Your Turn</a></li><li><a href="#tabset-2-2">Answer</a></li><li><a href="#tabset-2-3">Variables</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1">
+<ul>
+<li>Read in “rescushell-data.csv” from your Data folder as new object <code>rescushell_data</code>.</li>
+</ul>
+</div>
+<div id="tabset-2-2">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a>rescushell_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/rescushell-data.csv"</span>)</span>
+<span id="cb2-2"><a href=""></a><span class="fu">view</span>(rescushell_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div id="tabset-2-3">
+<p>If you look at the object, you’ll see a number of variables which we will be using to set the parameters:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><p>UserName</p></li>
+<li><p>Condition</p></li>
+<li><p>CONFIDENCE.Pre</p></li>
+<li><p>CONFIDENCE.Post</p></li>
+<li><p>CONFIDENCE.Change</p></li>
+<li><p>C.Level.Pre</p></li>
+<li><p>NewC.Change</p></li>
+<li><p>C.Change</p></li>
+<li><p>Timestamp</p></li>
+<li><p>ActivityNumber</p></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><p>GroupName</p></li>
+<li><p>GameHalf</p></li>
+<li><p>GameDay</p></li>
+<li><p>text</p></li>
+<li><p>Data</p></li>
+<li><p>Technical.Constraints</p></li>
+<li><p>Performance.Parameters</p></li>
+<li><p>Client.and.Consultant.Requests</p></li>
+<li><p>Design.Reasoning</p></li>
+<li><p>Collaboration</p></li>
+</ul>
+</div></div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>Our data file consists of discourse from RescuShell, an online learning simulation where students work as interns at a fictitious company to solve a realistic engineering design problem in a simulated work environment. Throughout the internship, students communicate with their project teams and mentors via online chat, and these chats are recorded in the text column. A set of qualitative codes were applied to the data in the “text” column, where a value of 0 indicates the absence of the code and a value of 1 indicates the presence of the code in a given line.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ena-model-parameters" class="slide level2">
+<h2>ENA Model Parameters</h2>
+<div class="panel-tabset">
+<ul id="tabset-3" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-3-1">Specify Units</a></li><li><a href="#tabset-3-2">Check Object</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1">
+<ul>
+<li><p>First, we should identify which variables (columns) in the data contain identifiers for unique units.</p></li>
+<li><p>We will make an object <code>unitCols</code> out of the variables <code>Condition</code> and <code>UserName.</code></p></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a>unitCols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Condition"</span>, <span class="st">"UserName"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div id="tabset-3-2">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>rescushell_data <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href=""></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(unitCols)) <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href=""></a>  <span class="fu">distinct</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 48 × 2
+   Condition UserName   
+   &lt;chr&gt;     &lt;chr&gt;      
+ 1 FirstGame steven z   
+ 2 FirstGame akash v    
+ 3 FirstGame alexander b
+ 4 FirstGame brandon l  
+ 5 FirstGame christian x
+ 6 FirstGame jordan l   
+ 7 FirstGame arden f    
+ 8 FirstGame margaret n 
+ 9 FirstGame connor f   
+10 FirstGame jimmy i    
+# ℹ 38 more rows</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>We’ll show an example with the first parameter: Units. For this example, we’ll use the <code>Condition</code> column and the <code>UserName</code> column to define the units.</p>
+<p>In ENA, <strong><em>units</em></strong> can be individuals, ideas, organizations, or any other entity whose structure of connections you want to model. To set the units parameter, specify which column(s) in the data contain the variables that identify unique units.</p>
+<p>To verify that the units are correctly specified, lets subset and preview the unique values in the units columns. To do that, we’ll pipe <code>|&gt;</code> the data frame <code>rescushell_data</code>, <code>select</code> only the columns whose names are stored in the character vector <code>unitCols</code> using <code>all_of()</code>, which ensures those names are treated literally and throws an error if any are missing, and then use the <code>distinct()</code> function to drop any duplicate rows across those selected columns.</p>
+<p>There should 48 units from two conditions, which means that the ENA model will produce 48 individual-level networks for each of the units, and each unit is uniquely associated with either the novice group (<code>FirstGame</code>) or the relative expert group (<code>SecondGame</code>).</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ena-model-parameters-cont." class="slide level2">
+<h2>ENA Model Parameters, Cont.</h2>
+<div class="panel-tabset">
+<ul id="tabset-4" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-4-1">Specify Codes</a></li><li><a href="#tabset-4-2">Your Turn</a></li><li><a href="#tabset-4-3">Answer</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1">
+<ul>
+<li><p>The next parameter is identifying the <em>codes</em>.</p></li>
+<li><p>Codes are researcher-defined concepts whose pattern of association we want to model for each <em>unit</em><strong>.</strong></p></li>
+</ul>
+</div>
+<div id="tabset-4-2">
+<ul>
+<li><p>Like for <em>units</em>, use <code>select()</code> to make a new character vector object <code>codeCols</code> from the following variables: “Data,” “Technical.Constraints”, “Performance.Parameters”, “Client.and.Consultant.Requests”, “Design.Reasoning”, and “Collaboration”.</p></li>
+<li><p>Verify the content of your new object on your raw data with <code>select()</code> and <code>all_of()</code>.</p></li>
+</ul>
+</div>
+<div id="tabset-4-3">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="co">#make the codeCols object</span></span>
+<span id="cb6-2"><a href=""></a></span>
+<span id="cb6-3"><a href=""></a>codeCols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'Data'</span>, <span class="st">'Technical.Constraints'</span>, <span class="st">'Performance.Parameters'</span>, <span class="st">'Client.and.Consultant.Requests'</span>, <span class="st">'Design.Reasoning'</span>, <span class="st">'Collaboration'</span>)</span>
+<span id="cb6-4"><a href=""></a></span>
+<span id="cb6-5"><a href=""></a><span class="co">#verify the content in your object</span></span>
+<span id="cb6-6"><a href=""></a>rescushell_data <span class="sc">|&gt;</span></span>
+<span id="cb6-7"><a href=""></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(codeCols))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3,824 × 6
+    Data Technical.Constraints Performance.Parameters Client.and.Consultant.Re…¹
+   &lt;dbl&gt;                 &lt;dbl&gt;                  &lt;dbl&gt;                      &lt;dbl&gt;
+ 1     0                     0                      0                          0
+ 2     0                     0                      0                          0
+ 3     0                     0                      0                          0
+ 4     0                     0                      0                          0
+ 5     0                     0                      0                          0
+ 6     0                     0                      0                          0
+ 7     0                     0                      0                          0
+ 8     0                     0                      0                          0
+ 9     0                     0                      0                          0
+10     0                     0                      0                          0
+# ℹ 3,814 more rows
+# ℹ abbreviated name: ¹​Client.and.Consultant.Requests
+# ℹ 2 more variables: Design.Reasoning &lt;dbl&gt;, Collaboration &lt;dbl&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>ENA represents codes as nodes in the networks and co-occurrences of codes as edges. Most researchers use binary coding in ENA analyses, where the values in the code columns are either 0 (indicating that the code is not present in that line) or 1 (indicating that the code is present in that line). <code>rescushell_data</code> contains six code columns, all of which will be used here.</p>
+<p>It’s your turn to try making the code parameter, using the same principle as for the unit parameter. Also try to verify the content in your object from the raw data using <code>select()</code> and <code>all_of()</code>. There isn’t a need to use <code>distinct()</code> this time.</p>
+<p>Your code should return a tibble containing only the six columns you listed in <code>codeCols</code> vector (in exactly that order) and all 3,824 rows from <code>rescushell_data</code>. In other words, you’ll see a preview of the data frame with just the columns:</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ena-model-parameters-cont.-1" class="slide level2">
+<h2>ENA Model Parameters, Cont.</h2>
+<div class="panel-tabset">
+<ul id="tabset-5" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-5-1">Conversation</a></li><li><a href="#tabset-5-2">Your Turn</a></li><li><a href="#tabset-5-3">Answer</a></li></ul>
+<div class="tab-content">
+<div id="tabset-5-1">
+<ul>
+<li>The <em>conversation</em> parameter determines which lines in the data <em>can</em> be connected. Codes in lines that are not in the same conversation cannot be connected.</li>
+</ul>
+</div>
+<div id="tabset-5-2">
+<ul>
+<li><p>Like for <em>units</em>, use <code>select()</code> to make a new character vector object <code>conversationCols</code> from the following variables: “Condition”, “GroupName”, and “ActivityNumber”.</p></li>
+<li><p>Verify the content of your new object on your raw data with <code>select()</code> and <code>all_of()</code>.</p></li>
+</ul>
+</div>
+<div id="tabset-5-3">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a><span class="co">#make parameter object</span></span>
+<span id="cb8-2"><a href=""></a>conversationCols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Condition"</span>, <span class="st">"GroupName"</span>, <span class="st">"ActivityNumber"</span>)</span>
+<span id="cb8-3"><a href=""></a></span>
+<span id="cb8-4"><a href=""></a><span class="co">#verify</span></span>
+<span id="cb8-5"><a href=""></a>rescushell_data <span class="sc">|&gt;</span></span>
+<span id="cb8-6"><a href=""></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(conversationCols))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3,824 × 3
+   Condition GroupName ActivityNumber
+   &lt;chr&gt;     &lt;chr&gt;              &lt;dbl&gt;
+ 1 FirstGame Electric               1
+ 2 FirstGame Electric               1
+ 3 FirstGame Electric               1
+ 4 FirstGame Electric               1
+ 5 FirstGame Electric               1
+ 6 FirstGame Electric               1
+ 7 FirstGame Electric               1
+ 8 FirstGame Electric               1
+ 9 FirstGame Electric               1
+10 FirstGame Electric               1
+# ℹ 3,814 more rows</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>For this case study, we’ll choose the <code>Condition</code>, <code>GroupName</code>, and <code>ActivityNumber</code> columns to define the “conversations.” These choices indicate that connections can only happen between students who were in the same condition (<code>FirstGame</code> or&nbsp;<code>SecondGame</code>) and on the same project team (group), and within the same activity. This definition of conversation reflects what actually happened in the simulation: in a given condition, students only interacted with those who were in the same group, and each activity occurred on a different day.</p>
+<p>After verifying, your code should return a tibble containing only the three columns you listed in <code>conversationCols</code> vector (in exactly that order) and all 3,824 rows from <code>rescushell_data</code>.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ena-model-parameters-cont.-2" class="slide level2">
+<h2>ENA Model Parameters, Cont.</h2>
+<div class="panel-tabset">
+<ul id="tabset-6" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-6-1">Window</a></li><li><a href="#tabset-6-2">Groups &amp; Rotation</a></li><li><a href="#tabset-6-3">Metadata</a></li></ul>
+<div class="tab-content">
+<div id="tabset-6-1">
+<ul>
+<li><p>While the <em>conversation</em> parameter specifies which lines <strong>can</strong> be related, the window parameter determines which lines within the same conversation <strong>are</strong> related.</p></li>
+<li><p>The most common window method used in ENA is called a moving stanza window.</p></li>
+<li><p>We will set the window size to 7 for this case study, using <code>window.size.back</code>:</p></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>window.size.back <span class="ot">=</span> <span class="dv">7</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div id="tabset-6-2">
+<ul>
+<li><p>When specifying the units, we chose a column that indicates two conditions: <code>FirstGame</code>&nbsp;(novice group) and <code>SecondGame</code>&nbsp;(relative expert group).</p></li>
+<li><p>To enable comparison of students in these two conditions, three additional parameters need to be specified:&nbsp;<code>groupVar</code>,&nbsp;<code>groups</code>, and&nbsp;<code>mean</code> like so:</p></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a>groupVar <span class="ot">&lt;-</span> <span class="st">"Condition"</span> <span class="co"># "Condition" is the column used as our grouping variable </span></span>
+<span id="cb11-2"><a href=""></a>groups <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"FirstGame"</span>, <span class="st">"SecondGame"</span>) <span class="co"># "FirstGame" and "SecondGame" are the two unique values of the "Condition" column</span></span>
+<span id="cb11-3"><a href=""></a>mean <span class="ot">=</span> <span class="cn">TRUE</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div id="tabset-6-3">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a>metaCols <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"CONFIDENCE.Change"</span>,<span class="st">"CONFIDENCE.Pre"</span>,<span class="st">"CONFIDENCE.Post"</span>,<span class="st">"C.Change"</span>) <span class="co"># optional</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>Once the conversation parameter is specified, a <strong><em>window</em></strong> method needs to be specified. Whereas the conversation parameter specifies which lines <em>can be</em> related, the window parameter determines which lines within the same conversation <em>are</em> related. The most common window method used in ENA is called a moving stanza window, which is what will be used here.</p>
+<p>Briefly, a <strong><em>moving stanza window</em></strong> is a sliding window of fixed length that moves through a conversation to detect and accumulate code co-occurrences in recent temporal context. The lines within a designated stanza window are considered related to each other. For instance, if the moving stanza window is 7, then each line in the conversation is linked to the six preceding lines.</p>
+<p>In specifying <strong><em>groups</em>,</strong> <code>groupVar</code>, <code>groups</code>, and <code>mean</code> are parameters that indicate the first ENA dimension will maximize the difference between the two conditions:&nbsp;<code>FirstGame</code>&nbsp;and&nbsp;<code>SecondGame.</code>&nbsp;This difference maximization is achieved through&nbsp;<code>mean = TRUE</code>, which specifies that a&nbsp;<em>means rotation</em> will be performed at the dimensional reduction stage.</p>
+<p>Finally, the last parameter to be specified is <strong>metadata</strong>. Metadata columns are not required to construct an ENA model, but they provide information that can be used to subset units in the resulting model.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="construct-an-ena-model" class="slide level2">
+<h2>Construct an ENA Model</h2>
+<div class="panel-tabset">
+<ul id="tabset-7" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-7-1">Construction</a></li><li><a href="#tabset-7-2">Your Turn</a></li><li><a href="#tabset-7-3">Answer</a></li></ul>
+<div class="tab-content">
+<div id="tabset-7-1">
+<ul>
+<li><p>Now that all the essential parameters have been specified, the ENA model can be constructed.</p></li>
+<li><p>To build an ENA model, we need two functions&nbsp;<code>ena.accumulate.data</code>&nbsp;and&nbsp;<code>ena.make.set</code>, and we recommend that you store the output in an object (in this case, <strong><code>set.ena</code></strong>).</p></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a>accum.ena <span class="ot">&lt;-</span> </span>
+<span id="cb13-2"><a href=""></a>  <span class="fu">ena.accumulate.data</span>(</span>
+<span id="cb13-3"><a href=""></a>    <span class="at">text_data =</span> rescushell_data[, <span class="st">'text'</span>],</span>
+<span id="cb13-4"><a href=""></a>    <span class="at">units =</span> rescushell_data[,unitCols],</span>
+<span id="cb13-5"><a href=""></a>    <span class="at">conversation =</span> rescushell_data[,conversationCols],</span>
+<span id="cb13-6"><a href=""></a>    <span class="at">metadata =</span> rescushell_data[,metaCols], <span class="co"># optional</span></span>
+<span id="cb13-7"><a href=""></a>    <span class="at">codes =</span> rescushell_data[,codeCols],</span>
+<span id="cb13-8"><a href=""></a>    <span class="at">window.size.back =</span> <span class="dv">7</span></span>
+<span id="cb13-9"><a href=""></a>)</span>
+<span id="cb13-10"><a href=""></a></span>
+<span id="cb13-11"><a href=""></a>set.ena <span class="ot">=</span> </span>
+<span id="cb13-12"><a href=""></a>  <span class="fu">ena.make.set</span>(</span>
+<span id="cb13-13"><a href=""></a>    <span class="at">enadata =</span> accum.ena, <span class="co"># the accumulation run above</span></span>
+<span id="cb13-14"><a href=""></a>    <span class="at">rotation.by =</span> ena.rotate.by.mean, <span class="co"># equivalent of mean=TRUE in the ena function</span></span>
+<span id="cb13-15"><a href=""></a>    <span class="at">rotation.params =</span> <span class="fu">list</span>(</span>
+<span id="cb13-16"><a href=""></a>      accum.ena<span class="sc">$</span>meta.data<span class="sc">$</span>Condition<span class="sc">==</span><span class="st">"FirstGame"</span>, <span class="co"># equivalent of groups in the ena function</span></span>
+<span id="cb13-17"><a href=""></a>      accum.ena<span class="sc">$</span>meta.data<span class="sc">$</span>Condition<span class="sc">==</span><span class="st">"SecondGame"</span> <span class="co"># equivalent of groups in the ena function</span></span>
+<span id="cb13-18"><a href=""></a>  )</span>
+<span id="cb13-19"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div id="tabset-7-2">
+<ul>
+<li>Let’s use the <code>names()</code> function to first determine what types of items and data are stored in the <code>set.ena</code> model.</li>
+</ul>
+</div>
+<div id="tabset-7-3">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href=""></a><span class="fu">names</span>(set.ena)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "connection.counts" "meta.data"         "model"            
+ [4] "rotation"          "_function.call"    "_function.params" 
+ [7] "line.weights"      "rotation.matrix"   "points"           
+[10] "plots"            </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>This combined visual and numeric approach enables a comprehensive understanding of discourse patterns within our ENA framework.</p>
+<p>Now that we have constructed an ENA Model object, we can begin to descriptively explore through visual and numerical summaries the data stored in the <code>set.ena</code> model. Take a minute to look at it using <code>names()</code>.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -252,7 +689,7 @@
 <section id="questions" class="slide level2">
 <h2>❓Questions</h2>
 <ul>
-<li></li>
+<li>What do you see in the <code>set.ena</code> model so far? What does that tell you about what we are about to work with in the case study?</li>
 </ul>
 <p>Congratulations! You’ve finished your last Code Along!</p>
 </section>
@@ -459,7 +896,7 @@
         margin: 5.0e-2,
 
         math: {
-          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],
@@ -486,42 +923,80 @@
       });
     </script>
     
+
     <script>
+
       // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
       // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
       // slide changes (different for each slide format).
+
       (function () {
+
         // dispatch for htmlwidgets
+
         function fireSlideEnter() {
+
           const event = window.document.createEvent("Event");
+
           event.initEvent("slideenter", true, true);
+
           window.document.dispatchEvent(event);
+
         }
+
+    
 
         function fireSlideChanged(previousSlide, currentSlide) {
+
           fireSlideEnter();
 
+    
+
           // dispatch for shiny
+
           if (window.jQuery) {
+
             if (previousSlide) {
+
               window.jQuery(previousSlide).trigger("hidden");
+
             }
+
             if (currentSlide) {
+
               window.jQuery(currentSlide).trigger("shown");
+
             }
+
           }
+
         }
+
+    
 
         // hookup for slidy
+
         if (window.w3c_slidy) {
+
           window.w3c_slidy.add_observer(function (slide_num) {
+
             // slide_num starts at position 1
+
             fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
           });
+
         }
 
+    
+
       })();
+
     </script>
+
+    
 
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -571,13 +1046,14 @@
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy

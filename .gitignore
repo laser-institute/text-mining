@@ -5,3 +5,4 @@
 .httr-oauth
 twitter-auth.R
 .env
+.positai

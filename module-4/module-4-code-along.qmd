@@ -27,12 +27,12 @@ editor:
 
 ## Welcome to the LAW Code Along for Module 4
 
--   The Text Mining course is designed for those seeking an introductory
-    understanding of quantifying the text in documents to better
-    understand their properties.
+- The Text Mining course is designed for those seeking an introductory
+  understanding of quantifying the text in documents to better
+  understand their properties.
 
--   The following Code Along is a companion to the Module 4 case study's
-    **Communicate** stage.
+- The following Code Along is a companion to the Module 4 case study's
+  **Wrangle** stage.
 
 ![Figure 2.2 Steps of Data-Intensive Research
 Workflow](img/workflow.png){width="60%"}
@@ -40,31 +40,74 @@ Workflow](img/workflow.png){width="60%"}
 [@krumm2018]
 
 ::: notes
+This Code Along walks through some essential components of using
+Epistemic Network Analysis (ENA) to explore collaborative learning
+processes in digital STEM education environments.
+
+ENA is a sophisticated technique that visualizes and quantifies
+connections among concepts in coded data, offering rich insights into
+how learners construct knowledge collaboratively.
 :::
 
 ## Module Objectives
 
-This Code Along is about taking our analyses via `rENA` and
-communicating it to an audience. By the end of this module we will learn
-how to:
+This Code Along discusses basic features of `rENA`, the ENA package for
+R. By the end of this module we will learn how to:
 
--   
+- Import data from
+  [RescuShell](https://www.virtualinterns.org/rescushell/), an
+  engineering virtual internship platform.
+- Specify model parameters for `rENA`: Units, codes, conversations, the
+  window, groups, rotations, and the metadata.
+- Construct an ENA model.
 
 ::: notes
+This Code Along walks you through the Wrangle phase of the Case Study.
+The setup for this kind of analysis looks like it has a lot of code, but
+is no less straightforward than other Code Alongs we've done before.
 :::
 
 ## Context of the Problem
 
--   
+![Arastoopour Irgens, G., Shaffer, D. W., Swiecki, Z., Ruis, A. R., &
+Chesler, N. C. (2015). \[Teaching and assessing engineering design
+thinking with virtual internships and epistemic network
+analysis\](https://open.clemson.edu/cgi/viewcontent.cgi?article=1004&context=ed_human_dvlpmnt_pub).
+International Journal of Engineering
+Education.](img/arastoopour.png "Our world is rich with data sources, and technology makes data more accessible than ever before! To help ensure students are future ready to use data for making informed decisions, many countries around the world have increased the emphasis on statistics and data analysis in school curriculum–from elementary/primary grades through college. This course allows you to learn, along with colleagues from other schools, an investigation cycle to teach statistics and to help students explore data to make evidence-based claims. To learn more about engaging learners in making inferences and claims supported by data and how to emphasize inferential reasoning in teaching statistics through posing different types of investigative questions, enroll in our Teaching Statistics through Inferential Reasoning MOOC-Ed."){width="50%"}
 
 ::: notes
+Paper abstract:
+
+An engineering workforce of sufficient size and quality is essential for
+addressing significant global challenges such as climate change, world
+hunger, and energy demand. Future generations of engineers will need to
+identify challenging issues and design innovative solutions. To prepare
+young people to solve big and increasingly global problems, researchers
+and educators need to understand how we can best educate young people to
+use engineering design thinking. In this paper, we explore virtual
+internships, online simulations of 21st-century engineering design
+practice, as one method for teaching engineering design thinking. To
+assess the engineering design thinking, we use epistemic network
+analysis (ENA), a tool for measuring complex thinking as it develops
+over time based on discourse analysis. The combination of virtual
+internships and ENA provides opportunities for students to engage in
+authentic engineering design, potentially receive concurrent feedback on
+their engineering design thinking, and develop the identity, values, and
+ways of thinking of professional engineers.
 :::
 
 ## Research Questions:
 
--   
+- What are the patterns of epistemic connections formed by learners as
+  they collaboratively engage in engineering problem-solving tasks
+  within digital internship environments?
+
+- Is there a difference in learners' epistemic frames based on the
+  condition to which they were assigned?
 
 ::: notes
+These research questions are answered more fully in the case study.
 :::
 
 ## Load Libraries
@@ -72,37 +115,418 @@ how to:
 ::: panel-tabset
 ## Packages Needed
 
--   
+- `tidyverse`
 
-## Your Turn
+- `tidytext`
 
--   Load the `tidyverse` and `tidytext` packages using `library()`
+- `rENA`
+
+## 👉 Your Turn ⤵
+
+- Load the `tidyverse`, `tidytext`, and `rENA` packages using
+  `library().`
 
 ## Answer
 
 ```{r echo=TRUE}
-
+library(tidyverse)
+library(tidytext)
+library(rENA)
 ```
 :::
 
 ::: notes
+`tidyverse` and `tidytext` are, by now, well-discussed essential
+packages for data manipulation and text mining.
+
+The `rENA` package provides a comprehensive set of tools specifically
+designed for conducting Epistemic Network Analysis. It enables users to
+create visual representations and statistical models of the connections
+between coded data elements, particularly useful in educational and
+collaborative learning contexts.
+
+Key functions in the `rENA` package facilitate data preparation, network
+modeling, and interactive visualization, making it a valuable resource
+for researchers aiming to explore complex discourse and interaction
+patterns.
+:::
+
+## Read in Data
+
+:::::: panel-tabset
+## Your Turn
+
+- Read in "rescushell-data.csv" from your Data folder as new object
+  `rescushell_data`.
+
+## Answer
+
+```{r}
+#| echo: true
+rescushell_data <- read_csv("data/rescushell-data.csv")
+view(rescushell_data)
+```
+
+## Variables
+
+If you look at the object, you'll see a number of variables which we
+will be using to set the parameters:
+
+::::: columns
+::: {.column width="50%"}
+- UserName
+
+- Condition
+
+- CONFIDENCE.Pre
+
+- CONFIDENCE.Post
+
+- CONFIDENCE.Change
+
+- C.Level.Pre
+
+- NewC.Change
+
+- C.Change
+
+- Timestamp
+
+- ActivityNumber
+:::
+
+::: {.column width="50%"}
+- GroupName
+
+- GameHalf
+
+- GameDay
+
+- text
+
+- Data
+
+- Technical.Constraints
+
+- Performance.Parameters
+
+- Client.and.Consultant.Requests
+
+- Design.Reasoning
+
+- Collaboration
+:::
+:::::
+::::::
+
+::: notes
+Our data file consists of discourse from RescuShell, an online learning
+simulation where students work as interns at a fictitious company to
+solve a realistic engineering design problem in a simulated work
+environment. Throughout the internship, students communicate with their
+project teams and mentors via online chat, and these chats are recorded
+in the text column. A set of qualitative codes were applied to the data
+in the “text” column, where a value of 0 indicates the absence of the
+code and a value of 1 indicates the presence of the code in a given
+line.
+:::
+
+## ENA Model Parameters
+
+::: panel-tabset
+## Specify Units
+
+- First, we should identify which variables (columns) in the data
+  contain identifiers for unique units.
+
+- We will make an object `unitCols` out of the variables `Condition` and
+  `UserName.`
+
+```{r}
+#| echo: true
+unitCols <- c("Condition", "UserName")
+```
+
+## Check Object
+
+```{r}
+#| echo: true
+rescushell_data |>
+  select(all_of(unitCols)) |>
+  distinct()
+```
+:::
+
+::: notes
+We'll show an example with the first parameter: Units. For this example,
+we'll use the `Condition` column and the `UserName` column to define the
+units.
+
+In ENA, ***units*** can be individuals, ideas, organizations, or any
+other entity whose structure of connections you want to model. To set
+the units parameter, specify which column(s) in the data contain the
+variables that identify unique units.
+
+To verify that the units are correctly specified, lets subset and
+preview the unique values in the units columns. To do that, we'll pipe
+`|>` the data frame `rescushell_data`, `select` only the columns whose
+names are stored in the character vector `unitCols` using `all_of()`,
+which ensures those names are treated literally and throws an error if
+any are missing, and then use the `distinct()` function to drop any
+duplicate rows across those selected columns.
+
+There should 48 units from two conditions, which means that the ENA
+model will produce 48 individual-level networks for each of the units,
+and each unit is uniquely associated with either the novice group
+(`FirstGame`) or the relative expert group (`SecondGame`).
+:::
+
+## ENA Model Parameters, Cont.
+
+::: panel-tabset
+## Specify Codes
+
+- The next parameter is identifying the *codes*.
+
+- Codes are researcher-defined concepts whose pattern of association we
+  want to model for each *unit***.**
+
+## Your Turn
+
+- Like for *units*, use `select()` to make a new character vector object
+  `codeCols` from the following variables: "Data,"
+  "Technical.Constraints", "Performance.Parameters",
+  "Client.and.Consultant.Requests", "Design.Reasoning", and
+  "Collaboration".
+
+- Verify the content of your new object on your raw data with `select()`
+  and `all_of()`.
+
+## Answer
+
+```{r}
+#| echo: true
+#make the codeCols object
+
+codeCols <- c('Data', 'Technical.Constraints', 'Performance.Parameters', 'Client.and.Consultant.Requests', 'Design.Reasoning', 'Collaboration')
+
+#verify the content in your object
+rescushell_data |>
+  select(all_of(codeCols))
+```
+:::
+
+::: notes
+ENA represents codes as nodes in the networks and co-occurrences of
+codes as edges. Most researchers use binary coding in ENA analyses,
+where the values in the code columns are either 0 (indicating that the
+code is not present in that line) or 1 (indicating that the code is
+present in that line). `rescushell_data` contains six code columns, all
+of which will be used here.
+
+It's your turn to try making the code parameter, using the same
+principle as for the unit parameter. Also try to verify the content in
+your object from the raw data using `select()` and `all_of()`. There
+isn't a need to use `distinct()` this time.
+
+Your code should return a tibble containing only the six columns you
+listed in `codeCols` vector (in exactly that order) and all 3,824 rows
+from `rescushell_data`. In other words, you’ll see a preview of the data
+frame with just the columns:
+:::
+
+## ENA Model Parameters, Cont.
+
+::: panel-tabset
+## Conversation
+
+- The *conversation* parameter determines which lines in the data *can*
+  be connected. Codes in lines that are not in the same conversation
+  cannot be connected.
+
+## Your Turn
+
+- Like for *units*, use `select()` to make a new character vector object
+  `conversationCols` from the following variables: "Condition",
+  "GroupName", and "ActivityNumber".
+
+- Verify the content of your new object on your raw data with `select()`
+  and `all_of()`.
+
+## Answer
+
+```{r}
+#| echo: true
+#make parameter object
+conversationCols <- c("Condition", "GroupName", "ActivityNumber")
+
+#verify
+rescushell_data |>
+  select(all_of(conversationCols))
+```
+:::
+
+::: notes
+For this case study, we'll choose the `Condition`, `GroupName`, and
+`ActivityNumber` columns to define the "conversations." These choices
+indicate that connections can only happen between students who were in
+the same condition (`FirstGame` or `SecondGame`) and on the same project
+team (group), and within the same activity. This definition of
+conversation reflects what actually happened in the simulation: in a
+given condition, students only interacted with those who were in the
+same group, and each activity occurred on a different day.
+
+After verifying, your code should return a tibble containing only the
+three columns you listed in `conversationCols` vector (in exactly that
+order) and all 3,824 rows from `rescushell_data`.
+:::
+
+## ENA Model Parameters, Cont.
+
+::: panel-tabset
+## Window
+
+- While the *conversation* parameter specifies which lines **can** be
+  related, the window parameter determines which lines within the same
+  conversation **are** related.
+
+- The most common window method used in ENA is called a moving stanza
+  window.
+
+- We will set the window size to 7 for this case study, using
+  `window.size.back`:
+
+```{r}
+#| echo: true
+window.size.back = 7
+```
+
+## Groups & Rotation
+
+- When specifying the units, we chose a column that indicates two
+  conditions: `FirstGame` (novice group) and `SecondGame` (relative
+  expert group).
+
+- To enable comparison of students in these two conditions, three
+  additional parameters need to be specified: `groupVar`, `groups`,
+  and `mean` like so:
+
+```{r}
+#| echo: true
+groupVar <- "Condition" # "Condition" is the column used as our grouping variable 
+groups <- c("FirstGame", "SecondGame") # "FirstGame" and "SecondGame" are the two unique values of the "Condition" column
+mean = TRUE
+```
+
+## Metadata
+
+```{r}
+#| echo: true
+metaCols = c("CONFIDENCE.Change","CONFIDENCE.Pre","CONFIDENCE.Post","C.Change") # optional
+```
+:::
+
+::: notes
+Once the conversation parameter is specified, a ***window*** method
+needs to be specified. Whereas the conversation parameter specifies
+which lines *can be* related, the window parameter determines which
+lines within the same conversation *are* related. The most common window
+method used in ENA is called a moving stanza window, which is what will
+be used here.
+
+Briefly, a ***moving stanza window*** is a sliding window of fixed
+length that moves through a conversation to detect and accumulate code
+co-occurrences in recent temporal context. The lines within a designated
+stanza window are considered related to each other. For instance, if the
+moving stanza window is 7, then each line in the conversation is linked
+to the six preceding lines.
+
+In specifying ***groups*****,** `groupVar`, `groups`, and `mean` are
+parameters that indicate the first ENA dimension will maximize the
+difference between the two
+conditions: `FirstGame` and `SecondGame.` This difference maximization
+is achieved through `mean = TRUE`, which specifies that a *means
+rotation* will be performed at the dimensional reduction stage.
+
+Finally, the last parameter to be specified is **metadata**. Metadata
+columns are not required to construct an ENA model, but they provide
+information that can be used to subset units in the resulting model.
+:::
+
+## Construct an ENA Model
+
+::: panel-tabset
+## Construction
+
+- Now that all the essential parameters have been specified, the ENA
+  model can be constructed.
+
+- To build an ENA model, we need two
+  functions `ena.accumulate.data` and `ena.make.set`, and we recommend
+  that you store the output in an object (in this case, **`set.ena`**).
+
+```{r}
+#| echo: true
+accum.ena <- 
+  ena.accumulate.data(
+    text_data = rescushell_data[, 'text'],
+    units = rescushell_data[,unitCols],
+    conversation = rescushell_data[,conversationCols],
+    metadata = rescushell_data[,metaCols], # optional
+    codes = rescushell_data[,codeCols],
+    window.size.back = 7
+)
+
+set.ena = 
+  ena.make.set(
+    enadata = accum.ena, # the accumulation run above
+    rotation.by = ena.rotate.by.mean, # equivalent of mean=TRUE in the ena function
+    rotation.params = list(
+      accum.ena$meta.data$Condition=="FirstGame", # equivalent of groups in the ena function
+      accum.ena$meta.data$Condition=="SecondGame" # equivalent of groups in the ena function
+  )
+)
+```
+
+## Your Turn
+
+- Let's use the `names()` function to first determine what types of
+  items and data are stored in the `set.ena` model.
+
+## Answer
+
+```{r}
+#| echo: true
+names(set.ena)
+```
+:::
+
+::: notes
+This combined visual and numeric approach enables a comprehensive
+understanding of discourse patterns within our ENA framework.
+
+Now that we have constructed an ENA Model object, we can begin to
+descriptively explore through visual and numerical summaries the data
+stored in the `set.ena` model. Take a minute to look at it using
+`names()`.
 :::
 
 ## ❓Questions
 
--   
+- What do you see in the `set.ena` model so far? What does that tell you
+  about what we are about to work with in the case study?
 
 Congratulations! You've finished your last Code Along!
 
 # What's Next? {background="#143156"}
 
 ::: {style="text-align: left; font-size: 50px"}
--   Complete the *Prepare and Wrangle* part of the [case
-    study](https://posit.cloud/spaces/493094/join?access_code=qjsumVzA0HZYgrxOSizVbVPmDs7iHYS32yUQaqDe)
+- Complete the *Prepare and Wrangle* part of the [case
+  study](https://posit.cloud/spaces/493094/join?access_code=qjsumVzA0HZYgrxOSizVbVPmDs7iHYS32yUQaqDe)
 
--   Complete the [Epistemic Network Analysis
-    badge](https://laser-institute.github.io//text-mining/module-4/tm-4-badge.html)
+- Complete the [Epistemic Network Analysis
+  badge](https://laser-institute.github.io//text-mining/module-4/tm-4-badge.html)
 
--   Complete the TM
-    [Microcredential](https://laser-institute.github.io//text-mining/module-5/tm-microcredential-badge.html)
+- Complete the TM
+  [Microcredential](https://laser-institute.github.io//text-mining/module-5/tm-microcredential-badge.html)
 :::
