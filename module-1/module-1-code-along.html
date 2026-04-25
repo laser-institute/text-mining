@@ -204,8 +204,8 @@
 <section id="welcome-to-the-text-mining-code-along-for-module-1" class="slide level2">
 <h2>Welcome to the Text Mining Code Along for Module 1</h2>
 <ul>
-<li><p>The Text Mining course is designed for those seeking an introductory understanding of quantifying the text in documents to better understand their properties</p></li>
-<li><p>The following Code Along is a companion to the Module 1 case study’s <strong>Prepare</strong> and <strong>Wrangle</strong> stages</p></li>
+<li><p>The Text Mining course is designed for those seeking an introductory understanding of quantifying the text in documents to better understand their properties.</p></li>
+<li><p>The following Code Along is a companion to the Module 1 case study’s <strong>Prepare</strong> and <strong>Wrangle</strong> stages.</p></li>
 </ul>
 
 <img data-src="img/workflow.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption">Figure 2.2 Steps of Data-Intensive Research Workflow</p><p><span class="citation" data-cites="krumm2018">[@krumm2018]</span></p>
@@ -227,14 +227,9 @@
 <h2>Module Objectives</h2>
 <p>This code along is about getting our text “tidy.” By the end of this module we will:</p>
 <ul>
-<li>Understand the context and data sources you’re working with so you can formulate useful and answerable questions</li>
+<li>Understand the context and data sources you’re working with so you can formulate useful and answerable questions.</li>
+<li>Practice reading, manipulating, cleaning, transforming, and merging text data.</li>
 </ul>
-<div class="fragment">
-<ul>
-<li>Practice reading, manipulating, cleaning, transforming, and merging text data</li>
-</ul>
-</div>
-<div class="fragment">
 <aside class="notes">
 
 <style type="text/css">
@@ -248,22 +243,19 @@
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</div>
 </section>
 <section id="context-of-the-problem" class="slide level2">
 <h2>Context of the Problem</h2>
 <ul>
-<li><p>We are working with open-ended survey data from an evaluation of online professional development offered by the North Carolina Department of Public Instruction</p></li>
-<li><p>This PD is part of the state’s <a href="https://obamawhitehouse.archives.gov/issues/education/k-12/race-to-the-top">Race to the Top</a> (RttT) efforts</p></li>
+<li><p>We are working with open-ended survey data from an evaluation of online professional development offered by the North Carolina Department of Public Instruction.</p></li>
+<li><p>This PD is part of the state’s <a href="https://obamawhitehouse.archives.gov/issues/education/k-12/race-to-the-top">Race to the Top</a> (RttT) efforts.</p></li>
 <li><p><a href="https://fi.ncsu.edu/resource-library/race-to-the-top-online-professional-development-evaluation-year-1-report/">2012 Friday Institute Annual Report</a></p></li>
 </ul>
-<div class="fragment fade-in-then-semi-out">
 <h3 id="research-questions">Research Questions:</h3>
 <ul>
 <li><p>What aspects of online professional development offerings do teachers find most valuable?</p></li>
 <li><p>How might resources differ in the value they afford teachers?</p></li>
 </ul>
-</div>
 <aside class="notes">
 <p>The dataset we’ll be using for analysis in this case study is exported as is from Qualtrics with personal identifiers, select demographics, metadata, and closed-ended responses removed.</p>
 <style type="text/css">
@@ -286,9 +278,9 @@
 <div id="tabset-1-1">
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><img data-src="img/tidyverse.png" style="width:30.0%"></p>
+<p><img data-src="img/tidyverse.png" style="width:50.0%"></p>
 </div><div class="column" style="width:50%;">
-<p><img data-src="img/tidytext.png" style="width:30.0%"></p>
+<p><img data-src="img/tidytext.png" style="width:50.0%"></p>
 </div></div>
 </div>
 <div id="tabset-1-2">
@@ -325,9 +317,9 @@
 <li>Data wrangling is essential because it involves the initial steps of going from raw data to a dataset that can be explored and modeled <span class="citation" data-cites="krumm2018">[@krumm2018]</span>. Text mining is no exception. Today we will:</li>
 </ul>
 <ol type="a">
-<li><strong>Read raw data</strong>. Before working with data, we need to “read” it into R. It also helps to inspect your data and we’ll review different functions for doing so</li>
-<li><strong>Reduce the data</strong>. We focus on tools from the <code>dplyr</code> package to <code>view</code>, <code>rename</code>, <code>select</code>, <code>slice</code>, and <code>filter</code> our data in preparation for analysis</li>
-<li><strong>Tidy text</strong>. We’ll learn how to use the <code>tidytext</code> package to both “tidy” and tokenize our text in order to create a data frame to use for analysis</li>
+<li><strong>Read raw data</strong>. Before working with data, we need to “read” it into R. It also helps to inspect your data and we’ll review different functions for doing so.</li>
+<li><strong>Reduce the data</strong>. We focus on tools from the <code>dplyr</code> package to <code>view</code>, <code>rename</code>, <code>select</code>, <code>slice</code>, and <code>filter</code> our data in preparation for analysis.</li>
+<li><strong>Tidy text</strong>. We’ll learn how to use the <code>tidytext</code> package to both “tidy” and tokenize our text in order to create a data frame to use for analysis.</li>
 </ol>
 </section>
 <section id="reading-data" class="slide level2">
@@ -504,14 +496,14 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 </section>
 <section id="reducing-data" class="slide level2">
 <h2>Reducing Data</h2>
-<h3 id="dplyr-functions"><a href="https://dplyr.tidyverse.org"><strong><code>dplyr</code></strong></a> <strong>functions</strong></h3>
+<p><a href="https://dplyr.tidyverse.org"><strong><code>dplyr</code></strong></a> <strong>functions</strong></p>
 <ul>
 <li><code>select()</code> picks variables based on their names.</li>
 <li><code>slice()</code> lets you select, remove, and duplicate rows.</li>
 <li><code>rename()</code> changes the names of individual variables using new_name = old_name syntax</li>
 <li><code>filter()</code> picks cases, or rows, based on their values in a specified column</li>
 </ul>
-<h3 id="tidyr-functions"><a href="https://tidyr.tidyverse.org"><strong><code>tidyr</code></strong></a> <strong>functions</strong></h3>
+<p><a href="https://tidyr.tidyverse.org"><strong><code>tidyr</code></strong></a> <strong>functions</strong></p>
 <ul>
 <li><code>drop_na()</code> removes rows with missing values (“na”, “N/A”, etc.)</li>
 </ul>
@@ -640,8 +632,8 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 <section id="additional-wrangling" class="slide level2">
 <h2>Additional Wrangling</h2>
 <ul>
-<li><p>The following code shows how to make some slight adjustments to account for Qualtrics artifacts and missing data</p></li>
-<li><p>These are shown in greater detail in the <a href="https://laser-institute.github.io//text-mining/module-1/tm-1-case-study.html">Module 1 Case Study</a></p></li>
+<li><p>The following code shows how to make some slight adjustments to account for Qualtrics artifacts and missing data.</p></li>
+<li><p>These are shown in greater detail in the <a href="https://laser-institute.github.io//text-mining/module-1/tm-1-case-study.html">Module 1 Case Study</a>.</p></li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="co">#use slice() to remove the top two rows of data</span></span>
@@ -694,57 +686,36 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 <h2>Tidying Text</h2>
 <p>For this part of our workflow we focus on the following functions from the <a href="https://cran.r-project.org/web/packages/tidytext/"><code>tidytext</code></a> and <code>dplyr</code> packages respectively:</p>
 <ul>
-<li><code>unnest_tokens()</code> splits a column into tokens</li>
+<li><code>unnest_tokens()</code> splits a column into tokens.</li>
 <li><code>anti_join()</code> returns all rows from x with<strong>out</strong> a match in y.</li>
 </ul>
 <p>Tidy data has a specific structure:</p>
 <ul>
-<li>Each variable is a column</li>
-<li>Each observation is a row</li>
-<li>Each type of observational unit is a table</li>
+<li>Each variable is a column.</li>
+<li>Each observation is a row.</li>
+<li>Each type of observational unit is a table.</li>
 </ul>
 </section>
-<section id="tidy-text-cont." class="slide level2">
-<h2>Tidy Text, Cont.</h2>
-<p>In this section, our goal is to transform our <code>opd_teacher</code> text data from this:</p>
-
-<img data-src="img/untidy-text.png" class="r-stretch"></section>
-<section id="tidy-text-cont.-1" class="slide level2">
-<h2>Tidy Text, Cont.</h2>
-<p>to this:</p>
-
-<img data-src="img/tidy-text.png" class="r-stretch"><aside class="notes">
-<p>This one-token-per-row structure differs from how text is often stored, perhaps as strings or in a <a href="https://en.wikipedia.org/wiki/Document-term_matrix#:~:text=A%20document%2Dterm%20matrix%20is,and%20columns%20correspond%20to%20terms.">document-term matrix</a>. The <strong>token</strong> that is stored in each row is most often a single word, but can also be an n-gram (e.g., a sequence of 2 or 3 words), a sentence, or even a whole paragraph. Conveniently, the tidytext package, provides functionality for tokenizing text by common units like these into a one-term-per-row format.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="tokenizing-text" class="slide level2">
-<h2>Tokenizing Text</h2>
+<section id="unnest_tokens" class="slide level2">
+<h2><code>unnest_tokens()</code></h2>
 <div class="panel-tabset">
-<ul id="tabset-5" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-5-1">unnest_tokens()</a></li><li><a href="#tabset-5-2">👉 Your Turn ⤵</a></li><li><a href="#tabset-5-3">Answer</a></li></ul>
+<ul id="tabset-5" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-5-1">Before</a></li><li><a href="#tabset-5-2">After</a></li><li><a href="#tabset-5-3">👉 Your Turn ⤵</a></li><li><a href="#tabset-5-4">Answer</a></li></ul>
 <div class="tab-content">
 <div id="tabset-5-1">
-<ul>
-<li><p>In order to tidy our text, we need to break the text into individual tokens (a process called tokenization) and transform it to a tidy data structure</p></li>
-<li><p>To do this, we use tidytext’s incredibly powerful <code>unnest_tokens()</code> function</p></li>
-</ul>
+<p>The <code>unnest_tokens()</code> function transforms our <code>opd_teacher</code> text data from this…</p>
+<p><img data-src="img/untidy-text.png"></p>
 </div>
 <div id="tabset-5-2">
+<p>… to this!</p>
+<p><img data-src="img/tidy-text.png"></p>
+</div>
+<div id="tabset-5-3">
 <ul>
 <li><p>Use <code>unnest_tokens()</code> to tokenize <code>opd_teacher</code> into new object <code>opd_tidy</code></p></li>
 <li><p>Within the function, follow the table <code>opd_teacher</code> with the <code>output</code> and <code>input</code> arguments as <code>word</code> and <code>text</code>, respectively</p></li>
 </ul>
 </div>
-<div id="tabset-5-3">
+<div id="tabset-5-4">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a>opd_tidy <span class="ot">&lt;-</span> <span class="fu">unnest_tokens</span>(opd_teacher, word, text)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -760,6 +731,7 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 <li>All punctuation has been removed.</li>
 <li>Tokens have been changed to lowercase, which makes them easier to compare or combine with other datasets. However, we can use the <code>to_lower = FALSE</code> argument to turn off this behavior if desired.</li>
 </ul>
+<p>This one-token-per-row structure differs from how text is often stored, perhaps as strings or in a document-term matrix. The token that is stored in each row is most often a single word, but can also be an n-gram (e.g., a sequence of 2 or 3 words), a sentence, or even a whole paragraph. Conveniently, the tidytext package provides functionality for tokenizing text by common units like these into a one-term-per-row format.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -775,12 +747,12 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 <section id="remove-stop-words" class="slide level2">
 <h2>Remove Stop Words</h2>
 <div class="panel-tabset">
-<ul id="tabset-6" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-6-1">stop_words</a></li><li><a href="#tabset-6-2">anti_join()</a></li><li><a href="#tabset-6-3">👉 Your Turn ⤵</a></li><li><a href="#tabset-6-4">Answer</a></li></ul>
+<ul id="tabset-6" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-6-1"><code>stop_words</code></a></li><li><a href="#tabset-6-2"><code>anti_join()</code></a></li><li><a href="#tabset-6-3">👉 Your Turn ⤵</a></li><li><a href="#tabset-6-4">Answer</a></li></ul>
 <div class="tab-content">
 <div id="tabset-6-1">
 <ul>
 <li><p>One final step in tidying our text is to remove words that don’t add much value, such as “and”, “the”, “of”, “to” etc.</p></li>
-<li><p>The <code>tidytext</code> package contains a <code>stop_words</code> dataset derived from three different lexicons that we’ll use to remove rows that match words in this dataset.</p></li>
+<li><p>The <code>tidytext</code> package contains a <code>stop_words</code> object, which is a list of generally agreed-upon “not useful” tokens, which we can use as a filter.</p></li>
 </ul>
 <p>Here are some of those words:</p>
 <div class="cell">
@@ -847,13 +819,26 @@ $ Q8                    &lt;chr&gt; "Which of the following best describe(s) how
 </div>
 </div>
 </div>
+<aside class="notes">
+<p><code>stop_words</code> are actually a character vector derived from three different lexicons.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="whats-next" class="title-slide slide level1 center" data-background="#143156">
 <h1>What’s Next?</h1>
 <div style="text-align: left; font-size: 50px">
 <ul>
 <li>Explore the <em>R Basics</em> column of <a href="https://posit.cloud/learn/recipes">Posit Cloud’s Recipes</a></li>
-<li>Complete the <em>Prepare and Wrangle</em> part of the <a href="https://posit.cloud/spaces/493094/join?access_code=qjsumVzA0HZYgrxOSizVbVPmDs7iHYS32yUQaqDe">case study</a></li>
+<li>Complete the Module 1 <a href="#/0">case study</a></li>
 <li>Complete the <a href="https://laser-institute.github.io/la-workflow/Foundation_R/module_1/module-1-badge-key.html">Foundations of Learning Analytics badge</a></li>
 <li>Do <a href="https://laser-institute.github.io/la-workflow/Foundation_R/module_2/module-2-conceptual-slides-R.html#/module-2-objectives">essential readings for the next module</a></li>
 </ul>

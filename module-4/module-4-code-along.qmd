@@ -25,7 +25,7 @@ editor:
     wrap: 72
 ---
 
-## Welcome to the LAW Code Along for Module 4
+## Introduction
 
 - The Text Mining course is designed for those seeking an introductory
   understanding of quantifying the text in documents to better
@@ -69,9 +69,9 @@ is no less straightforward than other Code Alongs we've done before.
 
 ## Context of the Problem
 
-![Arastoopour Irgens, G., Shaffer, D. W., Swiecki, Z., Ruis, A. R., &
-Chesler, N. C. (2015). \[Teaching and assessing engineering design
-thinking with virtual internships and epistemic network
+![Arastoopour, G., Shaffer, D. W., Swiecki, Z., Ruis, A. R., & Chesler,
+N. C. (2015). \[Teaching and assessing engineering design thinking with
+virtual internships and epistemic network
 analysis\](https://open.clemson.edu/cgi/viewcontent.cgi?article=1004&context=ed_human_dvlpmnt_pub).
 International Journal of Engineering
 Education.](img/arastoopour.png "Our world is rich with data sources, and technology makes data more accessible than ever before! To help ensure students are future ready to use data for making informed decisions, many countries around the world have increased the emphasis on statistics and data analysis in school curriculum–from elementary/primary grades through college. This course allows you to learn, along with colleagues from other schools, an investigation cycle to teach statistics and to help students explore data to make evidence-based claims. To learn more about engaging learners in making inferences and claims supported by data and how to emphasize inferential reasoning in teaching statistics through posing different types of investigative questions, enroll in our Teaching Statistics through Inferential Reasoning MOOC-Ed."){width="50%"}
@@ -293,11 +293,10 @@ and each unit is uniquely associated with either the novice group
 
 ## 👉 Your Turn ⤵
 
-- Like for *units*, use `select()` to make a new character vector object
-  `codeCols` from the following variables: "Data,"
-  "Technical.Constraints", "Performance.Parameters",
-  "Client.and.Consultant.Requests", "Design.Reasoning", and
-  "Collaboration".
+- As for *units*, make a new character vector object `codeCols` from the
+  following variables: "Data," "Technical.Constraints",
+  "Performance.Parameters", "Client.and.Consultant.Requests",
+  "Design.Reasoning", and "Collaboration".
 
 - Verify the content of your new object on your raw data with `select()`
   and `all_of()`.
@@ -346,9 +345,8 @@ frame with just the columns:
 
 ## 👉 Your Turn ⤵
 
-- Like for *units*, use `select()` to make a new character vector object
-  `conversationCols` from the following variables: "Condition",
-  "GroupName", and "ActivityNumber".
+- Make a new character vector object `conversationCols` from the
+  following variables: "Condition", "GroupName", and "ActivityNumber".
 
 - Verify the content of your new object on your raw data with `select()`
   and `all_of()`.
@@ -386,7 +384,7 @@ order) and all 3,824 rows from `rescushell_data`.
 ::: panel-tabset
 ## Window
 
-- While the *conversation* parameter specifies which lines **can** be
+- While the *conversation* parameter specifies which lines **can be**
   related, the window parameter determines which lines within the same
   conversation **are** related.
 
@@ -521,7 +519,7 @@ Congratulations! You've finished your last Code Along!
 # What's Next? {background="#143156"}
 
 ::: {style="text-align: left; font-size: 50px"}
-- Complete the *Prepare and Wrangle* part of the [case
+- Complete the Module 4 [case
   study](https://posit.cloud/spaces/493094/join?access_code=qjsumVzA0HZYgrxOSizVbVPmDs7iHYS32yUQaqDe)
 
 - Complete the [Epistemic Network Analysis

@@ -20,41 +20,31 @@ bibliography: lit/references.bib
 editor: visual
 ---
 
-## Overview of Quantitative Ethnography (QE)
-
-Guiding questions:
-
-- **What is** QE?
-
-- **Why should we use** QE? When is it most appropriate to use?
-
-- What are **common techniques** for QE?
-
-## Text Mining at Scale
+## Introduction
 
 - Having access to massive educational text data via chats, forums, reflections, etc. presents a dilemma:
   - Qualitative methods are deep but don't scale.
   - Natural language processing such as topic modeling (e.g., LDA) scales well, but loses "context"
+- Quantitative Ethnography (QE) is a research method that seeks to combine qualitative depth & richness with large texts.
 
 ::: notes
 NLP loses context due to its focus on individual terms and their frequencies in documents. It is effective at identifying "what" but less about "how" those ideas interact.
 :::
 
-## What is Quantitative Ethnography (QE)?
+## Quantitative Ethnography
 
-- **Definition:** A research paradigm integrating statistical power with "thick description," the combination of behaviors and the context for those behaviors.
-- Combines structure + meaning.
-- **Why it matters:** QE validates big-data findings with human-coded insights.
+- QE is a research paradigm integrating statistical power with "thick description," the combination of behaviors and the context for those behaviors.
+- QE validates big-data findings with human-coded insights, combining structure with meaning.
 
 ::: notes
-Qualitative ethnography maps out how students connect ideas, not just how often they are mentioned. It quantifies the qualitative observations, or "thick description," of a learning event, discussion, etc.
+Qualitative Ethnography maps out how students connect ideas, not just how often they are mentioned. It quantifies the qualitative observations, or "thick description," of a learning event, discussion, etc.
 
 Thick description, popularized by Clifford Geertz in The Interpretation of Cultures (1973), is a description of human social action that describes not just physical behaviors, but their context as interpreted by the actors as well, so that it can be better understood by an outsider.
 :::
 
-## Introduction to Epistemic Network Analysis (ENA)
+## Epistemic Network Analysis (ENA)
 
-- ENA is an analysis technique that maps relationships between concepts.
+- ENA is an analysis technique that maps relationships between concepts, which is effective for QE and works well for text mining.
 
 - It focuses on *co-occurrence* within a specific "window," or stanza, of text, rather than total frequencies of a given term.
 
@@ -62,8 +52,12 @@ Thick description, popularized by Clifford Geertz in The Interpretation of Cultu
 
 - Other parameters can be set to account for dialogues, events, or other structures within an observation: (e.g., "units," "conversations," etc.)
 
+- At a glance, it looks similar to a social network, where concepts are points (nodes) on the graph and their relationships are represented as lines (ties).
+
 ::: notes
-ENA is a common analysis to support QE because it carries out the principle of mapping relationships of ideas. You can stretch this algorithm to account for a range of conditions within a learning event. If it's a conversation between two students, you can acknowledge their dialogue. If it's groups of students working concurrently, you can account for that structure. This gives it more nuance than simply tidying all text into a bag of words, or even LDA which acknowledges distinct documents.
+ENA is a common analysis to support QE because it carries out the principle of mapping relationships of ideas. You can stretch this algorithm to account for all sorts of learning events. If it's a conversation between two students, you can acknowledge their dialogue. If there are groups of students working concurrently, you can account for that structure. This gives this analysis more nuance than simply tidying all text into a bag of words, or even LDA which acknowledges distinct documents.
+
+The visualizations look similar to social networks, which are a better-known data visualization, except the nodes on the graphs are ideas rather than actors/individuals. There are some other key distinctions which we'll get into later.
 :::
 
 ## Scenario: Middle School Earth Sciences Class
@@ -104,7 +98,7 @@ Coding can be done inductively or *a priori*. However you achieve this coding, y
 ## Model
 
 - ENA looks for your coded data within the stanza, an arbitrated "window" of text made of n lines.
-- "The key idea behind a stanza is that (a) codes in lines *anywhere within the same stanza are related* to one another in the model, and (b) codes in lines that are *not in the same stanza* are *not related* to one another in the model" ([@epistemi2017]
+- "The key idea behind a stanza is that (a) codes in lines *anywhere within the same stanza are related* to one another in the model, and (b) codes in lines that are *not in the same stanza* are *not related* to one another in the model" [@epistemi2017]
 - This window "moves" up and down the transcript to find co-occurrences and build the model.
 
 ::: notes
@@ -120,7 +114,7 @@ To answer our research question, you filter the transcripts to compare our three
 [![from](images/clipboard-1155908973.png){width="1400"}](https://www.solaresearch.org/wp-content/uploads/2017/05/chapter15.pdf)
 
 ::: notes
-This is an example output comparing two individual students' conceptual models for a similar activity in @epistemi2017. This analysis only considered the association of ideas within a single student's mind or experience, rather than in dialogue.
+This is an example output comparing two individual students' conceptual models for a similar activity in [@epistemi2017]. This analysis only considered the association of ideas within a single student's mind or experience, rather than in dialogue.
 
 Comparing epistemic networks relies on having, nodes–which represent the ideas–in the same location on the graph. The ties, or lines which represent the strength of the association between ideas, are what differ. This makes it easier to compare the strength of the ties between them.
 :::
@@ -132,7 +126,7 @@ Comparing epistemic networks relies on having, nodes–which represent the ideas
 - What happens when you have to compare 10 epistemic networks? 20? 100?
 
 ::: notes
-Thankfully there are methods of comparing even larger data, which is better explored in our readings and case study for the week.
+One neat aspect of ENA, which is better explored in our readings and in the Case Study, is that epistemic networks can be combined and averaged into new projections. This means we can visualize epistemic nets for individual students, like the previous image, or combine multiple students (like in our hypothetical scenario) into a single net. This gives us flexibility for comparing ideas among a range of educational events & contexts, rather than having to eyeball the differences between a huge array of different nets.
 :::
 
 ## Using ENA with R

@@ -1,6 +1,6 @@
 ---
 title: "ENA and Virtual Internship Conversations"
-subtitle: "TM Module 3: Case Study Key"
+subtitle: "TM Module 4: Case Study Key"
 author: "Dr. Shaun Kellogg"
 date: today
 format:
@@ -58,23 +58,23 @@ Interaction data were collected from [RescuShell](https://www.virtualinterns.org
 
 For further details regarding data collection and analysis of these data sources, see also the following papers:
 
--   Shaffer, D. W., & Arastoopour, G. (2014). Epistemic network analysis of engineering virtual internships. Journal of Engineering Education, 103(4), 625-651.
+- Shaffer, D. W., & Arastoopour, G. (2014). Epistemic network analysis of engineering virtual internships. Journal of Engineering Education, 103(4), 625-651.
 
--   Arastoopour, G., Shaffer, D. W., Chesler, N. C., & Linderoth, J. (2016). Epistemic network analysis as a measure of critical thinking in engineering education. International Journal of Engineering Education, 32(6), 2476-2486.
+- Arastoopour, G., Shaffer, D. W., Chesler, N. C., & Linderoth, J. (2016). Epistemic network analysis as a measure of critical thinking in engineering education. International Journal of Engineering Education, 32(6), 2476-2486.
 
--   Chesler, N. C., Arastoopour, G., D'Angelo, C. M., Bagley, E. A., & Shaffer, D. W. (2015). Design of professional practice simulator for educating and motivating first-year engineering students. Advances in Engineering Education, 4(2), 1-27.
+- Chesler, N. C., Arastoopour, G., D'Angelo, C. M., Bagley, E. A., & Shaffer, D. W. (2015). Design of professional practice simulator for educating and motivating first-year engineering students. Advances in Engineering Education, 4(2), 1-27.
 
 #### **Summary of Key Findings**
 
 The following highlights key findings related to the discourse and interactions in engineering virtual internships:
 
--   ENA effectively identified distinct discourse patterns among learners participating in engineering virtual internships, highlighting how knowledge was co-constructed and shared within these collaborative spaces.
+- ENA effectively identified distinct discourse patterns among learners participating in engineering virtual internships, highlighting how knowledge was co-constructed and shared within these collaborative spaces.
 
--   Analysis demonstrated how learners’ epistemic networks evolved significantly as they engaged in iterative problem-solving activities, with certain key concepts becoming increasingly central as students collaboratively advanced through the internship challenges.
+- Analysis demonstrated how learners’ epistemic networks evolved significantly as they engaged in iterative problem-solving activities, with certain key concepts becoming increasingly central as students collaboratively advanced through the internship challenges.
 
--   Results indicated that the discourse patterns identified by ENA corresponded to deeper cognitive engagement, where students actively negotiated and co-constructed engineering knowledge rather than merely exchanging surface-level information.
+- Results indicated that the discourse patterns identified by ENA corresponded to deeper cognitive engagement, where students actively negotiated and co-constructed engineering knowledge rather than merely exchanging surface-level information.
 
--   Findings from prior analyses underscore the utility of ENA in capturing nuanced learner interactions and in differentiating between various collaborative learning approaches, suggesting its broader applicability in other STEM education research contexts.
+- Findings from prior analyses underscore the utility of ENA in capturing nuanced learner interactions and in differentiating between various collaborative learning approaches, suggesting its broader applicability in other STEM education research contexts.
 
 ### 1b. Guiding Questions
 
@@ -236,17 +236,17 @@ rescushell_data |>
 
 Your code should return a tibble containing only the six columns you listed in `codeCols` vector (in exactly that order) and all 3,824 rows from `rescushell_data`. In other words, you’ll see a preview of the data frame with just the columns:
 
--   Data
+- Data
 
--   Technical.Constraints
+- Technical.Constraints
 
--   Performance.Parameters
+- Performance.Parameters
 
--   Client.and.Consultant.Requests
+- Client.and.Consultant.Requests
 
--   Design.Reasoning
+- Design.Reasoning
 
--   Collaboration.
+- Collaboration.
 
 ::: callout-important
 **Note:** If every name in `codeCols` matches a column in `rescushell_data`, you’ll get a normal tibble output; ***if any name is misspelled or doesn’t exist, select(all_of()) will throw an error***, alerting you to fix the typo before proceeding.
@@ -385,11 +385,11 @@ second.game.lineweights <- as.matrix(set.ena$line.weights$Condition$SecondGame)
 
 These two‑lines of code out the “line weight” adjacency matrices for each game condition from your ENA results and ensures they’re stored as plain numeric matrices:
 
--   **`set.ena$line.weights`** is a nested list generated by the `ena.make.set()` that contains connection‑strength data between codes in our data.
+- **`set.ena$line.weights`** is a nested list generated by the `ena.make.set()` that contains connection‑strength data between codes in our data.
 
--   **`$Condition$FirstGame`** (and similarly `$Condition$SecondGame`) selects the sub‑element corresponding to that experimental condition.
+- **`$Condition$FirstGame`** (and similarly `$Condition$SecondGame`) selects the sub‑element corresponding to that experimental condition.
 
--   Wrapping it in **as.matrix()** converts whatever internal class ENA uses into a standard numeric matrix for graphing.
+- Wrapping it in **as.matrix()** converts whatever internal class ENA uses into a standard numeric matrix for graphing.
 
 Each resulting matrix has our qualitative codes as both row and column names, and each cell value represents the strength (weight) of the co‑occurrence (i.e., the “line weight”) between that pair of codes for the given condition. You can now easily inspect dimensions (dim()), view row/column names (rownames(), colnames()), or feed these matrices into plotting or further network analyses.
 
@@ -402,9 +402,9 @@ second.game.mean <- as.vector(colMeans(second.game.lineweights))
 
 These two lines compute each code’s average connection strength (i.e. the mean of its column in the line‑weight matrix) for each condition and store the results as plain numeric vectors:
 
--   `colMeans(first.game.lineweights)` calculates the mean of every column in the first.game.lineweights matrix, producing a named numeric vector where each element is that code’s average co‑occurrence weight.
+- `colMeans(first.game.lineweights)` calculates the mean of every column in the first.game.lineweights matrix, producing a named numeric vector where each element is that code’s average co‑occurrence weight.
 
--   Wrapping it in `as.vector()` strips off the names, leaving just a simple numeric vector, which is then assigned to first.game.mean.
+- Wrapping it in `as.vector()` strips off the names, leaving just a simple numeric vector, which is then assigned to first.game.mean.
 
 The second line does exactly the same thing for `second.game.lineweights`, yielding `second.game.mean`. Each element in these vectors tells you how strongly, on average, a given code connects to all other codes in FirstGame versus SecondGame.
 
@@ -474,23 +474,23 @@ Use the graphs above to answer the following questions and aid in their interpre
 
 1.  **Overall Density**: How does the overall thickness and number of lines differ between the two conditions? What might an increase (or decrease) in network density from FirstGame to SecondGame tell us about how students’ conceptual connections evolved?
 
-    -   YOUR RESPONSE HERE
+    - YOUR RESPONSE HERE
 
 2.  **Key Hubs**: Which code appears as the strongest “hub” (i.e., connected to more codes)? Did the centrality of that code change between FirstGame and SecondGame? What might that suggest
 
-    -   YOUR RESPONSE HERE
+    - YOUR RESPONSE HERE
 
 3.  **Emerging Connections**: Are there any code‑pair links that are very faint (or absent) in FirstGame but noticeably stronger in SecondGame? What might this reflect?
 
-    -   YOUR RESPONSE HERE
+    - YOUR RESPONSE HERE
 
 4.  **Peripheral Codes**: How does the position and edge thickness of the “Collaboration” node change between conditions? What might its relative isolation (or growth) indicate about the role of collaboration in each game?
 
-    -   YOUR RESPONSE HERE
+    - YOUR RESPONSE HERE
 
 5.  **Interpretive Meaning**: How might you explain the educational significance of a thicker edge versus a thinner edge in these plots, and larger plot points and smaller plot points?
 
-    -   YOUR RESPONSE HERE
+    - YOUR RESPONSE HERE
 
 #### Plot a mean network and its points
 
@@ -670,13 +670,13 @@ set.ena$connection.counts |>
 Take a closer look at the table output above and answer the following questions:
 
 1.  Which code pair has the **highest mean** co‑occurrence count? What is that mean value?
-    -   YOUR RESPONSE HERE
+    - YOUR RESPONSE HERE
 2.  Which code pair has the **lowest mean** co‑occurrence count?
-    -   YOUR RESPONSE HERE
+    - YOUR RESPONSE HERE
 3.  Which code pair reaches the **highest maximum value** (p100)? How many times does that relationship appear in its strongest instance?
-    -   YOUR RESPONSE HERE
+    - YOUR RESPONSE HERE
 4.  Name all code pairs whose **minimum (p0) value is zero**. What does a zero minimum indicate about those relationships?
-    -   YOUR RESPONSE HERE
+    - YOUR RESPONSE HERE
 
 #### Line weights
 

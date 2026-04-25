@@ -25,7 +25,7 @@ editor:
     wrap: 72
 ---
 
-## Welcome to the Text Mining Code Along for Module 3
+## Introduction
 
 - The Text Mining course is designed for those seeking an introductory
   understanding of quantifying the text in documents to better
